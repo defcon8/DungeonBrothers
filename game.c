@@ -65,7 +65,7 @@ void cGame::Start()
          fRender();
          
          /* Don't run too fast */
-         SDL_Delay (50); //50Hz           
+         SDL_Delay (1); //50Hz           
      }
      
      fCleanUp();    
@@ -212,13 +212,31 @@ void cGame::fInitialize()
 
 void cGame::fEvents()
 {
-        SDL_Event event;
+     if(blEditMode)
+     {
+       fEditModeEvents();
+     }else{
+       fNormalModeEvents();
+     }                  
+        
+}      
+
+void cGame::fNormalModeEvents()
+{
+    SDL_Event event;
         /* Check for events */
         while (SDL_PollEvent (&event))
         {
            switch (event.type)
             {
             case SDL_KEYDOWN:
+                switch(event.key.keysym.sym)
+                {                 
+                    case SDLK_ESCAPE:
+                         blEditMode = true;
+                    break;                             
+                                            
+                } 
                 break;
             case SDL_QUIT:
                 blDone = 1;
@@ -226,14 +244,59 @@ void cGame::fEvents()
             default:
                 break;
             }
-        }    
-}      
+        }     
+}
 
+void cGame::fEditModeEvents()
+{
+    SDL_Event event;
+        /* Check for events */
+        while (SDL_PollEvent (&event))
+        {
+           switch (event.type)
+            {
+            case SDL_KEYDOWN:
+                switch(event.key.keysym.sym)
+                {                 
+                    case SDLK_ESCAPE:
+                         blEditMode = false;
+                    break;      
+                    
+                    case SDLK_F1:
+                         blSpritePalet = !blSpritePalet;
+                         break;                    
+                                            
+                    case SDLK_LEFT:
+                    CamX += 1;
+                    break;
+                    
+                    case SDLK_RIGHT:
+                    CamX -= 1;
+                    break;
+                } 
+                break;
+            case SDL_QUIT:
+                blDone = 1;
+                break;
+            default:
+                break;
+            }
+        }     
+}
 cGame::cGame()
 {
-              //constructor
-              fSave();
-              blDone = false;
+      //constructor
+      fSave();
+      fInitVariables();
+}
+
+void cGame::fInitVariables()
+{
+      blDone = false;
+      blEditMode = false;
+      blSpritePalet = false;
+      CamX=0;
+      CamY=0;                      
 }
 
 cGame::~cGame()
@@ -257,9 +320,11 @@ void cGame::fRender()
     
     SDL_FillRect (screen, NULL, color);
 
-    oBackgroundLayer->fRender(0,0,0,0);
-    oLevelLayer->fRender();
-    oPlayerLayer->fRender();
+    if(blSpritePalet){
+    oBackgroundLayer->fRender(0,0,CamX,CamY);
+    }
+    oLevelLayer->fRender(CamX,CamY);
+    oPlayerLayer->fRender(CamX,CamY);
     
     
     /* Make sure everything is displayed on screen */

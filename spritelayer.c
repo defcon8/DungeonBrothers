@@ -63,14 +63,15 @@ cSpriteLayer::~cSpriteLayer()
    SDL_FreeSurface(spritelayerscreen);
 }
 
-SDL_Surface* cSpriteLayer::fRender()
+SDL_Surface* cSpriteLayer::fRender(int CamX, int CamY)
 {  
+                      
    for (int iRow = 0; iRow < iRowCount; iRow++)
    {
        for (int iCol = 0; iCol < iColCount; iCol++)
        {
            if(p_LevelData[iRow][iCol].iType!=EMPTY)
-           p_Source->fRender(p_LevelData[iRow][iCol].iIndex, p_LevelData[iRow][iCol].iRow, fColToWidth(iCol), fRowToHeight(iRow));
+           p_Source->fRender(p_LevelData[iRow][iCol].iIndex, p_LevelData[iRow][iCol].iRow, (fColToWidth(iCol)+CamX), (fRowToHeight(iRow)+CamY));
        }    
    }               
 }

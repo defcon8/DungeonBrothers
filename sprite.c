@@ -52,7 +52,8 @@ void cSprite::fRender(int iCol, int iRow, int iDestX, int iDestY)
     source.h = iSpriteHeight;
     
     // Part of the screen we want to draw the sprite to
-    SDL_Rect destination;destination.x = iDestX;
+    SDL_Rect destination;
+    destination.x = iDestX;
     destination.y = iDestY;
     destination.w = iSpriteWidth;
     destination.h = iSpriteHeight; 

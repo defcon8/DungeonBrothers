@@ -48,7 +48,7 @@ class cSpriteLayer {
     
     //Data Objects
     cSprite *p_Source;
-    SDL_Surface* fRender();
+    SDL_Surface* fRender(int CamX, int CamY);
     sLevelBlock **p_LevelData;
     
     //Methods
