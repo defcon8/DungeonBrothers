@@ -1,0 +1,42 @@
+# Project: SDL
+# Makefile created by Dev-C++ 4.9.9.2
+
+CPP  = g++.exe
+CC   = gcc.exe
+WINDRES = windres.exe
+RES  = SDL_private.res
+OBJ  = main.o game.o sprite.o spritelayer.o $(RES)
+LINKOBJ  = main.o game.o sprite.o spritelayer.o $(RES)
+LIBS =  -L"C:/Dev-Cpp/lib" -mwindows -lmingw32 -lSDLmain -lSDL 
+INCS =  -I"C:/Dev-Cpp/include" 
+CXXINCS =  -I"C:/Dev-Cpp/lib/gcc/mingw32/3.4.2/include"  -I"C:/Dev-Cpp/include/c++/3.4.2/backward"  -I"C:/Dev-Cpp/include/c++/3.4.2/mingw32"  -I"C:/Dev-Cpp/include/c++/3.4.2"  -I"C:/Dev-Cpp/include" 
+BIN  = SDL.exe
+CXXFLAGS = $(CXXINCS)   -g
+CFLAGS = $(INCS) -Dmain=SDL_main  -g
+RM = rm -f
+
+.PHONY: all all-before all-after clean clean-custom
+
+all: all-before SDL.exe all-after
+
+
+clean: clean-custom
+	${RM} $(OBJ) $(BIN)
+
+$(BIN): $(OBJ)
+	$(CPP) $(LINKOBJ) -o "SDL.exe" $(LIBS)
+
+main.o: main.c
+	$(CPP) -c main.c -o main.o $(CXXFLAGS)
+
+game.o: game.c
+	$(CPP) -c game.c -o game.o $(CXXFLAGS)
+
+sprite.o: sprite.c
+	$(CPP) -c sprite.c -o sprite.o $(CXXFLAGS)
+
+spritelayer.o: spritelayer.c
+	$(CPP) -c spritelayer.c -o spritelayer.o $(CXXFLAGS)
+
+SDL_private.res: SDL_private.rc 
+	$(WINDRES) -i SDL_private.rc --input-format=rc -o SDL_private.res -O coff 
