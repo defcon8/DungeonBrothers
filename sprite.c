@@ -1,7 +1,5 @@
 #include "sprite.h"
 
-
- 
 void cSprite::fLoad(const char *file)
 {
     bitmap = SDL_LoadBMP(file);

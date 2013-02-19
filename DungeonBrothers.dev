@@ -1,6 +1,6 @@
 [Project]
-FileName=SDL.dev
-Name=SDL
+FileName=DungeonBrothers.dev
+Name=DungeonBrothers
 UnitCount=7
 Type=0
 Ver=1
@@ -10,15 +10,15 @@ Libs=
 PrivateResource=SDL_private.rc
 ResourceIncludes=
 MakeIncludes=
-Compiler=-Dmain=SDL_main
+Compiler=-Dmain=SDL_main_@@_
 CppCompiler=
-Linker=-lmingw32 -lSDLmain -lSDL
+Linker=-lmingw32 -lSDLmain -lSDL_@@_
 IsCpp=1
-Icon=SDL.ico
+Icon=DungeonBrothers.ico
 ExeOutput=
 ObjectOutput=
 OverrideOutput=0
-OverrideOutputName=
+OverrideOutputName=SDL.exe
 HostApplication=
 Folders=
 CommandLine=
@@ -27,7 +27,7 @@ CustomMakefile=
 IncludeVersionInfo=0
 SupportXPThemes=0
 CompilerSet=0
-CompilerSettings=
+CompilerSettings=0000000000000000000000
 
 [Unit1]
 FileName=main.c
