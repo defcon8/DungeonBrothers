@@ -8,7 +8,9 @@ class cGame {
     bool blDone;
     bool blEditMode;
     bool blSpritePalet;
-    int CamX,CamY;
+    int CamX, CamY;
+    int MouseX, MouseY;
+  
      
     cSpriteLayer* oLevelLayer;
     cSpriteLayer* oPlayerLayer;
@@ -24,6 +26,7 @@ class cGame {
     void fRender();
     void fCleanUp();
     void fSave();
+    void fDrawPixel(SDL_Surface *screen, int x, int y, Uint8 R, Uint8 G, Uint8 B);
      
     /* The screen surface */
     SDL_Surface *screen;

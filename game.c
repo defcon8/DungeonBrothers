@@ -137,11 +137,7 @@ void cGame::fLoadObjects()
 
         //End Level Layer
   
-  
-  
-  
-  
-    
+
     //Player Layer 
         iLevelRows=1;
         iLevelCols=1;
@@ -207,7 +203,7 @@ void cGame::fInitialize()
     }
     
     SDL_WM_SetCaption ("Dungeon test", NULL);
-
+    SDL_ShowCursor(SDL_DISABLE); 
 }
 
 void cGame::fEvents()
@@ -296,7 +292,9 @@ void cGame::fInitVariables()
       blEditMode = false;
       blSpritePalet = false;
       CamX=0;
-      CamY=0;                      
+      CamY=0;
+      MouseX=0;
+      MouseY=0;                     
 }
 
 cGame::~cGame()
@@ -321,12 +319,64 @@ void cGame::fRender()
     SDL_FillRect (screen, NULL, color);
 
     if(blSpritePalet){
-    oBackgroundLayer->fRender(0,0,CamX,CamY);
+       oBackgroundLayer->fRender(0,0,CamX,CamY);
     }
     oLevelLayer->fRender(CamX,CamY);
     oPlayerLayer->fRender(CamX,CamY);
     
+    if(blEditMode){
+        // Show Mouse Cursor          
+        int x, y;
+        SDL_GetMouseState(&x, &y); 
+        fDrawPixel(screen,x,y,255,255,255);      
+    }
     
     /* Make sure everything is displayed on screen */
     SDL_Flip (screen);    
 }
+
+void cGame::fDrawPixel(SDL_Surface *screen, int x, int y, Uint8 R, Uint8 G, Uint8 B) 
+{ 
+  Uint32 color = SDL_MapRGB(screen->format, R, G, B); 
+  switch (screen->format->BytesPerPixel) 
+  { 
+    case 1: // 8-bpp 
+      { 
+        Uint8 *bufp; 
+        bufp = (Uint8 *)screen->pixels + y*screen->pitch + x; 
+        *bufp = color; 
+      } 
+      break; 
+    case 2: // 15-bpp or 16-bpp 
+      { 
+        Uint16 *bufp; 
+        bufp = (Uint16 *)screen->pixels + y*screen->pitch/2 + x; 
+        *bufp = color; 
+      } 
+      break; 
+    case 3: // 24-bpp mode, usually not used 
+      { 
+        Uint8 *bufp; 
+        bufp = (Uint8 *)screen->pixels + y*screen->pitch + x * 3; 
+        if(SDL_BYTEORDER == SDL_LIL_ENDIAN) 
+        { 
+          bufp[0] = color; 
+          bufp[1] = color >> 8; 
+          bufp[2] = color >> 16; 
+        } else { 
+          bufp[2] = color; 
+          bufp[1] = color >> 8; 
+          bufp[0] = color >> 16; 
+        } 
+      } 
+      break; 
+    case 4: // 32-bpp 
+      { 
+        Uint32 *bufp; 
+        bufp = (Uint32 *)screen->pixels + y*screen->pitch/4 + x; 
+        *bufp = color; 
+      } 
+      break; 
+  } 
+} 
+ 
