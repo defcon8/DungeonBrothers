@@ -1,5 +1,16 @@
-#include <SDL/SDL.h>
+/*
 
+  Dungeon Brothers
+  Opensource C++ Platform Game by Bastiaan de Waard (defcon8)
+  Makes use of the SDL Library. Compiled with DevC++ on Win32.
+  2013
+  
+  W.  https://github.com/defcon8/DungeonBrothers
+  W.  http://www.bastiaandewaard.com
+  E.  info@bastiaandewaard.com
+
+*/
+#include <SDL/SDL.h>
 #include "spritelayer.h"
 
 class cGame {         
@@ -29,6 +40,9 @@ class cGame {
     void fDrawPixel(SDL_Surface *screen, int x, int y, Uint8 R, Uint8 G, Uint8 B);
     void fRenderEditMode();
     void fDrawRectangle(int x, int y, int w, int h, Uint32 color);
+    
+    int fGetTileCol(int iX, int iTileWidth);
+    int fGetTileRow(int iY, int iTileHeight);
      
     /* The screen surface */
     SDL_Surface *screen;

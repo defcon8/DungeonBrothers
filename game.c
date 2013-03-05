@@ -1,5 +1,18 @@
+/*
+
+  Dungeon Brothers
+  Opensource C++ Platform Game by Bastiaan de Waard (defcon8)
+  Makes use of the SDL Library. Compiled with DevC++ on Win32.
+  2013
+  
+  W.  https://github.com/defcon8/DungeonBrothers
+  W.  http://www.bastiaandewaard.com
+  E.  info@bastiaandewaard.com
+
+*/
 #include <windows.h>
 #include <iostream>
+#include <math.h>
 #include <fstream>
 #include "game.h"
 
@@ -73,7 +86,6 @@ void cGame::Start()
 
 void cGame::fLoadObjects()
 {
-
       //Background Layer
         oBackgroundLayer = new cSprite(screen);
         oBackgroundLayer->fLoad("back.bmp");
@@ -81,7 +93,7 @@ void cGame::fLoadObjects()
         oBackgroundLayer->fSetSpriteHeight(480);
         oBackgroundLayer->fScroll(0);
 
-     //Level Layer
+        //Level Layer
      
         Uint16 iLevelRows;
         Uint16 iLevelCols;
@@ -134,11 +146,9 @@ void cGame::fLoadObjects()
             oLevelLayer->p_LevelData[iRow][iCol].iRow=iSheetRow;
             oLevelLayer->p_LevelData[iRow][iCol].iIndex=iSheetIndex;                    
          }
-
         //End Level Layer
   
-
-    //Player Layer 
+        //Start Player Layer 
         iLevelRows=1;
         iLevelCols=1;
         iSpriteHeight=32;
@@ -161,15 +171,12 @@ void cGame::fLoadObjects()
         oPlayerLayer->p_LevelData[0][0].iRow=10;
         oPlayerLayer->p_LevelData[0][0].iIndex=0;
 
-    //End Level Layer
-    
-     
+        //End Player Layer
 }
 
-     
 void cGame::fGameLoop()
 {
-        if(oPlayerLayer->p_LevelData[0][0].iIndex == 10)
+        if(oPlayerLayer->p_LevelData[0][0].iIndex==10)
         {
               oPlayerLayer->p_LevelData[0][0].iIndex=0;
         }else{
@@ -202,7 +209,7 @@ void cGame::fInitialize()
         exit(2);
     }
     
-    SDL_WM_SetCaption ("Dungeon test", NULL);
+    SDL_WM_SetCaption ("Dungeon Brothers", NULL);
     SDL_ShowCursor(SDL_DISABLE); 
 }
 
@@ -214,7 +221,6 @@ void cGame::fEvents()
      }else{
        fNormalModeEvents();
      }                  
-        
 }      
 
 void cGame::fNormalModeEvents()
@@ -309,13 +315,29 @@ void cGame::fCleanUp()
         
 void cGame::fRenderEditMode()
 {
-        // Mouse Cursor          
+        // Get position of mouse  
         int x, y;
         SDL_GetMouseState(&x, &y); 
     
-        //fDrawPixel(screen,x,y,255,255,255);      
-        fDrawRectangle(100,100,oLevelLayer->fGetSpriteWidth(),oLevelLayer->fGetSpriteHeight(),0xFFFFFF);
+        int iTileWidth = oLevelLayer->fGetSpriteWidth();
+        int iTileHeight = oLevelLayer->fGetSpriteHeight();
+        
+        int iTileCol = fGetTileCol(x,iTileWidth);
+        int iTileRow = fGetTileRow(y,iTileHeight);
+        
+        //Draw tile placeholder
+        fDrawRectangle(iTileCol*iTileWidth,iTileRow*iTileHeight,iTileWidth,iTileHeight,0xFFFFFF);
+        
+        if(SDL_GetMouseState(NULL,NULL)&SDL_BUTTON(1))
+        {
+           //Draw
+           oLevelLayer->p_LevelData[iTileRow][iTileCol].iIndex=2;
+           oLevelLayer->p_LevelData[iTileRow][iTileCol].iType=SPRITE;
+        } 
 }        
+
+int cGame::fGetTileCol(int iX, int iTileWidth){return static_cast<int>(floor(iX/iTileWidth));}
+int cGame::fGetTileRow(int iY, int iTileHeight){return static_cast<int>(floor(iY/iTileHeight));}
 
 void cGame::fDrawRectangle(int x, int y, int w, int h, Uint32 color)
 {
@@ -327,7 +349,6 @@ void cGame::fDrawRectangle(int x, int y, int w, int h, Uint32 color)
         SDL_FillRect(screen,&rect,color);
 }
                 
-/* This function draws to the screen; replace this with your own code! */
 void cGame::fRender()
 {
     SDL_Rect rect;
@@ -351,9 +372,6 @@ void cGame::fRender()
     /* Make sure everything is displayed on screen */
     SDL_Flip (screen);    
 }
-
-
-
 
 void cGame::fDrawPixel(SDL_Surface *screen, int x, int y, Uint8 R, Uint8 G, Uint8 B) 
 { 
@@ -399,4 +417,3 @@ void cGame::fDrawPixel(SDL_Surface *screen, int x, int y, Uint8 R, Uint8 G, Uint
       break; 
   } 
 } 
- 
