@@ -54,6 +54,8 @@ class cSpriteLayer {
     //Methods
     Uint8 fReturnSpriteFlags(int iRow, int iCol);
     void fSetSpriteWidth(int iPixels);
+    int fGetSpriteWidth();
     void fSetSpriteHeight(int iPixels);
+    int fGetSpriteHeight();
     
 };

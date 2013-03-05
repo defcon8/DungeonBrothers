@@ -34,9 +34,19 @@ void cSpriteLayer::fSetSpriteHeight(int iPixels)
      iSpriteHeight=iPixels;
 }
 
+int cSpriteLayer::fGetSpriteHeight()
+{
+    return iSpriteHeight;
+}
+
 void cSpriteLayer::fSetSpriteWidth(int iPixels)
 {
      iSpriteWidth=iPixels;
+}
+
+int cSpriteLayer::fGetSpriteWidth()
+{
+    return iSpriteWidth;
 }
 
 Uint8 cSpriteLayer::fReturnSpriteFlags(int iRow, int iCol)

@@ -306,6 +306,26 @@ void cGame::fCleanUp()
     delete oLevelLayer;
     SDL_FreeSurface(screen);
 }
+        
+void cGame::fRenderEditMode()
+{
+        // Mouse Cursor          
+        int x, y;
+        SDL_GetMouseState(&x, &y); 
+    
+        //fDrawPixel(screen,x,y,255,255,255);      
+        fDrawRectangle(100,100,oLevelLayer->fGetSpriteWidth(),oLevelLayer->fGetSpriteHeight(),0xFFFFFF);
+}        
+
+void cGame::fDrawRectangle(int x, int y, int w, int h, Uint32 color)
+{
+        SDL_Rect rect;
+        rect.x = x;
+        rect.y = y;
+        rect.w = w;
+        rect.h = h;       
+        SDL_FillRect(screen,&rect,color);
+}
                 
 /* This function draws to the screen; replace this with your own code! */
 void cGame::fRender()
@@ -325,15 +345,15 @@ void cGame::fRender()
     oPlayerLayer->fRender(CamX,CamY);
     
     if(blEditMode){
-        // Show Mouse Cursor          
-        int x, y;
-        SDL_GetMouseState(&x, &y); 
-        fDrawPixel(screen,x,y,255,255,255);      
+       fRenderEditMode();
     }
     
     /* Make sure everything is displayed on screen */
     SDL_Flip (screen);    
 }
+
+
+
 
 void cGame::fDrawPixel(SDL_Surface *screen, int x, int y, Uint8 R, Uint8 G, Uint8 B) 
 { 
