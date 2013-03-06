@@ -13,7 +13,22 @@
 #include <SDL/SDL.h>
 #include "spritelayer.h"
 
-class cGame {         
+class cGame {             
+  // Camera Movement    
+  /*
+    
+            1
+         
+        4   0   2
+
+            3
+
+  */
+  #define UP 1
+  #define RIGHT 2
+  #define DOWN 3
+  #define LEFT 4
+  #define NONE 0  
   
   private:
     bool blDone;
@@ -21,6 +36,7 @@ class cGame {
     bool blSpritePalet;
     int CamX, CamY;
     int MouseX, MouseY;
+    int iCamDirection;
   
      
     cSpriteLayer* oLevelLayer;
@@ -40,6 +56,7 @@ class cGame {
     void fDrawPixel(SDL_Surface *screen, int x, int y, Uint8 R, Uint8 G, Uint8 B);
     void fRenderEditMode();
     void fDrawRectangle(int x, int y, int w, int h, Uint32 color);
+    void fCameraMovement();
     
     int fGetTileCol(int iX, int iTileWidth);
     int fGetTileRow(int iY, int iTileHeight);

@@ -26,13 +26,13 @@ void cGame::fSave()
       
      //Header
      Uint16 iLevelRows=15;
-     Uint16 iLevelCols=20;
+     Uint16 iLevelCols=40; //20 is 1 full screen
      Uint16 iSpriteHeight=32;
      Uint16 iSpriteWidth=32;
      Uint8 iSpriteSpacer=2;
      Uint8 iSpriteWidthOffset=0;
      Uint8 iSpriteHeightOffset=0;
-     Uint16 iDataBlocks=20;
+     Uint16 iDataBlocks=40;
      
      myfile.write((char*)&iLevelRows,sizeof(Uint16));
      myfile.write((char*)&iLevelCols,sizeof(Uint16));
@@ -72,8 +72,9 @@ void cGame::Start()
      fLoadObjects();
      
      while(!blDone)
-     {
+     {          
          fEvents();
+         fCameraMovement();
          fGameLoop();
          fRender();
          
@@ -210,7 +211,7 @@ void cGame::fInitialize()
     }
     
     SDL_WM_SetCaption ("Dungeon Brothers", NULL);
-    SDL_ShowCursor(SDL_DISABLE); 
+    //SDL_ShowCursor(SDL_DISABLE); 
 }
 
 void cGame::fEvents()
@@ -236,8 +237,7 @@ void cGame::fNormalModeEvents()
                 {                 
                     case SDLK_ESCAPE:
                          blEditMode = true;
-                    break;                             
-                                            
+                    break;                                   
                 } 
                 break;
             case SDL_QUIT:
@@ -250,8 +250,8 @@ void cGame::fNormalModeEvents()
 }
 
 void cGame::fEditModeEvents()
-{
-    SDL_Event event;
+{         
+        SDL_Event event;
         /* Check for events */
         while (SDL_PollEvent (&event))
         {
@@ -269,22 +269,73 @@ void cGame::fEditModeEvents()
                          break;                    
                                             
                     case SDLK_LEFT:
-                    CamX += 1;
+                    iCamDirection=LEFT;
                     break;
                     
                     case SDLK_RIGHT:
-                    CamX -= 1;
+                    iCamDirection=RIGHT;
+                    break;
+                    
+                    case SDLK_UP:
+                    iCamDirection=UP;
+                    break;
+                    
+                    case SDLK_DOWN:
+                    iCamDirection=DOWN;
                     break;
                 } 
                 break;
+            
+            case SDL_KEYUP:
+                switch(event.key.keysym.sym)
+                {                                               
+                    case SDLK_RIGHT:
+                    iCamDirection=NONE;
+                    break;
+                    
+                    case SDLK_LEFT:
+                    iCamDirection=NONE;
+                    break;
+                    
+                    case SDLK_UP:
+                    iCamDirection=NONE;
+                    break;
+                    
+                    case SDLK_DOWN:
+                    iCamDirection=NONE;
+                    break;  
+                }
+                break;
+                 
             case SDL_QUIT:
                 blDone = 1;
                 break;
             default:
                 break;
             }
-        }     
+        }  
 }
+
+void cGame::fCameraMovement()
+{
+  //Do Camera movement
+        switch(iCamDirection)
+        {
+            case 1:
+                 CamY += 1;
+                 break;
+            case 2:
+                 CamX -= 1;
+                 break;
+            case 3:
+                 CamY -= 1;
+                 break;
+            case 4:
+                 CamX += 1;
+                 break;                     
+        }
+}
+
 cGame::cGame()
 {
       //constructor
@@ -299,6 +350,7 @@ void cGame::fInitVariables()
       blSpritePalet = false;
       CamX=0;
       CamY=0;
+      iCamDirection=0;
       MouseX=0;
       MouseY=0;                     
 }
@@ -317,22 +369,37 @@ void cGame::fRenderEditMode()
 {
         // Get position of mouse  
         int x, y;
-        SDL_GetMouseState(&x, &y); 
-    
+        int iMouseButtons = SDL_GetMouseState(&x, &y); 
+        
         int iTileWidth = oLevelLayer->fGetSpriteWidth();
         int iTileHeight = oLevelLayer->fGetSpriteHeight();
-        
+
         int iTileCol = fGetTileCol(x,iTileWidth);
         int iTileRow = fGetTileRow(y,iTileHeight);
         
-        //Draw tile placeholder
-        fDrawRectangle(iTileCol*iTileWidth,iTileRow*iTileHeight,iTileWidth,iTileHeight,0xFFFFFF);
+        int iRectX = (iTileCol*iTileWidth);
+        int iRectY = (iTileRow*iTileHeight);
         
-        if(SDL_GetMouseState(NULL,NULL)&SDL_BUTTON(1))
+        //Draw tile placeholder
+        fDrawRectangle(iRectX,iRectY,iTileWidth,iTileHeight,0xFFFFFF);
+        
+        //Recalculate the real tile using the camera offset
+        iTileCol = fGetTileCol(x-CamX,iTileWidth);
+        iTileRow = fGetTileRow(y-CamY,iTileHeight);  
+        
+        switch(iMouseButtons)
         {
-           //Draw
+           case 1:                  
+           //Left button, Draw
            oLevelLayer->p_LevelData[iTileRow][iTileCol].iIndex=2;
            oLevelLayer->p_LevelData[iTileRow][iTileCol].iType=SPRITE;
+           break;
+           
+           case 4:
+           //Right button, Clear
+           oLevelLayer->p_LevelData[iTileRow][iTileCol].iIndex=0;
+           oLevelLayer->p_LevelData[iTileRow][iTileCol].iType=EMPTY;
+           break;
         } 
 }        
 
