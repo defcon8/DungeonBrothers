@@ -290,20 +290,11 @@ void cGame::fEditModeEvents()
                 switch(event.key.keysym.sym)
                 {                                               
                     case SDLK_RIGHT:
-                    iCamDirection=NONE;
-                    break;
-                    
                     case SDLK_LEFT:
-                    iCamDirection=NONE;
-                    break;
-                    
                     case SDLK_UP:
-                    iCamDirection=NONE;
-                    break;
-                    
                     case SDLK_DOWN:
-                    iCamDirection=NONE;
-                    break;  
+                         iCamDirection=NONE;
+                    break;
                 }
                 break;
                  
