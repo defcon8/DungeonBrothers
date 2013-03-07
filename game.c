@@ -30,6 +30,8 @@ void cGame::fSave()
      Uint16 iLevelCols=40; //20 is 1 full screen at 640x480
      Uint16 iSpriteHeight=32;
      Uint16 iSpriteWidth=32;
+     Uint16 iSourceRows=11;
+     Uint16 iSourceCols=18;
      Uint8 iSpriteSpacer=2;
      Uint8 iSpriteWidthOffset=0;
      Uint8 iSpriteHeightOffset=0;
@@ -40,6 +42,8 @@ void cGame::fSave()
      oSave.write((char*)&iLevelCols,sizeof(Uint16));
      oSave.write((char*)&iSpriteHeight,sizeof(Uint16));
      oSave.write((char*)&iSpriteWidth,sizeof(Uint16));
+     oSave.write((char*)&iSourceRows,sizeof(Uint16));
+     oSave.write((char*)&iSourceCols,sizeof(Uint16));
      oSave.write((char*)&iSpriteSpacer,sizeof(Uint8));
      oSave.write((char*)&iSpriteWidthOffset,sizeof(Uint8));
      oSave.write((char*)&iSpriteHeightOffset,sizeof(Uint8));
@@ -102,6 +106,8 @@ void cGame::fLoadObjects()
         Uint16 iLevelCols;
         Uint16 iSpriteHeight;
         Uint16 iSpriteWidth;
+        Uint16 iSourceRows;
+        Uint16 iSourceCols;
         Uint8 iSpriteSpacer;
         Uint8 iSpriteWidthOffset;
         Uint8 iSpriteHeightOffset;
@@ -115,6 +121,8 @@ void cGame::fLoadObjects()
         oLoad.read(reinterpret_cast<char*>(&iLevelCols),sizeof(Uint16));
         oLoad.read(reinterpret_cast<char*>(&iSpriteHeight),sizeof(Uint16));
         oLoad.read(reinterpret_cast<char*>(&iSpriteWidth),sizeof(Uint16));
+        oLoad.read(reinterpret_cast<char*>(&iSourceRows),sizeof(Uint16));
+        oLoad.read(reinterpret_cast<char*>(&iSourceCols),sizeof(Uint16));
         oLoad.read(reinterpret_cast<char*>(&iSpriteSpacer),sizeof(Uint8));
         oLoad.read(reinterpret_cast<char*>(&iSpriteWidthOffset),sizeof(Uint8));
         oLoad.read(reinterpret_cast<char*>(&iSpriteHeightOffset),sizeof(Uint8));
@@ -178,6 +186,25 @@ void cGame::fLoadObjects()
         //End Player Layer
 
         oLoad.close();
+        
+        //Start sprite picker layer (for edit mode only)
+        oSpritePicker = new cSpriteLayer(screen,iSourceRows,iSourceCols,iSpriteHeight,iSpriteWidth);
+        oSpritePicker->p_Source->fSetSpriteSpacer(2);
+        oSpritePicker->p_Source->fLoad(chTileSource);
+        oSpritePicker->p_Source->fSetSpriteWidthOffset(0);
+        oSpritePicker->p_Source->fSetSpriteHeightOffset(0);
+        oSpritePicker->p_Source->fSetSpriteHeight(iSpriteHeight);
+        oSpritePicker->p_Source->fSetSpriteWidth(iSpriteWidth);
+        
+         for (int iCol = 0; iCol < iSourceCols; iCol++)
+         {
+             for (int iRow = 0; iRow < iSourceRows; iRow++)
+             {
+                 oSpritePicker->p_LevelData[iRow][iCol].iType=SPRITE;
+                 oSpritePicker->p_LevelData[iRow][iCol].iRow=iRow;
+                 oSpritePicker->p_LevelData[iRow][iCol].iIndex=iCol;
+             }
+         }  
 }
 
 void cGame::fGameLoop()
@@ -422,13 +449,19 @@ void cGame::fRender()
     
     SDL_FillRect (screen, NULL, color);
 
-    if(blSpritePalet){
-       oBackgroundLayer->fRender(0,0,CamX,CamY);
-    }
+    //if(blSpritePalet){
+    //   oBackgroundLayer->fRender(0,0,CamX,CamY);
+    //}
+ 
     oLevelLayer->fRender(CamX,CamY);
     oPlayerLayer->fRender(CamX,CamY);
     
-    if(blEditMode){
+    if(blEditMode)
+    {
+       if(blSpritePalet)
+       {
+          oSpritePicker->fRender(CamX,CamY);                 
+       }   
        fRenderEditMode();
     }
     

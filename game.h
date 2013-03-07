@@ -32,6 +32,7 @@ class cGame {
      
     cSpriteLayer* oLevelLayer;
     cSpriteLayer* oPlayerLayer;
+    cSpriteLayer* oSpritePicker;
     cSprite* oBackgroundLayer;
   
     void fInitialize();
