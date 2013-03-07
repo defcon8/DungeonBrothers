@@ -15,15 +15,6 @@
 
 class cGame {             
   // Camera Movement    
-  /*
-    
-            1
-         
-        4   0   2
-
-            3
-
-  */
   #define UP 1
   #define RIGHT 2
   #define DOWN 3
@@ -63,7 +54,6 @@ class cGame {
      
     /* The screen surface */
     SDL_Surface *screen;
-    
     cSpriteLayer *p_SpriteLayers;
   
   public:

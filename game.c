@@ -21,12 +21,13 @@ using namespace std;
 void cGame::fSave()
 {
      
-     ofstream myfile;
-     myfile.open ("spritelayer.dat",ios::binary);
+     ofstream oSave;
+     oSave.open ("spritelayer.dat",ios::binary);
       
      //Header
-     Uint16 iLevelRows=15;
-     Uint16 iLevelCols=40; //20 is 1 full screen
+     char chTileSource[16]="blocks1.bmp";
+     Uint16 iLevelRows=15; //15 is 1 full screen at 640x480
+     Uint16 iLevelCols=40; //20 is 1 full screen at 640x480
      Uint16 iSpriteHeight=32;
      Uint16 iSpriteWidth=32;
      Uint8 iSpriteSpacer=2;
@@ -34,19 +35,20 @@ void cGame::fSave()
      Uint8 iSpriteHeightOffset=0;
      Uint16 iDataBlocks=40;
      
-     myfile.write((char*)&iLevelRows,sizeof(Uint16));
-     myfile.write((char*)&iLevelCols,sizeof(Uint16));
-     myfile.write((char*)&iSpriteHeight,sizeof(Uint16));
-     myfile.write((char*)&iSpriteWidth,sizeof(Uint16));
-     myfile.write((char*)&iSpriteSpacer,sizeof(Uint8));
-     myfile.write((char*)&iSpriteWidthOffset,sizeof(Uint8));
-     myfile.write((char*)&iSpriteHeightOffset,sizeof(Uint8));
-     myfile.write((char*)&iDataBlocks,sizeof(Uint16));
+     oSave.write((char*)&chTileSource,sizeof(chTileSource));
+     oSave.write((char*)&iLevelRows,sizeof(Uint16));
+     oSave.write((char*)&iLevelCols,sizeof(Uint16));
+     oSave.write((char*)&iSpriteHeight,sizeof(Uint16));
+     oSave.write((char*)&iSpriteWidth,sizeof(Uint16));
+     oSave.write((char*)&iSpriteSpacer,sizeof(Uint8));
+     oSave.write((char*)&iSpriteWidthOffset,sizeof(Uint8));
+     oSave.write((char*)&iSpriteHeightOffset,sizeof(Uint8));
+     oSave.write((char*)&iDataBlocks,sizeof(Uint16));
 
      // DataBlocks
      for (int iSprite = 0; iSprite < iDataBlocks; iSprite++)
      {
-           // Test FIll
+           // Test Fill
            Uint8 iRow=14;
            Uint8 iCol=iSprite;
            Uint8 iType=1;
@@ -54,15 +56,14 @@ void cGame::fSave()
            Uint8 iSheetIndex=6;
            // End Test Fill
            
-           myfile.write((char*)&iRow,sizeof(Uint8));
-           myfile.write((char*)&iCol,sizeof(Uint8));
-           myfile.write((char*)&iType,sizeof(Uint8));
-           myfile.write((char*)&iSheetRow,sizeof(Uint8));
-           myfile.write((char*)&iSheetIndex,sizeof(Uint8));
+           oSave.write((char*)&iRow,sizeof(Uint8));
+           oSave.write((char*)&iCol,sizeof(Uint8));
+           oSave.write((char*)&iType,sizeof(Uint8));
+           oSave.write((char*)&iSheetRow,sizeof(Uint8));
+           oSave.write((char*)&iSheetIndex,sizeof(Uint8));
+      }
      
-        }
-     
-     myfile.close();
+      oSave.close();
 }
 
 
@@ -96,6 +97,7 @@ void cGame::fLoadObjects()
 
         //Level Layer
      
+        char chTileSource[16];
         Uint16 iLevelRows;
         Uint16 iLevelCols;
         Uint16 iSpriteHeight;
@@ -105,24 +107,25 @@ void cGame::fLoadObjects()
         Uint8 iSpriteHeightOffset;
         Uint16 iDataBlocks;
 
-        std::ifstream oFile;
-        oFile.open("spritelayer.dat");
+        std::ifstream oLoad;
+        oLoad.open("spritelayer.dat");
 
-        oFile.read(reinterpret_cast<char*>(&iLevelRows),sizeof(Uint16));
-        oFile.read(reinterpret_cast<char*>(&iLevelCols),sizeof(Uint16));
-        oFile.read(reinterpret_cast<char*>(&iSpriteHeight),sizeof(Uint16));
-        oFile.read(reinterpret_cast<char*>(&iSpriteWidth),sizeof(Uint16));
-        oFile.read(reinterpret_cast<char*>(&iSpriteSpacer),sizeof(Uint8));
-        oFile.read(reinterpret_cast<char*>(&iSpriteWidthOffset),sizeof(Uint8));
-        oFile.read(reinterpret_cast<char*>(&iSpriteHeightOffset),sizeof(Uint8));
-        oFile.read(reinterpret_cast<char*>(&iDataBlocks),sizeof(Uint16));
+        oLoad.read(reinterpret_cast<char*>(&chTileSource),sizeof(chTileSource));
+        oLoad.read(reinterpret_cast<char*>(&iLevelRows),sizeof(Uint16));
+        oLoad.read(reinterpret_cast<char*>(&iLevelCols),sizeof(Uint16));
+        oLoad.read(reinterpret_cast<char*>(&iSpriteHeight),sizeof(Uint16));
+        oLoad.read(reinterpret_cast<char*>(&iSpriteWidth),sizeof(Uint16));
+        oLoad.read(reinterpret_cast<char*>(&iSpriteSpacer),sizeof(Uint8));
+        oLoad.read(reinterpret_cast<char*>(&iSpriteWidthOffset),sizeof(Uint8));
+        oLoad.read(reinterpret_cast<char*>(&iSpriteHeightOffset),sizeof(Uint8));
+        oLoad.read(reinterpret_cast<char*>(&iDataBlocks),sizeof(Uint16));
 
         //Setup Layer
         oLevelLayer = new cSpriteLayer(screen,iLevelRows,iLevelCols,iSpriteHeight,iSpriteWidth); 
 
         //Setup Source
         oLevelLayer->p_Source->fSetSpriteSpacer(iSpriteSpacer);
-        oLevelLayer->p_Source->fLoad("blocks1.bmp");
+        oLevelLayer->p_Source->fLoad(chTileSource);
         oLevelLayer->p_Source->fSetSpriteWidthOffset(iSpriteWidthOffset);
         oLevelLayer->p_Source->fSetSpriteHeightOffset(iSpriteHeightOffset);
         oLevelLayer->p_Source->fSetSpriteHeight(iSpriteHeight);
@@ -137,11 +140,11 @@ void cGame::fLoadObjects()
             Uint8 iSheetRow;
             Uint8 iSheetIndex;
             
-            oFile.read(reinterpret_cast<char*>(&iRow),sizeof(Uint8));
-            oFile.read(reinterpret_cast<char*>(&iCol),sizeof(Uint8));
-            oFile.read(reinterpret_cast<char*>(&iType),sizeof(Uint8));
-            oFile.read(reinterpret_cast<char*>(&iSheetRow),sizeof(Uint8));
-            oFile.read(reinterpret_cast<char*>(&iSheetIndex),sizeof(Uint8));
+            oLoad.read(reinterpret_cast<char*>(&iRow),sizeof(Uint8));
+            oLoad.read(reinterpret_cast<char*>(&iCol),sizeof(Uint8));
+            oLoad.read(reinterpret_cast<char*>(&iType),sizeof(Uint8));
+            oLoad.read(reinterpret_cast<char*>(&iSheetRow),sizeof(Uint8));
+            oLoad.read(reinterpret_cast<char*>(&iSheetIndex),sizeof(Uint8));
         
             oLevelLayer->p_LevelData[iRow][iCol].iType=iType;
             oLevelLayer->p_LevelData[iRow][iCol].iRow=iSheetRow;
@@ -161,7 +164,7 @@ void cGame::fLoadObjects()
         
         //Setup Source
         oPlayerLayer->p_Source->fSetSpriteSpacer(2);
-        oPlayerLayer->p_Source->fLoad("blocks1.bmp");
+        oPlayerLayer->p_Source->fLoad(chTileSource);
         oPlayerLayer->p_Source->fSetSpriteWidthOffset(0);
         oPlayerLayer->p_Source->fSetSpriteHeightOffset(0);
         oPlayerLayer->p_Source->fSetSpriteHeight(iSpriteHeight);
@@ -173,6 +176,8 @@ void cGame::fLoadObjects()
         oPlayerLayer->p_LevelData[0][0].iIndex=0;
 
         //End Player Layer
+
+        oLoad.close();
 }
 
 void cGame::fGameLoop()
