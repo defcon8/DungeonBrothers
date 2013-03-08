@@ -49,6 +49,32 @@ void cSprite::fSetSpriteHeightOffset(int iPixels)
      iSpriteHeightOffset=iPixels;
 }
 
+int cSprite::fGetSpriteSpacer()
+{
+     return iSpriteSpacer;    
+}
+
+int cSprite::fGetSpriteWidth()
+{
+     return iSpriteWidth;
+}
+
+int cSprite::fGetSpriteHeight()
+{
+     return iSpriteHeight;
+}
+
+int cSprite::fGetSpriteWidthOffset()
+{
+     return iSpriteWidthOffset;
+}
+
+int cSprite::fGetSpriteHeightOffset()
+{
+     return iSpriteHeightOffset;
+}
+
+
 void cSprite::fScroll(int iPixelOffset)
 {
    iScrollOffset=iPixelOffset;  

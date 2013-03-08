@@ -18,7 +18,59 @@
 
 using namespace std;
 
-void cGame::fSave()
+void cGame::fSaveLayer(cSpriteLayer *p_SpriteLayer)
+{
+     
+     ofstream oSave;
+     oSave.open ("spritelayer.dat",ios::binary);
+      
+     //Header
+     char chTileSource[16]="blocks1.bmp";
+     Uint16 iLevelRows=15; //15 is 1 full screen at 640x480
+     Uint16 iLevelCols=40; //20 is 1 full screen at 640x480
+     Uint16 iSpriteHeight=32;
+     Uint16 iSpriteWidth=32;
+     Uint16 iSourceRows=11;
+     Uint16 iSourceCols=18;
+     Uint8 iSpriteSpacer=2;
+     Uint8 iSpriteWidthOffset=0;
+     Uint8 iSpriteHeightOffset=0;
+     Uint16 iDataBlocks=40;
+     
+     oSave.write((char*)&chTileSource,sizeof(chTileSource));
+     oSave.write((char*)&iLevelRows,sizeof(Uint16));
+     oSave.write((char*)&iLevelCols,sizeof(Uint16));
+     oSave.write((char*)&iSpriteHeight,sizeof(Uint16));
+     oSave.write((char*)&iSpriteWidth,sizeof(Uint16));
+     oSave.write((char*)&iSourceRows,sizeof(Uint16));
+     oSave.write((char*)&iSourceCols,sizeof(Uint16));
+     oSave.write((char*)&iSpriteSpacer,sizeof(Uint8));
+     oSave.write((char*)&iSpriteWidthOffset,sizeof(Uint8));
+     oSave.write((char*)&iSpriteHeightOffset,sizeof(Uint8));
+     oSave.write((char*)&iDataBlocks,sizeof(Uint16));
+
+     // DataBlocks
+     for (int iSprite = 0; iSprite < iDataBlocks; iSprite++)
+     {
+           // Test Fill
+           Uint8 iRow=14;
+           Uint8 iCol=iSprite;
+           Uint8 iType=1;
+           Uint8 iSheetRow=1;
+           Uint8 iSheetIndex=6;
+           // End Test Fill
+           
+           oSave.write((char*)&iRow,sizeof(Uint8));
+           oSave.write((char*)&iCol,sizeof(Uint8));
+           oSave.write((char*)&iType,sizeof(Uint8));
+           oSave.write((char*)&iSheetRow,sizeof(Uint8));
+           oSave.write((char*)&iSheetIndex,sizeof(Uint8));
+      }
+     
+      oSave.close();
+}
+
+void cGame::fSaveDemo()
 {
      
      ofstream oSave;
@@ -231,7 +283,6 @@ void cGame::fInitialize()
     }
     atexit (SDL_Quit);
 
-    /* Set 640x480 16-bits video mode */
     screen = SDL_SetVideoMode (iScreenWidth, iScreenHeight, 16, SDL_SWSURFACE | SDL_DOUBLEBUF);
     if (screen == NULL)
     {
@@ -242,8 +293,8 @@ void cGame::fInitialize()
         exit(2);
     }
     
-    SDL_WM_SetCaption ("Dungeon Brothers", NULL);
-    //SDL_ShowCursor(SDL_DISABLE); 
+    SDL_WM_SetCaption ("Dungeon Brothers ALPHA", NULL);
+    SDL_ShowCursor(SDL_DISABLE); 
 }
 
 void cGame::fEvents()
@@ -317,7 +368,12 @@ void cGame::fEditModeEvents()
                     case SDLK_F2:
                          //Togle Edit Mode
                          blEditMode = !blEditMode;
-                         break; 
+                         break;
+                         
+                    case SDLK_F9:
+                          //Save Layer to File
+                          fSaveLayer(oLevelLayer);
+                          break;
                                             
                     case SDLK_LEFT:
                          iCamDirection=LEFT;
@@ -394,7 +450,7 @@ void cGame::fCameraMovement()
 cGame::cGame(int iScrWidth, int iScrHeight)
 {
       //constructor
-      fSave();
+      fSaveDemo();
       fInitVariables(iScrWidth, iScrHeight);
 }
 
@@ -442,7 +498,7 @@ void cGame::fRenderEditMode()
         int iRectY = (iTileRow*iTileHeight);
         
         //Draw tile placeholder
-        //fDrawRectangle(iRectX,iRectY,iTileWidth,iTileHeight,0xFFFFFF);
+        fDrawRectangle(iRectX,iRectY,iTileWidth,iTileHeight,0xFFFFFF);
         
         //Recalculate the real tile using the camera offset
         iTileCol = fGetTileCol(x-CamX,iTileWidth);

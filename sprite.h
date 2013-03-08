@@ -18,6 +18,7 @@ class cSprite {
           int iSpriteWidth, iSpriteHeight, iSpriteWidthOffset ,iSpriteHeightOffset, iSpriteSpacer;
           int iColorKeyR, iColorKeyG, iColorKeyB;
           int iScrollOffset;
+          char chTileSource[8];
   
           SDL_Surface* bitmap;
           SDL_Surface *spritescreen;
@@ -31,6 +32,13 @@ class cSprite {
          void fSetSpriteWidthOffset(int iPixels);
          void fSetSpriteHeightOffset(int iPixels);
          void fSetSpriteSpacer(int iPixels);
+         
+         int fGetSpriteWidth();
+         int fGetSpriteHeight();
+         int fGetSpriteWidthOffset();
+         int fGetSpriteHeightOffset();
+         int fGetSpriteSpacer();
+         
          void fSetColorKey(int iR, int iG, int iB);
          void fScroll(int iPixelOffset);
  

@@ -48,7 +48,8 @@ class cGame {
     void fGameLoop();
     void fRender();
     void fCleanUp();
-    void fSave();
+    void fSaveLayer(cSpriteLayer *p_SpriteLayer);
+    void fSaveDemo();
     void fDrawPixel(SDL_Surface *screen, int x, int y, Uint8 R, Uint8 G, Uint8 B);
     void fRenderEditMode();
     void fDrawRectangle(int x, int y, int w, int h, Uint32 color);
