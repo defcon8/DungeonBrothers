@@ -28,6 +28,8 @@ class cGame {
     int CamX, CamY;
     int MouseX, MouseY;
     int iCamDirection;
+    int iScreenWidth, iScreenHeight;
+    double dbMouseCornerWidthPerc;
   
      
     cSpriteLayer* oLevelLayer;
@@ -36,7 +38,7 @@ class cGame {
     cSprite* oBackgroundLayer;
   
     void fInitialize();
-    void fInitVariables();
+    void fInitVariables(int iScrWidth, int iScrHeight);
     void fLoadObjects();
     void fEvents();
     void fNormalModeEvents();
@@ -59,7 +61,7 @@ class cGame {
   
   public:
     void Start();
-    cGame();
+    cGame(int iScrWidth, int iScrHeight);
     ~cGame();
     
 };

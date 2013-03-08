@@ -232,10 +232,10 @@ void cGame::fInitialize()
     atexit (SDL_Quit);
 
     /* Set 640x480 16-bits video mode */
-    screen = SDL_SetVideoMode (640, 480, 16, SDL_SWSURFACE | SDL_DOUBLEBUF);
+    screen = SDL_SetVideoMode (iScreenWidth, iScreenHeight, 16, SDL_SWSURFACE | SDL_DOUBLEBUF);
     if (screen == NULL)
     {
-        sprintf (chMessage, "Couldn't set 640x480x16 video mode: %s\n",
+        sprintf (chMessage, "Couldn't set video mode: %s\n",
         SDL_GetError ());
         MessageBox (0, chMessage, "Error", MB_ICONHAND); 
         free(chMessage);
@@ -268,8 +268,19 @@ void cGame::fNormalModeEvents()
                 switch(event.key.keysym.sym)
                 {                 
                     case SDLK_ESCAPE:
+                         blDone=true;
                          blEditMode = true;
-                    break;                                   
+                         break;
+                    
+                    case SDLK_F1:
+                         //Show sprite picker  
+                         blSpritePalet = !blSpritePalet;
+                         break;
+                         
+                    case SDLK_F2:
+                         //Toggle Edit Mode
+                         blEditMode = !blEditMode;   
+                         break;                             
                 } 
                 break;
             case SDL_QUIT:
@@ -291,30 +302,38 @@ void cGame::fEditModeEvents()
             {
             case SDL_KEYDOWN:
                 switch(event.key.keysym.sym)
-                {                 
+                {    
+                                                      
                     case SDLK_ESCAPE:
-                         blEditMode = false;
-                    break;      
+                         // Exit program
+                         blDone = true;
+                         break;      
                     
                     case SDLK_F1:
+                         //Hide sprite picker 
                          blSpritePalet = !blSpritePalet;
                          break;                    
+                    
+                    case SDLK_F2:
+                         //Togle Edit Mode
+                         blEditMode = !blEditMode;
+                         break; 
                                             
                     case SDLK_LEFT:
-                    iCamDirection=LEFT;
-                    break;
+                         iCamDirection=LEFT;
+                         break;
                     
                     case SDLK_RIGHT:
-                    iCamDirection=RIGHT;
-                    break;
+                         iCamDirection=RIGHT;
+                         break;
                     
                     case SDLK_UP:
-                    iCamDirection=UP;
-                    break;
+                         iCamDirection=UP;
+                         break;
                     
                     case SDLK_DOWN:
-                    iCamDirection=DOWN;
-                    break;
+                         iCamDirection=DOWN;
+                         break;
                 } 
                 break;
             
@@ -338,16 +357,16 @@ void cGame::fEditModeEvents()
             }
         } 
         
-        //Camera movement by mouse
+        //Camera movement by mouse corners to navigate thru the scene
         int x,y;
         SDL_GetMouseState(&x, &y); 
-        if(x>635)
+        if(x>(iScreenWidth*dbMouseCornerWidthPerc))
                  CamX--;
-        if(x<5)
+        if(x<(iScreenWidth*(1.0 - dbMouseCornerWidthPerc))) // Invert
                  CamX++;
-        if(y>475)
+        if(y>(iScreenHeight*dbMouseCornerWidthPerc))
                  CamY--;
-        if(y<5)
+        if(y<(iScreenHeight*(1.0 - dbMouseCornerWidthPerc)))
                  CamY++;     
 }
 
@@ -371,23 +390,26 @@ void cGame::fCameraMovement()
         }
 }
 
-cGame::cGame()
+cGame::cGame(int iScrWidth, int iScrHeight)
 {
       //constructor
       fSave();
-      fInitVariables();
+      fInitVariables(iScrWidth, iScrHeight);
 }
 
-void cGame::fInitVariables()
+void cGame::fInitVariables(int iScrWidth, int iScrHeight)
 {
       blDone = false;
+      iScreenWidth=iScrWidth;
+      iScreenHeight=iScrHeight;
       blEditMode = false;
       blSpritePalet = false;
       CamX=0;
       CamY=0;
       iCamDirection=0;
       MouseX=0;
-      MouseY=0;                     
+      MouseY=0;  
+      dbMouseCornerWidthPerc=0.8;                   
 }
 
 cGame::~cGame()
