@@ -69,5 +69,7 @@ class cSpriteLayer {
     int fGetSpriteWidth();
     void fSetSpriteHeight(int iPixels);
     int fGetSpriteHeight();
+    int fGetTotalRows();
+    int fGetTotalCols();
     
 };

@@ -12,6 +12,7 @@
 */
 #include <SDL/SDL.h>
 #include "spritelayer.h"
+#include "pencil.h"
 
 class cGame {             
   // Camera Movement    
@@ -30,8 +31,9 @@ class cGame {
     int iCamDirection;
     int iScreenWidth, iScreenHeight;
     double dbMouseCornerWidthPerc;
-  
-     
+    int iMouseScrollSpeed; 
+
+    cPencil* oPencil;
     cSpriteLayer* oLevelLayer;
     cSpriteLayer* oPlayerLayer;
     cSpriteLayer* oSpritePicker;

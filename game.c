@@ -84,7 +84,7 @@ void cGame::Start()
          fRender();
          
          /* Don't run too fast */
-         SDL_Delay (1); //50Hz           
+         //SDL_Delay(0.1); //50Hz           
      }
      
      fCleanUp();    
@@ -361,14 +361,15 @@ void cGame::fEditModeEvents()
         int x,y;
         SDL_GetMouseState(&x, &y); 
         if(x>(iScreenWidth*dbMouseCornerWidthPerc))
-                 CamX--;
+                 CamX-=iMouseScrollSpeed;
         if(x<(iScreenWidth*(1.0 - dbMouseCornerWidthPerc))) // Invert
-                 CamX++;
+                 CamX+=iMouseScrollSpeed;
         if(y>(iScreenHeight*dbMouseCornerWidthPerc))
-                 CamY--;
+                 CamY-=iMouseScrollSpeed;
         if(y<(iScreenHeight*(1.0 - dbMouseCornerWidthPerc)))
-                 CamY++;     
+                 CamY+=iMouseScrollSpeed;     
 }
+
 
 void cGame::fCameraMovement()
 {
@@ -409,7 +410,10 @@ void cGame::fInitVariables(int iScrWidth, int iScrHeight)
       iCamDirection=0;
       MouseX=0;
       MouseY=0;  
-      dbMouseCornerWidthPerc=0.8;                   
+      dbMouseCornerWidthPerc=0.95;
+      iMouseScrollSpeed=5;
+      
+      oPencil = new cPencil;                   
 }
 
 cGame::~cGame()
@@ -438,25 +442,51 @@ void cGame::fRenderEditMode()
         int iRectY = (iTileRow*iTileHeight);
         
         //Draw tile placeholder
-        fDrawRectangle(iRectX,iRectY,iTileWidth,iTileHeight,0xFFFFFF);
+        //fDrawRectangle(iRectX,iRectY,iTileWidth,iTileHeight,0xFFFFFF);
         
         //Recalculate the real tile using the camera offset
         iTileCol = fGetTileCol(x-CamX,iTileWidth);
         iTileRow = fGetTileRow(y-CamY,iTileHeight);  
         
-        switch(iMouseButtons)
+        if(blSpritePalet)
         {
-           case 1:                  
-           //Left button, Draw
-           oLevelLayer->p_LevelData[iTileRow][iTileCol].iIndex=2;
-           oLevelLayer->p_LevelData[iTileRow][iTileCol].iType=SPRITE;
-           break;
-           
-           case 4:
-           //Right button, Clear
-           oLevelLayer->p_LevelData[iTileRow][iTileCol].iIndex=0;
-           oLevelLayer->p_LevelData[iTileRow][iTileCol].iType=EMPTY;
-           break;
+            //The Sprite palet/picker is on screen
+                switch(iMouseButtons)
+                {
+                   case 1:                  
+                         //Left button, selects the source sprite
+                          oPencil->iSourceTileRow=iTileRow;
+                          oPencil->iSourceTileCol=iTileCol;
+                          blSpritePalet=!blSpritePalet; // Hide sprite palet
+                   
+                          oLevelLayer->p_LevelData[iTileRow][iTileCol].iIndex=2;
+                          oLevelLayer->p_LevelData[iTileRow][iTileCol].iType=SPRITE;
+                          break;
+                }
+        
+        }else{
+              
+           // The is in paint mode
+                switch(iMouseButtons)
+                {
+                   case 1:                  
+                   //Left button, Draw
+                          if((iTileRow<oLevelLayer->fGetTotalRows()) && (iTileCol<oLevelLayer->fGetTotalCols()) &&
+                             (iTileRow>-1) && (iTileCol>-1))      
+                          {
+                              //restrict being drawn outside the layers dimensions
+                              oLevelLayer->p_LevelData[iTileRow][iTileCol].iIndex=oPencil->iSourceTileCol;
+                              oLevelLayer->p_LevelData[iTileRow][iTileCol].iRow=oPencil->iSourceTileRow;       
+                              oLevelLayer->p_LevelData[iTileRow][iTileCol].iType=SPRITE;
+                          }
+                          break;
+                   
+                   case 4:
+                   //Right button, Clear
+                   oLevelLayer->p_LevelData[iTileRow][iTileCol].iIndex=0;
+                   oLevelLayer->p_LevelData[iTileRow][iTileCol].iType=EMPTY;
+                   break;
+                }
         } 
 }        
 

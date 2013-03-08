@@ -80,6 +80,10 @@ void cSpriteLayer::fInitMap()
    }        
 }
 
+int cSpriteLayer::fGetTotalRows() { return iRowCount; }
+
+int cSpriteLayer::fGetTotalCols() { return iColCount; } 
+
 cSpriteLayer::~cSpriteLayer()
 {
    SDL_FreeSurface(spritelayerscreen);
