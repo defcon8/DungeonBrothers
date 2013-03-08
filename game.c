@@ -336,7 +336,19 @@ void cGame::fEditModeEvents()
             default:
                 break;
             }
-        }  
+        } 
+        
+        //Camera movement by mouse
+        int x,y;
+        SDL_GetMouseState(&x, &y); 
+        if(x>635)
+                 CamX--;
+        if(x<5)
+                 CamX++;
+        if(y>475)
+                 CamY--;
+        if(y<5)
+                 CamY++;     
 }
 
 void cGame::fCameraMovement()
