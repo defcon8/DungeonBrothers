@@ -363,6 +363,7 @@ void cGame::fEditModeEvents()
                     case SDLK_F1:
                          //Hide sprite picker 
                          blSpritePalet = !blSpritePalet;
+                         blRenderLevel = !blRenderLevel; // Hide Level
                          break;                    
                     
                     case SDLK_F2:
@@ -460,6 +461,7 @@ void cGame::fInitVariables(int iScrWidth, int iScrHeight)
       iScreenWidth=iScrWidth;
       iScreenHeight=iScrHeight;
       blEditMode = false;
+      blRenderLevel = true;
       blSpritePalet = false;
       CamX=0;
       CamY=0;
@@ -496,16 +498,14 @@ void cGame::fRenderEditMode()
         
         int iRectX = (iTileCol*iTileWidth);
         int iRectY = (iTileRow*iTileHeight);
-        
-        //Draw tile placeholder
-        fDrawRectangle(iRectX,iRectY,iTileWidth,iTileHeight,0xFFFFFF);
-        
+                        
         //Recalculate the real tile using the camera offset
         iTileCol = fGetTileCol(x-CamX,iTileWidth);
         iTileRow = fGetTileRow(y-CamY,iTileHeight);  
         
         if(blSpritePalet)
         {
+            oSpritePicker->fRender(CamX,CamY);                 
             //The Sprite palet/picker is on screen
                 switch(iMouseButtons)
                 {
@@ -514,36 +514,37 @@ void cGame::fRenderEditMode()
                           oPencil->iSourceTileRow=iTileRow;
                           oPencil->iSourceTileCol=iTileCol;
                           blSpritePalet=!blSpritePalet; // Hide sprite palet
+                          blRenderLevel=!blRenderLevel; // Show level again
                    
                           oLevelLayer->p_LevelData[iTileRow][iTileCol].iIndex=2;
                           oLevelLayer->p_LevelData[iTileRow][iTileCol].iType=SPRITE;
                           break;
-                }
-        
-        }else{
-              
-           // The is in paint mode
-                switch(iMouseButtons)
-                {
-                   case 1:                  
-                   //Left button, Draw
-                          if((iTileRow<oLevelLayer->fGetTotalRows()) && (iTileCol<oLevelLayer->fGetTotalCols()) &&
-                             (iTileRow>-1) && (iTileCol>-1))      
-                          {
-                              //restrict being drawn outside the layers dimensions
+                 }
+        }else{     
+           // The is in paint mode  
+                if((iTileRow<oLevelLayer->fGetTotalRows()) && (iTileCol<oLevelLayer->fGetTotalCols()) &&
+                   (iTileRow>-1) && (iTileCol>-1))      
+                {        
+                    switch(iMouseButtons)
+                    {
+                       case 1:                  
+                       //Left button, Draw
                               oLevelLayer->p_LevelData[iTileRow][iTileCol].iIndex=oPencil->iSourceTileCol;
                               oLevelLayer->p_LevelData[iTileRow][iTileCol].iRow=oPencil->iSourceTileRow;       
                               oLevelLayer->p_LevelData[iTileRow][iTileCol].iType=SPRITE;
-                          }
-                          break;
-                   
-                   case 4:
-                   //Right button, Clear
-                   oLevelLayer->p_LevelData[iTileRow][iTileCol].iIndex=0;
-                   oLevelLayer->p_LevelData[iTileRow][iTileCol].iType=EMPTY;
-                   break;
+                              break;
+                       
+                       case 4:
+                            //Right button, Clear
+                            oLevelLayer->p_LevelData[iTileRow][iTileCol].iIndex=0;
+                            oLevelLayer->p_LevelData[iTileRow][iTileCol].iType=EMPTY;
+                            break;
+                    }
                 }
         } 
+        
+        //Draw tile placeholder aka mouse pointer
+        fDrawRectangle(iRectX,iRectY,iTileWidth,iTileHeight,0xFFFFFF);        
 }        
 
 int cGame::fGetTileCol(int iX, int iTileWidth){return static_cast<int>(floor(iX/iTileWidth));}
@@ -572,19 +573,21 @@ void cGame::fRender()
     //if(blSpritePalet){
     //   oBackgroundLayer->fRender(0,0,CamX,CamY);
     //}
- 
-    oLevelLayer->fRender(CamX,CamY);
-    oPlayerLayer->fRender(CamX,CamY);
-    
+     
+    if(blRenderLevel)
+    {
+        oLevelLayer->fRender(CamX,CamY);
+        oPlayerLayer->fRender(CamX,CamY);   
+    } 
+     
+    //Overlay 
     if(blEditMode)
     {
-       if(blSpritePalet)
-       {
-          oSpritePicker->fRender(CamX,CamY);                 
-       }   
        fRenderEditMode();
     }
     
+
+      
     /* Make sure everything is displayed on screen */
     SDL_Flip (screen);    
 }

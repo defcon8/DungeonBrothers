@@ -25,6 +25,7 @@ class cGame {
   private:
     bool blDone;
     bool blEditMode;
+    bool blRenderLevel;
     bool blSpritePalet;
     int CamX, CamY;
     int MouseX, MouseY;
