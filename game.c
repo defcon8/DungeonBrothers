@@ -14,6 +14,7 @@
 #include <iostream>
 #include <math.h>
 #include <fstream>
+#include <cstring>
 #include "game.h"
 
 using namespace std;
@@ -25,11 +26,13 @@ void cGame::fSaveLayer(cSpriteLayer *p_SpriteLayer)
      oSave.open ("spritelayer.dat",ios::binary);
       
      //Header
-     char chTileSource[16]="blocks1.bmp";
-     Uint16 iLevelRows=15; 
-     Uint16 iLevelCols=40;
-     Uint16 iSpriteHeight=32;
-     Uint16 iSpriteWidth=32;
+     char chTileSource[16];
+     memcpy(&chTileSource[0],p_SpriteLayer->p_Source->fGetTileSource(),16);
+
+     Uint16 iLevelRows = p_SpriteLayer->fGetTotalRows(); 
+     Uint16 iLevelCols = p_SpriteLayer->fGetTotalCols(); 
+     Uint16 iSpriteHeight = p_SpriteLayer->fGetSpriteHeight();
+     Uint16 iSpriteWidth = p_SpriteLayer->fGetSpriteWidth();;
      Uint16 iSourceRows=11;
      Uint16 iSourceCols=18;
      Uint8 iSpriteSpacer=2;
@@ -451,7 +454,7 @@ void cGame::fCameraMovement()
 cGame::cGame(int iScrWidth, int iScrHeight)
 {
       //constructor
-      fSaveDemo();
+      //fSaveDemo();
       fInitVariables(iScrWidth, iScrHeight);
 }
 
