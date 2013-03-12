@@ -26,8 +26,8 @@ void cGame::fSaveLayer(cSpriteLayer *p_SpriteLayer)
       
      //Header
      char chTileSource[16]="blocks1.bmp";
-     Uint16 iLevelRows=15; //15 is 1 full screen at 640x480
-     Uint16 iLevelCols=40; //20 is 1 full screen at 640x480
+     Uint16 iLevelRows=15; 
+     Uint16 iLevelCols=40;
      Uint16 iSpriteHeight=32;
      Uint16 iSpriteWidth=32;
      Uint16 iSourceRows=11;
