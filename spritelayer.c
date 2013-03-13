@@ -17,6 +17,7 @@
 using namespace std;
 
 SDL_Surface *spritelayerscreen;
+SDL_Surface *masterscreen;
 
 cSpriteLayer::cSpriteLayer(SDL_Surface *screen, int iRows, int iCols, int iSpriteHeightPX, int iSpriteWidthPX)
 { 
@@ -33,7 +34,8 @@ cSpriteLayer::cSpriteLayer(SDL_Surface *screen, int iRows, int iCols, int iSprit
       p_LevelData[i] = new sLevelBlock[iCols];
    
    //screen
-   spritelayerscreen = screen;    
+   masterscreen = screen;   
+   spritelayerscreen = SDL_CreateRGBSurface(SDL_SWSURFACE, masterscreen->w, masterscreen->h,masterscreen->format->BitsPerPixel,masterscreen->format->Rmask,masterscreen->format->Gmask,masterscreen->format->Bmask,masterscreen->format->Amask);
    
    //setup source object
    p_Source = new cSprite(spritelayerscreen);                               
@@ -99,7 +101,9 @@ SDL_Surface* cSpriteLayer::fRender(int CamX, int CamY)
            if(p_LevelData[iRow][iCol].iType!=EMPTY)
            p_Source->fRender(p_LevelData[iRow][iCol].iIndex, p_LevelData[iRow][iCol].iRow, (fColToWidth(iCol)+CamX), (fRowToHeight(iRow)+CamY));
        }    
-   }               
+   }
+
+   SDL_BlitSurface(spritelayerscreen, NULL, masterscreen, NULL);     
 }
 
 
