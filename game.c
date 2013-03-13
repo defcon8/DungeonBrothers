@@ -134,23 +134,26 @@ void cGame::Start()
      while(!blDone)
      {   
 
-         cStart = clock(); // measure start time
-                
+         cStart = clock(); // start time measurement                
          fEvents();
          fCameraMovement();
          fGameLoop();
          fRender();
          
-         cTime = clock() - cStart; // time in micro seconds
-          
-          
-         //if(cTime < 20){}
-                  //SDL_Delay(20-cTime); // Lock to FPS
-         
-         double interval = cTime;
-         char buffer[10];
-         sprintf(buffer,"%20.4f",interval);
-         SDL_WM_SetCaption(buffer,NULL);      
+         cTime = clock() - cStart; // end time measurement //
+                    
+         //Lock to FPS // cTime is in MicroSeconds
+         if(cTime < 20)
+         {
+                  // Todo: SDL_Delay is miliseconds and not microseconds. error in wait time formula, 
+                  //SDL_Delay(20-(cTime*1000));
+         }
+
+         // // FPS Statistics - for debug only, time consuming..
+         // double interval = cTime;
+         // char buffer[10];
+         // sprintf(buffer,"%20.4f",interval);
+         // SDL_WM_SetCaption(buffer,NULL);      
      }
      
      fCleanUp();    
@@ -275,12 +278,12 @@ void cGame::fLoadObjects()
 
 void cGame::fGameLoop()
 {
-        if(oPlayerLayer->p_LevelData[0][0].iIndex==10)
-        {
-              oPlayerLayer->p_LevelData[0][0].iIndex=0;
-        }else{
-              oPlayerLayer->p_LevelData[0][0].iIndex+=1;
-        }                
+       // if(oPlayerLayer->p_LevelData[0][0].iIndex==10)
+//        {
+//              oPlayerLayer->p_LevelData[0][0].iIndex=0;
+//        }else{
+//              oPlayerLayer->p_LevelData[0][0].iIndex+=1;
+//        }                
 }
      
 void cGame::fInitialize()
