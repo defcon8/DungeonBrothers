@@ -132,14 +132,25 @@ void cGame::Start()
      fLoadObjects();
      
      while(!blDone)
-     {          
+     {   
+
+         cStart = clock(); // measure start time
+                
          fEvents();
          fCameraMovement();
          fGameLoop();
          fRender();
          
-         /* Don't run too fast */
-         //SDL_Delay(0.1); //50Hz           
+         cTime = clock() - cStart; // time in micro seconds
+          
+          
+         //if(cTime < 20){}
+                  //SDL_Delay(20-cTime); // Lock to FPS
+         
+         double interval = cTime;
+         char buffer[10];
+         sprintf(buffer,"%20.4f",interval);
+         SDL_WM_SetCaption(buffer,NULL);      
      }
      
      fCleanUp();    
@@ -570,7 +581,6 @@ void cGame::fRender()
 
     /* Create a black background */
     color = SDL_MapRGB (screen->format, 0, 0, 0);
-    
     SDL_FillRect (screen, NULL, color);
 
     //if(blSpritePalet){
@@ -588,9 +598,7 @@ void cGame::fRender()
     {
        fRenderEditMode();
     }
-    
-
-      
+          
     /* Make sure everything is displayed on screen */
     SDL_Flip (screen);    
 }

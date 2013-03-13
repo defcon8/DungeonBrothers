@@ -19,7 +19,7 @@
 
 int main (int argc, char *argv[])
 {
-    cGame* oGame = new cGame(1024,768);
+    cGame* oGame = new cGame(800,600);
     
     oGame->Start();
     

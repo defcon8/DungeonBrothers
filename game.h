@@ -13,6 +13,7 @@
 #include <SDL/SDL.h>
 #include "spritelayer.h"
 #include "pencil.h"
+#include <time.h>
 
 class cGame {             
   // Camera Movement    
@@ -33,6 +34,8 @@ class cGame {
     int iScreenWidth, iScreenHeight;
     double dbMouseCornerWidthPerc;
     int iMouseScrollSpeed; 
+
+    clock_t cStart, cTime;
 
     cPencil* oPencil;
     cSpriteLayer* oLevelLayer;

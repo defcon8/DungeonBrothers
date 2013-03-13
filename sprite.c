@@ -105,7 +105,7 @@ void cSprite::fRender(int iCol, int iRow, int iDestX, int iDestY)
     destination.y = iDestY;
     destination.w = iSpriteWidth;
     destination.h = iSpriteHeight; 
-    
+
     SDL_BlitSurface(bitmap, &source, spritescreen, &destination);
 }
 

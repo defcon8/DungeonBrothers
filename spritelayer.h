@@ -53,6 +53,7 @@ class cSpriteLayer {
         void fInitMap();
         int fColToWidth(int iCol);
         int fRowToHeight(int iRow);
+        SDL_Surface* Get_Sub_Surface(SDL_Surface* metaSurface, int x, int y, int width, int height);
 
   public:
     cSpriteLayer(SDL_Surface *screen, int iRows, int iCols, int iSpriteHeightPX, int iSpriteWidthPX);
