@@ -23,6 +23,10 @@ cSpriteLayer::cSpriteLayer(SDL_Surface *screen, int iRows, int iCols, int iSprit
    iSpriteHeight=iSpriteHeightPX;
    iSpriteWidth=iSpriteWidthPX;
    
+   //initialise
+   x=0;
+   y=0;
+   
    iRowCount=iRows;
    iColCount=iCols;
                                        
@@ -72,7 +76,6 @@ SDL_Surface* cSpriteLayer::Get_Sub_Surface(SDL_Surface* metaSurface, int x, int 
     // Return the newly created surface.
     return subSurface;
 }
-
 
 void cSpriteLayer::fSetSpriteHeight(int iPixels)
 {
@@ -129,14 +132,12 @@ SDL_Surface* cSpriteLayer::fRender(int CamX, int CamY)
        for (int iCol = 0; iCol < iColCount; iCol++)
        {
            if(p_LevelData[iRow][iCol].iType!=EMPTY)
-               p_Source->fRender(p_LevelData[iRow][iCol].iIndex, p_LevelData[iRow][iCol].iRow, (fColToWidth(iCol)+CamX), (fRowToHeight(iRow)+CamY));
+               p_Source->fRender(p_LevelData[iRow][iCol].iIndex, p_LevelData[iRow][iCol].iRow, (fColToWidth(iCol)+CamX)+x, (fRowToHeight(iRow)+CamY)+y);
        }    
    }  
 }
 
-
 int cSpriteLayer::fColToWidth(int iCol)
-
 {
     return (iCol*iSpriteWidth);
 }
@@ -145,3 +146,24 @@ int cSpriteLayer::fRowToHeight(int iRow)
 {
     return (iRow*iSpriteHeight);
 }
+
+int cSpriteLayer::fWidthToCol(int iWidth)
+{
+    return (iWidth/iSpriteWidth);
+}
+
+int cSpriteLayer::fHeightToRow(int iHeight)
+{
+    return (iHeight/iSpriteHeight);
+}
+
+int cSpriteLayer::fGetWidth()
+{
+    return iColCount * iSpriteWidth;
+}
+
+int cSpriteLayer::fGetHeight()
+{
+    return iRowCount * iSpriteHeight;
+}
+

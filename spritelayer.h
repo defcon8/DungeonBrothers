@@ -51,8 +51,6 @@ class cSpriteLayer {
 
         //Methods
         void fInitMap();
-        int fColToWidth(int iCol);
-        int fRowToHeight(int iRow);
         SDL_Surface* Get_Sub_Surface(SDL_Surface* metaSurface, int x, int y, int width, int height);
 
   public:
@@ -64,6 +62,9 @@ class cSpriteLayer {
     SDL_Surface* fRender(int CamX, int CamY);
     sLevelBlock **p_LevelData;
     
+    //Members
+    int x,y;
+    
     //Methods
     Uint8 fReturnSpriteFlags(int iRow, int iCol);
     void fSetSpriteWidth(int iPixels);
@@ -72,5 +73,12 @@ class cSpriteLayer {
     int fGetSpriteHeight();
     int fGetTotalRows();
     int fGetTotalCols();
+    int fGetWidth();
+    int fGetHeight();
+
+    int fWidthToCol(int iWidth);
+    int fHeightToRow(int iHeight);
+    int fColToWidth(int iCol);
+    int fRowToHeight(int iRow);
     
 };

@@ -136,7 +136,7 @@ void cGame::Start()
 
          cStart = clock(); // start time measurement                
          fEvents();
-         fCameraMovement();
+         fObjectMovement();
          fGameLoop();
          fRender();
          
@@ -278,12 +278,35 @@ void cGame::fLoadObjects()
 
 void cGame::fGameLoop()
 {
-       // if(oPlayerLayer->p_LevelData[0][0].iIndex==10)
-//        {
-//              oPlayerLayer->p_LevelData[0][0].iIndex=0;
-//        }else{
-//              oPlayerLayer->p_LevelData[0][0].iIndex+=1;
-//        }                
+       // Player Collision detection
+       
+       //Level Boundaries
+       if(oPlayerLayer->x < 0 || oPlayerLayer->x > oLevelLayer->fGetWidth() || oPlayerLayer->y < 0 || oPlayerLayer->y > oLevelLayer->fGetHeight())
+       {
+               oPlayerLayer->p_LevelData[0][0].iIndex=10;           
+       }else{
+               oPlayerLayer->p_LevelData[0][0].iIndex=3;
+       }
+       
+       //Level tile collision + Gravity
+       int iColStart, iColEnd, iRowStart, iRowEnd;
+       
+       iColStart=oLevelLayer->fWidthToCol(oPlayerLayer->x);
+       iColEnd=oLevelLayer->fWidthToCol((oPlayerLayer->x + oPlayerLayer->fGetSpriteWidth()));
+       
+       iRowStart=oLevelLayer->fHeightToRow(oPlayerLayer->y);
+       iRowEnd=oLevelLayer->fHeightToRow((oPlayerLayer->y + oPlayerLayer->fGetSpriteHeight()));
+       
+       for (int iRow = iRowStart ; iRow <= iRowEnd ; iRow++ ) 
+       {
+            for (int iCol = iColStart ; iCol <= iColEnd ; iCol++ ) 
+            {
+                if((oLevelLayer->p_LevelData[iRow][iCol].iType != SPRITE) && ((oPlayerLayer->y + oPlayerLayer->fGetHeight()) <= 480))
+                { 
+                     oPlayerLayer->y++; 
+                }
+            }
+       }              
 }
      
 void cGame::fInitialize()
@@ -348,9 +371,38 @@ void cGame::fNormalModeEvents()
                     case SDLK_F2:
                          //Toggle Edit Mode
                          blEditMode = !blEditMode;   
-                         break;                             
+                         break;    
+                         
+                    case SDLK_LEFT:
+                         iPlayerDirection=LEFT;
+                         break;
+                    
+                    case SDLK_RIGHT:
+                         iPlayerDirection=RIGHT;
+                         break;   
+                         
+                    case SDLK_UP:
+                         iPlayerDirection=UP;
+                         break;
+                    
+                    case SDLK_DOWN:
+                         iPlayerDirection=DOWN;
+                         break;                                 
                 } 
                 break;
+                
+            case SDL_KEYUP:
+                switch(event.key.keysym.sym)
+                {                                               
+                    case SDLK_RIGHT:
+                    case SDLK_LEFT:
+                    case SDLK_UP:
+                    case SDLK_DOWN:
+                         iPlayerDirection=NONE;
+                    break;
+                }
+                break;    
+                
             case SDL_QUIT:
                 blDone = 1;
                 break;
@@ -445,9 +497,9 @@ void cGame::fEditModeEvents()
 }
 
 
-void cGame::fCameraMovement()
+void cGame::fObjectMovement()
 {
-  //Do Camera movement
+        //Do Camera movement
         switch(iCamDirection)
         {
             case 1:
@@ -463,6 +515,25 @@ void cGame::fCameraMovement()
                  CamX += 1;
                  break;                     
         }
+        
+        //Do Camera movement
+        switch(iPlayerDirection)
+        {
+            case 1:
+                 oPlayerLayer->y-= 1;
+                 break;
+            case 2:
+                 oPlayerLayer->x+= 1;
+                 break;
+            case 3:
+                 oPlayerLayer->y+= 1;
+                 break;
+            case 4:
+                 oPlayerLayer->x-= 1;
+                 break;                     
+        }
+         
+        
 }
 
 cGame::cGame(int iScrWidth, int iScrHeight)
@@ -486,7 +557,7 @@ void cGame::fInitVariables(int iScrWidth, int iScrHeight)
       MouseX=0;
       MouseY=0;  
       dbMouseCornerWidthPerc=0.95;
-      iMouseScrollSpeed=5;
+      iMouseScrollSpeed=1;
       
       oPencil = new cPencil;                   
 }

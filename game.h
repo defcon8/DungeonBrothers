@@ -31,6 +31,7 @@ class cGame {
     int CamX, CamY;
     int MouseX, MouseY;
     int iCamDirection;
+    int iPlayerDirection;
     int iScreenWidth, iScreenHeight;
     double dbMouseCornerWidthPerc;
     int iMouseScrollSpeed; 
@@ -57,7 +58,7 @@ class cGame {
     void fDrawPixel(SDL_Surface *screen, int x, int y, Uint8 R, Uint8 G, Uint8 B);
     void fRenderEditMode();
     void fDrawRectangle(int x, int y, int w, int h, Uint32 color);
-    void fCameraMovement();
+    void fObjectMovement();
     
     int fGetTileCol(int iX, int iTileWidth);
     int fGetTileRow(int iY, int iTileHeight);
