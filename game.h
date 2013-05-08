@@ -33,6 +33,7 @@ class cGame {
     int MouseX, MouseY;
     int iCamDirection;
     int iPlayerDirection;
+    int iPlayerSpeed;
     int iScreenWidth, iScreenHeight;
     double dbMouseCornerWidthPerc;
     int iMouseScrollSpeed; 

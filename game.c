@@ -537,16 +537,16 @@ void cGame::fObjectMovement()
         switch(iPlayerDirection)
         {
             case 1:
-                 oPlayerLayer->y-= 1;
+                 oPlayerLayer->y-= iPlayerSpeed;
                  break;
             case 2:
-                 oPlayerLayer->x+= 1;
+                 oPlayerLayer->x+= iPlayerSpeed;
                  break;
             case 3:
-                 oPlayerLayer->y+= 1;
+                 oPlayerLayer->y+= iPlayerSpeed;
                  break;
             case 4:
-                 oPlayerLayer->x-= 1;
+                 oPlayerLayer->x-= iPlayerSpeed;
                  break;                     
         }
          
@@ -576,6 +576,7 @@ void cGame::fInitVariables(int iScrWidth, int iScrHeight)
       CamX=0;
       CamY=0;
       iCamDirection=0;
+      iPlayerSpeed=2;
       MouseX=0;
       MouseY=0;  
       dbMouseCornerWidthPerc=0.95;
