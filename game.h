@@ -13,6 +13,7 @@
 #include <SDL/SDL.h>
 #include "spritelayer.h"
 #include "pencil.h"
+#include "debug.h"
 #include <time.h>
 
 class cGame {             
@@ -60,12 +61,16 @@ class cGame {
     void fDrawRectangle(int x, int y, int w, int h, Uint32 color);
     void fObjectMovement();
     
+    bool fCheckLevelCollision();
+    
     int fGetTileCol(int iX, int iTileWidth);
     int fGetTileRow(int iY, int iTileHeight);
      
     /* The screen surface */
     SDL_Surface *screen;
     cSpriteLayer *p_SpriteLayers;
+    
+    cDebug *oDebug;
   
   public:
     void Start();

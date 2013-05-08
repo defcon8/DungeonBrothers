@@ -288,6 +288,17 @@ void cGame::fGameLoop()
                oPlayerLayer->p_LevelData[0][0].iIndex=3;
        }
        
+       if(!fCheckLevelCollision())
+       { 
+         oPlayerLayer->y++;
+       } 
+     
+
+           
+}
+
+bool cGame::fCheckLevelCollision()
+{
        //Level tile collision + Gravity
        int iColStart, iColEnd, iRowStart, iRowEnd;
        
@@ -296,17 +307,23 @@ void cGame::fGameLoop()
        
        iRowStart=oLevelLayer->fHeightToRow(oPlayerLayer->y);
        iRowEnd=oLevelLayer->fHeightToRow((oPlayerLayer->y + oPlayerLayer->fGetSpriteHeight()));
+ 
+       bool blCollide = false;
        
        for (int iRow = iRowStart ; iRow <= iRowEnd ; iRow++ ) 
        {
             for (int iCol = iColStart ; iCol <= iColEnd ; iCol++ ) 
             {
-                if((oLevelLayer->p_LevelData[iRow][iCol].iType != SPRITE) && ((oPlayerLayer->y + oPlayerLayer->fGetHeight()) <= 480))
-                { 
-                     oPlayerLayer->y++; 
+                if(!(oLevelLayer->p_LevelData[iRow][iCol].iType != SPRITE) && ((oPlayerLayer->y + oPlayerLayer->fGetHeight()) < iScreenHeight))
+                {
+                      // collide
+                      blCollide = true; 
+                      break;    
                 }
             }
-       }              
+       }   
+       
+       return blCollide;
 }
      
 void cGame::fInitialize()
@@ -540,7 +557,12 @@ cGame::cGame(int iScrWidth, int iScrHeight)
 {
       //constructor
       //fSaveDemo();
+      oDebug = new cDebug;
       fInitVariables(iScrWidth, iScrHeight);
+      
+      //char chTest[] = "Dit is een test\n\r";
+      //oDebug->fSend(chTest);
+      
 }
 
 void cGame::fInitVariables(int iScrWidth, int iScrHeight)

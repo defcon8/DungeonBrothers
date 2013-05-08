@@ -1,7 +1,7 @@
 [Project]
 FileName=DungeonBrothers.dev
 Name=DungeonBrothers
-UnitCount=9
+UnitCount=11
 Type=0
 Ver=1
 ObjFiles=
@@ -27,7 +27,7 @@ CustomMakefile=
 IncludeVersionInfo=0
 SupportXPThemes=0
 CompilerSet=0
-CompilerSettings=0000000001001000000000
+CompilerSettings=0000000001001001000000
 
 [Unit1]
 FileName=main.c
@@ -129,6 +129,26 @@ BuildCmd=
 
 [Unit8]
 FileName=pencil.h
+CompileCpp=1
+Folder=
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit10]
+FileName=debug.c
+CompileCpp=1
+Folder=
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit11]
+FileName=debug.h
 CompileCpp=1
 Folder=
 Compile=1
