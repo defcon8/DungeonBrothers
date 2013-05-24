@@ -126,7 +126,11 @@ cSpriteLayer::~cSpriteLayer()
 }
 
 SDL_Surface* cSpriteLayer::fRender(int CamX, int CamY)
-{                    
+{  
+
+   // Todo: with the variable CamX and CamY and functions fWidthToCol and fHeightToRow we can calculate which part is shown.. only draw that part
+   // Should bring a big performance boost.
+               
    for (int iRow = 0; iRow < iRowCount; iRow++)
    {
        for (int iCol = 0; iCol < iColCount; iCol++)
