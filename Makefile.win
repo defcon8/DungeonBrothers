@@ -1,18 +1,18 @@
 # Project: DungeonBrothers
 # Makefile created by Dev-C++ 5.4.1
 
-CPP      = g++.exe
-CC       = gcc.exe
+CPP      = g++.exe -D__DEBUG__
+CC       = gcc.exe -D__DEBUG__
 WINDRES  = windres.exe
 RES      = SDL_private.res
 OBJ      = main.o game.o sprite.o spritelayer.o pencil.o debug.o $(RES)
 LINKOBJ  = main.o game.o sprite.o spritelayer.o pencil.o debug.o $(RES)
-LIBS     = -L"C:/devcpp/MinGW32/lib" -static-libstdc++ -static-libgcc -mwindows -lmingw32 -lSDLmain -lSDL  -pg
+LIBS     = -L"C:/devcpp/MinGW32/lib" -static-libstdc++ -static-libgcc -mwindows -lmingw32 -lSDLmain -lSDL  -pg -g3
 INCS     = -I"C:/devcpp/MinGW32/include"
 CXXINCS  = -I"C:/devcpp/MinGW32/include"
 BIN      = DungeonBrothers.exe
-CXXFLAGS = $(CXXINCS) -w -pedantic -Wfatal-errors -pg
-CFLAGS   = $(INCS) -Dmain=SDL_main -w -pedantic -Wfatal-errors -pg
+CXXFLAGS = $(CXXINCS) -w -pedantic -Wfatal-errors -pg -g3
+CFLAGS   = $(INCS) -Dmain=SDL_main -w -pedantic -Wfatal-errors -pg -g3
 RM       = rm -f
 
 .PHONY: all all-before all-after clean clean-custom

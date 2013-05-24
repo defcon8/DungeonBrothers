@@ -381,15 +381,11 @@ void cGame::fNormalModeEvents()
                          break;
                     
                     case SDLK_F1:
-                         //Show sprite picker  
-                         blSpritePalet = !blSpritePalet;
+                    	 //Toggle Edit Mode
+                         blEditMode = !blEditMode;
+                         SDL_WM_SetCaption ("Edit mode", NULL);
                          break;
-                         
-                    case SDLK_F2:
-                         //Toggle Edit Mode
-                         blEditMode = !blEditMode;   
-                         break;    
-                         
+                              
                     case SDLK_LEFT:
                          iPlayerDirection=LEFT;
                          break;
@@ -447,14 +443,25 @@ void cGame::fEditModeEvents()
                          break;      
                     
                     case SDLK_F1:
-                         //Hide sprite picker 
-                         blSpritePalet = !blSpritePalet;
-                         blRenderLevel = !blRenderLevel; // Hide Level
+                         //Toggle Edit mode
+                         blEditMode = !blEditMode; // Exit edit mode
+                         blSpritePalet = false;    // Hide SpritePicker
+                         blRenderLevel = true;     // Show Level
+                         SDL_WM_SetCaption ("Normal mode", NULL);
                          break;                    
                     
                     case SDLK_F2:
-                         //Togle Edit Mode
-                         blEditMode = !blEditMode;
+                    	 //Toggle Sprite Picker
+                    	 if(blSpritePalet)
+                    	 {
+                    	 	blSpritePalet = false;  // Hide Sprite Picker
+                            blRenderLevel = true;   // Hide Level
+                            SDL_WM_SetCaption ("Edit mode - Level editor", NULL);
+                    	 }else{
+                    	 	blSpritePalet = true;  // Hide Sprite Picker
+                            blRenderLevel = false;   // Hide Level
+                            SDL_WM_SetCaption ("Edit mode - Level editor", NULL);
+                    	 }
                          break;
                          
                     case SDLK_F9:
