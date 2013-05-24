@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="DungeonBrothers" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="default">
+				<Option output="DungeonBrothers" prefix_auto="1" extension_auto="1" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Dmain=SDL_main" />
+		</Compiler>
+		<Linker>
+			<Add library="mingw32" />
+			<Add library="SDLmain" />
+			<Add library="SDL" />
+		</Linker>
+		<Unit filename="debug.c">
+			<Option compilerVar="CPP" />
+		</Unit>
+		<Unit filename="debug.h" />
+		<Unit filename="game.c">
+			<Option compilerVar="CPP" />
+		</Unit>
+		<Unit filename="game.h" />
+		<Unit filename="main.c">
+			<Option compilerVar="CPP" />
+		</Unit>
+		<Unit filename="pencil.c">
+			<Option compilerVar="CPP" />
+		</Unit>
+		<Unit filename="pencil.h" />
+		<Unit filename="sprite.c">
+			<Option compilerVar="CPP" />
+		</Unit>
+		<Unit filename="sprite.h" />
+		<Unit filename="spritelayer.c">
+			<Option compilerVar="CPP" />
+		</Unit>
+		<Unit filename="spritelayer.h" />
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+			<lib_finder disable_auto="1" />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

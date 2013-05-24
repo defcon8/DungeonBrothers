@@ -1,0 +1,51 @@
+# depslib dependency file v1.0
+1369426812 source:c:\users\bastiaan\documents\github\dungeonbrothers\debug.c
+	"debug.h"
+	<stdio.h>
+	<string>
+	<iostream>
+
+1369408017 c:\users\bastiaan\documents\github\dungeonbrothers\debug.h
+	<winsock2.h>
+
+1369411276 source:c:\users\bastiaan\documents\github\dungeonbrothers\game.c
+	<windows.h>
+	<iostream>
+	<math.h>
+	<fstream>
+	<cstring>
+	"game.h"
+
+1369413490 c:\users\bastiaan\documents\github\dungeonbrothers\game.h
+	<SDL/SDL.h>
+	"spritelayer.h"
+	"pencil.h"
+	"debug.h"
+	<time.h>
+
+1369430354 c:\users\bastiaan\documents\github\dungeonbrothers\spritelayer.h
+	"sprite.h"
+
+1369408018 c:\users\bastiaan\documents\github\dungeonbrothers\sprite.h
+	<SDL/SDL.h>
+
+1369408017 c:\users\bastiaan\documents\github\dungeonbrothers\pencil.h
+
+1369408017 source:c:\users\bastiaan\documents\github\dungeonbrothers\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"game.h"
+
+1369408017 source:c:\users\bastiaan\documents\github\dungeonbrothers\pencil.c
+	"pencil.h"
+
+1369408018 source:c:\users\bastiaan\documents\github\dungeonbrothers\sprite.c
+	"sprite.h"
+	<cstring>
+
+1369429783 source:c:\users\bastiaan\documents\github\dungeonbrothers\spritelayer.c
+	"spritelayer.h"
+	<cstring>
+	<fstream>
+

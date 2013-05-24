@@ -4,19 +4,19 @@
   Opensource C++ Platform Game by Bastiaan de Waard (defcon8)
   Makes use of the SDL Library. Compiled with DevC++ on Win32.
   2013
-  
+
   W.  https://github.com/defcon8/DungeonBrothers
   W.  http://www.bastiaandewaard.com
   E.  info@bastiaandewaard.com
 
 */
 #include "sprite.h"
-class cSpriteLayer {         
-  
+class cSpriteLayer {
+
   //Sprite Types
   #define EMPTY 0
   #define SPRITE  1
-  
+
   //Sprite Flags
   #define WALL 1
   #define ENEMYWALL 2
@@ -33,7 +33,7 @@ class cSpriteLayer {
   #define DESTROYABLE 4096
 
   private:
-  
+
         struct sLevelBlock {
                Uint8 bySource;
                Uint8 iRow;
@@ -44,27 +44,28 @@ class cSpriteLayer {
                Uint8 blCollide;
                Uint8 iFlags;
         };
-        
+
         //Local Members
         int iSpriteWidth, iSpriteHeight;
         int iRowCount, iColCount;
+        bool blOptmizeLayer;
 
         //Methods
         void fInitMap();
         SDL_Surface* Get_Sub_Surface(SDL_Surface* metaSurface, int x, int y, int width, int height);
 
   public:
-    cSpriteLayer(SDL_Surface *screen, int iRows, int iCols, int iSpriteHeightPX, int iSpriteWidthPX);
+    cSpriteLayer(SDL_Surface *screen, int iRows, int iCols, int iSpriteHeightPX, int iSpriteWidthPX, bool blOptimize);
     ~cSpriteLayer();
-    
+
     //Data Objects
     cSprite *p_Source;
-    SDL_Surface* fRender(int CamX, int CamY);
+    SDL_Surface* fRender(signed int CamX, signed int CamY);
     sLevelBlock **p_LevelData;
-    
+
     //Members
     int x,y;
-    
+
     //Methods
     Uint8 fReturnSpriteFlags(int iRow, int iCol);
     void fSetSpriteWidth(int iPixels);
@@ -76,9 +77,9 @@ class cSpriteLayer {
     int fGetWidth();
     int fGetHeight();
 
-    int fWidthToCol(int iWidth);
-    int fHeightToRow(int iHeight);
-    int fColToWidth(int iCol);
-    int fRowToHeight(int iRow);
-    
+    int fWidthToCol(signed int iWidth);
+    int fHeightToRow(signed int iHeight);
+    int fColToWidth(signed int iCol);
+    int fRowToHeight(signed int iRow);
+
 };

@@ -29,7 +29,7 @@ class cGame {
     bool blEditMode;
     bool blRenderLevel;
     bool blSpritePalet;
-    int CamX, CamY;
+    signed int CamX, CamY;
     int MouseX, MouseY;
     int iCamDirection;
     int iPlayerDirection;

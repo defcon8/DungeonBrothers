@@ -2,4 +2,4 @@
 /* DO NOT EDIT! */
 
 
-A ICON "DungeonBrothers.ico"
+A ICON MOVEABLE PURE LOADONCALL DISCARDABLE "DungeonBrothers.ico"

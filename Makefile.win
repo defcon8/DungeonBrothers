@@ -1,5 +1,5 @@
 # Project: DungeonBrothers
-# Makefile created by Dev-C++ 5.4.1
+# Makefile created by Dev-C++ 5.4.0
 
 CPP      = g++.exe -D__DEBUG__
 CC       = gcc.exe -D__DEBUG__
@@ -11,7 +11,7 @@ LIBS     = -L"C:/devcpp/MinGW32/lib" -static-libstdc++ -static-libgcc -mwindows 
 INCS     = -I"C:/devcpp/MinGW32/include"
 CXXINCS  = -I"C:/devcpp/MinGW32/include"
 BIN      = DungeonBrothers.exe
-CXXFLAGS = $(CXXINCS) -w -pedantic -Wfatal-errors -pg -g3
+CXXFLAGS = $(CXXINCS)  -w -pedantic -Wfatal-errors -pg -g3
 CFLAGS   = $(INCS) -Dmain=SDL_main -w -pedantic -Wfatal-errors -pg -g3
 RM       = rm -f
 

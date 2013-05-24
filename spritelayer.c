@@ -4,7 +4,7 @@
   Opensource C++ Platform Game by Bastiaan de Waard (defcon8)
   Makes use of the SDL Library. Compiled with DevC++ on Win32.
   2013
-  
+
   W.  https://github.com/defcon8/DungeonBrothers
   W.  http://www.bastiaandewaard.com
   E.  info@bastiaandewaard.com
@@ -18,30 +18,32 @@ using namespace std;
 
 SDL_Surface *spritelayerscreen;
 
-cSpriteLayer::cSpriteLayer(SDL_Surface *screen, int iRows, int iCols, int iSpriteHeightPX, int iSpriteWidthPX)
-{                         
+cSpriteLayer::cSpriteLayer(SDL_Surface *screen, int iRows, int iCols, int iSpriteHeightPX, int iSpriteWidthPX, bool blOptimize)
+{
    iSpriteHeight=iSpriteHeightPX;
    iSpriteWidth=iSpriteWidthPX;
-   
+
    //initialise
    x=0;
    y=0;
-   
+
    iRowCount=iRows;
    iColCount=iCols;
-                                       
+
+   blOptmizeLayer=blOptimize;
+
    //create data object
    p_LevelData = new sLevelBlock*[iRows];
    for(int i=0; i < iRows; i++)
       p_LevelData[i] = new sLevelBlock[iCols];
-   
+
    //screen
-   spritelayerscreen = screen;   
-      
+   spritelayerscreen = screen;
+
    //Setup (source) object that contains the Sprite Sheet.
-   p_Source = new cSprite(spritelayerscreen);                               
-       
-   fInitMap();                                                        
+   p_Source = new cSprite(spritelayerscreen);
+
+   fInitMap();
 }
 
 SDL_Surface* cSpriteLayer::Get_Sub_Surface(SDL_Surface* metaSurface, int x, int y, int width, int height)
@@ -99,7 +101,7 @@ int cSpriteLayer::fGetSpriteWidth()
 
 Uint8 cSpriteLayer::fReturnSpriteFlags(int iRow, int iCol)
 {
-      return p_LevelData[iRow][iCol].iFlags;     
+      return p_LevelData[iRow][iCol].iFlags;
 }
 
 void cSpriteLayer::fInitMap()
@@ -109,64 +111,95 @@ void cSpriteLayer::fInitMap()
        for (int iCol = 0; iCol < iColCount; iCol++)
        {
             p_LevelData[iRow][iCol].iIndex=1;
-            p_LevelData[iRow][iCol].iRow=1; 
+            p_LevelData[iRow][iCol].iRow=1;
             p_LevelData[iRow][iCol].iType=EMPTY;
             p_LevelData[iRow][iCol].iFlags=PLATFORM | DAMAGE;
-       }    
-   }        
+       }
+   }
 }
 
 int cSpriteLayer::fGetTotalRows() { return iRowCount; }
 
-int cSpriteLayer::fGetTotalCols() { return iColCount; } 
+int cSpriteLayer::fGetTotalCols() { return iColCount; }
 
 cSpriteLayer::~cSpriteLayer()
 {
    SDL_FreeSurface(spritelayerscreen);
 }
 
-SDL_Surface* cSpriteLayer::fRender(int CamX, int CamY)
-{  
+SDL_Surface* cSpriteLayer::fRender(signed int CamX, signed int CamY)
+{
 
-   // Todo: with the variable CamX and CamY and functions fWidthToCol and fHeightToRow we can calculate which part is shown.. only draw that part
-   // Should bring a big performance boost.
-               
-   for (int iRow = 0; iRow < iRowCount; iRow++)
+
+   // Don't draw things that are outside the view.
+   int iStartCol=0;
+   int iStartRow=0;
+   int iEndCol=iColCount;
+   int iEndRow=iRowCount;
+
+
+   if(blOptmizeLayer)
    {
-       for (int iCol = 0; iCol < iColCount; iCol++)
+       signed int iCamCol=fWidthToCol(-CamX);
+       signed int iCamRow=fHeightToRow(-CamY);
+
+      if((iCamRow >= 0))
+      {
+                // The cam has moven to the right
+                iStartRow = iCamRow;
+      }else{
+                //The cam has moven to the left, iCamRow is negative now and subtracted from the total number of rows.
+                iEndRow = iRowCount+iCamRow;
+
+      }
+
+      if((iCamCol >= 0))
+      {
+                // The cam has moven to the right
+                iStartCol = iCamCol;
+      }else{
+                //The cam has moven to the left, iCamRow is negative now and subtracted from the total number of rows.
+                iEndCol = iColCount+iCamCol;
+      }
+   }
+
+   // Loop
+   for (int iRow = iStartRow; iRow < iEndRow; iRow++)
+   {
+       for (int iCol = iStartCol; iCol < iEndCol; iCol++)
        {
            if(p_LevelData[iRow][iCol].iType!=EMPTY)
                p_Source->fRender(p_LevelData[iRow][iCol].iIndex, p_LevelData[iRow][iCol].iRow, (fColToWidth(iCol)+CamX)+x, (fRowToHeight(iRow)+CamY)+y);
-       }    
-   }  
+       }
+   }
 }
 
-int cSpriteLayer::fColToWidth(int iCol)
+signed int cSpriteLayer::fColToWidth(signed int iCol)
 {
     return (iCol*iSpriteWidth);
 }
 
-int cSpriteLayer::fRowToHeight(int iRow)
+signed int cSpriteLayer::fRowToHeight(signed int iRow)
 {
     return (iRow*iSpriteHeight);
 }
 
-int cSpriteLayer::fWidthToCol(int iWidth)
+signed int cSpriteLayer::fWidthToCol(signed int iWidth)
 {
-    return (iWidth/iSpriteWidth);
+	return (iWidth/iSpriteWidth);
 }
 
-int cSpriteLayer::fHeightToRow(int iHeight)
+signed int cSpriteLayer::fHeightToRow(signed int iHeight)
 {
     return (iHeight/iSpriteHeight);
 }
 
-int cSpriteLayer::fGetWidth()
+signed int cSpriteLayer::fGetWidth()
 {
     return iColCount * iSpriteWidth;
 }
 
-int cSpriteLayer::fGetHeight()
+signed int cSpriteLayer::fGetHeight()
 {
     return iRowCount * iSpriteHeight;
 }
