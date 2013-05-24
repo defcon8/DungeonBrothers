@@ -4,7 +4,7 @@
   Opensource C++ Platform Game by Bastiaan de Waard (defcon8)
   Makes use of the SDL Library. Compiled with DevC++ on Win32.
   2013
-  
+
   W.  https://github.com/defcon8/DungeonBrothers
   W.  http://www.bastiaandewaard.com
   E.  info@bastiaandewaard.com
@@ -16,14 +16,14 @@
 #include "debug.h"
 #include <time.h>
 
-class cGame {             
-  // Camera Movement    
+class cGame {
+  // Camera Movement
   #define UP 1
   #define RIGHT 2
   #define DOWN 3
   #define LEFT 4
-  #define NONE 0  
-  
+  #define NONE 0
+
   private:
     bool blDone;
     bool blEditMode;
@@ -36,7 +36,7 @@ class cGame {
     int iPlayerSpeed;
     int iScreenWidth, iScreenHeight;
     double dbMouseCornerWidthPerc;
-    int iMouseScrollSpeed; 
+    int iMouseScrollSpeed;
 
     clock_t cStart, cTime;
 
@@ -45,7 +45,7 @@ class cGame {
     cSpriteLayer* oPlayerLayer;
     cSpriteLayer* oSpritePicker;
     cSprite* oBackgroundLayer;
-  
+
     void fInitialize();
     void fInitVariables(int iScrWidth, int iScrHeight);
     void fLoadObjects();
@@ -61,21 +61,22 @@ class cGame {
     void fRenderEditMode();
     void fDrawRectangle(int x, int y, int w, int h, Uint32 color);
     void fObjectMovement();
-    
+    void fCameraMovement();
+
     bool fCheckLevelCollision();
-    
+
     int fGetTileCol(int iX, int iTileWidth);
     int fGetTileRow(int iY, int iTileHeight);
-     
+
     /* The screen surface */
     SDL_Surface *screen;
     cSpriteLayer *p_SpriteLayers;
-    
+
     cDebug *oDebug;
-  
+
   public:
     void Start();
     cGame(int iScrWidth, int iScrHeight);
     ~cGame();
-    
+
 };

@@ -1,80 +1,34 @@
-[Editor_2]
-CursorCol=12
-CursorRow=32
-TopLine=29
-LeftChar=1
-Open=1
-Top=0
-[Editor_1]
-CursorCol=6
-CursorRow=695
-TopLine=679
-LeftChar=1
-Open=1
-Top=0
-[Editor_0]
-CursorCol=1
-CursorRow=24
-TopLine=1
-LeftChar=1
-Open=1
-Top=0
-[Editor_5]
-CursorCol=1
-CursorRow=147
-TopLine=124
-LeftChar=1
-Open=1
-Top=0
-[Editor_4]
-CursorCol=1
-CursorRow=125
-TopLine=76
-LeftChar=1
-Open=1
-Top=0
-[Editors]
-Order=0,2,7,6,4,3,1,8,9,10,5
-Focused=9
-[Editor_3]
-Open=1
-Top=0
-CursorCol=24
-CursorRow=41
-TopLine=1
-LeftChar=1
-[Editor_6]
-Open=1
-Top=0
-CursorCol=17
-CursorRow=80
-TopLine=35
-LeftChar=1
-[Editor_7]
-Open=1
-Top=0
-CursorCol=5
-CursorRow=22
-TopLine=1
-LeftChar=1
-[Editor_8]
-Open=1
-Top=0
-CursorCol=1
-CursorRow=14
-TopLine=1
-LeftChar=1
-[Editor_9]
-Open=1
-Top=1
-CursorCol=1
-CursorRow=66
-TopLine=19
-LeftChar=1
-[Editor_10]
-Open=1
-Top=0
-CursorCol=7
-CursorRow=14
-TopLine=1
-LeftChar=1
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_layout_file>
+	<ActiveTarget name="default" />
+	<File name="debug.c" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="154" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="debug.h" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="0" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="spritelayer.c" open="1" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="3634" topLine="133" />
+		</Cursor>
+	</File>
+	<File name="game.c" open="1" top="1" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="4169" topLine="122" />
+		</Cursor>
+	</File>
+	<File name="game.h" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1951" topLine="45" />
+		</Cursor>
+	</File>
+	<File name="spritelayer.h" open="1" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1142" topLine="46" />
+		</Cursor>
+	</File>
+</CodeBlocks_layout_file>

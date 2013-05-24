@@ -16,7 +16,7 @@
 	<cstring>
 	"game.h"
 
-1369413490 c:\users\bastiaan\documents\github\dungeonbrothers\game.h
+1369431249 c:\users\bastiaan\documents\github\dungeonbrothers\game.h
 	<SDL/SDL.h>
 	"spritelayer.h"
 	"pencil.h"
@@ -44,7 +44,7 @@
 	"sprite.h"
 	<cstring>
 
-1369429783 source:c:\users\bastiaan\documents\github\dungeonbrothers\spritelayer.c
+1369430430 source:c:\users\bastiaan\documents\github\dungeonbrothers\spritelayer.c
 	"spritelayer.h"
 	<cstring>
 	<fstream>

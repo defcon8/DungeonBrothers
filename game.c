@@ -125,6 +125,10 @@ void cGame::fSaveDemo()
       oSave.close();
 }
 
+void cGame::fCameraMovement()
+{
+
+}
 
 void cGame::Start()
 {
@@ -137,6 +141,7 @@ void cGame::Start()
          //cStart = clock(); // start time measurement
          fEvents();
          fObjectMovement();
+         fCameraMovement();
          fGameLoop();
          fRender();
 
