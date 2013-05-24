@@ -3,7 +3,7 @@ FileName=DungeonBrothers.dev
 Name=DungeonBrothers
 UnitCount=11
 Type=0
-Ver=1
+Ver=2
 ObjFiles=
 Includes=
 Libs=
@@ -27,7 +27,9 @@ CustomMakefile=
 IncludeVersionInfo=0
 SupportXPThemes=0
 CompilerSet=0
-CompilerSettings=0000000001001001000000
+CompilerSettings=0000000001001001100000
+LogOutput=
+LogOutputEnabled=0
 
 [Unit1]
 FileName=main.c
@@ -56,6 +58,7 @@ OriginalFilename=
 ProductName=
 ProductVersion=
 AutoIncBuildNr=0
+SyncProduct=0
 
 [Unit2]
 FileName=game.c
