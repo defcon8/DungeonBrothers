@@ -166,7 +166,7 @@ void cGame::Start()
 
 void cGame::fLoadObjects()
 {
-      //Background Layer
+        //Background Layer
         oBackgroundLayer = new cSprite(screen);
         oBackgroundLayer->fLoad("back.bmp");
         oBackgroundLayer->fSetSpriteWidth(640);
@@ -174,7 +174,6 @@ void cGame::fLoadObjects()
         oBackgroundLayer->fScroll(0);
 
         //Level Layer
-
         char chTileSource[16];
         Uint16 iLevelRows;
         Uint16 iLevelCols;
@@ -258,7 +257,6 @@ void cGame::fLoadObjects()
         oPlayerLayer->p_LevelData[0][0].iIndex=0;
 
         //End Player Layer
-
         oLoad.close();
 
         //Start sprite picker layer (for edit mode only)
@@ -284,7 +282,6 @@ void cGame::fLoadObjects()
 void cGame::fGameLoop()
 {
        // Player Collision detection
-
        //Level Boundaries
        if(oPlayerLayer->x < 0 || oPlayerLayer->x > oLevelLayer->fGetWidth() || oPlayerLayer->y < 0 || oPlayerLayer->y > oLevelLayer->fGetHeight())
        {
@@ -297,14 +294,10 @@ void cGame::fGameLoop()
        {
          oPlayerLayer->y++;
        }
-
-
-
 }
 
 bool cGame::fCheckLevelCollision()
 {
-
        //Level tile collision + Gravity
        int iColStart, iColEnd, iRowStart, iRowEnd;
 
@@ -470,9 +463,16 @@ void cGame::fEditModeEvents()
                     	 }
                          break;
 
-                    case SDLK_F9:
+                    case SDLK_F3:
                           //Save Layer to File
                           fSaveLayer(oLevelLayer);
+                          SDL_WM_SetCaption ("Layer Saved.", NULL);
+                          break;
+
+                    case SDLK_F4:
+                          //Save Demo
+                          fSaveDemo();
+                          SDL_WM_SetCaption ("Demolevel Saved.", NULL);
                           break;
 
                     case SDLK_LEFT:
@@ -526,7 +526,6 @@ void cGame::fEditModeEvents()
                  CamY+=iMouseScrollSpeed;
 }
 
-
 void cGame::fObjectMovement()
 {
         //Do Camera movement
@@ -562,8 +561,6 @@ void cGame::fObjectMovement()
                  oPlayerLayer->x-= iPlayerSpeed;
                  break;
         }
-
-
 }
 
 cGame::cGame(int iScrWidth, int iScrHeight)

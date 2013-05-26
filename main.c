@@ -4,7 +4,7 @@
   Opensource C++ Platform Game by Bastiaan de Waard (defcon8)
   Makes use of the SDL Library. Compiled with DevC++ on Win32.
   2013
-  
+
   W.  https://github.com/defcon8/DungeonBrothers
   W.  http://www.bastiaandewaard.com
   E.  info@bastiaandewaard.com
@@ -19,11 +19,11 @@
 
 int main (int argc, char *argv[])
 {
-    cGame* oGame = new cGame(800,600);
-    
+    cGame* oGame = new cGame(1024,768);
+
     oGame->Start();
-    
+
     delete oGame;
-    
+
     return 0;
 }
