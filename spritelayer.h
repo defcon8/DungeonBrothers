@@ -47,6 +47,7 @@ class cSpriteLayer {
 
         //Local Members
         int iSpriteWidth, iSpriteHeight;
+        int iScreenWidth, iScreenHeight;
         int iRowCount, iColCount;
         bool blOptmizeLayer;
 
@@ -55,7 +56,7 @@ class cSpriteLayer {
         SDL_Surface* Get_Sub_Surface(SDL_Surface* metaSurface, int x, int y, int width, int height);
 
   public:
-    cSpriteLayer(SDL_Surface *screen, int iRows, int iCols, int iSpriteHeightPX, int iSpriteWidthPX, bool blOptimize);
+    cSpriteLayer(SDL_Surface *screen, int iRows, int iCols, int iSpriteHeightPX, int iSpriteWidthPX, bool blOptimize, int iScreenWidthRef, int iScreenHeightRef);
     ~cSpriteLayer();
 
     //Data Objects

@@ -18,10 +18,13 @@ using namespace std;
 
 SDL_Surface *spritelayerscreen;
 
-cSpriteLayer::cSpriteLayer(SDL_Surface *screen, int iRows, int iCols, int iSpriteHeightPX, int iSpriteWidthPX, bool blOptimize)
+cSpriteLayer::cSpriteLayer(SDL_Surface *screen, int iRows, int iCols, int iSpriteHeightPX, int iSpriteWidthPX, bool blOptimize, int iScreenWidthRef, int iScreenHeightRef)
 {
    iSpriteHeight=iSpriteHeightPX;
    iSpriteWidth=iSpriteWidthPX;
+
+   iScreenWidth = iScreenWidthRef;
+   iScreenHeight = iScreenHeightRef;
 
    //initialise
    x=0;
@@ -140,27 +143,16 @@ SDL_Surface* cSpriteLayer::fRender(signed int CamX, signed int CamY)
 
    if(blOptmizeLayer)
    {
-       signed int iCamCol=fWidthToCol(-CamX);
-       signed int iCamRow=fHeightToRow(-CamY);
+        iStartCol = fWidthToCol(-CamX);
+        iEndCol = fWidthToCol((-CamX)+iScreenWidth);
+        iStartRow = fHeightToRow(-CamY);
+        iEndRow = fHeightToRow((-CamY)+iScreenHeight);
 
-      if((iCamRow >= 0))
-      {
-                // The cam has moven to the right
-                iStartRow = iCamRow;
-      }else{
-                //The cam has moven to the left, iCamRow is negative now and subtracted from the total number of rows.
-                iEndRow = iRowCount+iCamRow;
-
-      }
-
-      if((iCamCol >= 0))
-      {
-                // The cam has moven to the right
-                iStartCol = iCamCol;
-      }else{
-                //The cam has moven to the left, iCamRow is negative now and subtracted from the total number of rows.
-                iEndCol = iColCount+iCamCol;
-      }
+        // Protect drawing level outside its boundaries
+        if(iStartCol<0){ iStartCol=0; }
+        if(iStartRow<0){ iStartRow=0; }
+        if(iEndCol>iColCount){ iEndCol=iColCount; }
+        if(iEndRow>iRowCount){ iEndRow=iRowCount; }
    }
 
    // Loop

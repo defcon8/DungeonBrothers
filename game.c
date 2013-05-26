@@ -203,7 +203,7 @@ void cGame::fLoadObjects()
         oLoad.read(reinterpret_cast<char*>(&iDataBlocks),sizeof(Uint16));
 
         //Setup Layer
-        oLevelLayer = new cSpriteLayer(screen,iLevelRows,iLevelCols,iSpriteHeight,iSpriteWidth,true);
+        oLevelLayer = new cSpriteLayer(screen,iLevelRows,iLevelCols,iSpriteHeight,iSpriteWidth,true,iScreenWidth,iScreenHeight);
 
         //Setup Source
         oLevelLayer->p_Source->fSetSpriteSpacer(iSpriteSpacer);
@@ -242,7 +242,7 @@ void cGame::fLoadObjects()
         // 15 (rows) x 20 (cols) of 32px sprites (640x480)
 
         //Setup Layer
-        oPlayerLayer = new cSpriteLayer(screen,iLevelRows,iLevelCols,iSpriteHeight,iSpriteWidth,false);
+        oPlayerLayer = new cSpriteLayer(screen,iLevelRows,iLevelCols,iSpriteHeight,iSpriteWidth,false,iScreenWidth,iScreenHeight);
 
         //Setup Source
         oPlayerLayer->p_Source->fSetSpriteSpacer(2);
@@ -262,7 +262,7 @@ void cGame::fLoadObjects()
         oLoad.close();
 
         //Start sprite picker layer (for edit mode only)
-        oSpritePicker = new cSpriteLayer(screen,iSourceRows,iSourceCols,iSpriteHeight,iSpriteWidth,false);
+        oSpritePicker = new cSpriteLayer(screen,iSourceRows,iSourceCols,iSpriteHeight,iSpriteWidth,false,iScreenWidth,iScreenHeight);
         oSpritePicker->p_Source->fSetSpriteSpacer(2);
         oSpritePicker->p_Source->fLoad(chTileSource);
         oSpritePicker->p_Source->fSetSpriteWidthOffset(0);
@@ -304,6 +304,7 @@ void cGame::fGameLoop()
 
 bool cGame::fCheckLevelCollision()
 {
+
        //Level tile collision + Gravity
        int iColStart, iColEnd, iRowStart, iRowEnd;
 

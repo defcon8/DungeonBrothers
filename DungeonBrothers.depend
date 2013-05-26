@@ -8,7 +8,7 @@
 1369408017 c:\users\bastiaan\documents\github\dungeonbrothers\debug.h
 	<winsock2.h>
 
-1369411276 source:c:\users\bastiaan\documents\github\dungeonbrothers\game.c
+1369578102 source:c:\users\bastiaan\documents\github\dungeonbrothers\game.c
 	<windows.h>
 	<iostream>
 	<math.h>
@@ -16,14 +16,14 @@
 	<cstring>
 	"game.h"
 
-1369431249 c:\users\bastiaan\documents\github\dungeonbrothers\game.h
+1369431276 c:\users\bastiaan\documents\github\dungeonbrothers\game.h
 	<SDL/SDL.h>
 	"spritelayer.h"
 	"pencil.h"
 	"debug.h"
 	<time.h>
 
-1369430354 c:\users\bastiaan\documents\github\dungeonbrothers\spritelayer.h
+1369577984 c:\users\bastiaan\documents\github\dungeonbrothers\spritelayer.h
 	"sprite.h"
 
 1369408018 c:\users\bastiaan\documents\github\dungeonbrothers\sprite.h
@@ -44,7 +44,7 @@
 	"sprite.h"
 	<cstring>
 
-1369430430 source:c:\users\bastiaan\documents\github\dungeonbrothers\spritelayer.c
+1369580110 source:c:\users\bastiaan\documents\github\dungeonbrothers\spritelayer.c
 	"spritelayer.h"
 	<cstring>
 	<fstream>
