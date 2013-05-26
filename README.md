@@ -2,7 +2,7 @@ DungeonBrothers
 ===============
 
 A cool opensource game inspired on a classic amiga platform game called Yo Joe by Hudsonsoft. This engine is
-written in native C++ using the SDL Library. Developed on Win32 (DevC++) platform but should be easy to port to other platforms.
+written in native C++ using the SDL Library. Developed on Win32 in Codeblocks/MingW but should be easy to port to other platforms.
 
 Goals (momentary):
 
@@ -19,7 +19,7 @@ Team members:
 
 	Name			Real name			Function
 	=====================================================================================
-	Defcon8 		Bastiaan de Waard	Lead programmer / Music / Audio FX
+	Defcon8 		Bastiaan de Waard	Programmer / Music / Audio FX
 
 We are looking forward to meet new team members:
 
