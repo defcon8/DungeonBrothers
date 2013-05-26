@@ -38,7 +38,7 @@ void cGame::fSaveLayer(cSpriteLayer *p_SpriteLayer)
      Uint8 iSpriteSpacer=2;
      Uint8 iSpriteWidthOffset=0;
      Uint8 iSpriteHeightOffset=0;
-     Uint16 iDataBlocks=40;
+     Uint16 iDataBlocks=(iLevelRows*iLevelCols); // Count the nr of blocks
 
      oSave.write((char*)&chTileSource,sizeof(chTileSource));
      oSave.write((char*)&iLevelRows,sizeof(Uint16));
@@ -53,24 +53,22 @@ void cGame::fSaveLayer(cSpriteLayer *p_SpriteLayer)
      oSave.write((char*)&iDataBlocks,sizeof(Uint16));
 
      // DataBlocks
-     for (int iSprite = 0; iSprite < iDataBlocks; iSprite++)
+     for (int iRow = 0; iRow <= (iLevelRows-1)  ; iRow++ )
      {
-           // Test Fill
-           Uint8 iRow=14;
-           Uint8 iCol=iSprite;
-           Uint8 iType=1;
-           Uint8 iSheetRow=1;
-           Uint8 iSheetIndex=6;
-           // End Test Fill
+        for (int iCol = 0; iCol <= (iLevelCols-1) ; iCol++ )
+        {
+           Uint8 iType=p_SpriteLayer->p_LevelData[iRow][iCol].iType;
+           Uint8 iSheetRow=p_SpriteLayer->p_LevelData[iRow][iCol].iRow;
+           Uint8 iSheetIndex=p_SpriteLayer->p_LevelData[iRow][iCol].iIndex;
 
            oSave.write((char*)&iRow,sizeof(Uint8));
            oSave.write((char*)&iCol,sizeof(Uint8));
            oSave.write((char*)&iType,sizeof(Uint8));
            oSave.write((char*)&iSheetRow,sizeof(Uint8));
            oSave.write((char*)&iSheetIndex,sizeof(Uint8));
-      }
-
-      oSave.close();
+        }
+     }
+     oSave.close();
 }
 
 void cGame::fSaveDemo()
@@ -215,6 +213,7 @@ void cGame::fLoadObjects()
          // DataBlocks
          for (int iSprite = 0; iSprite < iDataBlocks; iSprite++)
          {
+
             Uint8 iRow;
             Uint8 iCol;
             Uint8 iType;
