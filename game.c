@@ -185,7 +185,7 @@ void cGame::fLoadObjects()
         Uint16 iDataBlocks;
 
         std::ifstream oLoad;
-        oLoad.open("spritelayer.dat");
+        oLoad.open("spritelayer.dat", ios_base::in | ios_base::binary);
 
         oLoad.read(reinterpret_cast<char*>(&chTileSource),sizeof(chTileSource));
         oLoad.read(reinterpret_cast<char*>(&iLevelRows),sizeof(Uint16));
