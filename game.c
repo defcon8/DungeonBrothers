@@ -136,29 +136,15 @@ void cGame::Start()
      while(!blDone)
      {
 
-         //cStart = clock(); // start time measurement
          fEvents();
          fObjectMovement();
          fCameraMovement();
          fGameLoop();
          fRender();
 
-         //cTime = clock() - cStart; // end time measurement //
+         //Todo: Cap to FPS
 
-         //Lock to FPS // cTime is in MicroSeconds
-      //   if(cTime < 20)
-        // {
-                  // Todo: SDL_Delay is miliseconds and not microseconds. error in wait time formula,
-                  //SDL_Delay(20-(cTime*1000));
-         //}
-
-         // // FPS Statistics - for debug only, time consuming..
-         // double interval = cTime;
-         // char buffer[10];
-         // sprintf(buffer,"%20.4f",interval);
-         // SDL_WM_SetCaption(buffer,NULL);
      }
-
      fCleanUp();
 }
 
@@ -289,10 +275,44 @@ void cGame::fGameLoop()
                oPlayerLayer->p_LevelData[0][0].iIndex=3;
        }
 
-       if(!fCheckLevelCollision())
-       {
-         oPlayerLayer->y++;
-       }
+//       if(!fCheckLevelCollision())
+//       {
+//         oPlayerLayer->y=oPlayerLayer->y++;
+//       }
+}
+
+bool cGame::fCheckDirectionCollision(cSpriteLayer* oObject, int iDirection)
+{
+       bool blCollide = false;
+       int iNextCol;
+
+       int iColStart, iColEnd, iRowStart, iRowEnd;
+       iColStart=oLevelLayer->fWidthToCol(oObject->x+1);
+       iColEnd=oLevelLayer->fWidthToCol((oObject->x + oObject->fGetSpriteWidth()-1));
+       iRowStart=oLevelLayer->fHeightToRow(oObject->y+1);
+       iRowEnd=oLevelLayer->fHeightToRow((oObject->y + oObject->fGetSpriteHeight()-1));
+
+        switch(iDirection)
+        {
+            case UP:
+                break;
+            case RIGHT:
+               iNextCol=oLevelLayer->fWidthToCol((oObject->x + oObject->fGetSpriteWidth()+1));
+               for (int iRow = iRowStart ; iRow <= iRowEnd ; iRow++ )
+               {
+                   if(oLevelLayer->p_LevelData[iRow][iNextCol].iType == SPRITE)
+                   {
+                        blCollide = true;
+                   }
+               }
+               break;
+            case DOWN:
+                break;
+            case LEFT:
+                break;
+        }
+
+        return blCollide;
 }
 
 bool cGame::fCheckLevelCollision()
@@ -336,9 +356,10 @@ void cGame::fInitialize()
         free(chMessage);
         exit(1);
     }
-    atexit (SDL_Quit);
 
-    screen = SDL_SetVideoMode (iScreenWidth, iScreenHeight, 16, SDL_HWSURFACE);
+    atexit (SDL_Quit);
+    screen = SDL_SetVideoMode (iScreenWidth, iScreenHeight, 16, SDL_HWSURFACE | SDL_DOUBLEBUF);
+
     if (screen == NULL)
     {
         sprintf (chMessage, "Couldn't set video mode: %s\n",
@@ -544,19 +565,20 @@ void cGame::fObjectMovement()
                  break;
         }
 
-        //Do Camera movement
+        //Do player movement
         switch(iPlayerDirection)
         {
-            case 1:
+            case UP:
                  oPlayerLayer->y-= iPlayerSpeed;
                  break;
-            case 2:
-                 oPlayerLayer->x+= iPlayerSpeed;
+            case RIGHT:
+                 if(!fCheckDirectionCollision(oPlayerLayer,RIGHT))
+                    oPlayerLayer->x+= iPlayerSpeed;
                  break;
-            case 3:
+            case DOWN:
                  oPlayerLayer->y+= iPlayerSpeed;
                  break;
-            case 4:
+            case LEFT:
                  oPlayerLayer->x-= iPlayerSpeed;
                  break;
         }
@@ -564,14 +586,8 @@ void cGame::fObjectMovement()
 
 cGame::cGame(int iScrWidth, int iScrHeight)
 {
-      //constructor
-      //fSaveDemo();
       oDebug = new cDebug;
       fInitVariables(iScrWidth, iScrHeight);
-
-      //char chTest[] = "Dit is een test\n\r";
-      //oDebug->fSend(chTest);
-
 }
 
 void cGame::fInitVariables(int iScrWidth, int iScrHeight)
@@ -590,7 +606,6 @@ void cGame::fInitVariables(int iScrWidth, int iScrHeight)
       MouseY=0;
       dbMouseCornerWidthPerc=0.95;
       iMouseScrollSpeed=1;
-
       oPencil = new cPencil;
 }
 
@@ -689,9 +704,7 @@ void cGame::fRender()
     color = SDL_MapRGB (screen->format, 0, 0, 0);
     SDL_FillRect (screen, NULL, color);
 
-    //if(blSpritePalet){
-    //   oBackgroundLayer->fRender(0,0,CamX,CamY);
-    //}
+    //oBackgroundLayer->fRender(0,0,CamX,CamY);
 
     if(blRenderLevel)
     {

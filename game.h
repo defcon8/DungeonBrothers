@@ -63,6 +63,7 @@ class cGame {
     void fObjectMovement();
     void fCameraMovement();
 
+    bool fCheckDirectionCollision(cSpriteLayer* oObject, int iDirection);
     bool fCheckLevelCollision();
 
     int fGetTileCol(int iX, int iTileWidth);
