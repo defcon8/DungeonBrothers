@@ -18,37 +18,35 @@ using namespace std;
 
 SDL_Surface *spritelayerscreen;
 
-cSpriteLayer::cSpriteLayer(int iRows, int iCols, int iSpriteHeightPX, int iSpriteWidthPX, bool blOptimize, int iScreenWidthRef, int iScreenHeightRef)
+cSpriteLayer::cSpriteLayer(SDL_Surface *screen, int iRows, int iCols, int iSpriteHeightPX, int iSpriteWidthPX, bool blOptimize, int iScreenWidthRef, int iScreenHeightRef, bool blIsBuffered)
 {
     /**< Initialize variables and setup data object holding the level data */
-    blBuffer=true;
-    fInitLayer(iRows, iCols, iSpriteHeightPX, iSpriteWidthPX, blOptimize, iScreenWidthRef, iScreenHeightRef);
+    fInitLayer(iRows, iCols, iSpriteHeightPX, iSpriteWidthPX, blOptimize, iScreenWidthRef, iScreenHeightRef, blIsBuffered);
 
-    /**< Setup the buffer surface */
-    sfBuffer = SDL_CreateRGBSurface(0,iScreenWidth,iScreenHeight,16,0,0,0,0);
+    /**< Setup the spritelayer surface, if the layer is buffered then te mainscreen is only used to draw on during edit mode */
+    spritelayerscreen = screen;
 
     /**< Setup (source) object that contains the Sprite Sheet. */
-    p_Source = new cSprite(sfBuffer);
+    if(blBuffer)
+    {
+        sfBuffer = SDL_CreateRGBSurface(SDL_HWSURFACE,iScreenWidth,iScreenHeight,
+                    screen->format->BitsPerPixel,
+                    screen->format->Rmask,
+                    screen->format->Gmask,
+                    screen->format->Bmask,
+                    screen->format->Amask);
+
+        p_Source = new cSprite(sfBuffer);
+    }else{
+        spritelayerscreen = screen;
+        p_Source = new cSprite(spritelayerscreen);
+    }
 
     /**< Fill map data with init data */
     fInitMap();
 }
 
-cSpriteLayer::cSpriteLayer(SDL_Surface *screen, int iRows, int iCols, int iSpriteHeightPX, int iSpriteWidthPX, bool blOptimize, int iScreenWidthRef, int iScreenHeightRef)
-{
-   /**< Initialize variables and setup data object holding the level data */
-   blBuffer=false;
-   fInitLayer(iRows, iCols, iSpriteHeightPX, iSpriteWidthPX, blOptimize, iScreenWidthRef, iScreenHeightRef);
-
-   /**< Setup (source) object that contains the Sprite Sheet. */
-   spritelayerscreen = screen;
-   p_Source = new cSprite(spritelayerscreen);
-
-   /**< Fill map data with init data */
-   fInitMap();
-}
-
-void cSpriteLayer::fInitLayer(int iRows, int iCols, int iSpriteHeightPX, int iSpriteWidthPX, bool blOptimize, int iScreenWidthRef, int iScreenHeightRef)
+void cSpriteLayer::fInitLayer(int iRows, int iCols, int iSpriteHeightPX, int iSpriteWidthPX, bool blOptimize, int iScreenWidthRef, int iScreenHeightRef, bool blIsBuffered)
 {
    iSpriteHeight=iSpriteHeightPX;
    iSpriteWidth=iSpriteWidthPX;
@@ -59,44 +57,12 @@ void cSpriteLayer::fInitLayer(int iRows, int iCols, int iSpriteHeightPX, int iSp
    iRowCount=iRows;
    iColCount=iCols;
    blOptmizeLayer=blOptimize;
+   blBuffer=blIsBuffered;
 
    //create data object
    p_LevelData = new sLevelBlock*[iRows];
    for(int i=0; i < iRows; i++)
       p_LevelData[i] = new sLevelBlock[iCols];
-}
-
-SDL_Surface* cSpriteLayer::Get_Sub_Surface(SDL_Surface* metaSurface, int x, int y, int width, int height)
-{
-    // Create an SDL_Rect with the area of the surface you want to create.
-    SDL_Rect area;
-    area.x = x;
-    area.y = y;
-    area.w = width;
-    area.h = height;
-
-    // Set the RGBA mask values.
-    Uint32 r, g, b, a;
-   if (SDL_BYTEORDER == SDL_BIG_ENDIAN)
-   {
-        r = 0xff000000;
-        g = 0x00ff0000;
-        b = 0x0000ff00;
-        a = 0x000000ff;
-    }else{
-        r = 0x000000ff;
-        g = 0x0000ff00;
-        b = 0x00ff0000;
-        a = 0xff000000;
-    }
-
-    SDL_Surface* subSurface = SDL_DisplayFormat(SDL_CreateRGBSurface(SDL_SWSURFACE, width, height, 32, r, g, b, a));
-
-    // Lastly, apply the area from the meta surface onto the whole of the sub surface.
-    SDL_BlitSurface(metaSurface, &area, subSurface, 0);
-
-    // Return the newly created surface.
-    return subSurface;
 }
 
 void cSpriteLayer::fSetSpriteHeight(int iPixels)

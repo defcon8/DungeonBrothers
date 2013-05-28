@@ -10,8 +10,24 @@
   E.  info@bastiaandewaard.com
 
 */
+/** Spritelayer: draws a set of sprite's on a SDL Surface.
+ *
+ * Optmalisation:   When this is True things outside the viewport doesnt get drawed onto the screen surface,
+ *                  this gives a performance boost.
+ * Buffered:
+ *                  false:
+ *                  Draw the layer directly onto the main screen on each fRender() call. fRender() should be
+ *                  called each frame update.
+ *
+ *                  true:
+ *                  Render the layer on to the buffer surface when 'once' fRender is called. Then you
+ *                  can retreive the prerendered layer by using fGetBufferSurface().
+ *
+ */
+
 #include "sprite.h"
 class cSpriteLayer {
+
 
   //Sprite Types
   #define EMPTY 0
@@ -50,23 +66,19 @@ class cSpriteLayer {
         int iRowCount, iColCount;
         bool blOptmizeLayer;
         bool blBuffer;
-        SDL_Surface* sfBuffer;
 
         //Methods
         void fInitMap();
-        void fInitLayer(int iRows, int iCols, int iSpriteHeightPX, int iSpriteWidthPX, bool blOptimize, int iScreenWidthRef, int iScreenHeightRef);
-        SDL_Surface* Get_Sub_Surface(SDL_Surface* metaSurface, int x, int y, int width, int height);
-        SDL_Surface* fGetBufferSurface();
+        void fInitLayer(int iRows, int iCols, int iSpriteHeightPX, int iSpriteWidthPX, bool blOptimize, int iScreenWidthRef, int iScreenHeightRef, bool blIsBuffered);
 
   public:
-    cSpriteLayer(SDL_Surface *screen, int iRows, int iCols, int iSpriteHeightPX, int iSpriteWidthPX, bool blOptimize, int iScreenWidthRef, int iScreenHeightRef); /**< Constructor to render directly to main screen */
-    cSpriteLayer(int iRows, int iCols, int iSpriteHeightPX, int iSpriteWidthPX, bool blOptimize, int iScreenWidthRef, int iScreenHeightRef); /**< Constructor to render to buffer surface */
-
+    cSpriteLayer(SDL_Surface *screen, int iRows, int iCols, int iSpriteHeightPX, int iSpriteWidthPX, bool blOptimize, int iScreenWidthRef, int iScreenHeightRef, bool blIsBuffered); /**< Constructor to render directly to main screen */
     ~cSpriteLayer();
 
     //Data Objects
     cSprite *p_Source;
     SDL_Surface* fRender(signed int CamX, signed int CamY);
+    SDL_Surface* sfBuffer;
     sLevelBlock **p_LevelData;
 
     //Members
@@ -88,4 +100,5 @@ class cSpriteLayer {
     int fColToWidth(signed int iCol);       /**< Returns the width in pixels of the col number */
     int fRowToHeight(signed int iRow);      /**< Returns the height in pixels of the row number */
     bool fIsBuffered();                     /**< Returns if the surface is a buffered or not. */
+    SDL_Surface* fGetBufferSurface();       /**< Returns the buffer surface. */
 };

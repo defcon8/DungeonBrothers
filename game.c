@@ -181,7 +181,7 @@ void cGame::fLoadObjects()
     oLoad.read(reinterpret_cast<char*>(&iDataBlocks),sizeof(Uint16));
 
     //Setup Layer
-    oLevelLayer = new cSpriteLayer(screen,iLevelRows,iLevelCols,iSpriteHeight,iSpriteWidth,true,iScreenWidth,iScreenHeight);
+    oLevelLayer = new cSpriteLayer(screen,iLevelRows,iLevelCols,iSpriteHeight,iSpriteWidth,true,iScreenWidth,iScreenHeight,true);
 
     //Setup Source
     oLevelLayer->p_Source->fSetSpriteSpacer(iSpriteSpacer);
@@ -210,6 +210,7 @@ void cGame::fLoadObjects()
         oLevelLayer->p_LevelData[iRow][iCol].iRow=iSheetRow;
         oLevelLayer->p_LevelData[iRow][iCol].iIndex=iSheetIndex;
     }
+    oLevelLayer->fRender(0,0); //for buffered layer only, render once.
     //End Level Layer
 
     //Start Player Layer
@@ -220,7 +221,7 @@ void cGame::fLoadObjects()
     // 15 (rows) x 20 (cols) of 32px sprites (640x480)
 
     //Setup Layer
-    oPlayerLayer = new cSpriteLayer(screen,iLevelRows,iLevelCols,iSpriteHeight,iSpriteWidth,false,iScreenWidth,iScreenHeight);
+    oPlayerLayer = new cSpriteLayer(screen,iLevelRows,iLevelCols,iSpriteHeight,iSpriteWidth,false,iScreenWidth,iScreenHeight,false);
 
     //Setup Source
     oPlayerLayer->p_Source->fSetSpriteSpacer(2);
@@ -239,7 +240,7 @@ void cGame::fLoadObjects()
     oLoad.close();
 
     //Start sprite picker layer (for edit mode only)
-    oSpritePicker = new cSpriteLayer(screen,iSourceRows,iSourceCols,iSpriteHeight,iSpriteWidth,false,iScreenWidth,iScreenHeight);
+    oSpritePicker = new cSpriteLayer(screen,iSourceRows,iSourceCols,iSpriteHeight,iSpriteWidth,false,iScreenWidth,iScreenHeight,false);
     oSpritePicker->p_Source->fSetSpriteSpacer(2);
     oSpritePicker->p_Source->fLoad(chTileSource);
     oSpritePicker->p_Source->fSetSpriteWidthOffset(0);
@@ -264,13 +265,11 @@ void cGame::fGameLoop()
     if(oPlayerLayer->x < 0 || oPlayerLayer->x > oLevelLayer->fGetWidth() || oPlayerLayer->y < 0 || oPlayerLayer->y > oLevelLayer->fGetHeight())
     {
         oPlayerLayer->p_LevelData[0][0].iIndex=10;
-    }
-    else
-    {
+    }else{
         oPlayerLayer->p_LevelData[0][0].iIndex=3;
     }
 
-//       Test Gravity
+//       Test Gravity/**< Returns if the surface is a buffered or not. */
 //       if(!fCheckLevelCollision())
 //       {
 //         oPlayerLayer->y=oPlayerLayer->y++;
@@ -336,7 +335,7 @@ bool cGame::fCheckLevelCollision()
             }
         }
     }
-
+/**< Returns if the surface is a buffered or not. */
     return blCollide;
 }
 
@@ -709,18 +708,27 @@ void cGame::fDrawRectangle(int x, int y, int w, int h, Uint32 color)
 
 void cGame::fRender()
 {
+    /* Create a black background */
     SDL_Rect rect;
     Uint32 color;
-
-    /* Create a black background */
     color = SDL_MapRGB (screen->format, 0, 0, 0);
     SDL_FillRect (screen, NULL, color);
 
-    //oBackgroundLayer->fRender(0,0,CamX,CamY);
+    // // Render the background layer
+    // oBackgroundLayer->fRender(0,0,CamX,CamY);
 
+    //Render the level layer
     if(blRenderLevel)
     {
-        oLevelLayer->fRender(CamX,CamY);
+        if(oLevelLayer->fIsBuffered())
+        {
+            // Blit the buffer surface to the main screen. (TODO: Somehow this just won't work arrghhh...
+            SDL_BlitSurface(oLevelLayer->fGetBufferSurface(), NULL, screen, NULL);
+        }else{
+            oLevelLayer->fRender(CamX,CamY);
+        }
+
+        //Render the player layer
         oPlayerLayer->fRender(CamX,CamY);
     }
 

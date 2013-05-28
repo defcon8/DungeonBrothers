@@ -4,7 +4,7 @@
   Opensource C++ Platform Game by Bastiaan de Waard (defcon8)
   Makes use of the SDL Library. Compiled with DevC++ on Win32.
   2013
-  
+
   W.  https://github.com/defcon8/DungeonBrothers
   W.  http://www.bastiaandewaard.com
   E.  info@bastiaandewaard.com
@@ -17,14 +17,14 @@ void cSprite::fLoad(const char *file)
 {
     bitmap = SDL_LoadBMP(file);
     SDL_SetColorKey(bitmap, SDL_SRCCOLORKEY, SDL_MapRGB(bitmap->format,  iColorKeyR,  iColorKeyG,  iColorKeyB));
-    
-    //Store local, we need it later when saving level to disk.  
+
+    //Store local, we need it later when saving level to disk.
     memcpy(&chTileSource[0],file,16);
 }
 
 char* cSprite::fGetTileSource()
 {
-      return &chTileSource[0];     
+      return &chTileSource[0];
 }
 
 void cSprite::fSetColorKey(int iR, int iG, int iB)
@@ -36,7 +36,7 @@ void cSprite::fSetColorKey(int iR, int iG, int iB)
 
 void cSprite::fSetSpriteSpacer(int iPixels)
 {
-     iSpriteSpacer=iPixels;    
+     iSpriteSpacer=iPixels;
 }
 
 void cSprite::fSetSpriteWidth(int iPixels)
@@ -61,7 +61,7 @@ void cSprite::fSetSpriteHeightOffset(int iPixels)
 
 int cSprite::fGetSpriteSpacer()
 {
-     return iSpriteSpacer;    
+     return iSpriteSpacer;
 }
 
 int cSprite::fGetSpriteWidth()
@@ -84,10 +84,9 @@ int cSprite::fGetSpriteHeightOffset()
      return iSpriteHeightOffset;
 }
 
-
 void cSprite::fScroll(int iPixelOffset)
 {
-   iScrollOffset=iPixelOffset;  
+   iScrollOffset=iPixelOffset;
 }
 
 void cSprite::fRender(int iCol, int iRow, int iDestX, int iDestY)
@@ -98,13 +97,13 @@ void cSprite::fRender(int iCol, int iRow, int iDestX, int iDestY)
     source.y = iSpriteHeightOffset+(iSpriteSpacer*(iRow+1))+(iRow*iSpriteHeight);
     source.w = iSpriteWidth;
     source.h = iSpriteHeight;
-    
+
     // Part of the screen we want to draw the sprite to
     SDL_Rect destination;
     destination.x = iDestX;
     destination.y = iDestY;
     destination.w = iSpriteWidth;
-    destination.h = iSpriteHeight; 
+    destination.h = iSpriteHeight;
 
     SDL_BlitSurface(bitmap, &source, spritescreen, &destination);
 }
