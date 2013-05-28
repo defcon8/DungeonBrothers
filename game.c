@@ -126,12 +126,12 @@ void cGame::fCameraMovement()
 {
 //Scroll to the right
     if(oPlayerLayer->x<(-CamX))
-            CamX+=100;
+            CamX+=200;
 
 
     //Scroll to the right
     if(oPlayerLayer->x>((-CamX)+iScreenWidth))
-            CamX-=100;
+            CamX-=200;
 
 
 }
@@ -643,7 +643,7 @@ void cGame::fInitVariables(int iScrWidth, int iScrHeight)
     CamX=0;
     CamY=0;
     iCamDirection=0;
-    iPlayerSpeed=2;
+    iPlayerSpeed=1;
     MouseX=0;
     MouseY=0;
     dbMouseCornerWidthPerc=0.95;
