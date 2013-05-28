@@ -38,7 +38,6 @@ cSpriteLayer::cSpriteLayer(SDL_Surface *screen, int iRows, int iCols, int iSprit
 
         p_Source = new cSprite(sfBuffer);
     }else{
-        spritelayerscreen = screen;
         p_Source = new cSprite(spritelayerscreen);
     }
 

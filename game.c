@@ -723,8 +723,17 @@ void cGame::fRender()
     {
         if(oLevelLayer->fIsBuffered())
         {
+            // If we are in Edit mode, then force render of the level layer to buffer surface
+            if(blEditMode)
+                oLevelLayer->fRender(0,0);
+
             // Blit the buffer surface to the main screen. (TODO: Somehow this just won't work arrghhh...
-            SDL_BlitSurface(oLevelLayer->fGetBufferSurface(), NULL, screen, NULL);
+            SDL_Rect destination;
+            destination.x = CamX;
+            destination.y = CamY;
+            destination.w = oLevelLayer->fGetWidth();
+            destination.h = oLevelLayer->fGetWidth();
+            SDL_BlitSurface(oLevelLayer->fGetBufferSurface(), NULL, screen, &destination);
         }else{
             oLevelLayer->fRender(CamX,CamY);
         }
