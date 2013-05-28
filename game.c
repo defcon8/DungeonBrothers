@@ -138,6 +138,7 @@ void cGame::Start()
         fGameLoop();
         fRender();
         //Todo: Cap to FPS
+        SDL_Delay(1);
     }
 
     fCleanUp();
