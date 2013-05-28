@@ -18,35 +18,52 @@ using namespace std;
 
 SDL_Surface *spritelayerscreen;
 
+cSpriteLayer::cSpriteLayer(int iRows, int iCols, int iSpriteHeightPX, int iSpriteWidthPX, bool blOptimize, int iScreenWidthRef, int iScreenHeightRef)
+{
+    /**< Initialize variables and setup data object holding the level data */
+    blBuffer=true;
+    fInitLayer(iRows, iCols, iSpriteHeightPX, iSpriteWidthPX, blOptimize, iScreenWidthRef, iScreenHeightRef);
+
+    /**< Setup the buffer surface */
+    sfBuffer = SDL_CreateRGBSurface(0,iScreenWidth,iScreenHeight,16,0,0,0,0);
+
+    /**< Setup (source) object that contains the Sprite Sheet. */
+    p_Source = new cSprite(sfBuffer);
+
+    /**< Fill map data with init data */
+    fInitMap();
+}
+
 cSpriteLayer::cSpriteLayer(SDL_Surface *screen, int iRows, int iCols, int iSpriteHeightPX, int iSpriteWidthPX, bool blOptimize, int iScreenWidthRef, int iScreenHeightRef)
+{
+   /**< Initialize variables and setup data object holding the level data */
+   blBuffer=false;
+   fInitLayer(iRows, iCols, iSpriteHeightPX, iSpriteWidthPX, blOptimize, iScreenWidthRef, iScreenHeightRef);
+
+   /**< Setup (source) object that contains the Sprite Sheet. */
+   spritelayerscreen = screen;
+   p_Source = new cSprite(spritelayerscreen);
+
+   /**< Fill map data with init data */
+   fInitMap();
+}
+
+void cSpriteLayer::fInitLayer(int iRows, int iCols, int iSpriteHeightPX, int iSpriteWidthPX, bool blOptimize, int iScreenWidthRef, int iScreenHeightRef)
 {
    iSpriteHeight=iSpriteHeightPX;
    iSpriteWidth=iSpriteWidthPX;
-
    iScreenWidth = iScreenWidthRef;
    iScreenHeight = iScreenHeightRef;
-
-   //initialise
    x=0;
    y=0;
-
    iRowCount=iRows;
    iColCount=iCols;
-
    blOptmizeLayer=blOptimize;
 
    //create data object
    p_LevelData = new sLevelBlock*[iRows];
    for(int i=0; i < iRows; i++)
       p_LevelData[i] = new sLevelBlock[iCols];
-
-   //screen
-   spritelayerscreen = screen;
-
-   //Setup (source) object that contains the Sprite Sheet.
-   p_Source = new cSprite(spritelayerscreen);
-
-   fInitMap();
 }
 
 SDL_Surface* cSpriteLayer::Get_Sub_Surface(SDL_Surface* metaSurface, int x, int y, int width, int height)
@@ -121,19 +138,14 @@ void cSpriteLayer::fInitMap()
    }
 }
 
-int cSpriteLayer::fGetTotalRows() { return iRowCount; }
-
-int cSpriteLayer::fGetTotalCols() { return iColCount; }
-
 cSpriteLayer::~cSpriteLayer()
 {
    SDL_FreeSurface(spritelayerscreen);
+   SDL_FreeSurface(sfBuffer);
 }
 
 SDL_Surface* cSpriteLayer::fRender(signed int CamX, signed int CamY)
 {
-
-
    // Don't draw things that are outside the view.
    int iStartCol=0;
    int iStartRow=0;
@@ -164,35 +176,16 @@ SDL_Surface* cSpriteLayer::fRender(signed int CamX, signed int CamY)
                p_Source->fRender(p_LevelData[iRow][iCol].iIndex, p_LevelData[iRow][iCol].iRow, (fColToWidth(iCol)+CamX)+x, (fRowToHeight(iRow)+CamY)+y);
        }
    }
+
 }
 
-signed int cSpriteLayer::fColToWidth(signed int iCol)
-{
-    return (iCol*iSpriteWidth);
-}
-
-signed int cSpriteLayer::fRowToHeight(signed int iRow)
-{
-    return (iRow*iSpriteHeight);
-}
-
-signed int cSpriteLayer::fWidthToCol(signed int iWidth)
-{
-	return (iWidth/iSpriteWidth);
-}
-
-signed int cSpriteLayer::fHeightToRow(signed int iHeight)
-{
-    return (iHeight/iSpriteHeight);
-}
-
-signed int cSpriteLayer::fGetWidth()
-{
-    return iColCount * iSpriteWidth;
-}
-
-signed int cSpriteLayer::fGetHeight()
-{
-    return iRowCount * iSpriteHeight;
-}
-
+SDL_Surface* cSpriteLayer::fGetBufferSurface(){return sfBuffer;}
+int cSpriteLayer::fGetTotalRows() { return iRowCount; }
+int cSpriteLayer::fGetTotalCols() { return iColCount; }
+signed int cSpriteLayer::fColToWidth(signed int iCol){return (iCol*iSpriteWidth);}
+signed int cSpriteLayer::fRowToHeight(signed int iRow){return (iRow*iSpriteHeight);}
+signed int cSpriteLayer::fWidthToCol(signed int iWidth){return (iWidth/iSpriteWidth);}
+signed int cSpriteLayer::fHeightToRow(signed int iHeight){return (iHeight/iSpriteHeight);}
+signed int cSpriteLayer::fGetWidth(){return iColCount * iSpriteWidth;}
+signed int cSpriteLayer::fGetHeight(){return iRowCount * iSpriteHeight;}
+bool cSpriteLayer::fIsBuffered(){return blBuffer;}

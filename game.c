@@ -353,6 +353,10 @@ void cGame::fInitialize()
         exit(1);
     }
 
+    /**< Show Console, doesnt work somehow? :S */
+    freopen("CON", "w", stdout); // redirects stdout
+    freopen("CON", "w", stderr); // redirects stderr
+
     atexit (SDL_Quit);
     screen = SDL_SetVideoMode (iScreenWidth, iScreenHeight, 16, SDL_HWSURFACE | SDL_DOUBLEBUF);
 

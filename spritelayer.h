@@ -33,7 +33,6 @@ class cSpriteLayer {
   #define DESTROYABLE 4096
 
   private:
-
         struct sLevelBlock {
                Uint8 bySource;
                Uint8 iRow;
@@ -50,13 +49,19 @@ class cSpriteLayer {
         int iScreenWidth, iScreenHeight;
         int iRowCount, iColCount;
         bool blOptmizeLayer;
+        bool blBuffer;
+        SDL_Surface* sfBuffer;
 
         //Methods
         void fInitMap();
+        void fInitLayer(int iRows, int iCols, int iSpriteHeightPX, int iSpriteWidthPX, bool blOptimize, int iScreenWidthRef, int iScreenHeightRef);
         SDL_Surface* Get_Sub_Surface(SDL_Surface* metaSurface, int x, int y, int width, int height);
+        SDL_Surface* fGetBufferSurface();
 
   public:
-    cSpriteLayer(SDL_Surface *screen, int iRows, int iCols, int iSpriteHeightPX, int iSpriteWidthPX, bool blOptimize, int iScreenWidthRef, int iScreenHeightRef);
+    cSpriteLayer(SDL_Surface *screen, int iRows, int iCols, int iSpriteHeightPX, int iSpriteWidthPX, bool blOptimize, int iScreenWidthRef, int iScreenHeightRef); /**< Constructor to render directly to main screen */
+    cSpriteLayer(int iRows, int iCols, int iSpriteHeightPX, int iSpriteWidthPX, bool blOptimize, int iScreenWidthRef, int iScreenHeightRef); /**< Constructor to render to buffer surface */
+
     ~cSpriteLayer();
 
     //Data Objects
@@ -78,9 +83,9 @@ class cSpriteLayer {
     int fGetWidth();
     int fGetHeight();
 
-    int fWidthToCol(signed int iWidth);
-    int fHeightToRow(signed int iHeight);
-    int fColToWidth(signed int iCol);
-    int fRowToHeight(signed int iRow);
-
+    int fWidthToCol(signed int iWidth);     /**< Returns the col number of the given width in pixels */
+    int fHeightToRow(signed int iHeight);   /**< Returns the row number of the given height in pixels */
+    int fColToWidth(signed int iCol);       /**< Returns the width in pixels of the col number */
+    int fRowToHeight(signed int iRow);      /**< Returns the height in pixels of the row number */
+    bool fIsBuffered();                     /**< Returns if the surface is a buffered or not. */
 };
