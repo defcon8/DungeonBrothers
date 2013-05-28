@@ -26,7 +26,8 @@ using namespace std;
 
 SDL_Surface *spritelayerscreen;
 
-cSpriteLayer::cSpriteLayer(SDL_Surface *screen, int iRows, int iCols, int iSpriteHeightPX, int iSpriteWidthPX, bool blOptimize, int iScreenWidthRef, int iScreenHeightRef, bool blIsBuffered)
+
+cSpriteLayer::cSpriteLayer(SDL_Surface *screen, int iRows, int iCols, int iSpriteHeightPX, int iSpriteWidthPX, bool blOptimize, int iScreenWidthRef, int iScreenHeightRef, bool blIsBuffered, bool blUseColorKey, int iKeyR, int iKeyG, int iKeyB)
 {
     /**< Initialize variables and setup data object holding the level data */
     fInitLayer(iRows, iCols, iSpriteHeightPX, iSpriteWidthPX, blOptimize, iScreenWidthRef, iScreenHeightRef, blIsBuffered);
@@ -49,9 +50,28 @@ cSpriteLayer::cSpriteLayer(SDL_Surface *screen, int iRows, int iCols, int iSprit
         p_Source = new cSprite(spritelayerscreen);
     }
 
+    /**< Commmit the Color key for all surfaces. */
+    if(blUseColorKey)
+    {
+                iColorKeyR = iKeyR;
+                iColorKeyG = iKeyG;
+                iColorKeyB = iKeyB;
+                SDL_SetColorKey(sfBuffer, SDL_SRCCOLORKEY, SDL_MapRGB(sfBuffer->format,  iColorKeyR,  iColorKeyG,  iColorKeyB));
+                p_Source->fSetColorKey(iColorKeyR,iColorKeyG,iColorKeyB);
+    }
+
     /**< Fill map data with init data */
     fInitMap();
 }
+
+void cSpriteLayer::fClear()
+{
+   SDL_Rect rect;
+   Uint32 color;
+   color = SDL_MapRGB (sfBuffer->format, 0, 0, 0);
+   SDL_FillRect (sfBuffer, NULL, color);
+}
+
 
 void cSpriteLayer::fInitLayer(int iRows, int iCols, int iSpriteHeightPX, int iSpriteWidthPX, bool blOptimize, int iScreenWidthRef, int iScreenHeightRef, bool blIsBuffered)
 {
@@ -63,6 +83,9 @@ void cSpriteLayer::fInitLayer(int iRows, int iCols, int iSpriteHeightPX, int iSp
    y=0;
    iRowCount=iRows;
    iColCount=iCols;
+   iColorKeyR=0;
+   iColorKeyG=0;
+   iColorKeyB=0;
    blOptmizeLayer=blOptimize;
    blBuffer=blIsBuffered;
 

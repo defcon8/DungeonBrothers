@@ -123,7 +123,12 @@ void cGame::fSaveDemo()
 }
 
 void cGame::fCameraMovement()
-{}
+{
+    //if(oPlayerLayer->x>(CamX))
+      //  CamX--;
+
+
+}
 
 void cGame::Start()
 {
@@ -149,7 +154,7 @@ void cGame::fLoadObjects()
     //Background Layer
     oBackgroundLayer = new cSprite(screen);
     oBackgroundLayer->fLoad("back.bmp");
-    oBackgroundLayer->fSetSpriteWidth(640);
+    oBackgroundLayer->fSetSpriteWidth(6400);
     oBackgroundLayer->fSetSpriteHeight(480);
     oBackgroundLayer->fScroll(0);
 
@@ -182,7 +187,7 @@ void cGame::fLoadObjects()
     oLoad.read(reinterpret_cast<char*>(&iDataBlocks),sizeof(Uint16));
 
     //Setup Layer
-    oLevelLayer = new cSpriteLayer(screen,iLevelRows,iLevelCols,iSpriteHeight,iSpriteWidth,false,iScreenWidth,iScreenHeight,true);
+    oLevelLayer = new cSpriteLayer(screen,iLevelRows,iLevelCols,iSpriteHeight,iSpriteWidth,false,iScreenWidth,iScreenHeight,true,true,0,0,0);
 
     //Setup Source
     oLevelLayer->p_Source->fSetSpriteSpacer(iSpriteSpacer);
@@ -222,7 +227,7 @@ void cGame::fLoadObjects()
     // 15 (rows) x 20 (cols) of 32px sprites (640x480)
 
     //Setup Layer
-    oPlayerLayer = new cSpriteLayer(screen,iLevelRows,iLevelCols,iSpriteHeight,iSpriteWidth,false,iScreenWidth,iScreenHeight,false);
+    oPlayerLayer = new cSpriteLayer(screen,iLevelRows,iLevelCols,iSpriteHeight,iSpriteWidth,false,iScreenWidth,iScreenHeight,false,false,0,0,0);
 
     //Setup Source
     oPlayerLayer->p_Source->fSetSpriteSpacer(2);
@@ -241,7 +246,7 @@ void cGame::fLoadObjects()
     oLoad.close();
 
     //Start sprite picker layer (for edit mode only)
-    oSpritePicker = new cSpriteLayer(screen,iSourceRows,iSourceCols,iSpriteHeight,iSpriteWidth,false,iScreenWidth,iScreenHeight,false);
+    oSpritePicker = new cSpriteLayer(screen,iSourceRows,iSourceCols,iSpriteHeight,iSpriteWidth,false,iScreenWidth,iScreenHeight,false,false,0,0,0);
     oSpritePicker->p_Source->fSetSpriteSpacer(2);
     oSpritePicker->p_Source->fLoad(chTileSource);
     oSpritePicker->p_Source->fSetSpriteWidthOffset(0);
@@ -382,7 +387,7 @@ void cGame::fInitialize()
     freopen("CON", "w", stderr); // redirects stderr
 
     atexit (SDL_Quit);
-    screen = SDL_SetVideoMode (iScreenWidth, iScreenHeight, 16, SDL_HWSURFACE | SDL_DOUBLEBUF);
+    screen = SDL_SetVideoMode (iScreenWidth, iScreenHeight, 16, SDL_HWSURFACE | SDL_DOUBLEBUF | SDL_FULLSCREEN);
 
     if (screen == NULL)
     {
@@ -742,8 +747,8 @@ void cGame::fRender()
     color = SDL_MapRGB (screen->format, 0, 0, 0);
     SDL_FillRect (screen, NULL, color);
 
-    // // Render the background layer
-    // oBackgroundLayer->fRender(0,0,CamX,CamY);
+     // Render the background layer
+    oBackgroundLayer->fRender(0,0,CamX,CamY);
 
     //Render the level layer
     if(blRenderLevel)
@@ -752,7 +757,10 @@ void cGame::fRender()
         {
             // If we are in Edit mode, then force render of the level layer to buffer surface
             if(blEditMode)
+            {
+                oLevelLayer->fClear();
                 oLevelLayer->fRender(0,0);
+            }
 
             // Blit the buffer surface to the main screen. (TODO: Somehow this just won't work arrghhh...
             SDL_Rect destination;
@@ -764,7 +772,6 @@ void cGame::fRender()
         }else{
             oLevelLayer->fRender(CamX,CamY);
         }
-
         //Render the player layer
         oPlayerLayer->fRender(CamX,CamY);
     }
@@ -775,7 +782,7 @@ void cGame::fRender()
         fRenderEditMode();
     }
 
-    /* Make sure everything is displayed on screen */
+    /* Switch video buffer */
     SDL_Flip (screen);
 }
 

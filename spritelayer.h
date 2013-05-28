@@ -66,13 +66,15 @@ class cSpriteLayer {
         int iRowCount, iColCount;
         bool blOptmizeLayer;
         bool blBuffer;
+        bool blUseColorKey;
+        int iColorKeyR, iColorKeyG, iColorKeyB;
 
         //Methods
         void fInitMap();
         void fInitLayer(int iRows, int iCols, int iSpriteHeightPX, int iSpriteWidthPX, bool blOptimize, int iScreenWidthRef, int iScreenHeightRef, bool blIsBuffered);
 
   public:
-    cSpriteLayer(SDL_Surface *screen, int iRows, int iCols, int iSpriteHeightPX, int iSpriteWidthPX, bool blOptimize, int iScreenWidthRef, int iScreenHeightRef, bool blIsBuffered); /**< Constructor to render directly to main screen */
+    cSpriteLayer(SDL_Surface *screen, int iRows, int iCols, int iSpriteHeightPX, int iSpriteWidthPX, bool blOptimize, int iScreenWidthRef, int iScreenHeightRef, bool blIsBuffered, bool blUseColorKey, int iKeyR, int iKeyG, int iKeyB); /**< Constructor to render directly to main screen */
     ~cSpriteLayer();
 
     //Data Objects
@@ -89,16 +91,16 @@ class cSpriteLayer {
     void fSetSpriteWidth(int iPixels);
     int fGetSpriteWidth();
     void fSetSpriteHeight(int iPixels);
+    void fClear();
     int fGetSpriteHeight();
     int fGetTotalRows();
     int fGetTotalCols();
     int fGetWidth();
     int fGetHeight();
-
-    int fWidthToCol(signed int iWidth);     /**< Returns the col number of the given width in pixels */
-    int fHeightToRow(signed int iHeight);   /**< Returns the row number of the given height in pixels */
-    int fColToWidth(signed int iCol);       /**< Returns the width in pixels of the col number */
-    int fRowToHeight(signed int iRow);      /**< Returns the height in pixels of the row number */
-    bool fIsBuffered();                     /**< Returns if the surface is a buffered or not. */
-    SDL_Surface* fGetBufferSurface();       /**< Returns the buffer surface. */
+    int fWidthToCol(signed int iWidth);         /**< Returns the col number of the given width in pixels */
+    int fHeightToRow(signed int iHeight);       /**< Returns the row number of the given height in pixels */
+    int fColToWidth(signed int iCol);           /**< Returns the width in pixels of the col number */
+    int fRowToHeight(signed int iRow);          /**< Returns the height in pixels of the row number */
+    bool fIsBuffered();                         /**< Returns if the surface is a buffered or not. */
+    SDL_Surface* fGetBufferSurface();           /**< Returns the buffer surface. */
 };
