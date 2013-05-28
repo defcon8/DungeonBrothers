@@ -138,7 +138,7 @@ void cGame::Start()
         fGameLoop();
         fRender();
         //Todo: Cap to FPS
-        SDL_Delay(1);
+        //SDL_Delay(1);
     }
 
     fCleanUp();
@@ -182,7 +182,7 @@ void cGame::fLoadObjects()
     oLoad.read(reinterpret_cast<char*>(&iDataBlocks),sizeof(Uint16));
 
     //Setup Layer
-    oLevelLayer = new cSpriteLayer(screen,iLevelRows,iLevelCols,iSpriteHeight,iSpriteWidth,true,iScreenWidth,iScreenHeight,true);
+    oLevelLayer = new cSpriteLayer(screen,iLevelRows,iLevelCols,iSpriteHeight,iSpriteWidth,false,iScreenWidth,iScreenHeight,true);
 
     //Setup Source
     oLevelLayer->p_Source->fSetSpriteSpacer(iSpriteSpacer);
@@ -280,7 +280,7 @@ void cGame::fGameLoop()
 bool cGame::fCheckDirectionCollision(cSpriteLayer* oObject, int iDirection)
 {
     bool blCollide = false;
-    int iNextCol;
+    int iNextCol,iNextRow;
 
     int iColStart, iColEnd, iRowStart, iRowEnd;
     iColStart=oLevelLayer->fWidthToCol(oObject->x+1);
@@ -291,9 +291,17 @@ bool cGame::fCheckDirectionCollision(cSpriteLayer* oObject, int iDirection)
     switch(iDirection)
     {
     case UP:
+        iNextRow=oLevelLayer->fHeightToRow(oObject->y -2);
+        for (int iCol = iColStart ; iCol <= iColEnd ; iCol++ )
+        {
+            if(oLevelLayer->p_LevelData[iNextRow][iCol].iType == SPRITE)
+            {
+                blCollide = true;
+            }
+        }
         break;
     case RIGHT:
-        iNextCol=oLevelLayer->fWidthToCol((oObject->x + oObject->fGetSpriteWidth()+1));
+        iNextCol=oLevelLayer->fWidthToCol((oObject->x + (oObject->fGetSpriteWidth()+1)));
         for (int iRow = iRowStart ; iRow <= iRowEnd ; iRow++ )
         {
             if(oLevelLayer->p_LevelData[iRow][iNextCol].iType == SPRITE)
@@ -303,8 +311,24 @@ bool cGame::fCheckDirectionCollision(cSpriteLayer* oObject, int iDirection)
         }
         break;
     case DOWN:
+        iNextRow=oLevelLayer->fHeightToRow((oObject->y +(oObject->fGetSpriteHeight()+1)));
+        for (int iCol = iColStart ; iCol <= iColEnd ; iCol++ )
+        {
+            if(oLevelLayer->p_LevelData[iNextRow][iCol].iType == SPRITE)
+            {
+                blCollide = true;
+            }
+        }
         break;
     case LEFT:
+        iNextCol=oLevelLayer->fWidthToCol(oObject->x-2);
+        for (int iRow = iRowStart ; iRow <= iRowEnd ; iRow++ )
+        {
+            if(oLevelLayer->p_LevelData[iRow][iNextCol].iType == SPRITE)
+            {
+                blCollide = true;
+            }
+        }
         break;
     }
 
@@ -573,17 +597,20 @@ void cGame::fObjectMovement()
     switch(iPlayerDirection)
     {
     case UP:
-        oPlayerLayer->y-= iPlayerSpeed;
+        if(!fCheckDirectionCollision(oPlayerLayer,UP))
+            oPlayerLayer->y-= iPlayerSpeed;
         break;
     case RIGHT:
         if(!fCheckDirectionCollision(oPlayerLayer,RIGHT))
             oPlayerLayer->x+= iPlayerSpeed;
         break;
     case DOWN:
-        oPlayerLayer->y+= iPlayerSpeed;
+        if(!fCheckDirectionCollision(oPlayerLayer,DOWN))
+            oPlayerLayer->y+= iPlayerSpeed;
         break;
     case LEFT:
-        oPlayerLayer->x-= iPlayerSpeed;
+        if(!fCheckDirectionCollision(oPlayerLayer,LEFT))
+            oPlayerLayer->x-= iPlayerSpeed;
         break;
     }
 }
@@ -609,7 +636,7 @@ void cGame::fInitVariables(int iScrWidth, int iScrHeight)
     MouseX=0;
     MouseY=0;
     dbMouseCornerWidthPerc=0.95;
-    iMouseScrollSpeed=1;
+    iMouseScrollSpeed=5;
     oPencil = new cPencil;
 }
 

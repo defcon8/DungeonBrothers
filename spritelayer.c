@@ -10,6 +10,14 @@
   E.  info@bastiaandewaard.com
 
 */
+/** \brief
+ *
+ * \param
+ * \param
+ * \return
+ * Note: Do always set blOptimize to false when blIsBuffered is true.
+ */
+
 #include "spritelayer.h"
 #include <cstring>
 #include <fstream>
@@ -29,7 +37,7 @@ cSpriteLayer::cSpriteLayer(SDL_Surface *screen, int iRows, int iCols, int iSprit
     /**< Setup (source) object that contains the Sprite Sheet. */
     if(blBuffer)
     {
-        sfBuffer = SDL_CreateRGBSurface(SDL_HWSURFACE,iScreenWidth,iScreenHeight,
+        sfBuffer = SDL_CreateRGBSurface(SDL_HWSURFACE,(iCols*iSpriteWidth),(iRows*iSpriteHeight),
                     screen->format->BitsPerPixel,
                     screen->format->Rmask,
                     screen->format->Gmask,
