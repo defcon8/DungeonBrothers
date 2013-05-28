@@ -124,8 +124,14 @@ void cGame::fSaveDemo()
 
 void cGame::fCameraMovement()
 {
-    //if(oPlayerLayer->x>(CamX))
-      //  CamX--;
+//Scroll to the right
+    if(oPlayerLayer->x<(-CamX))
+            CamX+=100;
+
+
+    //Scroll to the right
+    if(oPlayerLayer->x>((-CamX)+iScreenWidth))
+            CamX-=100;
 
 
 }
