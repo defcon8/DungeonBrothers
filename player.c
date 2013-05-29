@@ -20,3 +20,8 @@ cPlayer::~cPlayer()
 {
 }
 
+void cPlayer::fUpdate()
+{
+
+}
+

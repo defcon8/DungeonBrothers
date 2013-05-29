@@ -10,15 +10,16 @@
   E.  info@bastiaandewaard.com
 
 */
+#include "levelobject.h"
 
-class cPlayer : public iLevelObject {
-
-  private:
+class cPlayer : public iLevelObject{
 
   public:
 
     cPlayer();
-    ~ccPlayer();
+    ~cPlayer();
+
+    virtual void fUpdate();
 
 };
 

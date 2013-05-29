@@ -8,7 +8,7 @@
 1369408017 c:\users\bastiaan\documents\github\dungeonbrothers\debug.h
 	<winsock2.h>
 
-1369770394 source:c:\users\bastiaan\documents\github\dungeonbrothers\game.c
+1369860539 source:c:\users\bastiaan\documents\github\dungeonbrothers\game.c
 	<windows.h>
 	<iostream>
 	<math.h>
@@ -16,35 +16,38 @@
 	<cstring>
 	"game.h"
 
-1369683054 c:\users\bastiaan\documents\github\dungeonbrothers\game.h
+1369861530 c:\users\bastiaan\documents\github\dungeonbrothers\game.h
 	<SDL/SDL.h>
 	"spritelayer.h"
 	"pencil.h"
 	"debug.h"
 	<time.h>
+	<list>
+	"player.h"
+	"levelobject.h"
 
-1369768252 c:\users\bastiaan\documents\github\dungeonbrothers\spritelayer.h
+1369859598 c:\users\bastiaan\documents\github\dungeonbrothers\spritelayer.h
 	"sprite.h"
 
-1369408018 c:\users\bastiaan\documents\github\dungeonbrothers\sprite.h
+1369859598 c:\users\bastiaan\documents\github\dungeonbrothers\sprite.h
 	<SDL/SDL.h>
 
-1369408017 c:\users\bastiaan\documents\github\dungeonbrothers\pencil.h
+1369859598 c:\users\bastiaan\documents\github\dungeonbrothers\pencil.h
 
-1369769026 source:c:\users\bastiaan\documents\github\dungeonbrothers\main.c
+1369859598 source:c:\users\bastiaan\documents\github\dungeonbrothers\main.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
 	"game.h"
 
-1369408017 source:c:\users\bastiaan\documents\github\dungeonbrothers\pencil.c
+1369859598 source:c:\users\bastiaan\documents\github\dungeonbrothers\pencil.c
 	"pencil.h"
 
-1369771017 source:c:\users\bastiaan\documents\github\dungeonbrothers\sprite.c
+1369859598 source:c:\users\bastiaan\documents\github\dungeonbrothers\sprite.c
 	"sprite.h"
 	<cstring>
 
-1369768488 source:c:\users\bastiaan\documents\github\dungeonbrothers\spritelayer.c
+1369859598 source:c:\users\bastiaan\documents\github\dungeonbrothers\spritelayer.c
 	"spritelayer.h"
 	<cstring>
 	<fstream>
@@ -98,4 +101,12 @@
 	"spritelayer.h"
 	<cstring>
 	<fstream>
+
+1369860775 source:c:\users\bastiaan\documents\github\dungeonbrothers\player.c
+	"player.h"
+
+1369861038 c:\users\bastiaan\documents\github\dungeonbrothers\player.h
+	"levelobject.h"
+
+1369861108 c:\users\bastiaan\documents\github\dungeonbrothers\levelobject.h
 

@@ -15,6 +15,10 @@
 #include "pencil.h"
 #include "debug.h"
 #include <time.h>
+//#include <list>
+//#include "player.h"
+//#include "levelobject.h"
+
 
 class cGame {
   // Camera Movement
@@ -73,7 +77,7 @@ class cGame {
     SDL_Surface *screen;
     cSpriteLayer *p_SpriteLayers;
 
-    cDebug *oDebug;
+    //list<iLevelObject> lLevelObjects;
 
   public:
     void Start();

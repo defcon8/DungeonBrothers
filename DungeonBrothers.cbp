@@ -41,7 +41,7 @@
 		</Unit>
 		<Unit filename="pencil.h" />
 		<Unit filename="player.c">
-			<Option compilerVar="CC" />
+			<Option compilerVar="CPP" />
 		</Unit>
 		<Unit filename="player.h" />
 		<Unit filename="sprite.c">

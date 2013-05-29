@@ -281,11 +281,11 @@ void cGame::fGameLoop()
         oPlayerLayer->p_LevelData[0][0].iIndex=3;
     }
 
-    /**< Test: Gravity, should be 10.000x better designed */
-    if((!iPlayerDirection==UP) && (!fCheckDirectionCollision(oPlayerLayer,DOWN)))
-    {
-     oPlayerLayer->y=oPlayerLayer->y++;
-    }
+//    /**< Test: Gravity, should be 10.000x better designed */
+//    if((!iPlayerDirection==UP) && (!fCheckDirectionCollision(oPlayerLayer,DOWN)))
+//    {
+//     oPlayerLayer->y=oPlayerLayer->y++;
+//    }
 
 
 }
@@ -390,12 +390,8 @@ void cGame::fInitialize()
         exit(1);
     }
 
-    /**< Show Console, doesnt work somehow? :S */
-    freopen("CON", "w", stdout); // redirects stdout
-    freopen("CON", "w", stderr); // redirects stderr
-
     atexit (SDL_Quit);
-    screen = SDL_SetVideoMode (iScreenWidth, iScreenHeight, 16, SDL_HWSURFACE | SDL_DOUBLEBUF);
+    screen = SDL_SetVideoMode (iScreenWidth, iScreenHeight, 16, SDL_HWSURFACE | SDL_DOUBLEBUF | SDL_FULLSCREEN);
 
     if (screen == NULL)
     {
@@ -630,7 +626,6 @@ void cGame::fObjectMovement()
 
 cGame::cGame(int iScrWidth, int iScrHeight)
 {
-    oDebug = new cDebug;
     fInitVariables(iScrWidth, iScrHeight);
 }
 
