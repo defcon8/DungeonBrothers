@@ -84,9 +84,14 @@ int cSprite::fGetSpriteHeightOffset()
      return iSpriteHeightOffset;
 }
 
-void cSprite::fScroll(int iPixelOffset)
+void cSprite::fScroll()
 {
-   iScrollOffset=iPixelOffset;
+   if(iScrollOffset==iSpriteWidth)
+   {
+       iScrollOffset=0;
+   }else{
+        iScrollOffset++;
+   }
 }
 
 void cSprite::fRender(int iCol, int iRow, int iDestX, int iDestY)

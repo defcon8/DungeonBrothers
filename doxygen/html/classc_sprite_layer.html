@@ -90,13 +90,13 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="title">cSpriteLayer Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p><code>#include &lt;<a class="el" href="spritelayer_8h_source.html">spritelayer.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a0d17c2ce0ee9e6843f905ece2cd4ea98"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classc_sprite_layer.html#a0d17c2ce0ee9e6843f905ece2cd4ea98">cSpriteLayer</a> (SDL_Surface *screen, int iRows, int iCols, int iSpriteHeightPX, int iSpriteWidthPX, bool blOptimize, int iScreenWidthRef, int iScreenHeightRef)</td></tr>
-<tr class="separator:a0d17c2ce0ee9e6843f905ece2cd4ea98"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1311a2140a4ee1694256443f362365ca"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classc_sprite_layer.html#a1311a2140a4ee1694256443f362365ca">cSpriteLayer</a> (int iRows, int iCols, int iSpriteHeightPX, int iSpriteWidthPX, bool blOptimize, int iScreenWidthRef, int iScreenHeightRef)</td></tr>
-<tr class="separator:a1311a2140a4ee1694256443f362365ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:addc97ed142fff8c38fefa777a6aeab9e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classc_sprite_layer.html#addc97ed142fff8c38fefa777a6aeab9e">cSpriteLayer</a> (SDL_Surface *screen, int iRows, int iCols, int iSpriteHeightPX, int iSpriteWidthPX, bool blOptimize, int iScreenWidthRef, int iScreenHeightRef, bool blIsBuffered, bool blUseColorKey, int iKeyR, int iKeyG, int iKeyB)</td></tr>
+<tr class="separator:addc97ed142fff8c38fefa777a6aeab9e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab6962819241e36e554c0559726fca708"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab6962819241e36e554c0559726fca708"></a>
 SDL_Surface *&#160;</td><td class="memItemRight" valign="bottom"><b>fRender</b> (signed int CamX, signed int CamY)</td></tr>
 <tr class="separator:ab6962819241e36e554c0559726fca708"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -112,6 +112,9 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>fGetSpriteWidth</b> ()
 <tr class="memitem:acf20667a25f361e4407120d30a367aa6"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="acf20667a25f361e4407120d30a367aa6"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>fSetSpriteHeight</b> (int iPixels)</td></tr>
 <tr class="separator:acf20667a25f361e4407120d30a367aa6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8a6700ceef1c83f952154b298d881776"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8a6700ceef1c83f952154b298d881776"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>fClear</b> ()</td></tr>
+<tr class="separator:a8a6700ceef1c83f952154b298d881776"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae52da0b10607de597a21b134afbded60"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae52da0b10607de597a21b134afbded60"></a>
 int&#160;</td><td class="memItemRight" valign="bottom"><b>fGetSpriteHeight</b> ()</td></tr>
 <tr class="separator:ae52da0b10607de597a21b134afbded60"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -137,12 +140,17 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>fGetHeight</b> ()</td>
 <tr class="separator:aa76ee42d48caa0417b97a7ff61d94458"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab594c1e5bb22b783827dcf043d4db36d"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classc_sprite_layer.html#ab594c1e5bb22b783827dcf043d4db36d">fIsBuffered</a> ()</td></tr>
 <tr class="separator:ab594c1e5bb22b783827dcf043d4db36d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a826a9f912c57d78a584507f697d6f3ab"><td class="memItemLeft" align="right" valign="top">SDL_Surface *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classc_sprite_layer.html#a826a9f912c57d78a584507f697d6f3ab">fGetBufferSurface</a> ()</td></tr>
+<tr class="separator:a826a9f912c57d78a584507f697d6f3ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
 <tr class="memitem:aa9ab70d8f1f530b29f3b810aeaa2130c"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa9ab70d8f1f530b29f3b810aeaa2130c"></a>
 <a class="el" href="classc_sprite.html">cSprite</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>p_Source</b></td></tr>
 <tr class="separator:aa9ab70d8f1f530b29f3b810aeaa2130c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a086faca734a40c3f92ab10cfd8d7f458"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a086faca734a40c3f92ab10cfd8d7f458"></a>
+SDL_Surface *&#160;</td><td class="memItemRight" valign="bottom"><b>sfBuffer</b></td></tr>
+<tr class="separator:a086faca734a40c3f92ab10cfd8d7f458"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad3349a975340a5b3bb820f08ab205aac"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad3349a975340a5b3bb820f08ab205aac"></a>
 sLevelBlock **&#160;</td><td class="memItemRight" valign="bottom"><b>p_LevelData</b></td></tr>
 <tr class="separator:ad3349a975340a5b3bb820f08ab205aac"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -153,8 +161,12 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>x</b></td></tr>
 int&#160;</td><td class="memItemRight" valign="bottom"><b>y</b></td></tr>
 <tr class="separator:a9a4e4406d781d9171ad914d9189e871c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="a0d17c2ce0ee9e6843f905ece2cd4ea98"></a>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Spritelayer: draws a set of sprite's on a SDL Surface.</p>
+<p>Optmalisation: When this is True things outside the viewport doesnt get drawed onto the screen surface, this gives a performance boost. Buffered: false: Draw the layer directly onto the main screen on each fRender() call. fRender() should be called each frame update.</p>
+<p>true: Render the layer on to the buffer surface when 'once' fRender is called. Then you can retreive the prerendered layer by using <a class="el" href="classc_sprite_layer.html#a826a9f912c57d78a584507f697d6f3ab">fGetBufferSurface()</a>. </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a class="anchor" id="addc97ed142fff8c38fefa777a6aeab9e"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -204,7 +216,37 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>y</b></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>iScreenHeightRef</em>&#160;</td>
+          <td class="paramname"><em>iScreenHeightRef</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>blIsBuffered</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>blUseColorKey</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>iKeyR</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>iKeyG</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>iKeyB</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -215,69 +257,8 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>y</b></td></tr>
 </div><div class="memdoc">
 <p>Constructor to render directly to main screen </p>
 <p>&lt; Initialize variables and setup data object holding the level data</p>
-<p>&lt; Setup (source) object that contains the Sprite Sheet.</p>
-<p>&lt; Fill map data with init data </p>
-
-</div>
-</div>
-<a class="anchor" id="a1311a2140a4ee1694256443f362365ca"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">cSpriteLayer::cSpriteLayer </td>
-          <td>(</td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>iRows</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>iCols</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>iSpriteHeightPX</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>iSpriteWidthPX</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">bool&#160;</td>
-          <td class="paramname"><em>blOptimize</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>iScreenWidthRef</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>iScreenHeightRef</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Constructor to render to buffer surface </p>
-<p>&lt; Initialize variables and setup data object holding the level data</p>
-<p>&lt; Setup the buffer surface</p>
-<p>&lt; Setup (source) object that contains the Sprite Sheet.</p>
-<p>&lt; Fill map data with init data </p>
+<p>&lt; Setup the spritelayer surface, if the layer is buffered then te mainscreen is only used to draw on during edit mode</p>
+<p>&lt; Setup (source) object that contains the Sprite Sheet. </p>
 
 </div>
 </div>
@@ -296,6 +277,22 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>y</b></td></tr>
       </table>
 </div><div class="memdoc">
 <p>Returns the width in pixels of the col number </p>
+
+</div>
+</div>
+<a class="anchor" id="a826a9f912c57d78a584507f697d6f3ab"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">SDL_Surface * cSpriteLayer::fGetBufferSurface </td>
+          <td>(</td>
+          <td class="paramname">)</td><td></td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Returns the buffer surface. </p>
 
 </div>
 </div>
@@ -373,7 +370,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>y</b></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue May 28 2013 11:55:18 for Dungeon Brothers by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed May 29 2013 13:00:32 for Dungeon Brothers by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.4
 </small></address>

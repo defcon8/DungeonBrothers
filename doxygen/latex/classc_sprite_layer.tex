@@ -1,12 +1,14 @@
 \hypertarget{classc_sprite_layer}{\section{c\-Sprite\-Layer Class Reference}
 \label{classc_sprite_layer}\index{c\-Sprite\-Layer@{c\-Sprite\-Layer}}
 }
+
+
+{\ttfamily \#include $<$spritelayer.\-h$>$}
+
 \subsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\hyperlink{classc_sprite_layer_a0d17c2ce0ee9e6843f905ece2cd4ea98}{c\-Sprite\-Layer} (S\-D\-L\-\_\-\-Surface $\ast$screen, int i\-Rows, int i\-Cols, int i\-Sprite\-Height\-P\-X, int i\-Sprite\-Width\-P\-X, bool bl\-Optimize, int i\-Screen\-Width\-Ref, int i\-Screen\-Height\-Ref)
-\item 
-\hyperlink{classc_sprite_layer_a1311a2140a4ee1694256443f362365ca}{c\-Sprite\-Layer} (int i\-Rows, int i\-Cols, int i\-Sprite\-Height\-P\-X, int i\-Sprite\-Width\-P\-X, bool bl\-Optimize, int i\-Screen\-Width\-Ref, int i\-Screen\-Height\-Ref)
+\hyperlink{classc_sprite_layer_addc97ed142fff8c38fefa777a6aeab9e}{c\-Sprite\-Layer} (S\-D\-L\-\_\-\-Surface $\ast$screen, int i\-Rows, int i\-Cols, int i\-Sprite\-Height\-P\-X, int i\-Sprite\-Width\-P\-X, bool bl\-Optimize, int i\-Screen\-Width\-Ref, int i\-Screen\-Height\-Ref, bool bl\-Is\-Buffered, bool bl\-Use\-Color\-Key, int i\-Key\-R, int i\-Key\-G, int i\-Key\-B)
 \item 
 \hypertarget{classc_sprite_layer_ab6962819241e36e554c0559726fca708}{S\-D\-L\-\_\-\-Surface $\ast$ {\bfseries f\-Render} (signed int Cam\-X, signed int Cam\-Y)}\label{classc_sprite_layer_ab6962819241e36e554c0559726fca708}
 
@@ -21,6 +23,9 @@
 
 \item 
 \hypertarget{classc_sprite_layer_acf20667a25f361e4407120d30a367aa6}{void {\bfseries f\-Set\-Sprite\-Height} (int i\-Pixels)}\label{classc_sprite_layer_acf20667a25f361e4407120d30a367aa6}
+
+\item 
+\hypertarget{classc_sprite_layer_a8a6700ceef1c83f952154b298d881776}{void {\bfseries f\-Clear} ()}\label{classc_sprite_layer_a8a6700ceef1c83f952154b298d881776}
 
 \item 
 \hypertarget{classc_sprite_layer_ae52da0b10607de597a21b134afbded60}{int {\bfseries f\-Get\-Sprite\-Height} ()}\label{classc_sprite_layer_ae52da0b10607de597a21b134afbded60}
@@ -47,11 +52,16 @@ int \hyperlink{classc_sprite_layer_ac26f356df879a4f1763d943a01b6dfb2}{f\-Col\-To
 int \hyperlink{classc_sprite_layer_aa76ee42d48caa0417b97a7ff61d94458}{f\-Row\-To\-Height} (signed int i\-Row)
 \item 
 bool \hyperlink{classc_sprite_layer_ab594c1e5bb22b783827dcf043d4db36d}{f\-Is\-Buffered} ()
+\item 
+S\-D\-L\-\_\-\-Surface $\ast$ \hyperlink{classc_sprite_layer_a826a9f912c57d78a584507f697d6f3ab}{f\-Get\-Buffer\-Surface} ()
 \end{DoxyCompactItemize}
 \subsection*{Public Attributes}
 \begin{DoxyCompactItemize}
 \item 
 \hypertarget{classc_sprite_layer_aa9ab70d8f1f530b29f3b810aeaa2130c}{\hyperlink{classc_sprite}{c\-Sprite} $\ast$ {\bfseries p\-\_\-\-Source}}\label{classc_sprite_layer_aa9ab70d8f1f530b29f3b810aeaa2130c}
+
+\item 
+\hypertarget{classc_sprite_layer_a086faca734a40c3f92ab10cfd8d7f458}{S\-D\-L\-\_\-\-Surface $\ast$ {\bfseries sf\-Buffer}}\label{classc_sprite_layer_a086faca734a40c3f92ab10cfd8d7f458}
 
 \item 
 \hypertarget{classc_sprite_layer_ad3349a975340a5b3bb820f08ab205aac}{s\-Level\-Block $\ast$$\ast$ {\bfseries p\-\_\-\-Level\-Data}}\label{classc_sprite_layer_ad3349a975340a5b3bb820f08ab205aac}
@@ -65,8 +75,15 @@ bool \hyperlink{classc_sprite_layer_ab594c1e5bb22b783827dcf043d4db36d}{f\-Is\-Bu
 \end{DoxyCompactItemize}
 
 
+\subsection{Detailed Description}
+Spritelayer\-: draws a set of sprite's on a S\-D\-L Surface.
+
+Optmalisation\-: When this is True things outside the viewport doesnt get drawed onto the screen surface, this gives a performance boost. Buffered\-: false\-: Draw the layer directly onto the main screen on each f\-Render() call. f\-Render() should be called each frame update.
+
+true\-: Render the layer on to the buffer surface when 'once' f\-Render is called. Then you can retreive the prerendered layer by using \hyperlink{classc_sprite_layer_a826a9f912c57d78a584507f697d6f3ab}{f\-Get\-Buffer\-Surface()}. 
+
 \subsection{Constructor \& Destructor Documentation}
-\hypertarget{classc_sprite_layer_a0d17c2ce0ee9e6843f905ece2cd4ea98}{\index{c\-Sprite\-Layer@{c\-Sprite\-Layer}!c\-Sprite\-Layer@{c\-Sprite\-Layer}}
+\hypertarget{classc_sprite_layer_addc97ed142fff8c38fefa777a6aeab9e}{\index{c\-Sprite\-Layer@{c\-Sprite\-Layer}!c\-Sprite\-Layer@{c\-Sprite\-Layer}}
 \index{c\-Sprite\-Layer@{c\-Sprite\-Layer}!cSpriteLayer@{c\-Sprite\-Layer}}
 \subsubsection[{c\-Sprite\-Layer}]{\setlength{\rightskip}{0pt plus 5cm}c\-Sprite\-Layer\-::c\-Sprite\-Layer (
 \begin{DoxyParamCaption}
@@ -77,33 +94,19 @@ bool \hyperlink{classc_sprite_layer_ab594c1e5bb22b783827dcf043d4db36d}{f\-Is\-Bu
 \item[{int}]{i\-Sprite\-Width\-P\-X, }
 \item[{bool}]{bl\-Optimize, }
 \item[{int}]{i\-Screen\-Width\-Ref, }
-\item[{int}]{i\-Screen\-Height\-Ref}
+\item[{int}]{i\-Screen\-Height\-Ref, }
+\item[{bool}]{bl\-Is\-Buffered, }
+\item[{bool}]{bl\-Use\-Color\-Key, }
+\item[{int}]{i\-Key\-R, }
+\item[{int}]{i\-Key\-G, }
+\item[{int}]{i\-Key\-B}
 \end{DoxyParamCaption}
-)}}\label{classc_sprite_layer_a0d17c2ce0ee9e6843f905ece2cd4ea98}
+)}}\label{classc_sprite_layer_addc97ed142fff8c38fefa777a6aeab9e}
 Constructor to render directly to main screen $<$ Initialize variables and setup data object holding the level data
 
-$<$ Setup (source) object that contains the Sprite Sheet.
+$<$ Setup the spritelayer surface, if the layer is buffered then te mainscreen is only used to draw on during edit mode
 
-$<$ Fill map data with init data \hypertarget{classc_sprite_layer_a1311a2140a4ee1694256443f362365ca}{\index{c\-Sprite\-Layer@{c\-Sprite\-Layer}!c\-Sprite\-Layer@{c\-Sprite\-Layer}}
-\index{c\-Sprite\-Layer@{c\-Sprite\-Layer}!cSpriteLayer@{c\-Sprite\-Layer}}
-\subsubsection[{c\-Sprite\-Layer}]{\setlength{\rightskip}{0pt plus 5cm}c\-Sprite\-Layer\-::c\-Sprite\-Layer (
-\begin{DoxyParamCaption}
-\item[{int}]{i\-Rows, }
-\item[{int}]{i\-Cols, }
-\item[{int}]{i\-Sprite\-Height\-P\-X, }
-\item[{int}]{i\-Sprite\-Width\-P\-X, }
-\item[{bool}]{bl\-Optimize, }
-\item[{int}]{i\-Screen\-Width\-Ref, }
-\item[{int}]{i\-Screen\-Height\-Ref}
-\end{DoxyParamCaption}
-)}}\label{classc_sprite_layer_a1311a2140a4ee1694256443f362365ca}
-Constructor to render to buffer surface $<$ Initialize variables and setup data object holding the level data
-
-$<$ Setup the buffer surface
-
-$<$ Setup (source) object that contains the Sprite Sheet.
-
-$<$ Fill map data with init data 
+$<$ Setup (source) object that contains the Sprite Sheet. 
 
 \subsection{Member Function Documentation}
 \hypertarget{classc_sprite_layer_ac26f356df879a4f1763d943a01b6dfb2}{\index{c\-Sprite\-Layer@{c\-Sprite\-Layer}!f\-Col\-To\-Width@{f\-Col\-To\-Width}}
@@ -113,7 +116,14 @@ $<$ Fill map data with init data
 \item[{signed int}]{i\-Col}
 \end{DoxyParamCaption}
 )}}\label{classc_sprite_layer_ac26f356df879a4f1763d943a01b6dfb2}
-Returns the width in pixels of the col number \hypertarget{classc_sprite_layer_ac304d2fe01f4134c89dbce028c687d4b}{\index{c\-Sprite\-Layer@{c\-Sprite\-Layer}!f\-Height\-To\-Row@{f\-Height\-To\-Row}}
+Returns the width in pixels of the col number \hypertarget{classc_sprite_layer_a826a9f912c57d78a584507f697d6f3ab}{\index{c\-Sprite\-Layer@{c\-Sprite\-Layer}!f\-Get\-Buffer\-Surface@{f\-Get\-Buffer\-Surface}}
+\index{f\-Get\-Buffer\-Surface@{f\-Get\-Buffer\-Surface}!cSpriteLayer@{c\-Sprite\-Layer}}
+\subsubsection[{f\-Get\-Buffer\-Surface}]{\setlength{\rightskip}{0pt plus 5cm}S\-D\-L\-\_\-\-Surface $\ast$ c\-Sprite\-Layer\-::f\-Get\-Buffer\-Surface (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classc_sprite_layer_a826a9f912c57d78a584507f697d6f3ab}
+Returns the buffer surface. \hypertarget{classc_sprite_layer_ac304d2fe01f4134c89dbce028c687d4b}{\index{c\-Sprite\-Layer@{c\-Sprite\-Layer}!f\-Height\-To\-Row@{f\-Height\-To\-Row}}
 \index{f\-Height\-To\-Row@{f\-Height\-To\-Row}!cSpriteLayer@{c\-Sprite\-Layer}}
 \subsubsection[{f\-Height\-To\-Row}]{\setlength{\rightskip}{0pt plus 5cm}signed int c\-Sprite\-Layer\-::f\-Height\-To\-Row (
 \begin{DoxyParamCaption}

@@ -162,7 +162,6 @@ void cGame::fLoadObjects()
     oBackgroundLayer->fLoad("back.bmp");
     oBackgroundLayer->fSetSpriteWidth(6400);
     oBackgroundLayer->fSetSpriteHeight(480);
-    oBackgroundLayer->fScroll(0);
 
     //Level Layer
     char chTileSource[16];
@@ -273,7 +272,8 @@ void cGame::fLoadObjects()
 
 void cGame::fGameLoop()
 {
-    // Player Collision detection - Level Boundaries
+
+    /**<  Test: Player Collision detection - Level Boundaries */
     if(oPlayerLayer->x < 0 || oPlayerLayer->x > oLevelLayer->fGetWidth() || oPlayerLayer->y < 0 || oPlayerLayer->y > oLevelLayer->fGetHeight())
     {
         oPlayerLayer->p_LevelData[0][0].iIndex=10;
@@ -281,11 +281,13 @@ void cGame::fGameLoop()
         oPlayerLayer->p_LevelData[0][0].iIndex=3;
     }
 
-//       Test Gravity/**< Returns if the surface is a buffered or not. */
-//       if(!fCheckLevelCollision())
-//       {
-//         oPlayerLayer->y=oPlayerLayer->y++;
-//       }
+    /**< Test: Gravity, should be 10.000x better designed */
+    if((!iPlayerDirection==UP) && (!fCheckDirectionCollision(oPlayerLayer,DOWN)))
+    {
+     oPlayerLayer->y=oPlayerLayer->y++;
+    }
+
+
 }
 
 bool cGame::fCheckDirectionCollision(cSpriteLayer* oObject, int iDirection)
@@ -302,7 +304,7 @@ bool cGame::fCheckDirectionCollision(cSpriteLayer* oObject, int iDirection)
     switch(iDirection)
     {
     case UP:
-        iNextRow=oLevelLayer->fHeightToRow(oObject->y -2);
+        iNextRow=oLevelLayer->fHeightToRow(oObject->y -1);
         for (int iCol = iColStart ; iCol <= iColEnd ; iCol++ )
         {
             if(oLevelLayer->p_LevelData[iNextRow][iCol].iType == SPRITE)
@@ -312,7 +314,7 @@ bool cGame::fCheckDirectionCollision(cSpriteLayer* oObject, int iDirection)
         }
         break;
     case RIGHT:
-        iNextCol=oLevelLayer->fWidthToCol((oObject->x + (oObject->fGetSpriteWidth()+1)));
+        iNextCol=oLevelLayer->fWidthToCol((oObject->x + oObject->fGetSpriteWidth()));
         for (int iRow = iRowStart ; iRow <= iRowEnd ; iRow++ )
         {
             if(oLevelLayer->p_LevelData[iRow][iNextCol].iType == SPRITE)
@@ -322,7 +324,7 @@ bool cGame::fCheckDirectionCollision(cSpriteLayer* oObject, int iDirection)
         }
         break;
     case DOWN:
-        iNextRow=oLevelLayer->fHeightToRow((oObject->y +(oObject->fGetSpriteHeight()+1)));
+        iNextRow=oLevelLayer->fHeightToRow((oObject->y +oObject->fGetSpriteHeight()));
         for (int iCol = iColStart ; iCol <= iColEnd ; iCol++ )
         {
             if(oLevelLayer->p_LevelData[iNextRow][iCol].iType == SPRITE)
@@ -332,7 +334,7 @@ bool cGame::fCheckDirectionCollision(cSpriteLayer* oObject, int iDirection)
         }
         break;
     case LEFT:
-        iNextCol=oLevelLayer->fWidthToCol(oObject->x-2);
+        iNextCol=oLevelLayer->fWidthToCol(oObject->x-1);
         for (int iRow = iRowStart ; iRow <= iRowEnd ; iRow++ )
         {
             if(oLevelLayer->p_LevelData[iRow][iNextCol].iType == SPRITE)
@@ -393,7 +395,7 @@ void cGame::fInitialize()
     freopen("CON", "w", stderr); // redirects stderr
 
     atexit (SDL_Quit);
-    screen = SDL_SetVideoMode (iScreenWidth, iScreenHeight, 16, SDL_HWSURFACE | SDL_DOUBLEBUF | SDL_FULLSCREEN);
+    screen = SDL_SetVideoMode (iScreenWidth, iScreenHeight, 16, SDL_HWSURFACE | SDL_DOUBLEBUF);
 
     if (screen == NULL)
     {
