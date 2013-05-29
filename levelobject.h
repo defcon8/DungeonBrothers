@@ -10,12 +10,11 @@
   E.  info@bastiaandewaard.com
 
 */
-#include "pencil.h"
 
-cPencil::cPencil()
-{
-}
+class iLevelObject {
 
-cPencil::~cPencil()
-{
-}
+  public:
+        virtual ~iLevelObject() {}
+        virtual void fUpdate() = 0;
+};
+

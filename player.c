@@ -10,12 +10,13 @@
   E.  info@bastiaandewaard.com
 
 */
-#include "pencil.h"
+#include "player.h"
 
-cPencil::cPencil()
+cPlayer::cPlayer()
 {
 }
 
-cPencil::~cPencil()
+cPlayer::~cPlayer()
 {
 }
+

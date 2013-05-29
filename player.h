@@ -10,12 +10,15 @@
   E.  info@bastiaandewaard.com
 
 */
-#include "pencil.h"
 
-cPencil::cPencil()
-{
-}
+class cPlayer : public iLevelObject {
 
-cPencil::~cPencil()
-{
-}
+  private:
+
+  public:
+
+    cPlayer();
+    ~ccPlayer();
+
+};
+
