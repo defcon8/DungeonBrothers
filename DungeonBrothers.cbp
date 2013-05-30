@@ -24,6 +24,10 @@
 			<Add library="SDLmain" />
 			<Add library="SDL" />
 		</Linker>
+		<Unit filename="camera.c">
+			<Option compilerVar="CPP" />
+		</Unit>
+		<Unit filename="camera.h" />
 		<Unit filename="debug.c">
 			<Option compilerVar="CPP" />
 		</Unit>
