@@ -17,6 +17,8 @@
 #include <time.h>
 #include <list>
 #include "levelobject.h"
+#include "player.h"
+#include "enemy.h"
 
 using namespace std;
 
@@ -39,8 +41,6 @@ class cGame {
     signed int CamX, CamY;
     int MouseX, MouseY;
     int iCamDirection;
-    int iPlayerDirection;
-    int iPlayerSpeed;
     int iScreenWidth, iScreenHeight;
     double dbMouseCornerWidthPerc;
     int iMouseScrollSpeed;
@@ -49,7 +49,6 @@ class cGame {
 
     cPencil* oPencil;
     cSpriteLayer* oLevelLayer;
-    cSpriteLayer* oPlayerLayer;
     cSpriteLayer* oSpritePicker;
     cSprite* oBackgroundLayer;
 
@@ -69,9 +68,6 @@ class cGame {
     void fDrawRectangle(int x, int y, int w, int h, Uint32 color);
     void fObjectMovement();
     void fCameraMovement();
-
-    bool fCheckDirectionCollision(cSpriteLayer* oObject, int iDirection);
-    bool fCheckLevelCollision();
 
     int fGetTileCol(int iX, int iTileWidth);
     int fGetTileRow(int iY, int iTileHeight);

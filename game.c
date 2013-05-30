@@ -124,15 +124,15 @@ void cGame::fSaveDemo()
 
 void cGame::fCameraMovement()
 {
-//Scroll to the right
-    if(oPlayerLayer->x<(-CamX))
-            CamX+=200;
-
-
-    //Scroll to the right
-    if(oPlayerLayer->x>((-CamX)+iScreenWidth))
-            CamX-=200;
-
+    // TODO
+//    //Scroll to the right
+//    if(oPlayerLayer->x<(-CamX))
+//            CamX+=200;
+//
+//
+//    //Scroll to the right
+//    if(oPlayerLayer->x>((-CamX)+iScreenWidth))
+//            CamX-=200;
 
 }
 
@@ -224,28 +224,13 @@ void cGame::fLoadObjects()
     oLevelLayer->fRender(0,0); //for buffered layer only, render once.
     //End Level Layer
 
-    //Start Player Layer
-    iLevelRows=1;
-    iLevelCols=1;
-    iSpriteHeight=32;
-    iSpriteWidth=32;
-    // 15 (rows) x 20 (cols) of 32px sprites (640x480)
 
-    //Setup Layer
-    oPlayerLayer = new cSpriteLayer(screen,iLevelRows,iLevelCols,iSpriteHeight,iSpriteWidth,false,iScreenWidth,iScreenHeight,false,false,0,0,0);
+    // ------------ [ start player ] --------------------
 
-    //Setup Source
-    oPlayerLayer->p_Source->fSetSpriteSpacer(2);
-    oPlayerLayer->p_Source->fLoad(chTileSource);
-    oPlayerLayer->p_Source->fSetSpriteWidthOffset(0);
-    oPlayerLayer->p_Source->fSetSpriteHeightOffset(0);
-    oPlayerLayer->p_Source->fSetSpriteHeight(iSpriteHeight);
-    oPlayerLayer->p_Source->fSetSpriteWidth(iSpriteWidth);
+    cPlayer* oPlayer;
+    oPlayer = new cPlayer(screen,oLevelLayer,chTileSource,32,32,iScreenWidth,iScreenHeight);
+    lLevelObjects.push_back(oPlayer);
 
-    //Setup Player
-    oPlayerLayer->p_LevelData[0][0].iType=SPRITE;
-    oPlayerLayer->p_LevelData[0][0].iRow=10;
-    oPlayerLayer->p_LevelData[0][0].iIndex=0;
 
     //End Player Layer
     oLoad.close();
@@ -273,13 +258,13 @@ void cGame::fLoadObjects()
 void cGame::fGameLoop()
 {
 
-    /**<  Test: Player Collision detection - Level Boundaries */
-    if(oPlayerLayer->x < 0 || oPlayerLayer->x > oLevelLayer->fGetWidth() || oPlayerLayer->y < 0 || oPlayerLayer->y > oLevelLayer->fGetHeight())
-    {
-        oPlayerLayer->p_LevelData[0][0].iIndex=10;
-    }else{
-        oPlayerLayer->p_LevelData[0][0].iIndex=3;
-    }
+//    /**<  Test: Player Collision detection - Level Boundaries */
+//    if(oPlayerLayer->x < 0 || oPlayerLayer->x > oLevelLayer->fGetWidth() || oPlayerLayer->y < 0 || oPlayerLayer->y > oLevelLayer->fGetHeight())
+//    {
+//        oPlayerLayer->p_LevelData[0][0].iIndex=10;
+//    }else{
+//        oPlayerLayer->p_LevelData[0][0].iIndex=3;
+//    }
 
 //    /**< Test: Gravity, should be 10.000x better designed */
 //    if((!iPlayerDirection==UP) && (!fCheckDirectionCollision(oPlayerLayer,DOWN)))
@@ -290,92 +275,9 @@ void cGame::fGameLoop()
 
 }
 
-bool cGame::fCheckDirectionCollision(cSpriteLayer* oObject, int iDirection)
-{
-    bool blCollide = false;
-    int iNextCol,iNextRow;
 
-    int iColStart, iColEnd, iRowStart, iRowEnd;
-    iColStart=oLevelLayer->fWidthToCol(oObject->x+1);
-    iColEnd=oLevelLayer->fWidthToCol((oObject->x + oObject->fGetSpriteWidth()-1));
-    iRowStart=oLevelLayer->fHeightToRow(oObject->y+1);
-    iRowEnd=oLevelLayer->fHeightToRow((oObject->y + oObject->fGetSpriteHeight()-1));
 
-    switch(iDirection)
-    {
-    case UP:
-        iNextRow=oLevelLayer->fHeightToRow(oObject->y -1);
-        for (int iCol = iColStart ; iCol <= iColEnd ; iCol++ )
-        {
-            if(oLevelLayer->p_LevelData[iNextRow][iCol].iType == SPRITE)
-            {
-                blCollide = true;
-            }
-        }
-        break;
-    case RIGHT:
-        iNextCol=oLevelLayer->fWidthToCol((oObject->x + oObject->fGetSpriteWidth()));
-        for (int iRow = iRowStart ; iRow <= iRowEnd ; iRow++ )
-        {
-            if(oLevelLayer->p_LevelData[iRow][iNextCol].iType == SPRITE)
-            {
-                blCollide = true;
-            }
-        }
-        break;
-    case DOWN:
-        iNextRow=oLevelLayer->fHeightToRow((oObject->y +oObject->fGetSpriteHeight()));
-        for (int iCol = iColStart ; iCol <= iColEnd ; iCol++ )
-        {
-            if(oLevelLayer->p_LevelData[iNextRow][iCol].iType == SPRITE)
-            {
-                blCollide = true;
-            }
-        }
-        break;
-    case LEFT:
-        iNextCol=oLevelLayer->fWidthToCol(oObject->x-1);
-        for (int iRow = iRowStart ; iRow <= iRowEnd ; iRow++ )
-        {
-            if(oLevelLayer->p_LevelData[iRow][iNextCol].iType == SPRITE)
-            {
-                blCollide = true;
-            }
-        }
-        break;
-    }
 
-    return blCollide;
-}
-
-bool cGame::fCheckLevelCollision()
-{
-    //Level tile collision + Gravity
-    int iColStart, iColEnd, iRowStart, iRowEnd;
-
-    iColStart=oLevelLayer->fWidthToCol(oPlayerLayer->x);
-    iColEnd=oLevelLayer->fWidthToCol((oPlayerLayer->x + oPlayerLayer->fGetSpriteWidth()));
-
-    iRowStart=oLevelLayer->fHeightToRow(oPlayerLayer->y);
-    iRowEnd=oLevelLayer->fHeightToRow((oPlayerLayer->y + oPlayerLayer->fGetSpriteHeight()));
-
-    bool blCollide = false;
-
-    for (int iRow = iRowStart ; iRow <= iRowEnd ; iRow++ )
-    {
-        for (int iCol = iColStart ; iCol <= iColEnd ; iCol++ )
-        {
-            if(!(oLevelLayer->p_LevelData[iRow][iCol].iType != SPRITE) && ((oPlayerLayer->y + oPlayerLayer->fGetHeight()) < iScreenHeight))
-            {
-                // collide
-                blCollide = true;
-                break;
-            }
-        }
-    }
-/**< Returns if the surface is a buffered or not. */
-    return blCollide;
-}
 
 void cGame::fInitialize()
 {
@@ -391,7 +293,7 @@ void cGame::fInitialize()
     }
 
     atexit (SDL_Quit);
-    screen = SDL_SetVideoMode (iScreenWidth, iScreenHeight, 16, SDL_HWSURFACE | SDL_DOUBLEBUF | SDL_FULLSCREEN);
+    screen = SDL_SetVideoMode (iScreenWidth, iScreenHeight, 16, SDL_HWSURFACE | SDL_DOUBLEBUF);
 
     if (screen == NULL)
     {
@@ -441,19 +343,19 @@ void cGame::fNormalModeEvents()
                 break;
 
             case SDLK_LEFT:
-                iPlayerDirection=LEFT;
+                //iPlayerDirection=LEFT;
                 break;
 
             case SDLK_RIGHT:
-                iPlayerDirection=RIGHT;
+                //iPlayerDirection=RIGHT;
                 break;
 
             case SDLK_UP:
-                iPlayerDirection=UP;
+                //iPlayerDirection=UP;
                 break;
 
             case SDLK_DOWN:
-                iPlayerDirection=DOWN;
+                //iPlayerDirection=DOWN;
                 break;
             }
             break;
@@ -465,7 +367,7 @@ void cGame::fNormalModeEvents()
             case SDLK_LEFT:
             case SDLK_UP:
             case SDLK_DOWN:
-                iPlayerDirection=NONE;
+                //iPlayerDirection=NONE;
                 break;
             }
             break;
@@ -601,27 +503,6 @@ void cGame::fObjectMovement()
         CamX += 1;
         break;
     }
-
-    //Do player movement
-    switch(iPlayerDirection)
-    {
-    case UP:
-        if(!fCheckDirectionCollision(oPlayerLayer,UP))
-            oPlayerLayer->y-= iPlayerSpeed;
-        break;
-    case RIGHT:
-        if(!fCheckDirectionCollision(oPlayerLayer,RIGHT))
-            oPlayerLayer->x+= iPlayerSpeed;
-        break;
-    case DOWN:
-        if(!fCheckDirectionCollision(oPlayerLayer,DOWN))
-            oPlayerLayer->y+= iPlayerSpeed;
-        break;
-    case LEFT:
-        if(!fCheckDirectionCollision(oPlayerLayer,LEFT))
-            oPlayerLayer->x-= iPlayerSpeed;
-        break;
-    }
 }
 
 cGame::cGame(int iScrWidth, int iScrHeight)
@@ -640,7 +521,6 @@ void cGame::fInitVariables(int iScrWidth, int iScrHeight)
     CamX=0;
     CamY=0;
     iCamDirection=0;
-    iPlayerSpeed=1;
     MouseX=0;
     MouseY=0;
     dbMouseCornerWidthPerc=0.95;
@@ -775,8 +655,8 @@ void cGame::fRender()
         }else{
             oLevelLayer->fRender(CamX,CamY);
         }
-        //Render the player layer
-        oPlayerLayer->fRender(CamX,CamY);
+        //Render the player layer TODO
+        //oPlayerLayer->fRender(CamX,CamY);
     }
 
     //Overlay

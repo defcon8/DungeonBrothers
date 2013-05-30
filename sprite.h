@@ -10,6 +10,10 @@
   E.  info@bastiaandewaard.com
 
 */
+
+#ifndef SPRITE_H_
+#define SPRITE_H_
+
 #include <SDL/SDL.h>
 
 class cSprite {
@@ -46,3 +50,4 @@ class cSprite {
          cSprite(SDL_Surface *screen);
          ~cSprite();
 };
+#endif /* SPRITE_H_ */

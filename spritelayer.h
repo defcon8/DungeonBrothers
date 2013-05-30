@@ -25,6 +25,9 @@
  *
  */
 
+#ifndef SPRITELAYER_H_
+#define SPRITELAYER_H_
+
 #include "sprite.h"
 class cSpriteLayer {
 
@@ -104,3 +107,5 @@ class cSpriteLayer {
     bool fIsBuffered();                         /**< Returns if the surface is a buffered or not. */
     SDL_Surface* fGetBufferSurface();           /**< Returns the buffer surface. */
 };
+
+#endif /* SPRITELAYER_H_ */

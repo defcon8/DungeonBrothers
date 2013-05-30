@@ -28,6 +28,10 @@
 			<Option compilerVar="CPP" />
 		</Unit>
 		<Unit filename="debug.h" />
+		<Unit filename="enemy.c">
+			<Option compilerVar="CPP" />
+		</Unit>
+		<Unit filename="enemy.h" />
 		<Unit filename="game.c">
 			<Option compilerVar="CPP" />
 		</Unit>
