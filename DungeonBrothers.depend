@@ -8,7 +8,7 @@
 1369408017 c:\users\bastiaan\documents\github\dungeonbrothers\debug.h
 	<winsock2.h>
 
-1369860539 source:c:\users\bastiaan\documents\github\dungeonbrothers\game.c
+1369922482 source:c:\users\bastiaan\documents\github\dungeonbrothers\game.c
 	<windows.h>
 	<iostream>
 	<math.h>
@@ -16,20 +16,22 @@
 	<cstring>
 	"game.h"
 
-1369861530 c:\users\bastiaan\documents\github\dungeonbrothers\game.h
+1369920919 c:\users\bastiaan\documents\github\dungeonbrothers\game.h
 	<SDL/SDL.h>
 	"spritelayer.h"
 	"pencil.h"
 	"debug.h"
+	"camera.h"
 	<time.h>
 	<list>
-	"player.h"
 	"levelobject.h"
+	"player.h"
+	"enemy.h"
 
-1369859598 c:\users\bastiaan\documents\github\dungeonbrothers\spritelayer.h
+1369919302 c:\users\bastiaan\documents\github\dungeonbrothers\spritelayer.h
 	"sprite.h"
 
-1369859598 c:\users\bastiaan\documents\github\dungeonbrothers\sprite.h
+1369919302 c:\users\bastiaan\documents\github\dungeonbrothers\sprite.h
 	<SDL/SDL.h>
 
 1369859598 c:\users\bastiaan\documents\github\dungeonbrothers\pencil.h
@@ -106,13 +108,15 @@
 	<cstring>
 	<fstream>
 
-1369860775 source:c:\users\bastiaan\documents\github\dungeonbrothers\player.c
+1369919302 source:c:\users\bastiaan\documents\github\dungeonbrothers\player.c
 	"player.h"
 
-1369861038 c:\users\bastiaan\documents\github\dungeonbrothers\player.h
+1369919302 c:\users\bastiaan\documents\github\dungeonbrothers\player.h
+	<SDL/SDL.h>
+	"spritelayer.h"
 	"levelobject.h"
 
-1369861108 c:\users\bastiaan\documents\github\dungeonbrothers\levelobject.h
+1369919302 c:\users\bastiaan\documents\github\dungeonbrothers\levelobject.h
 
 1369911717 c:\users\bw.kee\documents\github\dungeonbrothers\player.h
 	<SDL/SDL.h>
@@ -129,4 +133,15 @@
 
 1369911706 source:c:\users\bw.kee\documents\github\dungeonbrothers\player.c
 	"player.h"
+
+1369919302 source:c:\users\bastiaan\documents\github\dungeonbrothers\enemy.c
+	"enemy.h"
+
+1369919302 c:\users\bastiaan\documents\github\dungeonbrothers\enemy.h
+	"levelobject.h"
+
+1369922399 c:\users\bastiaan\documents\github\dungeonbrothers\camera.h
+
+1369922504 source:c:\users\bastiaan\documents\github\dungeonbrothers\camera.c
+	"camera.h"
 

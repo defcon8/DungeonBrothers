@@ -14,6 +14,7 @@
 #include "spritelayer.h"
 #include "pencil.h"
 #include "debug.h"
+#include "camera.h"
 #include <time.h>
 #include <list>
 #include "levelobject.h"
@@ -23,15 +24,6 @@
 using namespace std;
 
 class cGame {
-  // Camera Movement
-  #define UP 1
-  #define RIGHT 2
-  #define DOWN 3
-  #define LEFT 4
-  #define NONE 0
-
-
-  list<iLevelObject*> lLevelObjects;
 
   private:
     bool blDone;
@@ -40,7 +32,6 @@ class cGame {
     bool blSpritePalet;
     signed int CamX, CamY;
     int MouseX, MouseY;
-    int iCamDirection;
     int iScreenWidth, iScreenHeight;
     double dbMouseCornerWidthPerc;
     int iMouseScrollSpeed;
@@ -75,6 +66,8 @@ class cGame {
     /* The screen surface */
     SDL_Surface *screen;
     cSpriteLayer *p_SpriteLayers;
+    list<iLevelObject*> lLevelObjects;
+    cCamera* oCam;
 
   public:
     void Start();

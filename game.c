@@ -253,6 +253,9 @@ void cGame::fLoadObjects()
             oSpritePicker->p_LevelData[iRow][iCol].iIndex=iCol;
         }
     }
+
+    //Setup Camera
+    oCam = new cCamera();
 }
 
 void cGame::fGameLoop()
@@ -435,19 +438,19 @@ void cGame::fEditModeEvents()
                 break;
 
             case SDLK_LEFT:
-                iCamDirection=LEFT;
+                oCam->Direction=oCam->left;
                 break;
 
             case SDLK_RIGHT:
-                iCamDirection=RIGHT;
+                oCam->Direction=oCam->right;
                 break;
 
             case SDLK_UP:
-                iCamDirection=UP;
+                oCam->Direction=oCam->up;
                 break;
 
             case SDLK_DOWN:
-                iCamDirection=DOWN;
+                oCam->Direction=oCam->down;
                 break;
             }
             break;
@@ -459,7 +462,7 @@ void cGame::fEditModeEvents()
             case SDLK_LEFT:
             case SDLK_UP:
             case SDLK_DOWN:
-                iCamDirection=NONE;
+                oCam->Direction=oCam->none;
                 break;
             }
             break;
@@ -476,31 +479,31 @@ void cGame::fEditModeEvents()
     int x,y;
     SDL_GetMouseState(&x, &y);
     if(x>(iScreenWidth*dbMouseCornerWidthPerc))
-        CamX-=iMouseScrollSpeed;
+        oCam->X-=iMouseScrollSpeed;
     if(x<(iScreenWidth*(1.0 - dbMouseCornerWidthPerc))) // Invert
-        CamX+=iMouseScrollSpeed;
+        oCam->X+=iMouseScrollSpeed;
     if(y>(iScreenHeight*dbMouseCornerWidthPerc))
-        CamY-=iMouseScrollSpeed;
+        oCam->Y-=iMouseScrollSpeed;
     if(y<(iScreenHeight*(1.0 - dbMouseCornerWidthPerc)))
-        CamY+=iMouseScrollSpeed;
+        oCam->Y+=iMouseScrollSpeed;
 }
 
 void cGame::fObjectMovement()
 {
     //Do Camera movement
-    switch(iCamDirection)
+    switch(oCam->Direction)
     {
     case 1:
-        CamY += 1;
+        oCam->Y += 1;
         break;
     case 2:
-        CamX -= 1;
+        oCam->X -= 1;
         break;
     case 3:
-        CamY -= 1;
+        oCam->Y -= 1;
         break;
     case 4:
-        CamX += 1;
+        oCam->X += 1;
         break;
     }
 }
@@ -518,9 +521,6 @@ void cGame::fInitVariables(int iScrWidth, int iScrHeight)
     blEditMode = false;
     blRenderLevel = true;
     blSpritePalet = false;
-    CamX=0;
-    CamY=0;
-    iCamDirection=0;
     MouseX=0;
     MouseY=0;
     dbMouseCornerWidthPerc=0.95;
@@ -554,12 +554,12 @@ void cGame::fRenderEditMode()
     int iRectY = (iTileRow*iTileHeight);
 
     //Recalculate the real tile using the camera offset
-    iTileCol = fGetTileCol(x-CamX,iTileWidth);
-    iTileRow = fGetTileRow(y-CamY,iTileHeight);
+    iTileCol = fGetTileCol(x-oCam->X,iTileWidth);
+    iTileRow = fGetTileRow(y-oCam->Y,iTileHeight);
 
     if(blSpritePalet)
     {
-        oSpritePicker->fRender(CamX,CamY);
+        oSpritePicker->fRender(oCam->X,oCam->Y);
         //The Sprite palet/picker is on screen
         switch(iMouseButtons)
         {
@@ -631,7 +631,7 @@ void cGame::fRender()
     SDL_FillRect (screen, NULL, color);
 
      // Render the background layer
-    oBackgroundLayer->fRender(0,0,CamX,CamY);
+    oBackgroundLayer->fRender(0,0,oCam->X,oCam->Y);
 
     //Render the level layer
     if(blRenderLevel)
@@ -647,13 +647,13 @@ void cGame::fRender()
 
             // Blit the buffer surface to the main screen. (TODO: Somehow this just won't work arrghhh...
             SDL_Rect destination;
-            destination.x = CamX;
-            destination.y = CamY;
+            destination.x = oCam->X;
+            destination.y = oCam->Y;
             destination.w = oLevelLayer->fGetWidth();
             destination.h = oLevelLayer->fGetWidth();
             SDL_BlitSurface(oLevelLayer->fGetBufferSurface(), NULL, screen, &destination);
         }else{
-            oLevelLayer->fRender(CamX,CamY);
+            oLevelLayer->fRender(oCam->X,oCam->Y);
         }
         //Render the player layer TODO
         //oPlayerLayer->fRender(CamX,CamY);

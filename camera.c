@@ -14,6 +14,16 @@
 
 cCamera::cCamera()
 {
+    up=1;
+    right=2;
+    down=3;
+    left=4;
+    none=5;
+
+    X=0;
+    Y=0;
+    Direction=none;
+
 }
 
 cCamera::~cCamera()

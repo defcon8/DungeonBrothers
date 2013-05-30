@@ -17,8 +17,15 @@ class cCamera {
 
   public:
 
-    cCamera();
-    ~cCamera();
-    int X,Y;
+  int up;
+  int right;
+  int down;
+  int left;
+  int none;
+
+  cCamera();
+  ~cCamera();
+  int X,Y;
+  int Direction;
 };
 
