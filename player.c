@@ -12,10 +12,6 @@
 */
 #include "player.h"
 
-cPlayer::cPlayer()
-{
-}
-
 cPlayer::~cPlayer()
 {
 }

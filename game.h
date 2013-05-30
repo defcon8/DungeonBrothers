@@ -15,10 +15,10 @@
 #include "pencil.h"
 #include "debug.h"
 #include <time.h>
-//#include <list>
-//#include "player.h"
-//#include "levelobject.h"
+#include <list>
+#include "levelobject.h"
 
+using namespace std;
 
 class cGame {
   // Camera Movement
@@ -27,6 +27,9 @@ class cGame {
   #define DOWN 3
   #define LEFT 4
   #define NONE 0
+
+
+  list<iLevelObject*> lLevelObjects;
 
   private:
     bool blDone;
@@ -76,8 +79,6 @@ class cGame {
     /* The screen surface */
     SDL_Surface *screen;
     cSpriteLayer *p_SpriteLayers;
-
-    //list<iLevelObject> lLevelObjects;
 
   public:
     void Start();

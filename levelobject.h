@@ -11,6 +11,9 @@
 
 */
 
+#ifndef LEVELOBJECT_H_
+#define LEVELOBJECT_H_
+
 class iLevelObject {
 
   public:
@@ -18,3 +21,4 @@ class iLevelObject {
         virtual void fUpdate() = 0;
 };
 
+#endif /* LEVELOBJECT_H_ */

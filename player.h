@@ -15,10 +15,7 @@
 class cPlayer : public iLevelObject{
 
   public:
-
-    cPlayer();
-    ~cPlayer();
-
+    virtual ~cPlayer();
     virtual void fUpdate();
 
 };
