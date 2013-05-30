@@ -12,17 +12,19 @@
 */
 #include "player.h"
 
-cPlayer::cPlayer(SDL_Surface* screen, cSpriteLayer* oLevelLayerRef, char* chTileSource, int iSpriteHeight, int iSpriteWidth, int iScreenWidthRef, int iScreenHeightRef)
+cPlayer::cPlayer(SDL_Surface* screen, cSpriteLayer* oLevelLayerRef, cCamera* oCamRef, char* chTileSource, int iSpriteHeight, int iSpriteWidth, int iScreenWidthRef, int iScreenHeightRef)
 {
-      //Start Player Layer
+    // Init variables
     int iLevelRows=1;
     int iLevelCols=1;
-    // 15 (rows) x 20 (cols) of 32px sprites (640x480)
+    iMoveSpeed=1;
+    fMoveDirection(NONE,false);
 
+    // Store references to data objects localy
     oLevelLayer = oLevelLayerRef;
     iScreenHeight = iScreenHeightRef;
     iScreenWidth = iScreenWidthRef;
-
+    oCam = oCamRef;
 
     //Setup Layer
     oPlayerLayer = new cSpriteLayer(screen,iLevelRows,iLevelCols,iSpriteHeight,iSpriteWidth,false,iScreenWidth,iScreenHeight,false,false,0,0,0);
@@ -38,7 +40,7 @@ cPlayer::cPlayer(SDL_Surface* screen, cSpriteLayer* oLevelLayerRef, char* chTile
     //Setup Player
     oPlayerLayer->p_LevelData[0][0].iType=SPRITE;
     oPlayerLayer->p_LevelData[0][0].iRow=10;
-    oPlayerLayer->p_LevelData[0][0].iIndex=0;
+    oPlayerLayer->p_LevelData[0][0].iIndex=2;
 }
 
 bool cPlayer::fCheckLevelCollision()
@@ -48,7 +50,6 @@ bool cPlayer::fCheckLevelCollision()
 
     iColStart=oLevelLayer->fWidthToCol(oPlayerLayer->x);
     iColEnd=oLevelLayer->fWidthToCol((oPlayerLayer->x + oPlayerLayer->fGetSpriteWidth()));
-
     iRowStart=oLevelLayer->fHeightToRow(oPlayerLayer->y);
     iRowEnd=oLevelLayer->fHeightToRow((oPlayerLayer->y + oPlayerLayer->fGetSpriteHeight()));
 
@@ -66,43 +67,57 @@ bool cPlayer::fCheckLevelCollision()
             }
         }
     }
-/**< Returns if the surface is a buffered or not. */
     return blCollide;
 }
 
-
 cPlayer::~cPlayer()
+{}
+
+void cPlayer::fMoveDirection(int iDirection, bool blEnabled)
 {
+    switch(iDirection)
+    {
+        case NONE:
+            blMoveUp=false;blMoveRight=false;blMoveDown=false;blMoveLeft=false;
+            break;
+        case UP:
+            blMoveUp=blEnabled;
+            break;
+        case RIGHT:
+            blMoveRight=blEnabled;
+            break;
+        case DOWN:
+            blMoveDown=blEnabled;
+            break;
+        case LEFT:
+            blMoveLeft=blEnabled;
+            break;
+    }
+}
+
+void cPlayer::fMove()
+{
+    if(blMoveUp)
+        if(!fCheckDirectionCollision(oPlayerLayer,UP))
+            oPlayerLayer->y-= iMoveSpeed;
+
+    if(blMoveRight)
+        if(!fCheckDirectionCollision(oPlayerLayer,RIGHT))
+            oPlayerLayer->x+= iMoveSpeed;
+
+    if(blMoveDown)
+        if(!fCheckDirectionCollision(oPlayerLayer,DOWN))
+            oPlayerLayer->y+= iMoveSpeed;
+
+    if(blMoveLeft)
+        if(!fCheckDirectionCollision(oPlayerLayer,LEFT))
+            oPlayerLayer->x-= iMoveSpeed;
 }
 
 void cPlayer::fUpdate()
 {
-
-    // Init
-    iPlayerSpeed=1;
-
-
-    //Do player movement
-    switch(iPlayerDirection)
-    {
-    case UP:
-        if(!fCheckDirectionCollision(oPlayerLayer,UP))
-            oPlayerLayer->y-= iPlayerSpeed;
-        break;
-    case RIGHT:
-        if(!fCheckDirectionCollision(oPlayerLayer,RIGHT))
-            oPlayerLayer->x+= iPlayerSpeed;
-        break;
-    case DOWN:
-        if(!fCheckDirectionCollision(oPlayerLayer,DOWN))
-            oPlayerLayer->y+= iPlayerSpeed;
-        break;
-    case LEFT:
-        if(!fCheckDirectionCollision(oPlayerLayer,LEFT))
-            oPlayerLayer->x-= iPlayerSpeed;
-        break;
-    }
-
+    fMove();
+    oPlayerLayer->fRender(oCam->X,oCam->Y);
 }
 
 bool cPlayer::fCheckDirectionCollision(cSpriteLayer* oObject, int iDirection)
@@ -159,6 +174,5 @@ bool cPlayer::fCheckDirectionCollision(cSpriteLayer* oObject, int iDirection)
         }
         break;
     }
-
     return blCollide;
 }

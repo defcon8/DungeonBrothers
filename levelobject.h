@@ -15,7 +15,6 @@
 #define LEVELOBJECT_H_
 
 class iLevelObject {
-
   public:
         virtual ~iLevelObject() {}
         virtual void fUpdate() = 0;

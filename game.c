@@ -191,7 +191,7 @@ void cGame::fLoadObjects()
     oLoad.read(reinterpret_cast<char*>(&iSpriteHeightOffset),sizeof(Uint8));
     oLoad.read(reinterpret_cast<char*>(&iDataBlocks),sizeof(Uint16));
 
-    //Setup Layer
+    // ------------ [ start setup level ] --------------------
     oLevelLayer = new cSpriteLayer(screen,iLevelRows,iLevelCols,iSpriteHeight,iSpriteWidth,false,iScreenWidth,iScreenHeight,true,true,0,0,0);
 
     //Setup Source
@@ -202,7 +202,7 @@ void cGame::fLoadObjects()
     oLevelLayer->p_Source->fSetSpriteHeight(iSpriteHeight);
     oLevelLayer->p_Source->fSetSpriteWidth(iSpriteWidth);
 
-    // DataBlocks
+    // Read DataBlocks from file
     for (int iSprite = 0; iSprite < iDataBlocks; iSprite++)
     {
         Uint8 iRow;
@@ -221,21 +221,23 @@ void cGame::fLoadObjects()
         oLevelLayer->p_LevelData[iRow][iCol].iRow=iSheetRow;
         oLevelLayer->p_LevelData[iRow][iCol].iIndex=iSheetIndex;
     }
-    oLevelLayer->fRender(0,0); //for buffered layer only, render once.
-    //End Level Layer
 
+    oLevelLayer->fRender(0,0); //Because this is a buffered layer, we render it once direct after construction of the data array.
 
-    // ------------ [ start player ] --------------------
+    // ------------ [ start setup camera ] --------------------
+    oCam = new cCamera();
+
+    // ------------ [ start setup player ] --------------------
 
     cPlayer* oPlayer;
-    oPlayer = new cPlayer(screen,oLevelLayer,chTileSource,32,32,iScreenWidth,iScreenHeight);
-    lLevelObjects.push_back(oPlayer);
+    oPlayer = new cPlayer(screen,oLevelLayer,oCam, chTileSource,32,32,iScreenWidth,iScreenHeight);
+    lLevelObjects.push_back(oPlayer);    //Add to level object list
+    oPlayerObject = oPlayer;             //Store pointer localy, so we can redirect the user input to the object directly without having to search in the levelobject list.
 
-
-    //End Player Layer
+    //Close File
     oLoad.close();
 
-    //Start sprite picker layer (for edit mode only)
+    // ------------ [ start setup spritepicker ] --------------------
     oSpritePicker = new cSpriteLayer(screen,iSourceRows,iSourceCols,iSpriteHeight,iSpriteWidth,false,iScreenWidth,iScreenHeight,false,false,0,0,0);
     oSpritePicker->p_Source->fSetSpriteSpacer(2);
     oSpritePicker->p_Source->fLoad(chTileSource);
@@ -253,14 +255,10 @@ void cGame::fLoadObjects()
             oSpritePicker->p_LevelData[iRow][iCol].iIndex=iCol;
         }
     }
-
-    //Setup Camera
-    oCam = new cCamera();
 }
 
 void cGame::fGameLoop()
 {
-
 //    /**<  Test: Player Collision detection - Level Boundaries */
 //    if(oPlayerLayer->x < 0 || oPlayerLayer->x > oLevelLayer->fGetWidth() || oPlayerLayer->y < 0 || oPlayerLayer->y > oLevelLayer->fGetHeight())
 //    {
@@ -274,13 +272,7 @@ void cGame::fGameLoop()
 //    {
 //     oPlayerLayer->y=oPlayerLayer->y++;
 //    }
-
-
 }
-
-
-
-
 
 void cGame::fInitialize()
 {
@@ -331,49 +323,59 @@ void cGame::fNormalModeEvents()
     {
         switch (event.type)
         {
-        case SDL_KEYDOWN:
-            switch(event.key.keysym.sym)
-            {
-            case SDLK_ESCAPE:
-                blDone=true;
-                blEditMode = true;
-                break;
+            case SDL_KEYDOWN:
+                switch(event.key.keysym.sym)
+                {
+                    case SDLK_UP:
+                        oPlayerObject->fMoveDirection(1,true);
+                        break;
+                    case SDLK_RIGHT:
+                        oPlayerObject->fMoveDirection(2,true);
+                        break;
+                    case SDLK_DOWN :
+                        oPlayerObject->fMoveDirection(3,true);
+                        break;
+                    case SDLK_LEFT:
+                        oPlayerObject->fMoveDirection(4,true);
+                        break;
 
-            case SDLK_F1:
-                //Toggle Edit Mode
-                blEditMode = !blEditMode;
-                SDL_WM_SetCaption ("Edit mode", NULL);
-                break;
+                    case SDLK_ESCAPE:
+                        blDone=true;
+                        blEditMode = true;
+                        break;
 
-            case SDLK_LEFT:
-                //iPlayerDirection=LEFT;
-                break;
+                    case SDLK_F1:
+                        //Toggle Edit Mode
+                        blEditMode = !blEditMode;
+                        SDL_WM_SetCaption ("Edit mode", NULL);
+                        break;
+                }
+            case SDL_KEYUP:
+                switch(event.key.keysym.sym)
+                {
+                    case SDLK_UP:
+                    {
+                        oPlayerObject->fMoveDirection(1,false);
+                        break;
+                    }
 
-            case SDLK_RIGHT:
-                //iPlayerDirection=RIGHT;
+                    case SDLK_RIGHT:
+                    {
+                        oPlayerObject->fMoveDirection(2,false);
+                        break;
+                    }
+                    case SDLK_DOWN:
+                    {
+                        oPlayerObject->fMoveDirection(3,false);
+                        break;
+                    }
+                    case SDLK_LEFT:
+                    {
+                       oPlayerObject->fMoveDirection(4,false);
+                       break;
+                    }
+                }
                 break;
-
-            case SDLK_UP:
-                //iPlayerDirection=UP;
-                break;
-
-            case SDLK_DOWN:
-                //iPlayerDirection=DOWN;
-                break;
-            }
-            break;
-
-        case SDL_KEYUP:
-            switch(event.key.keysym.sym)
-            {
-            case SDLK_RIGHT:
-            case SDLK_LEFT:
-            case SDLK_UP:
-            case SDLK_DOWN:
-                //iPlayerDirection=NONE;
-                break;
-            }
-            break;
 
         case SDL_QUIT:
             blDone = 1;
@@ -655,8 +657,12 @@ void cGame::fRender()
         }else{
             oLevelLayer->fRender(oCam->X,oCam->Y);
         }
-        //Render the player layer TODO
-        //oPlayerLayer->fRender(CamX,CamY);
+
+        //Update all the levelobjects
+        list<iLevelObject*>::iterator p = lLevelObjects.begin();
+        (*p)->fUpdate();
+
+
     }
 
     //Overlay
@@ -668,6 +674,7 @@ void cGame::fRender()
     /* Switch video buffer */
     SDL_Flip (screen);
 }
+
 
 void cGame::fDrawPixel(SDL_Surface *screen, int x, int y, Uint8 R, Uint8 G, Uint8 B)
 {

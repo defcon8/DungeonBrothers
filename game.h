@@ -67,6 +67,7 @@ class cGame {
     SDL_Surface *screen;
     cSpriteLayer *p_SpriteLayers;
     list<iLevelObject*> lLevelObjects;
+    cPlayer* oPlayerObject;
     cCamera* oCam;
 
   public:

@@ -8,7 +8,7 @@
 1369408017 c:\users\bastiaan\documents\github\dungeonbrothers\debug.h
 	<winsock2.h>
 
-1369922482 source:c:\users\bastiaan\documents\github\dungeonbrothers\game.c
+1369947098 source:c:\users\bastiaan\documents\github\dungeonbrothers\game.c
 	<windows.h>
 	<iostream>
 	<math.h>
@@ -16,7 +16,7 @@
 	<cstring>
 	"game.h"
 
-1369920919 c:\users\bastiaan\documents\github\dungeonbrothers\game.h
+1369946153 c:\users\bastiaan\documents\github\dungeonbrothers\game.h
 	<SDL/SDL.h>
 	"spritelayer.h"
 	"pencil.h"
@@ -108,15 +108,16 @@
 	<cstring>
 	<fstream>
 
-1369919302 source:c:\users\bastiaan\documents\github\dungeonbrothers\player.c
+1369949447 source:c:\users\bastiaan\documents\github\dungeonbrothers\player.c
 	"player.h"
 
-1369919302 c:\users\bastiaan\documents\github\dungeonbrothers\player.h
+1369949576 c:\users\bastiaan\documents\github\dungeonbrothers\player.h
 	<SDL/SDL.h>
 	"spritelayer.h"
+	"camera.h"
 	"levelobject.h"
 
-1369919302 c:\users\bastiaan\documents\github\dungeonbrothers\levelobject.h
+1369949413 c:\users\bastiaan\documents\github\dungeonbrothers\levelobject.h
 
 1369911717 c:\users\bw.kee\documents\github\dungeonbrothers\player.h
 	<SDL/SDL.h>
@@ -140,7 +141,7 @@
 1369919302 c:\users\bastiaan\documents\github\dungeonbrothers\enemy.h
 	"levelobject.h"
 
-1369922399 c:\users\bastiaan\documents\github\dungeonbrothers\camera.h
+1369924042 c:\users\bastiaan\documents\github\dungeonbrothers\camera.h
 
 1369922504 source:c:\users\bastiaan\documents\github\dungeonbrothers\camera.c
 	"camera.h"

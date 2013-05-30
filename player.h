@@ -12,6 +12,7 @@
 */
 #include <SDL/SDL.h>
 #include "spritelayer.h"
+#include "camera.h"
 #include "levelobject.h"
 
 class cPlayer : public iLevelObject{
@@ -23,18 +24,25 @@ class cPlayer : public iLevelObject{
   #define NONE 0
 
   private:
+    //Object Pointers
     cSpriteLayer* oPlayerLayer;
     cSpriteLayer* oLevelLayer;
+    cCamera* oCam;
+
+    //Methods
     bool fCheckLevelCollision();
     bool fCheckDirectionCollision(cSpriteLayer* oObject, int iDirection);
+    void fMove();
+
+    //Variables
     int iScreenWidth, iScreenHeight;
-    int iPlayerDirection;
-    int iPlayerSpeed;
+    int iMoveSpeed;
+    bool blMoveUp, blMoveRight, blMoveDown, blMoveLeft;
 
   public:
-    cPlayer(SDL_Surface* screen, cSpriteLayer* oLevelLayerRef, char* chTileSource, int iSpriteHeight, int iSpriteWidth, int iScreenWidthRef, int iScreenHeightRef);
+    cPlayer(SDL_Surface* screen, cSpriteLayer* oLevelLayerRef, cCamera* oCamRef, char* chTileSource, int iSpriteHeight, int iSpriteWidth, int iScreenWidthRef, int iScreenHeightRef);
     virtual ~cPlayer();
     virtual void fUpdate();
-
+    void fMoveDirection(int iDirection, bool blEnabled);
 };
 

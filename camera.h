@@ -11,6 +11,9 @@
 
 */
 
+#ifndef CAMERA_H_
+#define CAMERA_H_
+
 class cCamera {
 
   private:
@@ -29,3 +32,4 @@ class cCamera {
   int Direction;
 };
 
+#endif /* CAMERA_H_ */
