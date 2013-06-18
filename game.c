@@ -350,6 +350,7 @@ void cGame::fNormalModeEvents()
                         SDL_WM_SetCaption ("Edit mode", NULL);
                         break;
                 }
+                break;
             case SDL_KEYUP:
                 switch(event.key.keysym.sym)
                 {
@@ -376,7 +377,6 @@ void cGame::fNormalModeEvents()
                     }
                 }
                 break;
-
         case SDL_QUIT:
             blDone = 1;
             break;

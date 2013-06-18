@@ -23,7 +23,7 @@ class cPlayer : public iLevelObject{
   #define LEFT 4
   #define NONE 0
 
-  private:
+private:
     //Object Pointers
     cSpriteLayer* oPlayerLayer;
     cSpriteLayer* oLevelLayer;
@@ -44,5 +44,7 @@ class cPlayer : public iLevelObject{
     virtual ~cPlayer();
     virtual void fUpdate();
     void fMoveDirection(int iDirection, bool blEnabled);
+
+
 };
 
