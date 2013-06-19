@@ -10,6 +10,10 @@
   E.  info@bastiaandewaard.com
 
 */
+
+#ifndef LEVELOBJECT_H_
+#define LEVELOBJECT_H_
+
 #include <SDL/SDL.h>
 #include "spritelayer.h"
 #include "camera.h"
@@ -24,11 +28,6 @@ class cLevelObject : public iLevelObject{
   #define NONE 0
 
 private:
-    //Object Pointers
-    cSpriteLayer* oPlayerLayer;
-    cSpriteLayer* oLevelLayer;
-    cCamera* oCam;
-
     //Methods
     bool fCheckLevelCollision();
     bool fCheckDirectionCollision(cSpriteLayer* oObject, int iDirection);
@@ -40,11 +39,17 @@ private:
     bool blMoveUp, blMoveRight, blMoveDown, blMoveLeft;
 
   public:
+    //Object Pointers
+    cSpriteLayer* oPlayerLayer;
+    cSpriteLayer* oLevelLayer;
+    cCamera* oCam;
+
     cLevelObject(SDL_Surface* screen, cSpriteLayer* oLevelLayerRef, cCamera* oCamRef, char* chTileSource, int iSpriteHeight, int iSpriteWidth, int iScreenWidthRef, int iScreenHeightRef);
     virtual ~cLevelObject();
     virtual void fUpdate();
     void fMoveDirection(int iDirection, bool blEnabled);
-
+    virtual void fAI();
 
 };
 
+#endif /* LEVELOBJECT_H_ */

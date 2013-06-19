@@ -77,26 +77,30 @@ void cLevelObject::fMoveDirection(int iDirection, bool blEnabled)
 {
     switch(iDirection)
     {
-        case NONE:
-            blMoveUp=false;blMoveRight=false;blMoveDown=false;blMoveLeft=false;
-            break;
-        case UP:
-            blMoveUp=blEnabled;
-            break;
-        case RIGHT:
-            blMoveRight=blEnabled;
-            break;
-        case DOWN:
-            blMoveDown=blEnabled;
-            break;
-        case LEFT:
-            blMoveLeft=blEnabled;
-            break;
+    case NONE:
+        blMoveUp=false;
+        blMoveRight=false;
+        blMoveDown=false;
+        blMoveLeft=false;
+        break;
+    case UP:
+        blMoveUp=blEnabled;
+        break;
+    case RIGHT:
+        blMoveRight=blEnabled;
+        break;
+    case DOWN:
+        blMoveDown=blEnabled;
+        break;
+    case LEFT:
+        blMoveLeft=blEnabled;
+        break;
     }
 }
 
 void cLevelObject::fMove()
 {
+    //Overide (if needed) by inheretant class
     if(blMoveUp)
         if(!fCheckDirectionCollision(oPlayerLayer,UP))
             oPlayerLayer->y-= iMoveSpeed;
@@ -114,8 +118,15 @@ void cLevelObject::fMove()
             oPlayerLayer->x-= iMoveSpeed;
 }
 
+void cLevelObject::fAI()
+{
+    //Implemenet object artificial intelligence here. For example enemy movement.
+    //Overide this (if needed) in the derived class
+}
+
 void cLevelObject::fUpdate()
 {
+    fAI();
     fMove();
     oPlayerLayer->fRender(oCam->X,oCam->Y);
 }

@@ -24,79 +24,81 @@ void cSprite::fLoad(const char *file)
 
 char* cSprite::fGetTileSource()
 {
-      return &chTileSource[0];
+    return &chTileSource[0];
 }
 
 void cSprite::fSetColorKey(int iR, int iG, int iB)
 {
-     iColorKeyR = iR;
-     iColorKeyG = iG;
-     iColorKeyB = iB;
+    iColorKeyR = iR;
+    iColorKeyG = iG;
+    iColorKeyB = iB;
 }
 
 void cSprite::fSetSpriteSpacer(int iPixels)
 {
-     iSpriteSpacer=iPixels;
+    iSpriteSpacer=iPixels;
 }
 
 void cSprite::fSetSpriteWidth(int iPixels)
 {
-     iSpriteWidth=iPixels;
+    iSpriteWidth=iPixels;
 }
 
 void cSprite::fSetSpriteHeight(int iPixels)
 {
-     iSpriteHeight=iPixels;
+    iSpriteHeight=iPixels;
 }
 
 void cSprite::fSetSpriteWidthOffset(int iPixels)
 {
-     iSpriteWidthOffset=iPixels;
+    iSpriteWidthOffset=iPixels;
 }
 
 void cSprite::fSetSpriteHeightOffset(int iPixels)
 {
-     iSpriteHeightOffset=iPixels;
+    iSpriteHeightOffset=iPixels;
 }
 
 int cSprite::fGetSpriteSpacer()
 {
-     return iSpriteSpacer;
+    return iSpriteSpacer;
 }
 
 int cSprite::fGetSpriteWidth()
 {
-     return iSpriteWidth;
+    return iSpriteWidth;
 }
 
 int cSprite::fGetSpriteHeight()
 {
-     return iSpriteHeight;
+    return iSpriteHeight;
 }
 
 int cSprite::fGetSpriteWidthOffset()
 {
-     return iSpriteWidthOffset;
+    return iSpriteWidthOffset;
 }
 
 int cSprite::fGetSpriteHeightOffset()
 {
-     return iSpriteHeightOffset;
+    return iSpriteHeightOffset;
 }
 
 void cSprite::fScroll()
 {
-   if(iScrollOffset==iSpriteWidth)
-   {
-       iScrollOffset=0;
-   }else{
+    if(iScrollOffset==iSpriteWidth)
+    {
+        iScrollOffset=0;
+    }
+    else
+    {
         iScrollOffset++;
-   }
+    }
 }
 
 void cSprite::fRender(int iCol, int iRow, int iDestX, int iDestY)
 {
-     // Part of the bitmap that we want to draw
+    // Part of the bitmap that we want to draw
     SDL_Rect source;
     source.x = iSpriteWidthOffset+(iSpriteSpacer*(iCol+1))+(iCol*iSpriteWidth);
     source.y = iSpriteHeightOffset+(iSpriteSpacer*(iRow+1))+(iRow*iSpriteHeight);
@@ -115,15 +117,15 @@ void cSprite::fRender(int iCol, int iRow, int iDestX, int iDestY)
 
 cSprite::cSprite(SDL_Surface *screen)
 {
-      spritescreen = screen;
-      iSpriteSpacer=0;
-      iSpriteHeight=0;
-      iSpriteWidth=0;
-      iSpriteHeightOffset=0;
-      iSpriteWidthOffset=0;
+    spritescreen = screen;
+    iSpriteSpacer=0;
+    iSpriteHeight=0;
+    iSpriteWidth=0;
+    iSpriteHeightOffset=0;
+    iSpriteWidthOffset=0;
 }
 
 cSprite::~cSprite()
 {
-     SDL_FreeSurface(bitmap);
+    SDL_FreeSurface(bitmap);
 }

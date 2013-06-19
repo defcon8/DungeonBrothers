@@ -13,6 +13,7 @@
 #include <SDL/SDL.h>
 #include "spritelayer.h"
 #include "pencil.h"
+#include "player.h"
 #include "debug.h"
 #include "camera.h"
 #include <time.h>
@@ -67,7 +68,7 @@ class cGame {
     SDL_Surface *screen;
     cSpriteLayer *p_SpriteLayers;
     list<iLevelObject*> lLevelObjects;
-    cLevelObject* oPlayerObject;
+    cPlayer* oPlayerObject;
     cCamera* oCam;
 
   public:
