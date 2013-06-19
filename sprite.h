@@ -18,7 +18,7 @@
 
 class cSprite {
   private:
-          int iSpriteWidth, iSpriteHeight, iSpriteWidthOffset ,iSpriteHeightOffset, iSpriteSpacer;
+          int iSpriteWidth, iSpriteHeight, iSpriteWidthOffset ,iSpriteHeightOffset, iSpriteSpacer, iScreenWidth, iScreenHeight;
           int iColorKeyR, iColorKeyG, iColorKeyB;
           int iScrollOffset;
           char chTileSource[16];
@@ -47,7 +47,7 @@ class cSprite {
          void fSetColorKey(int iR, int iG, int iB);
          void fScroll();
 
-         cSprite(SDL_Surface *screen);
+         cSprite(SDL_Surface *screen, int iScreenWidthRef, int iScreenHeightRef);
          ~cSprite();
 };
 #endif /* SPRITE_H_ */

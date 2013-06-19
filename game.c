@@ -158,7 +158,7 @@ void cGame::Start()
 void cGame::fLoadObjects()
 {
     //Background Layer
-    oBackgroundLayer = new cSprite(screen);
+    oBackgroundLayer = new cSprite(screen, iScreenWidth, iScreenHeight);
     oBackgroundLayer->fLoad("back.bmp");
     oBackgroundLayer->fSetSpriteWidth(6400);
     oBackgroundLayer->fSetSpriteHeight(480);
@@ -508,6 +508,9 @@ void cGame::fObjectMovement()
         oCam->X += 1;
         break;
     }
+
+    //Scroll Back
+    oBackgroundLayer->fScroll();
 }
 
 cGame::cGame(int iScrWidth, int iScrHeight)

@@ -18,7 +18,8 @@ cLevelObject::cLevelObject(SDL_Surface* screen, cSpriteLayer* oLevelLayerRef, cC
     int iLevelRows=1;
     int iLevelCols=1;
     iMoveSpeed=1;
-    fMoveDirection(NONE,false);
+    X=0;
+    Y=0;
 
     // Store references to data objects localy
     oLevelLayer = oLevelLayerRef;
@@ -73,61 +74,19 @@ bool cLevelObject::fCheckLevelCollision()
 cLevelObject::~cLevelObject()
 {}
 
-void cLevelObject::fMoveDirection(int iDirection, bool blEnabled)
-{
-    switch(iDirection)
-    {
-    case NONE:
-        blMoveUp=false;
-        blMoveRight=false;
-        blMoveDown=false;
-        blMoveLeft=false;
-        break;
-    case UP:
-        blMoveUp=blEnabled;
-        break;
-    case RIGHT:
-        blMoveRight=blEnabled;
-        break;
-    case DOWN:
-        blMoveDown=blEnabled;
-        break;
-    case LEFT:
-        blMoveLeft=blEnabled;
-        break;
-    }
-}
-
-void cLevelObject::fMove()
-{
-    //Overide (if needed) by inheretant class
-    if(blMoveUp)
-        if(!fCheckDirectionCollision(oPlayerLayer,UP))
-            oPlayerLayer->y-= iMoveSpeed;
-
-    if(blMoveRight)
-        if(!fCheckDirectionCollision(oPlayerLayer,RIGHT))
-            oPlayerLayer->x+= iMoveSpeed;
-
-    if(blMoveDown)
-        if(!fCheckDirectionCollision(oPlayerLayer,DOWN))
-            oPlayerLayer->y+= iMoveSpeed;
-
-    if(blMoveLeft)
-        if(!fCheckDirectionCollision(oPlayerLayer,LEFT))
-            oPlayerLayer->x-= iMoveSpeed;
-}
-
 void cLevelObject::fAI()
 {
-    //Implemenet object artificial intelligence here. For example enemy movement.
+    //Implemenet object artificial intelligence here. For example movement automation.
     //Overide this (if needed) in the derived class
 }
 
 void cLevelObject::fUpdate()
 {
     fAI();
-    fMove();
+
+    //Update graphical layer
+    oPlayerLayer->x = X;
+    oPlayerLayer->y = Y;
     oPlayerLayer->fRender(oCam->X,oCam->Y);
 }
 

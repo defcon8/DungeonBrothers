@@ -86,7 +86,7 @@ int cSprite::fGetSpriteHeightOffset()
 
 void cSprite::fScroll()
 {
-    if(iScrollOffset==iSpriteWidth)
+    if((iScrollOffset+iScreenWidth)==iSpriteWidth)
     {
         iScrollOffset=0;
     }
@@ -107,7 +107,7 @@ void cSprite::fRender(int iCol, int iRow, int iDestX, int iDestY)
 
     // Part of the screen we want to draw the sprite to
     SDL_Rect destination;
-    destination.x = iDestX;
+    destination.x = iDestX-iScrollOffset;
     destination.y = iDestY;
     destination.w = iSpriteWidth;
     destination.h = iSpriteHeight;
@@ -115,7 +115,7 @@ void cSprite::fRender(int iCol, int iRow, int iDestX, int iDestY)
     SDL_BlitSurface(bitmap, &source, spritescreen, &destination);
 }
 
-cSprite::cSprite(SDL_Surface *screen)
+cSprite::cSprite(SDL_Surface *screen, int iScreenWidthRef, int iScreenHeightRef)
 {
     spritescreen = screen;
     iSpriteSpacer=0;
@@ -123,6 +123,9 @@ cSprite::cSprite(SDL_Surface *screen)
     iSpriteWidth=0;
     iSpriteHeightOffset=0;
     iSpriteWidthOffset=0;
+    iScrollOffset=0;
+    iScreenWidth=iScreenWidthRef;
+    iScreenHeight=iScreenHeightRef;
 }
 
 cSprite::~cSprite()

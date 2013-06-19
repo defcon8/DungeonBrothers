@@ -30,25 +30,23 @@ class cLevelObject : public iLevelObject{
 private:
     //Methods
     bool fCheckLevelCollision();
-    bool fCheckDirectionCollision(cSpriteLayer* oObject, int iDirection);
-    void fMove();
 
     //Variables
     int iScreenWidth, iScreenHeight;
-    int iMoveSpeed;
-    bool blMoveUp, blMoveRight, blMoveDown, blMoveLeft;
 
   public:
     //Object Pointers
     cSpriteLayer* oPlayerLayer;
     cSpriteLayer* oLevelLayer;
     cCamera* oCam;
+    int X,Y;
 
     cLevelObject(SDL_Surface* screen, cSpriteLayer* oLevelLayerRef, cCamera* oCamRef, char* chTileSource, int iSpriteHeight, int iSpriteWidth, int iScreenWidthRef, int iScreenHeightRef);
     virtual ~cLevelObject();
     virtual void fUpdate();
-    void fMoveDirection(int iDirection, bool blEnabled);
     virtual void fAI();
+    bool fCheckDirectionCollision(cSpriteLayer* oObject, int iDirection);
+    int iMoveSpeed;
 
 };
 
