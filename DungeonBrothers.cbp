@@ -40,7 +40,7 @@
 			<Option compilerVar="CPP" />
 		</Unit>
 		<Unit filename="game.h" />
-		<Unit filename="levelobject.h" />
+		<Unit filename="ilevelobject.h" />
 		<Unit filename="main.c">
 			<Option compilerVar="CPP" />
 		</Unit>

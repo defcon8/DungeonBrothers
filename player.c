@@ -12,7 +12,7 @@
 */
 #include "player.h"
 
-cPlayer::cPlayer(SDL_Surface* screen, cSpriteLayer* oLevelLayerRef, cCamera* oCamRef, char* chTileSource, int iSpriteHeight, int iSpriteWidth, int iScreenWidthRef, int iScreenHeightRef)
+cLevelObject::cLevelObject(SDL_Surface* screen, cSpriteLayer* oLevelLayerRef, cCamera* oCamRef, char* chTileSource, int iSpriteHeight, int iSpriteWidth, int iScreenWidthRef, int iScreenHeightRef)
 {
     // Init variables
     int iLevelRows=1;
@@ -43,7 +43,7 @@ cPlayer::cPlayer(SDL_Surface* screen, cSpriteLayer* oLevelLayerRef, cCamera* oCa
     oPlayerLayer->p_LevelData[0][0].iIndex=2;
 }
 
-bool cPlayer::fCheckLevelCollision()
+bool cLevelObject::fCheckLevelCollision()
 {
     //Level tile collision + Gravity
     int iColStart, iColEnd, iRowStart, iRowEnd;
@@ -70,10 +70,10 @@ bool cPlayer::fCheckLevelCollision()
     return blCollide;
 }
 
-cPlayer::~cPlayer()
+cLevelObject::~cLevelObject()
 {}
 
-void cPlayer::fMoveDirection(int iDirection, bool blEnabled)
+void cLevelObject::fMoveDirection(int iDirection, bool blEnabled)
 {
     switch(iDirection)
     {
@@ -95,7 +95,7 @@ void cPlayer::fMoveDirection(int iDirection, bool blEnabled)
     }
 }
 
-void cPlayer::fMove()
+void cLevelObject::fMove()
 {
     if(blMoveUp)
         if(!fCheckDirectionCollision(oPlayerLayer,UP))
@@ -114,13 +114,13 @@ void cPlayer::fMove()
             oPlayerLayer->x-= iMoveSpeed;
 }
 
-void cPlayer::fUpdate()
+void cLevelObject::fUpdate()
 {
     fMove();
     oPlayerLayer->fRender(oCam->X,oCam->Y);
 }
 
-bool cPlayer::fCheckDirectionCollision(cSpriteLayer* oObject, int iDirection)
+bool cLevelObject::fCheckDirectionCollision(cSpriteLayer* oObject, int iDirection)
 {
     bool blCollide = false;
     int iNextCol,iNextRow;

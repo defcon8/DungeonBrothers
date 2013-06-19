@@ -11,7 +11,7 @@
   E.  info@bastiaandewaard.com
 
 */
-#include "levelobject.h"
+#include "ilevelobject.h"
 
 class cEnemy : public iLevelObject{
 

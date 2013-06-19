@@ -229,8 +229,8 @@ void cGame::fLoadObjects()
 
     // ------------ [ start setup player ] --------------------
 
-    cPlayer* oPlayer;
-    oPlayer = new cPlayer(screen,oLevelLayer,oCam, chTileSource,32,32,iScreenWidth,iScreenHeight);
+    cLevelObject* oPlayer;
+    oPlayer = new cLevelObject(screen,oLevelLayer,oCam, chTileSource,32,32,iScreenWidth,iScreenHeight);
     lLevelObjects.push_back(oPlayer);    //Add to level object list
     oPlayerObject = oPlayer;             //Store pointer localy, so we can redirect the user input to the object directly without having to search in the levelobject list.
 

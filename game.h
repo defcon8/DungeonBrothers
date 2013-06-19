@@ -17,7 +17,7 @@
 #include "camera.h"
 #include <time.h>
 #include <list>
-#include "levelobject.h"
+#include "ilevelobject.h"
 #include "player.h"
 #include "enemy.h"
 
@@ -67,7 +67,7 @@ class cGame {
     SDL_Surface *screen;
     cSpriteLayer *p_SpriteLayers;
     list<iLevelObject*> lLevelObjects;
-    cPlayer* oPlayerObject;
+    cLevelObject* oPlayerObject;
     cCamera* oCam;
 
   public:

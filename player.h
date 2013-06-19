@@ -13,9 +13,9 @@
 #include <SDL/SDL.h>
 #include "spritelayer.h"
 #include "camera.h"
-#include "levelobject.h"
+#include "ilevelobject.h"
 
-class cPlayer : public iLevelObject{
+class cLevelObject : public iLevelObject{
 
   #define UP 1
   #define RIGHT 2
@@ -40,8 +40,8 @@ private:
     bool blMoveUp, blMoveRight, blMoveDown, blMoveLeft;
 
   public:
-    cPlayer(SDL_Surface* screen, cSpriteLayer* oLevelLayerRef, cCamera* oCamRef, char* chTileSource, int iSpriteHeight, int iSpriteWidth, int iScreenWidthRef, int iScreenHeightRef);
-    virtual ~cPlayer();
+    cLevelObject(SDL_Surface* screen, cSpriteLayer* oLevelLayerRef, cCamera* oCamRef, char* chTileSource, int iSpriteHeight, int iSpriteWidth, int iScreenWidthRef, int iScreenHeightRef);
+    virtual ~cLevelObject();
     virtual void fUpdate();
     void fMoveDirection(int iDirection, bool blEnabled);
 
