@@ -2,7 +2,7 @@ DungeonBrothers
 ===============
 
 A cool opensource game inspired on a classic amiga platform game called Yo Joe by Hudsonsoft. This engine is
-written in native C++ using the SDL Library. Developed on Win32 in Codeblocks/MingW but should be easy to port to other platforms.
+written in C++ using the SDL Library. Developed on Windows in Codeblocks IDE and compiled with the MingW. The game should be easy to port to other platforms.
 
 Goals (momentary):
 
