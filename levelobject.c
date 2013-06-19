@@ -10,7 +10,7 @@
   E.  info@bastiaandewaard.com
 
 */
-#include "player.h"
+#include "levelobject.h"
 
 cLevelObject::cLevelObject(SDL_Surface* screen, cSpriteLayer* oLevelLayerRef, cCamera* oCamRef, char* chTileSource, int iSpriteHeight, int iSpriteWidth, int iScreenWidthRef, int iScreenHeightRef)
 {

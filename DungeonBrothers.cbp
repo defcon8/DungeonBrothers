@@ -41,6 +41,10 @@
 		</Unit>
 		<Unit filename="game.h" />
 		<Unit filename="ilevelobject.h" />
+		<Unit filename="levelobject.c">
+			<Option compilerVar="CPP" />
+		</Unit>
+		<Unit filename="levelobject.h" />
 		<Unit filename="main.c">
 			<Option compilerVar="CPP" />
 		</Unit>
@@ -48,10 +52,6 @@
 			<Option compilerVar="CPP" />
 		</Unit>
 		<Unit filename="pencil.h" />
-		<Unit filename="player.c">
-			<Option compilerVar="CPP" />
-		</Unit>
-		<Unit filename="player.h" />
 		<Unit filename="sprite.c">
 			<Option compilerVar="CPP" />
 		</Unit>

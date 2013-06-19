@@ -18,7 +18,7 @@
 #include <time.h>
 #include <list>
 #include "ilevelobject.h"
-#include "player.h"
+#include "levelobject.h"
 #include "enemy.h"
 
 using namespace std;
