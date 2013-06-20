@@ -14,6 +14,12 @@
 					<Add option="-O3" />
 					<Add option="-g" />
 				</Compiler>
+				<Linker>
+					<Add library="SDL_ttf" />
+					<Add library="SDL" />
+					<Add library="SDLmain" />
+					<Add library="mingw32" />
+				</Linker>
 			</Target>
 		</Build>
 		<Compiler>
@@ -23,6 +29,7 @@
 			<Add library="mingw32" />
 			<Add library="SDLmain" />
 			<Add library="SDL" />
+			<Add library="SDL_ttf" />
 		</Linker>
 		<Unit filename="camera.c">
 			<Option compilerVar="CPP" />

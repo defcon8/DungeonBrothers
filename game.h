@@ -11,6 +11,7 @@
 
 */
 #include <SDL/SDL.h>
+#include "SDL/SDL_ttf.h"
 #include "spritelayer.h"
 #include "pencil.h"
 #include "player.h"
@@ -72,6 +73,7 @@ class cGame {
 
     /* The screen surface */
     SDL_Surface *screen;
+    SDL_Surface *textSurface;
     cSpriteLayer *p_SpriteLayers;
     list<iLevelObject*> lLevelObjects;
     cPlayer* oPlayerObject;

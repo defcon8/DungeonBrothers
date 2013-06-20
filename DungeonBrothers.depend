@@ -63,7 +63,7 @@
 1371631035 c:\users\bw.kee\documents\github\dungeonbrothers\debug.h
 	<winsock2.h>
 
-1371718919 source:c:\users\bw.kee\documents\github\dungeonbrothers\game.c
+1371735807 source:c:\users\bw.kee\documents\github\dungeonbrothers\game.c
 	<windows.h>
 	<iostream>
 	<math.h>
@@ -71,8 +71,9 @@
 	<cstring>
 	"game.h"
 
-1371646557 c:\users\bw.kee\documents\github\dungeonbrothers\game.h
+1371736096 c:\users\bw.kee\documents\github\dungeonbrothers\game.h
 	<SDL/SDL.h>
+	"SDL/SDL_ttf.h"
 	"spritelayer.h"
 	"pencil.h"
 	"player.h"
@@ -136,7 +137,7 @@
 1371631469 c:\users\bw.kee\documents\github\dungeonbrothers\enemy.h
 	"ilevelobject.h"
 
-1371635081 source:c:\users\bw.kee\documents\github\dungeonbrothers\player.c
+1371720200 source:c:\users\bw.kee\documents\github\dungeonbrothers\player.c
 	"player.h"
 
 1369919302 source:c:\users\bastiaan\documents\github\dungeonbrothers\enemy.c

@@ -293,6 +293,7 @@ void cGame::fInitialize()
         exit(1);
     }
 
+    TTF_Init();
     atexit (SDL_Quit);
     screen = SDL_SetVideoMode (iScreenWidth, iScreenHeight, 16, SDL_HWSURFACE | SDL_DOUBLEBUF);
 
@@ -692,8 +693,19 @@ void cGame::fRender()
         fRenderEditMode();
     }
 
+    // Test BW: TTF
+    SDL_Color foregroundColor = { 255, 0, 0 };
+    SDL_Color backgroundColor = { 0, 0, 0 };
+    TTF_Font* font = TTF_OpenFont("ARIAL.TTF", 12);
+    textSurface = TTF_RenderText_Shaded(font, "Dungeon Brothers ALPHA", foregroundColor, backgroundColor);
+    SDL_Rect textLocation = { 10, 10, 0, 0 };
+    SDL_BlitSurface(textSurface, NULL, screen, &textLocation);
+    SDL_FreeSurface(textSurface);
+
     /* Switch video buffer */
     SDL_Flip (screen);
+
+
 }
 
 
@@ -726,7 +738,10 @@ void cGame::fDrawPixel(SDL_Surface *screen, int x, int y, Uint8 R, Uint8 G, Uint
             bufp[1] = color >> 8;
             bufp[2] = color >> 16;
         }
-        else
+        else    TTF_Font* font = TTF_OpenFont("ARIAL.TTF", 12);
+    SDL_Color foregroundColor = { 255, 255, 255 };
+    SDL_Color backgroundColor = { 0, 0, 255 };
+    SDL_Rect textLocation = { 100, 100, 0, 0 };
         {
             bufp[2] = color;
             bufp[1] = color >> 8;
