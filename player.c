@@ -2,16 +2,32 @@
 
 cPlayer::cPlayer(SDL_Surface* screen, cSpriteLayer* oLevelLayerRef, cCamera* oCamRef, char* chTileSource, int iSpriteHeight, int iSpriteWidth, int iScreenWidthRef, int iScreenHeightRef) : cLevelObject(screen, oLevelLayerRef, oCamRef, chTileSource, iSpriteHeight, iSpriteWidth, iScreenWidthRef, iScreenHeightRef)
 {
+        // Init Variables
         fMoveDirection(NONE,false);
+        iGravity=1;
+        iVelocityY=0;
+        iJumpFactor=15;
+        blIsJumping=false;
 }
 
 cPlayer::~cPlayer()
 {
 }
 
+void cPlayer::fJump()
+{
+    if(!blIsJumping)
+    {
+       iVelocityY=iJumpFactor;
+       blIsJumping=true;
+    }
+}
+
 void cPlayer::fAI()
 {
-    //Respond movement to user input
+
+    //Movement
+    // - Respond to user Input
     if(blMoveUp)
         if(!fCheckDirectionCollision(oPlayerLayer,UP))
             Y-= iMoveSpeed;
@@ -27,6 +43,15 @@ void cPlayer::fAI()
     if(blMoveLeft)
         if(!fCheckDirectionCollision(oPlayerLayer,LEFT))
             X-= iMoveSpeed;
+
+    // - Jump Physics
+    if(blIsJumping && (iVelocityY >= -iJumpFactor))
+    {
+        Y=Y-iVelocityY;
+        iVelocityY-=iGravity;
+    }else{
+        blIsJumping=false;
+    }
 }
 
 void cPlayer::fMoveDirection(int iDirection, bool blEnabled)

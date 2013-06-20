@@ -36,6 +36,11 @@ class cGame {
     int iScreenWidth, iScreenHeight;
     double dbMouseCornerWidthPerc;
     int iMouseScrollSpeed;
+    int iOptimalFrequency;
+    int iElapsedSeconds;
+    int iStartTime;
+    int iRenderedFrames;
+    int iFPS;
 
     clock_t cStart, cTime;
 
@@ -60,6 +65,7 @@ class cGame {
     void fDrawRectangle(int x, int y, int w, int h, Uint32 color);
     void fObjectMovement();
     void fCameraMovement();
+    void fFPS();
 
     int fGetTileCol(int iX, int iTileWidth);
     int fGetTileRow(int iY, int iTileHeight);

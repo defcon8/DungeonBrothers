@@ -3,6 +3,9 @@
 class cPlayer : public cLevelObject
 {
   private:
+    bool blIsJumping;
+    int iGravity, iVelocityY, iJumpFactor;
+
 
   public:
     bool blMoveUp, blMoveRight, blMoveDown, blMoveLeft;
@@ -11,6 +14,7 @@ class cPlayer : public cLevelObject
     ~cPlayer();
     void fAI();
     void fMoveDirection(int iDirection, bool blEnabled);
+    void fJump();
 };
 
 

@@ -148,11 +148,17 @@ void cGame::Start()
         fCameraMovement();
         fGameLoop();
         fRender();
-        //Todo: Cap to FPS
-        //SDL_Delay(1);
+        iRenderedFrames++; // Another Frame is rendered
+        fFPS();
     }
 
     fCleanUp();
+}
+
+void cGame::fFPS()
+{
+    iElapsedSeconds=time(NULL)-iStartTime;
+    iFPS=iRenderedFrames/iElapsedSeconds;
 }
 
 void cGame::fLoadObjects()
@@ -323,60 +329,65 @@ void cGame::fNormalModeEvents()
     {
         switch (event.type)
         {
-            case SDL_KEYDOWN:
-                switch(event.key.keysym.sym)
-                {
-                    case SDLK_UP:
-                        oPlayerObject->fMoveDirection(1,true);
-                        break;
-                    case SDLK_RIGHT:
-                        oPlayerObject->fMoveDirection(2,true);
-                        break;
-                    case SDLK_DOWN :
-                        oPlayerObject->fMoveDirection(3,true);
-                        break;
-                    case SDLK_LEFT:
-                        oPlayerObject->fMoveDirection(4,true);
-                        break;
-
-                    case SDLK_ESCAPE:
-                        blDone=true;
-                        blEditMode = true;
-                        break;
-
-                    case SDLK_F1:
-                        //Toggle Edit Mode
-                        blEditMode = !blEditMode;
-                        SDL_WM_SetCaption ("Edit mode", NULL);
-                        break;
-                }
+        case SDL_KEYDOWN:
+            switch(event.key.keysym.sym)
+            {
+            case SDLK_UP:
+                oPlayerObject->fMoveDirection(1,true);
                 break;
-            case SDL_KEYUP:
-                switch(event.key.keysym.sym)
-                {
-                    case SDLK_UP:
-                    {
-                        oPlayerObject->fMoveDirection(1,false);
-                        break;
-                    }
-
-                    case SDLK_RIGHT:
-                    {
-                        oPlayerObject->fMoveDirection(2,false);
-                        break;
-                    }
-                    case SDLK_DOWN:
-                    {
-                        oPlayerObject->fMoveDirection(3,false);
-                        break;
-                    }
-                    case SDLK_LEFT:
-                    {
-                    oPlayerObject->fMoveDirection(4,false);
-                       break;
-                    }
-                }
+            case SDLK_RIGHT:
+                oPlayerObject->fMoveDirection(2,true);
                 break;
+            case SDLK_DOWN :
+                oPlayerObject->fMoveDirection(3,true);
+                break;
+            case SDLK_LEFT:
+                oPlayerObject->fMoveDirection(4,true);
+                break;
+
+            case SDLK_ESCAPE:
+                blDone=true;
+                blEditMode = true;
+                break;
+
+            case SDLK_F1:
+                //Toggle Edit Mode
+                blEditMode = !blEditMode;
+                SDL_WM_SetCaption ("Edit mode", NULL);
+                break;
+            }
+            break;
+        case SDL_KEYUP:
+            switch(event.key.keysym.sym)
+            {
+            case SDLK_UP:
+            {
+                oPlayerObject->fMoveDirection(1,false);
+                break;
+            }
+
+            case SDLK_RIGHT:
+            {
+                oPlayerObject->fMoveDirection(2,false);
+                break;
+            }
+            case SDLK_DOWN:
+            {
+                oPlayerObject->fMoveDirection(3,false);
+                break;
+            }
+            case SDLK_LEFT:
+            {
+                oPlayerObject->fMoveDirection(4,false);
+                break;
+            }
+            case SDLK_SPACE:
+            {
+                oPlayerObject->fJump();
+                break;
+            }
+            }
+            break;
         case SDL_QUIT:
             blDone = 1;
             break;
@@ -510,7 +521,7 @@ void cGame::fObjectMovement()
     }
 
     //Scroll Back
-    oBackgroundLayer->fScroll();
+    //oBackgroundLayer->fScroll();
 }
 
 cGame::cGame(int iScrWidth, int iScrHeight)
@@ -530,6 +541,11 @@ void cGame::fInitVariables(int iScrWidth, int iScrHeight)
     MouseY=0;
     dbMouseCornerWidthPerc=0.95;
     iMouseScrollSpeed=5;
+    iElapsedSeconds=0;
+    iOptimalFrequency=30; // 30 FPS
+    iStartTime=time(NULL);
+    iRenderedFrames=0;
+    iFPS=0;
     oPencil = new cPencil;
 }
 
@@ -635,7 +651,7 @@ void cGame::fRender()
     color = SDL_MapRGB (screen->format, 0, 0, 0);
     SDL_FillRect (screen, NULL, color);
 
-     // Render the background layer
+    // Render the background layer
     oBackgroundLayer->fRender(0,0,oCam->X,oCam->Y);
 
     //Render the level layer
@@ -657,7 +673,9 @@ void cGame::fRender()
             destination.w = oLevelLayer->fGetWidth();
             destination.h = oLevelLayer->fGetWidth();
             SDL_BlitSurface(oLevelLayer->fGetBufferSurface(), NULL, screen, &destination);
-        }else{
+        }
+        else
+        {
             oLevelLayer->fRender(oCam->X,oCam->Y);
         }
 
