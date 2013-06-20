@@ -8,7 +8,7 @@
 1369408017 c:\users\bastiaan\documents\github\dungeonbrothers\debug.h
 	<winsock2.h>
 
-1369947098 source:c:\users\bastiaan\documents\github\dungeonbrothers\game.c
+1371763933 source:c:\users\bastiaan\documents\github\dungeonbrothers\game.c
 	<windows.h>
 	<iostream>
 	<math.h>
@@ -16,22 +16,24 @@
 	<cstring>
 	"game.h"
 
-1369946153 c:\users\bastiaan\documents\github\dungeonbrothers\game.h
+1371763869 c:\users\bastiaan\documents\github\dungeonbrothers\game.h
 	<SDL/SDL.h>
+	"SDL/SDL_ttf.h"
 	"spritelayer.h"
 	"pencil.h"
+	"player.h"
 	"debug.h"
 	"camera.h"
 	<time.h>
 	<list>
+	"ilevelobject.h"
 	"levelobject.h"
-	"player.h"
 	"enemy.h"
 
 1369919302 c:\users\bastiaan\documents\github\dungeonbrothers\spritelayer.h
 	"sprite.h"
 
-1369919302 c:\users\bastiaan\documents\github\dungeonbrothers\sprite.h
+1371672101 c:\users\bastiaan\documents\github\dungeonbrothers\sprite.h
 	<SDL/SDL.h>
 
 1369859598 c:\users\bastiaan\documents\github\dungeonbrothers\pencil.h
@@ -45,11 +47,11 @@
 1369859598 source:c:\users\bastiaan\documents\github\dungeonbrothers\pencil.c
 	"pencil.h"
 
-1369859598 source:c:\users\bastiaan\documents\github\dungeonbrothers\sprite.c
+1371672101 source:c:\users\bastiaan\documents\github\dungeonbrothers\sprite.c
 	"sprite.h"
 	<cstring>
 
-1369859598 source:c:\users\bastiaan\documents\github\dungeonbrothers\spritelayer.c
+1371672101 source:c:\users\bastiaan\documents\github\dungeonbrothers\spritelayer.c
 	"spritelayer.h"
 	<cstring>
 	<fstream>
@@ -111,16 +113,17 @@
 	<cstring>
 	<fstream>
 
-1369949447 source:c:\users\bastiaan\documents\github\dungeonbrothers\player.c
+1371762204 source:c:\users\bastiaan\documents\github\dungeonbrothers\player.c
 	"player.h"
 
-1369949576 c:\users\bastiaan\documents\github\dungeonbrothers\player.h
+1371762204 c:\users\bastiaan\documents\github\dungeonbrothers\player.h
+	"levelobject.h"
+
+1371762142 c:\users\bastiaan\documents\github\dungeonbrothers\levelobject.h
 	<SDL/SDL.h>
 	"spritelayer.h"
 	"camera.h"
-	"levelobject.h"
-
-1369949413 c:\users\bastiaan\documents\github\dungeonbrothers\levelobject.h
+	"ilevelobject.h"
 
 1371719631 c:\users\bw.kee\documents\github\dungeonbrothers\player.h
 	"levelobject.h"
@@ -143,8 +146,8 @@
 1369919302 source:c:\users\bastiaan\documents\github\dungeonbrothers\enemy.c
 	"enemy.h"
 
-1369919302 c:\users\bastiaan\documents\github\dungeonbrothers\enemy.h
-	"levelobject.h"
+1371672101 c:\users\bastiaan\documents\github\dungeonbrothers\enemy.h
+	"ilevelobject.h"
 
 1369924042 c:\users\bastiaan\documents\github\dungeonbrothers\camera.h
 
@@ -244,4 +247,9 @@
 
 1371657928 source:c:\documents and settings\bastiaan & lore\mijn documenten\github\dungeonbrothers\player.c
 	"player.h"
+
+1371672101 c:\users\bastiaan\documents\github\dungeonbrothers\ilevelobject.h
+
+1371672101 source:c:\users\bastiaan\documents\github\dungeonbrothers\levelobject.c
+	"levelobject.h"
 

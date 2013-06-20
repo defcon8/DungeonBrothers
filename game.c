@@ -294,6 +294,7 @@ void cGame::fInitialize()
     }
 
     TTF_Init();
+    ttfFont = TTF_OpenFont("ARIAL.TTF", 12);
     atexit (SDL_Quit);
     screen = SDL_SetVideoMode (iScreenWidth, iScreenHeight, 16, SDL_HWSURFACE | SDL_DOUBLEBUF);
 
@@ -306,7 +307,7 @@ void cGame::fInitialize()
         exit(2);
     }
 
-    SDL_WM_SetCaption ("Dungeon Brothers ALPHA", NULL);
+    SDL_WM_SetCaption ("Dungeon Brothers", NULL);
     SDL_ShowCursor(SDL_DISABLE);
 }
 
@@ -693,21 +694,23 @@ void cGame::fRender()
         fRenderEditMode();
     }
 
-    // Test BW: TTF
+    fRenderUI();
+
+    /* Switch video buffer */
+    SDL_Flip (screen);
+}
+
+void cGame::fRenderUI()
+{
+    // TTF
     SDL_Color foregroundColor = { 255, 0, 0 };
     SDL_Color backgroundColor = { 0, 0, 0 };
-    TTF_Font* font = TTF_OpenFont("ARIAL.TTF", 12);
-    textSurface = TTF_RenderText_Shaded(font, "Dungeon Brothers ALPHA", foregroundColor, backgroundColor);
+    textSurface = TTF_RenderText_Shaded(ttfFont, "Here comes the FPS (iFPS)", foregroundColor, backgroundColor);
     SDL_Rect textLocation = { 10, 10, 0, 0 };
     SDL_BlitSurface(textSurface, NULL, screen, &textLocation);
     SDL_FreeSurface(textSurface);
 
-    /* Switch video buffer */
-    SDL_Flip (screen);
-
-
 }
-
 
 void cGame::fDrawPixel(SDL_Surface *screen, int x, int y, Uint8 R, Uint8 G, Uint8 B)
 {

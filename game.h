@@ -63,10 +63,12 @@ class cGame {
     void fSaveDemo();
     void fDrawPixel(SDL_Surface *screen, int x, int y, Uint8 R, Uint8 G, Uint8 B);
     void fRenderEditMode();
+    void fRenderUI();
     void fDrawRectangle(int x, int y, int w, int h, Uint32 color);
     void fObjectMovement();
     void fCameraMovement();
     void fFPS();
+    TTF_Font* ttfFont;
 
     int fGetTileCol(int iX, int iTileWidth);
     int fGetTileRow(int iY, int iTileHeight);
