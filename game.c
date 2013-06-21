@@ -162,6 +162,9 @@ void cGame::Start()
         fRender();
         iRenderedFrames++; // Another Frame is rendered
         fFPS();
+
+        //Give system time to the OS, prevent 100% Core usage.
+        SDL_Delay(1);
     }
 
     fCleanUp();
@@ -740,6 +743,7 @@ void cGame::fRenderUI()
     itoa(iFPS,chFPS,10);
     textSurface = TTF_RenderText_Shaded(ttfFont, chFPS, cRed, cBlack);
     SDL_BlitSurface(textSurface, NULL, screen, &rFPSLocation);
+    SDL_FreeSurface(textSurface);
 }
 
 void cGame::fDrawPixel(SDL_Surface *screen, int x, int y, Uint8 R, Uint8 G, Uint8 B)
