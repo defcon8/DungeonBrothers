@@ -1,14 +1,15 @@
-DungeonBrothers
-===============
+Dungeon Brothers
+================
 
-A cool opensource game inspired on a classic amiga platform game called Yo Joe by Hudsonsoft. This engine is
-written in C++ using the SDL Library. Developed on Windows in Codeblocks IDE and compiled with the MingW. The game should be easy to port to other platforms.
+A cool opensource game inspired by amiga platform games like 'Yo Joe!' and 'Ruff 'n Tumble'. This engine
+is written in C++ using the SDL Library. Developed on Windows in Codeblocks IDE and compiled with the MingW.
+The game should be easy to port to other platforms. Aiming to release the game for MorphOS and Windows.
 
-Goals (momentary):
+Goals:
 
 	- Fast and exciting gameplay
 	- Tile based engine
-	- Paralax scrolling background
+	- Paralax scrolling
 	- Built in level editor
 	- Keyboard and Joystick input
 	- 2 Player Mode
@@ -21,10 +22,12 @@ Team members:
 	=====================================================================================
 	Defcon8 		Bastiaan de Waard	Programmer / Music / Audio FX
 
-We are looking forward to meet new team members:
+We are realy looking forward to meet new team members:
+======================================================
 
-	- Programmers
-	- Graphic designers
+	- Programmers (C++)
+	- Graphics designers !!!!
+	- Sound designers
 	- Level designers
 	
-Contact: info@bastiaandewaard.com
+Contact me: info@bastiaandewaard.com
