@@ -124,16 +124,28 @@ void cGame::fSaveDemo()
 
 void cGame::fCameraMovement()
 {
-    // TODO
-//    //Scroll to the right
-//    if(oPlayerLayer->x<(-CamX))
-//            CamX+=200;
-//
-//
-//    //Scroll to the right
-//    if(oPlayerLayer->x>((-CamX)+iScreenWidth))
-//            CamX-=200;
+    //Let the camera follow the players position. If the camera position is not optimal then increase or decrease the camera position by 1 to have a smooth scrolling transition.
 
+
+
+    oCam->X=-(oPlayerObject->X - (iScreenWidth/2) - oPlayerObject->oPlayerLayer->fGetWidth());
+
+
+    // Y AXIS = UP/DOWN
+    if(!oPlayerObject->blIsJumping) //Do not update camera on player jump
+    {
+        int iPos = -(oPlayerObject->Y - (iScreenHeight/2) - oPlayerObject->oPlayerLayer->fGetHeight());
+        if(iPos < oCam->Y)
+        {
+            // Let the Camera go up
+            oCam->Y--;
+        }else if(iPos > oCam->Y){
+            // Let the Camera go down
+            oCam->Y++;
+        }else{
+            // The camera is in optimal position
+        }
+    }
 }
 
 void cGame::Start()
@@ -158,7 +170,8 @@ void cGame::Start()
 void cGame::fFPS()
 {
     iElapsedSeconds=time(NULL)-iStartTime;
-    iFPS=iRenderedFrames/iElapsedSeconds;
+    if(iElapsedSeconds>0) //Protect against divide by zero, crash at program startup.
+        iFPS=iRenderedFrames/iElapsedSeconds;
 }
 
 void cGame::fLoadObjects()
@@ -295,6 +308,16 @@ void cGame::fInitialize()
 
     TTF_Init();
     ttfFont = TTF_OpenFont("ARIAL.TTF", 12);
+
+    if (ttfFont == NULL)
+    {
+        sprintf (chMessage, "Can't load font.");
+        SDL_GetError ();
+        MessageBox(0,chMessage,"Error",MB_ICONHAND);
+        free(chMessage);
+        exit(2);
+    }
+
     atexit (SDL_Quit);
     screen = SDL_SetVideoMode (iScreenWidth, iScreenHeight, 16, SDL_HWSURFACE | SDL_DOUBLEBUF);
 
@@ -443,13 +466,13 @@ void cGame::fEditModeEvents()
             case SDLK_F3:
                 //Save Layer to File
                 fSaveLayer(oLevelLayer);
-                SDL_WM_SetCaption ("Layer Saved.", NULL);
+                SDL_WM_SetCaption ("Current Layer Saved.", NULL);
                 break;
 
             case SDLK_F4:
                 //Save Demo
                 fSaveDemo();
-                SDL_WM_SetCaption ("Demolevel Saved.", NULL);
+                SDL_WM_SetCaption ("Basic demolevel Saved.", NULL);
                 break;
 
             case SDLK_LEFT:
@@ -523,7 +546,8 @@ void cGame::fObjectMovement()
     }
 
     //Scroll Back
-    //oBackgroundLayer->fScroll();
+    if(iRenderedFrames%5 ==0)
+        oBackgroundLayer->fScroll();
 }
 
 cGame::cGame(int iScrWidth, int iScrHeight)
@@ -534,6 +558,7 @@ cGame::cGame(int iScrWidth, int iScrHeight)
 void cGame::fInitVariables(int iScrWidth, int iScrHeight)
 {
     blDone = false;
+    oPencil = new cPencil;
     iScreenWidth=iScrWidth;
     iScreenHeight=iScrHeight;
     blEditMode = false;
@@ -548,7 +573,16 @@ void cGame::fInitVariables(int iScrWidth, int iScrHeight)
     iStartTime=time(NULL);
     iRenderedFrames=0;
     iFPS=0;
-    oPencil = new cPencil;
+
+    //GUI Related
+    cBlack.r=0;
+    cBlack.g=0;
+    cBlack.b=0;
+    cRed.r=255;
+    cRed.g=0;
+    cRed.b=0;
+    rFPSLocation.x=25;
+    rFPSLocation.y=iScreenHeight-25;
 }
 
 cGame::~cGame()
@@ -558,6 +592,7 @@ void cGame::fCleanUp()
 {
     //Destroy objects
     delete oLevelLayer;
+    SDL_FreeSurface(textSurface);
     SDL_FreeSurface(screen);
 }
 
@@ -702,14 +737,9 @@ void cGame::fRender()
 
 void cGame::fRenderUI()
 {
-    // TTF
-    SDL_Color foregroundColor = { 255, 0, 0 };
-    SDL_Color backgroundColor = { 0, 0, 0 };
-    textSurface = TTF_RenderText_Shaded(ttfFont, "Here comes the FPS (iFPS)", foregroundColor, backgroundColor);
-    SDL_Rect textLocation = { 10, 10, 0, 0 };
-    SDL_BlitSurface(textSurface, NULL, screen, &textLocation);
-    SDL_FreeSurface(textSurface);
-
+    itoa(iFPS,chFPS,10);
+    textSurface = TTF_RenderText_Shaded(ttfFont, chFPS, cRed, cBlack);
+    SDL_BlitSurface(textSurface, NULL, screen, &rFPSLocation);
 }
 
 void cGame::fDrawPixel(SDL_Surface *screen, int x, int y, Uint8 R, Uint8 G, Uint8 B)

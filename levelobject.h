@@ -46,6 +46,7 @@ private:
     virtual void fUpdate();
     virtual void fAI();
     bool fCheckDirectionCollision(cSpriteLayer* oObject, int iDirection);
+    bool fCheckDirectionCollision(cSpriteLayer* oObject, int iDirection, int iAmountOfPixels);
     int iMoveSpeed;
 
 };

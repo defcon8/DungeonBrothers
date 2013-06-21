@@ -45,6 +45,12 @@ class cGame {
 
     clock_t cStart, cTime;
 
+    TTF_Font* ttfFont;
+    char chFPS[5];
+    SDL_Color cRed;
+    SDL_Color cBlack;
+    SDL_Rect rFPSLocation;
+
     cPencil* oPencil;
     cSpriteLayer* oLevelLayer;
     cSpriteLayer* oSpritePicker;
@@ -68,7 +74,6 @@ class cGame {
     void fObjectMovement();
     void fCameraMovement();
     void fFPS();
-    TTF_Font* ttfFont;
 
     int fGetTileCol(int iX, int iTileWidth);
     int fGetTileRow(int iY, int iTileHeight);
