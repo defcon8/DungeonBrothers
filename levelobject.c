@@ -99,7 +99,6 @@ bool cLevelObject::fCheckDirectionCollision(cSpriteLayer* oObject, int iDirectio
 {
     bool blCollide = false;
     int iNextCol,iNextRow;
-
     int iColStart, iColEnd, iRowStart, iRowEnd;
     iColStart=oLevelLayer->fWidthToCol(oObject->x+1);
     iColEnd=oLevelLayer->fWidthToCol((oObject->x + oObject->fGetSpriteWidth()-1));
@@ -149,5 +148,6 @@ bool cLevelObject::fCheckDirectionCollision(cSpriteLayer* oObject, int iDirectio
         }
         break;
     }
+
     return blCollide;
 }

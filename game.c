@@ -124,28 +124,43 @@ void cGame::fSaveDemo()
 
 void cGame::fCameraMovement()
 {
-    //Let the camera follow the players position. If the camera position is not optimal then increase or decrease the camera position by 1 to have a smooth scrolling transition.
-
-
-
-    oCam->X=-(oPlayerObject->X - (iScreenWidth/2) - oPlayerObject->oPlayerLayer->fGetWidth());
-
-
-    // Y AXIS = UP/DOWN
-    if(!oPlayerObject->blIsJumping) //Do not update camera on player jump
+    if(!blEditMode) // Dont move camera automaticly when in edit mode because we want to move by mouse
     {
-        int iPos = -(oPlayerObject->Y - (iScreenHeight/2) - oPlayerObject->oPlayerLayer->fGetHeight());
-        if(iPos < oCam->Y)
+        int iPos;
+        //Let the camera follow the players position. If the camera position is not optimal then increase or decrease the camera position by 1 to have a smooth scrolling effect. Do not follow
+        //when the user is jumping..this is kind a hectic.
+
+        //Left/Right
+        iPos = -(oPlayerObject->X - (iScreenWidth/2) - oPlayerObject->oPlayerLayer->fGetWidth());
+        if(iPos < oCam->X)
         {
             // Let the Camera go up
-            oCam->Y--;
-        }else if(iPos > oCam->Y){
+            oCam->X--;
+        }else if(iPos > oCam->X){
             // Let the Camera go down
-            oCam->Y++;
+            oCam->X++;
         }else{
             // The camera is in optimal position
         }
+
+        //UP/DOWN
+        if(!oPlayerObject->blIsJumping) //Do not update camera on player jump
+        {
+            iPos = -(oPlayerObject->Y - (iScreenHeight/2) - oPlayerObject->oPlayerLayer->fGetHeight());
+            if(iPos < oCam->Y)
+            {
+                // Let the Camera go up
+                oCam->Y--;
+            }else if(iPos > oCam->Y){
+                // Let the Camera go down
+                oCam->Y++;
+            }else{
+                // The camera is in optimal position
+            }
+        }
     }
+
+
 }
 
 void cGame::Start()
@@ -164,9 +179,8 @@ void cGame::Start()
         fFPS();
 
         //Give system time to the OS, prevent 100% Core usage.
-        SDL_Delay(1);
+        SDL_Delay(5);
     }
-
     fCleanUp();
 }
 
@@ -322,7 +336,7 @@ void cGame::fInitialize()
     }
 
     atexit (SDL_Quit);
-    screen = SDL_SetVideoMode (iScreenWidth, iScreenHeight, 16, SDL_HWSURFACE | SDL_DOUBLEBUF);
+    screen = SDL_SetVideoMode (iScreenWidth, iScreenHeight, 16, SDL_HWSURFACE | SDL_DOUBLEBUF | SDL_FULLSCREEN);
 
     if (screen == NULL)
     {
@@ -372,16 +386,17 @@ void cGame::fNormalModeEvents()
             case SDLK_LEFT:
                 oPlayerObject->fMoveDirection(4,true);
                 break;
-
             case SDLK_ESCAPE:
                 blDone=true;
                 blEditMode = true;
                 break;
-
             case SDLK_F1:
                 //Toggle Edit Mode
                 blEditMode = !blEditMode;
                 SDL_WM_SetCaption ("Edit mode", NULL);
+                break;
+            case SDLK_SPACE:
+                oPlayerObject->fJump();
                 break;
             }
             break;
@@ -407,11 +422,6 @@ void cGame::fNormalModeEvents()
             case SDLK_LEFT:
             {
                 oPlayerObject->fMoveDirection(4,false);
-                break;
-            }
-            case SDLK_SPACE:
-            {
-                oPlayerObject->fJump();
                 break;
             }
             }

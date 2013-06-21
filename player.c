@@ -6,8 +6,10 @@ cPlayer::cPlayer(SDL_Surface* screen, cSpriteLayer* oLevelLayerRef, cCamera* oCa
         fMoveDirection(NONE,false);
         iGravity=1;
         iVelocityY=0;
-        iJumpFactor=15;
+        iJumpFactor=17;
         blIsJumping=false;
+        X=40;
+        Y=40;
 }
 
 cPlayer::~cPlayer()
@@ -40,8 +42,14 @@ void cPlayer::fAI()
 
 //  Converted down to a constant gravity
     if(!blIsJumping)
-        if(!fCheckDirectionCollision(oPlayerLayer,DOWN))
-            Y+= iMoveSpeed;
+        if(!fCheckDirectionCollision(oPlayerLayer,DOWN,iMoveSpeed+iVelocityY))
+        {
+            Y+= iMoveSpeed+iVelocityY;
+            iVelocityY++;
+        }else{
+            iVelocityY=0;
+        }
+
 
     if(blMoveLeft)
         if(!fCheckDirectionCollision(oPlayerLayer,LEFT))
