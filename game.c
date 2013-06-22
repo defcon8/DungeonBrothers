@@ -177,7 +177,7 @@ void cGame::Start()
         fFPS();
 
         //Give system time to the OS, prevent 100% Core usage.
-        SDL_Delay(5);
+        SDL_Delay(1);
     }
     fCleanUp();
 }
@@ -264,7 +264,7 @@ void cGame::fLoadObjects()
     // ------------ [ start setup player ] --------------------
 
     cPlayer* oPlayer;
-    oPlayer = new cPlayer(screen,oLevelLayer,oCam, chTileSource,32,32,iScreenWidth,iScreenHeight);
+    oPlayer = new cPlayer(screen,oLevelLayer,oCam, "player.bmp",40,32,iScreenWidth,iScreenHeight);
     lLevelObjects.push_back(oPlayer);    //Add to level object list
     oPlayerObject = oPlayer;             //Store pointer localy, so we can redirect the user input to the object directly without having to search in the levelobject list.
 
@@ -328,7 +328,7 @@ void cGame::fInitialize()
     }
 
     atexit (SDL_Quit);
-    screen = SDL_SetVideoMode (iScreenWidth, iScreenHeight, 16, SDL_HWSURFACE | SDL_DOUBLEBUF | SDL_FULLSCREEN);
+    screen = SDL_SetVideoMode (iScreenWidth, iScreenHeight, 16, SDL_HWSURFACE | SDL_DOUBLEBUF);
 
     if (screen == NULL)
     {

@@ -55,11 +55,18 @@ void cPlayer::fMoveByUserInput()
 {
     if(blMoveRight)
         if(!fCheckDirectionCollision(oPlayerLayer,RIGHT))
+        {
             X+= iMoveSpeed;
+            oPlayerLayer->p_LevelData[0][0].iIndex=1; //Todo: do this better
+        }
 
     if(blMoveLeft)
         if(!fCheckDirectionCollision(oPlayerLayer,LEFT))
+        {
             X-= iMoveSpeed;
+            oPlayerLayer->p_LevelData[0][0].iIndex=0; //Todo: do this better
+        }
+
 }
 
 void cPlayer::fJumpPhysics()

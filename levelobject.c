@@ -28,10 +28,11 @@ cLevelObject::cLevelObject(SDL_Surface* screen, cSpriteLayer* oLevelLayerRef, cC
     oCam = oCamRef;
 
     //Setup Layer
-    oPlayerLayer = new cSpriteLayer(screen,iLevelRows,iLevelCols,iSpriteHeight,iSpriteWidth,false,iScreenWidth,iScreenHeight,false,false,0,0,0);
+    oPlayerLayer = new cSpriteLayer(screen,iLevelRows,iLevelCols,iSpriteHeight,iSpriteWidth,false,iScreenWidth,iScreenHeight,false,true,0,0,0);
 
     //Setup Source
-    oPlayerLayer->p_Source->fSetSpriteSpacer(2);
+    oPlayerLayer->p_Source->fSetSpriteSpacer(0);
+    oPlayerLayer->p_Source->fSetColorKey(0,0,0);
     oPlayerLayer->p_Source->fLoad(chTileSource);
     oPlayerLayer->p_Source->fSetSpriteWidthOffset(0);
     oPlayerLayer->p_Source->fSetSpriteHeightOffset(0);
@@ -40,8 +41,8 @@ cLevelObject::cLevelObject(SDL_Surface* screen, cSpriteLayer* oLevelLayerRef, cC
 
     //Setup Player
     oPlayerLayer->p_LevelData[0][0].iType=SPRITE;
-    oPlayerLayer->p_LevelData[0][0].iRow=10;
-    oPlayerLayer->p_LevelData[0][0].iIndex=2;
+    oPlayerLayer->p_LevelData[0][0].iRow=0;
+    oPlayerLayer->p_LevelData[0][0].iIndex=1;
 }
 
 bool cLevelObject::fCheckLevelCollision()

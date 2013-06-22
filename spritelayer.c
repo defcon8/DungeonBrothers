@@ -58,7 +58,10 @@ cSpriteLayer::cSpriteLayer(SDL_Surface *screen, int iRows, int iCols, int iSprit
         iColorKeyR = iKeyR;
         iColorKeyG = iKeyG;
         iColorKeyB = iKeyB;
-        SDL_SetColorKey(sfBuffer, SDL_SRCCOLORKEY, SDL_MapRGB(sfBuffer->format,  iColorKeyR,  iColorKeyG,  iColorKeyB));
+        if(blBuffer)
+        {
+            SDL_SetColorKey(sfBuffer,SDL_SRCCOLORKEY, SDL_MapRGB(sfBuffer->format,  iColorKeyR,  iColorKeyG,  iColorKeyB));
+        }
         p_Source->fSetColorKey(iColorKeyR,iColorKeyG,iColorKeyB);
     }
 
