@@ -173,11 +173,11 @@ void cGame::Start()
         fCameraMovement();
         fGameLoop();
         fRender();
-        iRenderedFrames++; // Another Frame is rendered
+        iRenderedFrames++;
         fFPS();
 
         //Give system time to the OS, prevent 100% Core usage.
-        SDL_Delay(1);
+        SDL_Delay(5);
     }
     fCleanUp();
 }
@@ -316,7 +316,7 @@ void cGame::fInitialize()
     }
 
     TTF_Init();
-    ttfFont = TTF_OpenFont("ARIAL.TTF", 12);
+    ttfFont = TTF_OpenFont("Fonts\\BeckerBlackNF.ttf", 20);
 
     if (ttfFont == NULL)
     {

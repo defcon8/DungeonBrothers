@@ -17,7 +17,7 @@ void cSprite::fLoad(const char *file)
 {
     bitmap = SDL_DisplayFormatAlpha(SDL_LoadBMP(file));
     SDL_SetColorKey(bitmap, SDL_SRCCOLORKEY, SDL_MapRGB(bitmap->format,  iColorKeyR,  iColorKeyG,  iColorKeyB));
-    //Store local, we need it later when saving level to disk.
+    //Store the filename localy in chTileSource, we need it later when saving level to disk.
     memcpy(&chTileSource[0],file,16);
 }
 

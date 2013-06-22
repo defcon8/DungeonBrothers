@@ -13,7 +13,7 @@
 	</File>
 	<File name="game.c" open="1" top="1" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="11734" topLine="318" />
+			<Cursor1 position="5904" topLine="162" />
 		</Cursor>
 	</File>
 	<File name="game.h" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -28,7 +28,7 @@
 	</File>
 	<File name="levelobject.c" open="1" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="1053" topLine="12" />
+			<Cursor1 position="1055" topLine="23" />
 		</Cursor>
 	</File>
 	<File name="levelobject.h" open="0" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -63,17 +63,17 @@
 	</File>
 	<File name="sprite.c" open="1" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="833" topLine="10" />
+			<Cursor1 position="340" topLine="3" />
 		</Cursor>
 	</File>
-	<File name="sprite.h" open="0" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="sprite.h" open="1" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="916" topLine="1" />
+			<Cursor1 position="650" topLine="16" />
 		</Cursor>
 	</File>
 	<File name="spritelayer.c" open="1" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="1975" topLine="32" />
+			<Cursor1 position="2147" topLine="42" />
 		</Cursor>
 	</File>
 	<File name="spritelayer.h" open="0" top="0" tabpos="11" split="0" active="1" splitpos="0" zoom_1="-1" zoom_2="0">
