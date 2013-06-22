@@ -20,9 +20,10 @@ Team members:
 
 	Name			Real name			Function
 	=====================================================================================
-	Defcon8 		Bastiaan de Waard	Programmer / Music / Audio FX
+	Defcon8 		Bastiaan de Waard	Coder / Music & Audio FX
+	FP			François Prijt		Coder / GFX
 
-We are realy looking forward to meet new team members:
+We are really looking forward to meet new team members:
 ======================================================
 
 	- Programmers (C++)
@@ -30,4 +31,4 @@ We are realy looking forward to meet new team members:
 	- Sound designers
 	- Level designers
 	
-Contact me: info@bastiaandewaard.com
+Contact us: info@bastiaandewaard.com
