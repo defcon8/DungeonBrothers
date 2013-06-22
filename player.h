@@ -3,8 +3,10 @@
 class cPlayer : public cLevelObject
 {
   private:
-    int iGravity, iVelocityY, iJumpFactor;
-
+    int iGravity, iVelocityY, iVelocityFall, iJumpFactor;
+    void fMoveByUserInput();
+    void fJumpPhysics();
+    void fGravityPhysics();
 
   public:
     bool blMoveUp, blMoveRight, blMoveDown, blMoveLeft;

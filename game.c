@@ -143,7 +143,7 @@ void cGame::fCameraMovement()
             // The camera is in optimal position
         }
 
-        //UP/DOWN
+        //Up/Down
         if(!oPlayerObject->blIsJumping) //Do not update camera on player jump
         {
             iPos = -(oPlayerObject->Y - (iScreenHeight/2) - oPlayerObject->oPlayerLayer->fGetHeight());
@@ -159,8 +159,6 @@ void cGame::fCameraMovement()
             }
         }
     }
-
-
 }
 
 void cGame::Start()
@@ -302,12 +300,6 @@ void cGame::fGameLoop()
 //    }else{
 //        oPlayerLayer->p_LevelData[0][0].iIndex=3;
 //    }
-
-//    /**< Test: Gravity, should be 10.000x better designed */
-//    if((!iPlayerDirection==UP) && (!fCheckDirectionCollision(oPlayerLayer,DOWN)))
-//    {
-//     oPlayerLayer->y=oPlayerLayer->y++;
-//    }
 }
 
 void cGame::fInitialize()
@@ -396,34 +388,35 @@ void cGame::fNormalModeEvents()
                 SDL_WM_SetCaption ("Edit mode", NULL);
                 break;
             case SDLK_SPACE:
-                oPlayerObject->fJump();
+                if(!oPlayerObject->blIsJumping)
+                    oPlayerObject->fJump();
                 break;
             }
             break;
         case SDL_KEYUP:
             switch(event.key.keysym.sym)
             {
-            case SDLK_UP:
-            {
-                oPlayerObject->fMoveDirection(1,false);
-                break;
-            }
+                case SDLK_UP:
+                {
+                    oPlayerObject->fMoveDirection(1,false);
+                    break;
+                }
 
-            case SDLK_RIGHT:
-            {
-                oPlayerObject->fMoveDirection(2,false);
-                break;
-            }
-            case SDLK_DOWN:
-            {
-                oPlayerObject->fMoveDirection(3,false);
-                break;
-            }
-            case SDLK_LEFT:
-            {
-                oPlayerObject->fMoveDirection(4,false);
-                break;
-            }
+                case SDLK_RIGHT:
+                {
+                    oPlayerObject->fMoveDirection(2,false);
+                    break;
+                }
+                case SDLK_DOWN:
+                {
+                    oPlayerObject->fMoveDirection(3,false);
+                    break;
+                }
+                case SDLK_LEFT:
+                {
+                    oPlayerObject->fMoveDirection(4,false);
+                    break;
+                }
             }
             break;
         case SDL_QUIT:
@@ -611,16 +604,13 @@ void cGame::fCleanUp()
 
 void cGame::fRenderEditMode()
 {
-    // Get position of mouse
+    // Get position of mouse and calculate the according position in tiles/rows
     int x, y;
     int iMouseButtons = SDL_GetMouseState(&x, &y);
-
     int iTileWidth = oLevelLayer->fGetSpriteWidth();
     int iTileHeight = oLevelLayer->fGetSpriteHeight();
-
     int iTileCol = fGetTileCol(x,iTileWidth);
     int iTileRow = fGetTileRow(y,iTileHeight);
-
     int iRectX = (iTileCol*iTileWidth);
     int iRectY = (iTileRow*iTileHeight);
 
@@ -630,47 +620,44 @@ void cGame::fRenderEditMode()
 
     if(blSpritePalet)
     {
-        oSpritePicker->fRender(oCam->X,oCam->Y);
-        //The Sprite palet/picker is on screen
+        oSpritePicker->fRender(0,0); //The Sprite palet/picker is on screen, render this at fixed position.
         switch(iMouseButtons)
         {
         case 1:
             //Left button, selects the source sprite
-            oPencil->iSourceTileRow=iTileRow;
-            oPencil->iSourceTileCol=iTileCol;
+            int iPickedTileCol = fGetTileCol(x,iTileWidth);
+            int iPickedTileRow = fGetTileRow(y,iTileHeight);
+            oPencil->iSourceTileRow=iPickedTileRow;
+            oPencil->iSourceTileCol=iPickedTileCol;
+
             blSpritePalet=!blSpritePalet; // Hide sprite palet
             blRenderLevel=!blRenderLevel; // Show level again
-
-            oLevelLayer->p_LevelData[iTileRow][iTileCol].iIndex=2;
-            oLevelLayer->p_LevelData[iTileRow][iTileCol].iType=SPRITE;
             break;
         }
     }
     else
     {
         // The is in paint mode
-        if((iTileRow<oLevelLayer->fGetTotalRows()) && (iTileCol<oLevelLayer->fGetTotalCols()) &&
-                (iTileRow>-1) && (iTileCol>-1))
+        if((iTileRow<oLevelLayer->fGetTotalRows()) && (iTileCol<oLevelLayer->fGetTotalCols()) && (iTileRow>-1) && (iTileCol>-1))
         {
             switch(iMouseButtons)
             {
-            case 1:
-                //Left button, Draw
-                oLevelLayer->p_LevelData[iTileRow][iTileCol].iIndex=oPencil->iSourceTileCol;
-                oLevelLayer->p_LevelData[iTileRow][iTileCol].iRow=oPencil->iSourceTileRow;
-                oLevelLayer->p_LevelData[iTileRow][iTileCol].iType=SPRITE;
-                break;
+                case 1:
+                    //Left button, Draw
+                    oLevelLayer->p_LevelData[iTileRow][iTileCol].iIndex=oPencil->iSourceTileCol;
+                    oLevelLayer->p_LevelData[iTileRow][iTileCol].iRow=oPencil->iSourceTileRow;
+                    oLevelLayer->p_LevelData[iTileRow][iTileCol].iType=SPRITE;
+                    break;
 
-            case 4:
-                //Right button, Clear
-                oLevelLayer->p_LevelData[iTileRow][iTileCol].iIndex=0;
-                oLevelLayer->p_LevelData[iTileRow][iTileCol].iType=EMPTY;
-                break;
+                case 4:
+                    //Right button, Clear
+                    oLevelLayer->p_LevelData[iTileRow][iTileCol].iIndex=0;
+                    oLevelLayer->p_LevelData[iTileRow][iTileCol].iType=EMPTY;
+                    break;
             }
         }
     }
-
-    //Draw tile placeholder aka mouse pointer
+    //Draw tile placeholder aka the mouse pointer
     fDrawRectangle(iRectX,iRectY,iTileWidth,iTileHeight,0xFFFFFF);
 }
 
