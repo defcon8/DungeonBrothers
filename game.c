@@ -605,28 +605,38 @@ void cGame::fCleanUp()
 void cGame::fRenderEditMode()
 {
     // Get position of mouse and calculate the according position in tiles/rows
-    int x, y;
-    int iMouseButtons = SDL_GetMouseState(&x, &y);
+    int iMouseX, iMouseY;
+    int iMouseButtons = SDL_GetMouseState(&iMouseX, &iMouseY);
     int iTileWidth = oLevelLayer->fGetSpriteWidth();
     int iTileHeight = oLevelLayer->fGetSpriteHeight();
-    int iTileCol = fGetTileCol(x,iTileWidth);
-    int iTileRow = fGetTileRow(y,iTileHeight);
+    int iTileCol = fGetTileCol(iMouseX,iTileWidth);
+    int iTileRow = fGetTileRow(iMouseY,iTileHeight);
     int iRectX = (iTileCol*iTileWidth);
     int iRectY = (iTileRow*iTileHeight);
+    int iXOffset=0,iYOffset=0;
+
+
+    // Because of the screenscrolling you need to know the offset in pixels before we can exactly calculate on which tile the mouse cursor is. But
+    // we dont want to do this when the sprite picker is shown, because that is always statis align from the upper left corner (0,0).
+    if (!blSpritePalet)
+    {
+        iXOffset = (-(oCam->X)%iTileWidth);
+        iYOffset = (-(oCam->Y)%iTileHeight);
+    }
 
     //Recalculate the real tile using the camera offset
-    iTileCol = fGetTileCol(x-oCam->X,iTileWidth);
-    iTileRow = fGetTileRow(y-oCam->Y,iTileHeight);
+    iTileCol = fGetTileCol(iMouseX-oCam->X-iXOffset,iTileWidth);
+    iTileRow = fGetTileRow(iMouseY-oCam->Y-iYOffset,iTileHeight);
 
-    if(blSpritePalet)
+    if(blSpritePalet) //The Sprite palet/picker is on screen,
     {
-        oSpritePicker->fRender(0,0); //The Sprite palet/picker is on screen, render this at fixed position.
+        oSpritePicker->fRender(0,0);  //render this at fixed position.
         switch(iMouseButtons)
         {
         case 1:
             //Left button, selects the source sprite
-            int iPickedTileCol = fGetTileCol(x,iTileWidth);
-            int iPickedTileRow = fGetTileRow(y,iTileHeight);
+            int iPickedTileCol = fGetTileCol(iMouseX,iTileWidth);
+            int iPickedTileRow = fGetTileRow(iMouseY,iTileHeight);
             oPencil->iSourceTileRow=iPickedTileRow;
             oPencil->iSourceTileCol=iPickedTileCol;
 
@@ -657,8 +667,9 @@ void cGame::fRenderEditMode()
             }
         }
     }
+
     //Draw tile placeholder aka the mouse pointer
-    fDrawRectangle(iRectX,iRectY,iTileWidth,iTileHeight,0xFFFFFF);
+    fDrawRectangle(iRectX-iXOffset,iRectY-iYOffset,iTileWidth,iTileHeight,0xFFFFFF);
 }
 
 int cGame::fGetTileCol(int iX, int iTileWidth)
