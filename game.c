@@ -328,7 +328,7 @@ void cGame::fInitialize()
     }
 
     atexit (SDL_Quit);
-    screen = SDL_SetVideoMode (iScreenWidth, iScreenHeight, 16, SDL_HWSURFACE | SDL_DOUBLEBUF);
+    screen = SDL_SetVideoMode (iScreenWidth, iScreenHeight, 16, SDL_HWSURFACE | SDL_DOUBLEBUF | SDL_FULLSCREEN);
 
     if (screen == NULL)
     {
