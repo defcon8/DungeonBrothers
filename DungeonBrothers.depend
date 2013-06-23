@@ -1,14 +1,14 @@
 # depslib dependency file v1.0
-1369426812 source:c:\users\bastiaan\documents\github\dungeonbrothers\debug.c
+1372014749 source:c:\users\bastiaan\documents\github\dungeonbrothers\debug.c
 	"debug.h"
 	<stdio.h>
 	<string>
 	<iostream>
 
-1369408017 c:\users\bastiaan\documents\github\dungeonbrothers\debug.h
+1372014749 c:\users\bastiaan\documents\github\dungeonbrothers\debug.h
 	<winsock2.h>
 
-1371852402 source:c:\users\bastiaan\documents\github\dungeonbrothers\game.c
+1372016618 source:c:\users\bastiaan\documents\github\dungeonbrothers\game.c
 	<windows.h>
 	<iostream>
 	<math.h>
@@ -16,7 +16,7 @@
 	<cstring>
 	"game.h"
 
-1371846052 c:\users\bastiaan\documents\github\dungeonbrothers\game.h
+1372016208 c:\users\bastiaan\documents\github\dungeonbrothers\game.h
 	<SDL/SDL.h>
 	"SDL/SDL_ttf.h"
 	"spritelayer.h"
@@ -29,29 +29,31 @@
 	"ilevelobject.h"
 	"levelobject.h"
 	"enemy.h"
+	"config.h"
 
-1369919302 c:\users\bastiaan\documents\github\dungeonbrothers\spritelayer.h
+1372014749 c:\users\bastiaan\documents\github\dungeonbrothers\spritelayer.h
 	"sprite.h"
 
-1371672101 c:\users\bastiaan\documents\github\dungeonbrothers\sprite.h
+1372014749 c:\users\bastiaan\documents\github\dungeonbrothers\sprite.h
 	<SDL/SDL.h>
 
-1369859598 c:\users\bastiaan\documents\github\dungeonbrothers\pencil.h
+1372014749 c:\users\bastiaan\documents\github\dungeonbrothers\pencil.h
 
-1369859598 source:c:\users\bastiaan\documents\github\dungeonbrothers\main.c
+1372016217 source:c:\users\bastiaan\documents\github\dungeonbrothers\main.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
+	<windows.h>
 	"game.h"
 
-1369859598 source:c:\users\bastiaan\documents\github\dungeonbrothers\pencil.c
+1372014749 source:c:\users\bastiaan\documents\github\dungeonbrothers\pencil.c
 	"pencil.h"
 
-1371672101 source:c:\users\bastiaan\documents\github\dungeonbrothers\sprite.c
+1372014749 source:c:\users\bastiaan\documents\github\dungeonbrothers\sprite.c
 	"sprite.h"
 	<cstring>
 
-1371672101 source:c:\users\bastiaan\documents\github\dungeonbrothers\spritelayer.c
+1372014749 source:c:\users\bastiaan\documents\github\dungeonbrothers\spritelayer.c
 	"spritelayer.h"
 	<cstring>
 	<fstream>
@@ -113,13 +115,13 @@
 	<cstring>
 	<fstream>
 
-1371851576 source:c:\users\bastiaan\documents\github\dungeonbrothers\player.c
+1372014749 source:c:\users\bastiaan\documents\github\dungeonbrothers\player.c
 	"player.h"
 
-1371846052 c:\users\bastiaan\documents\github\dungeonbrothers\player.h
+1372014749 c:\users\bastiaan\documents\github\dungeonbrothers\player.h
 	"levelobject.h"
 
-1371846052 c:\users\bastiaan\documents\github\dungeonbrothers\levelobject.h
+1372014749 c:\users\bastiaan\documents\github\dungeonbrothers\levelobject.h
 	<SDL/SDL.h>
 	"spritelayer.h"
 	"camera.h"
@@ -143,15 +145,15 @@
 1371720200 source:c:\users\bw.kee\documents\github\dungeonbrothers\player.c
 	"player.h"
 
-1369919302 source:c:\users\bastiaan\documents\github\dungeonbrothers\enemy.c
+1372014749 source:c:\users\bastiaan\documents\github\dungeonbrothers\enemy.c
 	"enemy.h"
 
-1371672101 c:\users\bastiaan\documents\github\dungeonbrothers\enemy.h
+1372014749 c:\users\bastiaan\documents\github\dungeonbrothers\enemy.h
 	"ilevelobject.h"
 
-1369924042 c:\users\bastiaan\documents\github\dungeonbrothers\camera.h
+1372014749 c:\users\bastiaan\documents\github\dungeonbrothers\camera.h
 
-1369922504 source:c:\users\bastiaan\documents\github\dungeonbrothers\camera.c
+1372014749 source:c:\users\bastiaan\documents\github\dungeonbrothers\camera.c
 	"camera.h"
 
 1371631035 c:\users\bw.kee\documents\github\dungeonbrothers\camera.h
@@ -250,8 +252,19 @@
 1371996977 source:c:\documents and settings\bastiaan & lore\mijn documenten\github\dungeonbrothers\player.c
 	"player.h"
 
-1371672101 c:\users\bastiaan\documents\github\dungeonbrothers\ilevelobject.h
+1372014749 c:\users\bastiaan\documents\github\dungeonbrothers\ilevelobject.h
 
-1371850545 source:c:\users\bastiaan\documents\github\dungeonbrothers\levelobject.c
+1372014749 source:c:\users\bastiaan\documents\github\dungeonbrothers\levelobject.c
 	"levelobject.h"
+
+1372015012 source:c:\users\bastiaan\documents\github\dungeonbrothers\physics.c
+	"physics.h"
+
+1372015126 c:\users\bastiaan\documents\github\dungeonbrothers\physics.h
+
+1372016544 source:c:\users\bastiaan\documents\github\dungeonbrothers\config.c
+	"config.h"
+
+1372015649 c:\users\bastiaan\documents\github\dungeonbrothers\config.h
+	<SDL/SDL.h>
 

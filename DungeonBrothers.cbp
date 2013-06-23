@@ -35,6 +35,10 @@
 			<Option compilerVar="CPP" />
 		</Unit>
 		<Unit filename="camera.h" />
+		<Unit filename="config.c">
+			<Option compilerVar="CPP" />
+		</Unit>
+		<Unit filename="config.h" />
 		<Unit filename="debug.c">
 			<Option compilerVar="CPP" />
 		</Unit>
@@ -59,6 +63,10 @@
 			<Option compilerVar="CPP" />
 		</Unit>
 		<Unit filename="pencil.h" />
+		<Unit filename="physics.c">
+			<Option compilerVar="CPP" />
+		</Unit>
+		<Unit filename="physics.h" />
 		<Unit filename="player.c">
 			<Option compilerVar="CPP" />
 		</Unit>

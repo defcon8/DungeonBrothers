@@ -21,7 +21,7 @@
 int main (int argc, char *argv[])
 {
     MessageBox(NULL, "This is a ALPHA version of Dungeon Brothers. Game is under heavy development.", "Information", MB_OK | MB_ICONINFORMATION);
-    cGame* oGame = new cGame(640,480);
+    cGame* oGame = new cGame();
     oGame->Start();
     delete oGame;
     return 0;

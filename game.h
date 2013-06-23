@@ -22,6 +22,7 @@
 #include "ilevelobject.h"
 #include "levelobject.h"
 #include "enemy.h"
+#include "config.h"
 
 using namespace std;
 
@@ -51,13 +52,14 @@ class cGame {
     SDL_Color cBlack;
     SDL_Rect rFPSLocation;
 
+    cConfig* oConfig;
     cPencil* oPencil;
     cSpriteLayer* oLevelLayer;
     cSpriteLayer* oSpritePicker;
     cSprite* oBackgroundLayer;
 
     void fInitialize();
-    void fInitVariables(int iScrWidth, int iScrHeight);
+    void fInitVariables();
     void fLoadObjects();
     void fEvents();
     void fNormalModeEvents();
@@ -88,7 +90,7 @@ class cGame {
 
   public:
     void Start();
-    cGame(int iScrWidth, int iScrHeight);
+    cGame();
     ~cGame();
 
 };

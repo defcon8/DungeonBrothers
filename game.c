@@ -131,7 +131,7 @@ void cGame::fCameraMovement()
         //when the user is jumping..this is kind a hectic.
 
         //Left/Right
-        iPos = -(oPlayerObject->X - (iScreenWidth/2) - oPlayerObject->oPlayerLayer->fGetWidth());
+        iPos = -(oPlayerObject->X - (oConfig->m_iScreenWidth/2) - oPlayerObject->oPlayerLayer->fGetWidth());
         if(iPos < oCam->X)
         {
             // Let the Camera go left
@@ -144,7 +144,7 @@ void cGame::fCameraMovement()
         //Up/Down
         if(!oPlayerObject->blIsJumping) //Do not update camera on player jump
         {
-            iPos = -(oPlayerObject->Y - (iScreenHeight/2) - oPlayerObject->oPlayerLayer->fGetHeight());
+            iPos = -(oPlayerObject->Y - (oConfig->m_iScreenHeight/2) - oPlayerObject->oPlayerLayer->fGetHeight());
             if(iPos < oCam->Y)
             {
                 // Let the Camera go up
@@ -191,7 +191,7 @@ void cGame::fFPS()
 void cGame::fLoadObjects()
 {
     //Background Layer
-    oBackgroundLayer = new cSprite(screen, iScreenWidth, iScreenHeight);
+    oBackgroundLayer = new cSprite(oConfig->m_sScreen, oConfig->m_iScreenWidth, oConfig->m_iScreenHeight);
     oBackgroundLayer->fLoad("back.bmp");
     oBackgroundLayer->fSetSpriteWidth(6400);
     oBackgroundLayer->fSetSpriteHeight(480);
@@ -225,7 +225,7 @@ void cGame::fLoadObjects()
     oLoad.read(reinterpret_cast<char*>(&iDataBlocks),sizeof(Uint16));
 
     // ------------ [ start setup level ] --------------------
-    oLevelLayer = new cSpriteLayer(screen,iLevelRows,iLevelCols,iSpriteHeight,iSpriteWidth,false,iScreenWidth,iScreenHeight,true,true,0,0,0);
+    oLevelLayer = new cSpriteLayer(oConfig->m_sScreen,iLevelRows,iLevelCols,iSpriteHeight,iSpriteWidth,false,oConfig->m_iScreenWidth,oConfig->m_iScreenHeight,true,true,0,0,0);
 
     //Setup Source
     oLevelLayer->p_Source->fSetSpriteSpacer(iSpriteSpacer);
@@ -263,7 +263,7 @@ void cGame::fLoadObjects()
     // ------------ [ start setup player ] --------------------
 
     cPlayer* oPlayer;
-    oPlayer = new cPlayer(screen,oLevelLayer,oCam, "player.bmp",40,32,iScreenWidth,iScreenHeight);
+    oPlayer = new cPlayer(oConfig->m_sScreen,oLevelLayer,oCam, "player.bmp",40,32,oConfig->m_iScreenWidth,oConfig->m_iScreenHeight);
     lLevelObjects.push_back(oPlayer);    //Add to level object list
     oPlayerObject = oPlayer;             //Store pointer localy, so we can redirect the user input to the object directly without having to search in the levelobject list.
 
@@ -271,7 +271,7 @@ void cGame::fLoadObjects()
     oLoad.close();
 
     // ------------ [ start setup spritepicker ] --------------------
-    oSpritePicker = new cSpriteLayer(screen,iSourceRows,iSourceCols,iSpriteHeight,iSpriteWidth,false,iScreenWidth,iScreenHeight,false,false,0,0,0);
+    oSpritePicker = new cSpriteLayer(oConfig->m_sScreen,iSourceRows,iSourceCols,iSpriteHeight,iSpriteWidth,false,oConfig->m_iScreenWidth,oConfig->m_iScreenHeight,false,false,0,0,0);
     oSpritePicker->p_Source->fSetSpriteSpacer(2);
     oSpritePicker->p_Source->fLoad(chTileSource);
     oSpritePicker->p_Source->fSetSpriteWidthOffset(0);
@@ -327,12 +327,11 @@ void cGame::fInitialize()
     }
 
     atexit (SDL_Quit);
-    screen = SDL_SetVideoMode (iScreenWidth, iScreenHeight, 16, SDL_HWSURFACE | SDL_DOUBLEBUF | SDL_FULLSCREEN);
+    oConfig->m_sScreen = SDL_SetVideoMode (oConfig->m_iScreenWidth, oConfig->m_iScreenHeight, oConfig->m_iScreenBits, SDL_HWSURFACE | SDL_DOUBLEBUF | SDL_FULLSCREEN);
 
-    if (screen == NULL)
+    if (oConfig->m_sScreen == NULL)
     {
-        sprintf (chMessage, "Couldn't set video mode: %s\n",
-                 SDL_GetError ());
+        sprintf (chMessage, "Couldn't set video mode: %s\n", SDL_GetError ());
         MessageBox (0, chMessage, "Error", MB_ICONHAND);
         free(chMessage);
         exit(2);
@@ -521,13 +520,13 @@ void cGame::fEditModeEvents()
     //Camera movement by mouse corners to navigate thru the scene
     int x,y;
     SDL_GetMouseState(&x, &y);
-    if(x>(iScreenWidth*dbMouseCornerWidthPerc))
+    if(x>(oConfig->m_iScreenWidth*dbMouseCornerWidthPerc))
         oCam->X-=iMouseScrollSpeed;
-    if(x<(iScreenWidth*(1.0 - dbMouseCornerWidthPerc))) // Invert
+    if(x<(oConfig->m_iScreenWidth*(1.0 - dbMouseCornerWidthPerc))) // Invert
         oCam->X+=iMouseScrollSpeed;
-    if(y>(iScreenHeight*dbMouseCornerWidthPerc))
+    if(y>(oConfig->m_iScreenHeight*dbMouseCornerWidthPerc))
         oCam->Y-=iMouseScrollSpeed;
-    if(y<(iScreenHeight*(1.0 - dbMouseCornerWidthPerc)))
+    if(y<(oConfig->m_iScreenHeight*(1.0 - dbMouseCornerWidthPerc)))
         oCam->Y+=iMouseScrollSpeed;
 }
 
@@ -555,17 +554,17 @@ void cGame::fObjectMovement()
         oBackgroundLayer->fScroll();
 }
 
-cGame::cGame(int iScrWidth, int iScrHeight)
+cGame::cGame()
 {
-    fInitVariables(iScrWidth, iScrHeight);
+    fInitVariables();
 }
 
-void cGame::fInitVariables(int iScrWidth, int iScrHeight)
+void cGame::fInitVariables()
 {
+    oConfig = new cConfig();
+
     blDone = false;
     oPencil = new cPencil;
-    iScreenWidth=iScrWidth;
-    iScreenHeight=iScrHeight;
     blEditMode = false;
     blRenderLevel = true;
     blSpritePalet = false;
@@ -587,7 +586,7 @@ void cGame::fInitVariables(int iScrWidth, int iScrHeight)
     cRed.g=0;
     cRed.b=0;
     rFPSLocation.x=25;
-    rFPSLocation.y=iScreenHeight-25;
+    rFPSLocation.y=oConfig->m_iScreenHeight-25;
 }
 
 cGame::~cGame()
@@ -598,7 +597,7 @@ void cGame::fCleanUp()
     //Destroy objects
     delete oLevelLayer;
     SDL_FreeSurface(textSurface);
-    SDL_FreeSurface(screen);
+    SDL_FreeSurface(oConfig->m_sScreen);
 }
 
 void cGame::fRenderEditMode()
@@ -687,7 +686,7 @@ void cGame::fDrawRectangle(int x, int y, int w, int h, Uint32 color)
     rect.y = y;
     rect.w = w;
     rect.h = h;
-    SDL_FillRect(screen,&rect,color);
+    SDL_FillRect(oConfig->m_sScreen,&rect,color);
 }
 
 void cGame::fRender()
@@ -695,8 +694,8 @@ void cGame::fRender()
     /* Create a black background */
     SDL_Rect rect;
     Uint32 color;
-    color = SDL_MapRGB (screen->format, 0, 0, 0);
-    SDL_FillRect (screen, NULL, color);
+    color = SDL_MapRGB (oConfig->m_sScreen->format, 0, 0, 0);
+    SDL_FillRect (oConfig->m_sScreen, NULL, color);
 
     // Render the background layer
     oBackgroundLayer->fRender(0,0,oCam->X,oCam->Y);
@@ -719,7 +718,7 @@ void cGame::fRender()
             destination.y = oCam->Y;
             destination.w = oLevelLayer->fGetWidth();
             destination.h = oLevelLayer->fGetWidth();
-            SDL_BlitSurface(oLevelLayer->fGetBufferSurface(), NULL, screen, &destination);
+            SDL_BlitSurface(oLevelLayer->fGetBufferSurface(), NULL, oConfig->m_sScreen, &destination);
         }
         else
         {
@@ -742,14 +741,14 @@ void cGame::fRender()
     fRenderUI();
 
     /* Switch video buffer */
-    SDL_Flip (screen);
+    SDL_Flip (oConfig->m_sScreen);
 }
 
 void cGame::fRenderUI()
 {
     itoa(iFPS,chFPS,10);
     textSurface = TTF_RenderText_Shaded(ttfFont, chFPS, cRed, cBlack);
-    SDL_BlitSurface(textSurface, NULL, screen, &rFPSLocation);
+    SDL_BlitSurface(textSurface, NULL, oConfig->m_sScreen, &rFPSLocation);
     SDL_FreeSurface(textSurface);
 }
 
