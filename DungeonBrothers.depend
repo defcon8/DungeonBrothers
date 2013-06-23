@@ -8,7 +8,7 @@
 1372014749 c:\users\bastiaan\documents\github\dungeonbrothers\debug.h
 	<winsock2.h>
 
-1372016618 source:c:\users\bastiaan\documents\github\dungeonbrothers\game.c
+1372017859 source:c:\users\bastiaan\documents\github\dungeonbrothers\game.c
 	<windows.h>
 	<iostream>
 	<math.h>
@@ -16,7 +16,7 @@
 	<cstring>
 	"game.h"
 
-1372016208 c:\users\bastiaan\documents\github\dungeonbrothers\game.h
+1372018266 c:\users\bastiaan\documents\github\dungeonbrothers\game.h
 	<SDL/SDL.h>
 	"SDL/SDL_ttf.h"
 	"spritelayer.h"
@@ -24,6 +24,7 @@
 	"player.h"
 	"debug.h"
 	"camera.h"
+	"world.h"
 	<time.h>
 	<list>
 	"ilevelobject.h"
@@ -267,4 +268,10 @@
 
 1372015649 c:\users\bastiaan\documents\github\dungeonbrothers\config.h
 	<SDL/SDL.h>
+
+1372018221 c:\users\bastiaan\documents\github\dungeonbrothers\world.h
+	"config.h"
+
+1372018205 source:c:\users\bastiaan\documents\github\dungeonbrothers\world.cpp
+	"world.h"
 

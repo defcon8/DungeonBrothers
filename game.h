@@ -17,6 +17,7 @@
 #include "player.h"
 #include "debug.h"
 #include "camera.h"
+#include "world.h"
 #include <time.h>
 #include <list>
 #include "ilevelobject.h"
@@ -52,7 +53,6 @@ class cGame {
     SDL_Color cBlack;
     SDL_Rect rFPSLocation;
 
-    cConfig* oConfig;
     cPencil* oPencil;
     cSpriteLayer* oLevelLayer;
     cSpriteLayer* oSpritePicker;
@@ -87,6 +87,7 @@ class cGame {
     list<iLevelObject*> lLevelObjects;
     cPlayer* oPlayerObject;
     cCamera* oCam;
+    cWorld* oWorld;
 
   public:
     void Start();
