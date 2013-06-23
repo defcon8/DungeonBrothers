@@ -54,13 +54,27 @@ void cPlayer::fGravityPhysics()
 
 void cPlayer::fMoveByUserInput()
 {
+    //Walk-- slow break down on key up instead of immidiate stop
+    if((!blMoveRight && !blMoveLeft) && iVelocityX > 0)
+    {
+        if(iLastDirection==RIGHT){
+                if(fCheckDirectionCollision(oPlayerLayer,RIGHT,iVelocityX))
+                    X+= iVelocityX;
+        }else{
+                if(fCheckDirectionCollision(oPlayerLayer,LEFT,iVelocityX))
+                    X-= iVelocityX;
+        }
+        iVelocityX--;
+    }
 
+    //normal Walk / move operations
     if(blMoveRight)
         if(!fCheckDirectionCollision(oPlayerLayer,RIGHT,iMoveSpeed+iVelocityX))
         {
             X+= iMoveSpeed+iVelocityX;
             oPlayerLayer->p_LevelData[0][0].iIndex=1; //Set player sprite to other (running left /right) Todo: do this better
             if(iVelocityX < 2) iVelocityX++;
+            iLastDirection=RIGHT;
         }else{
             iVelocityX=0;
         }
@@ -71,6 +85,7 @@ void cPlayer::fMoveByUserInput()
             X-= iMoveSpeed+iVelocityX;
             oPlayerLayer->p_LevelData[0][0].iIndex=0; //Set player sprite to other (running left /right) Todo: do this better
             if(iVelocityX < 2) iVelocityX++;
+            iLastDirection=LEFT;
         }else{
             iVelocityX=0;
         }

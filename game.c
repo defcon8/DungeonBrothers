@@ -176,7 +176,7 @@ void cGame::Start()
         fFPS();
         long measure2 = time(NULL); //Give system time to the OS, prevent 100% Core usage.
         long diff = measure2 - measure1;
-        SDL_Delay(15-diff); // sleep until next tick
+        SDL_Delay(13-diff); // sleep until next tick
     }
     fCleanUp();
 }
