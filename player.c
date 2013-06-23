@@ -6,6 +6,7 @@ cPlayer::cPlayer(SDL_Surface* screen, cSpriteLayer* oLevelLayerRef, cCamera* oCa
     fMoveDirection(NONE,false);
     iGravity=1;
     iVelocityY=0;
+    iVelocityX=0;
     iVelocityFall=0;
     iJumpFactor=17;
     blIsJumping=false;
@@ -54,17 +55,23 @@ void cPlayer::fGravityPhysics()
 void cPlayer::fMoveByUserInput()
 {
     if(blMoveRight)
-        if(!fCheckDirectionCollision(oPlayerLayer,RIGHT))
+        if(!fCheckDirectionCollision(oPlayerLayer,RIGHT,iMoveSpeed+iVelocityX))
         {
-            X+= iMoveSpeed;
-            oPlayerLayer->p_LevelData[0][0].iIndex=1; //Todo: do this better
+            X+= iMoveSpeed+iVelocityX;
+            oPlayerLayer->p_LevelData[0][0].iIndex=1; //Set player sprite to other (running left /right) Todo: do this better
+            if(iVelocityX < 3) iVelocityX++;
+        }else{
+            iVelocityX=0;
         }
 
     if(blMoveLeft)
-        if(!fCheckDirectionCollision(oPlayerLayer,LEFT))
+        if(!fCheckDirectionCollision(oPlayerLayer,LEFT,iMoveSpeed+iVelocityX))
         {
-            X-= iMoveSpeed;
-            oPlayerLayer->p_LevelData[0][0].iIndex=0; //Todo: do this better
+            X-= iMoveSpeed+iVelocityX;
+            oPlayerLayer->p_LevelData[0][0].iIndex=0; //Set player sprite to other (running left /right) Todo: do this better
+            if(iVelocityX < 3) iVelocityX++;
+        }else{
+            iVelocityX=0;
         }
 
 }

@@ -164,10 +164,10 @@
 1371716656 source:c:\users\bw.kee\documents\github\dungeonbrothers\levelobject.c
 	"levelobject.h"
 
-1371800876 source:c:\documents and settings\bastiaan & lore\mijn documenten\github\dungeonbrothers\camera.c
+1371990046 source:c:\documents and settings\bastiaan & lore\mijn documenten\github\dungeonbrothers\camera.c
 	"camera.h"
 
-1371800876 c:\documents and settings\bastiaan & lore\mijn documenten\github\dungeonbrothers\camera.h
+1371989856 c:\documents and settings\bastiaan & lore\mijn documenten\github\dungeonbrothers\camera.h
 
 1371800876 source:c:\documents and settings\bastiaan & lore\mijn documenten\github\dungeonbrothers\debug.c
 	"debug.h"
@@ -186,10 +186,11 @@
 
 1371800876 c:\documents and settings\bastiaan & lore\mijn documenten\github\dungeonbrothers\ilevelobject.h
 
-1371926403 source:c:\documents and settings\bastiaan & lore\mijn documenten\github\dungeonbrothers\main.c
+1371981711 source:c:\documents and settings\bastiaan & lore\mijn documenten\github\dungeonbrothers\main.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
+	<windows.h>
 	"game.h"
 
 1371820166 c:\documents and settings\bastiaan & lore\mijn documenten\github\dungeonbrothers\game.h
@@ -214,7 +215,7 @@
 
 1371800876 c:\documents and settings\bastiaan & lore\mijn documenten\github\dungeonbrothers\pencil.h
 
-1371899382 c:\documents and settings\bastiaan & lore\mijn documenten\github\dungeonbrothers\player.h
+1371989217 c:\documents and settings\bastiaan & lore\mijn documenten\github\dungeonbrothers\player.h
 	"levelobject.h"
 
 1371821626 c:\documents and settings\bastiaan & lore\mijn documenten\github\dungeonbrothers\levelobject.h
@@ -226,7 +227,7 @@
 1371800876 source:c:\documents and settings\bastiaan & lore\mijn documenten\github\dungeonbrothers\pencil.c
 	"pencil.h"
 
-1371926416 source:c:\documents and settings\bastiaan & lore\mijn documenten\github\dungeonbrothers\game.c
+1371992517 source:c:\documents and settings\bastiaan & lore\mijn documenten\github\dungeonbrothers\game.c
 	<windows.h>
 	<iostream>
 	<math.h>
@@ -234,10 +235,10 @@
 	<cstring>
 	"game.h"
 
-1371917081 source:c:\documents and settings\bastiaan & lore\mijn documenten\github\dungeonbrothers\levelobject.c
+1371993005 source:c:\documents and settings\bastiaan & lore\mijn documenten\github\dungeonbrothers\levelobject.c
 	"levelobject.h"
 
-1371919556 source:c:\documents and settings\bastiaan & lore\mijn documenten\github\dungeonbrothers\sprite.c
+1371981523 source:c:\documents and settings\bastiaan & lore\mijn documenten\github\dungeonbrothers\sprite.c
 	"sprite.h"
 	<cstring>
 
@@ -246,7 +247,7 @@
 	<cstring>
 	<fstream>
 
-1371914544 source:c:\documents and settings\bastiaan & lore\mijn documenten\github\dungeonbrothers\player.c
+1371992651 source:c:\documents and settings\bastiaan & lore\mijn documenten\github\dungeonbrothers\player.c
 	"player.h"
 
 1371672101 c:\users\bastiaan\documents\github\dungeonbrothers\ilevelobject.h

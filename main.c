@@ -13,12 +13,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <windows.h>
 #include "game.h"
 
 #define DEBUG 1
 
 int main (int argc, char *argv[])
 {
+    MessageBox(NULL, "This is a ALPHA version of Dungeon Brothers. Game is under development.", "Information", MB_OK | MB_ICONINFORMATION);
+
     cGame* oGame = new cGame(640,480);
 
     oGame->Start();

@@ -26,6 +26,8 @@ class cCamera {
   int left;
   int none;
 
+  int iVelocityCam;
+
   cCamera();
   ~cCamera();
   int X,Y;

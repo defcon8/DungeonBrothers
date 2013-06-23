@@ -134,13 +134,11 @@ void cGame::fCameraMovement()
         iPos = -(oPlayerObject->X - (iScreenWidth/2) - oPlayerObject->oPlayerLayer->fGetWidth());
         if(iPos < oCam->X)
         {
-            // Let the Camera go up
-            oCam->X--;
+            // Let the Camera go left
+            oCam->X-=oCam->iVelocityCam;
         }else if(iPos > oCam->X){
-            // Let the Camera go down
-            oCam->X++;
-        }else{
-            // The camera is in optimal position
+            // Let the Camera go left
+            oCam->X+=oCam->iVelocityCam;
         }
 
         //Up/Down
@@ -168,6 +166,7 @@ void cGame::Start()
 
     while(!blDone)
     {
+        long measure1 = time(NULL);
         fEvents();
         fObjectMovement();
         fCameraMovement();
@@ -175,9 +174,9 @@ void cGame::Start()
         fRender();
         iRenderedFrames++;
         fFPS();
-
-        //Give system time to the OS, prevent 100% Core usage.
-        SDL_Delay(5);
+        long measure2 = time(NULL); //Give system time to the OS, prevent 100% Core usage.
+        long diff = measure2 - measure1;
+        SDL_Delay(15-diff); // sleep until next tick
     }
     fCleanUp();
 }
