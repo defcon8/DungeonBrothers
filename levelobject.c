@@ -139,7 +139,7 @@ bool cLevelObject::fCheckDirectionCollision(cSpriteLayer* oObject, int iDirectio
         }
         break;
     case LEFT:
-        iNextCol=oLevelLayer->fWidthToCol((oObject->x-(iAmountOfPixels-1)));
+        iNextCol=oLevelLayer->fWidthToCol(oObject->x-iAmountOfPixels);
         for (int iRow = iRowStart ; iRow <= iRowEnd ; iRow++ )
         {
             if(oLevelLayer->p_LevelData[iRow][iNextCol].iType == SPRITE)
