@@ -6,6 +6,7 @@ cWorld::cWorld()
     oConfig = new cConfig();
     oPencil = new cPencil();
     oCam = new cCamera();
+    oPhysics = new cPhysics(oConfig);
 }
 
 cWorld::~cWorld()

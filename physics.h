@@ -1,11 +1,14 @@
 #ifndef PHYSICS_H
 #define PHYSICS_H
 
+#include "config.h"
 
 class cPhysics
 {
     public:
-        cPhysics();
+        int iGravity;
+
+        cPhysics(cConfig* oConfigRef);
         ~cPhysics();
     protected:
     private:

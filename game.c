@@ -191,7 +191,7 @@ void cGame::fFPS()
 void cGame::fLoadObjects()
 {
     //Background Layer
-    oWorld->oBackgroundLayer = new cSprite(oWorld->oConfig->m_sScreen, oWorld->oConfig->m_iScreenWidth, oWorld->oConfig->m_iScreenHeight);
+    oWorld->oBackgroundLayer = new cSprite(oWorld->sScreenSurface, oWorld->oConfig->m_iScreenWidth, oWorld->oConfig->m_iScreenHeight);
     oWorld->oBackgroundLayer->fLoad("back.bmp");
     oWorld->oBackgroundLayer->fSetSpriteWidth(6400);
     oWorld->oBackgroundLayer->fSetSpriteHeight(480);
@@ -225,7 +225,7 @@ void cGame::fLoadObjects()
     oLoad.read(reinterpret_cast<char*>(&iDataBlocks),sizeof(Uint16));
 
     // ------------ [ start setup level ] --------------------
-    oWorld->oLevelLayer = new cSpriteLayer(oWorld->oConfig->m_sScreen,iLevelRows,iLevelCols,iSpriteHeight,iSpriteWidth,false,oWorld->oConfig->m_iScreenWidth,oWorld->oConfig->m_iScreenHeight,true,true,0,0,0);
+    oWorld->oLevelLayer = new cSpriteLayer(oWorld->sScreenSurface,iLevelRows,iLevelCols,iSpriteHeight,iSpriteWidth,false,oWorld->oConfig->m_iScreenWidth,oWorld->oConfig->m_iScreenHeight,true,true,0,0,0);
 
     //Setup Source
     oWorld->oLevelLayer->p_Source->fSetSpriteSpacer(iSpriteSpacer);
@@ -259,14 +259,14 @@ void cGame::fLoadObjects()
 
     // ------------ [ start setup player ] --------------------
 
-    oWorld->oPlayerObject = new cPlayer(oWorld->oConfig->m_sScreen,oWorld->oLevelLayer,oWorld->oCam, "player.bmp",40,32,oWorld->oConfig->m_iScreenWidth,oWorld->oConfig->m_iScreenHeight);
+    oWorld->oPlayerObject = new cPlayer(oWorld->sScreenSurface,oWorld->oLevelLayer,oWorld->oCam, "player.bmp",40,32,oWorld->oConfig->m_iScreenWidth,oWorld->oConfig->m_iScreenHeight);
     oWorld->lLevelObjects.push_back(oWorld->oPlayerObject);    //Add to level object list
 
     //Close File
     oLoad.close();
 
     // ------------ [ start setup spritepicker ] --------------------
-    oWorld->oSpritePicker = new cSpriteLayer(oWorld->oConfig->m_sScreen,iSourceRows,iSourceCols,iSpriteHeight,iSpriteWidth,false,oWorld->oConfig->m_iScreenWidth,oWorld->oConfig->m_iScreenHeight,false,false,0,0,0);
+    oWorld->oSpritePicker = new cSpriteLayer(oWorld->sScreenSurface,iSourceRows,iSourceCols,iSpriteHeight,iSpriteWidth,false,oWorld->oConfig->m_iScreenWidth,oWorld->oConfig->m_iScreenHeight,false,false,0,0,0);
     oWorld->oSpritePicker->p_Source->fSetSpriteSpacer(2);
     oWorld->oSpritePicker->p_Source->fLoad(chTileSource);
     oWorld->oSpritePicker->p_Source->fSetSpriteWidthOffset(0);
@@ -322,9 +322,8 @@ void cGame::fInitialize()
     }
 
     atexit (SDL_Quit);
-    oWorld->oConfig->m_sScreen = SDL_SetVideoMode (oWorld->oConfig->m_iScreenWidth, oWorld->oConfig->m_iScreenHeight, oWorld->oConfig->m_iScreenBits, SDL_HWSURFACE | SDL_DOUBLEBUF | SDL_FULLSCREEN);
-
-    if (oWorld->oConfig->m_sScreen == NULL)
+    oWorld->sScreenSurface = SDL_SetVideoMode (oWorld->oConfig->m_iScreenWidth, oWorld->oConfig->m_iScreenHeight, oWorld->oConfig->m_iScreenBits, oWorld->oConfig->iSDLFlags);
+    if (oWorld->sScreenSurface == NULL)
     {
         sprintf (chMessage, "Couldn't set video mode: %s\n", SDL_GetError ());
         MessageBox (0, chMessage, "Error", MB_ICONHAND);
@@ -679,7 +678,7 @@ void cGame::fDrawRectangle(int x, int y, int w, int h, Uint32 color)
     rect.y = y;
     rect.w = w;
     rect.h = h;
-    SDL_FillRect(oWorld->oConfig->m_sScreen,&rect,color);
+    SDL_FillRect(oWorld->sScreenSurface,&rect,color);
 }
 
 void cGame::fRender()
@@ -687,8 +686,8 @@ void cGame::fRender()
     /* Create a black background */
     SDL_Rect rect;
     Uint32 color;
-    color = SDL_MapRGB (oWorld->oConfig->m_sScreen->format, 0, 0, 0);
-    SDL_FillRect (oWorld->oConfig->m_sScreen, NULL, color);
+    color = SDL_MapRGB (oWorld->sScreenSurface->format, 0, 0, 0);
+    SDL_FillRect (oWorld->sScreenSurface, NULL, color);
 
     // Render the background layer
     oWorld->oBackgroundLayer->fRender(0,0,oWorld->oCam->X,oWorld->oCam->Y);
@@ -711,7 +710,7 @@ void cGame::fRender()
             destination.y = oWorld->oCam->Y;
             destination.w = oWorld->oLevelLayer->fGetWidth();
             destination.h = oWorld->oLevelLayer->fGetWidth();
-            SDL_BlitSurface(oWorld->oLevelLayer->fGetBufferSurface(), NULL, oWorld->oConfig->m_sScreen, &destination);
+            SDL_BlitSurface(oWorld->oLevelLayer->fGetBufferSurface(), NULL, oWorld->sScreenSurface, &destination);
         }
         else
         {
@@ -732,7 +731,7 @@ void cGame::fRender()
     fRenderUI();
 
     /* Switch video buffer */
-    SDL_Flip (oWorld->oConfig->m_sScreen);
+    SDL_Flip (oWorld->sScreenSurface);
 }
 
 void cGame::fRenderUI()

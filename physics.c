@@ -1,8 +1,9 @@
 #include "physics.h"
 
-cPhysics::cPhysics()
+cPhysics::cPhysics(cConfig* oConfigRef)
 {
     //ctor
+    iGravity=oConfigRef->iPhysicsGravity;
 }
 
 cPhysics::~cPhysics()

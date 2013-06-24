@@ -6,6 +6,7 @@
 #include "pencil.h"
 #include "spritelayer.h"
 #include "player.h"
+#include "physics.h"
 #include "camera.h"
 #include "ilevelobject.h"
 #include "levelobject.h"
@@ -22,6 +23,7 @@ class cWorld
         cSprite* oBackgroundLayer;
         cPlayer* oPlayerObject;
         cCamera* oCam;
+        cPhysics* oPhysics;
 
         SDL_Surface *sScreenSurface;
         SDL_Surface *sTextSurface;
