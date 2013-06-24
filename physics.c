@@ -3,7 +3,6 @@
 cPhysics::cPhysics(cConfig* oConfigRef)
 {
     //ctor
-    iGravity=oConfigRef->iPhysicsGravity;
 }
 
 cPhysics::~cPhysics()

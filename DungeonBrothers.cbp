@@ -31,6 +31,10 @@
 			<Add library="SDL" />
 			<Add library="SDL_ttf" />
 		</Linker>
+		<Unit filename="bullit.c">
+			<Option compilerVar="CPP" />
+		</Unit>
+		<Unit filename="bullit.h" />
 		<Unit filename="camera.c">
 			<Option compilerVar="CPP" />
 		</Unit>

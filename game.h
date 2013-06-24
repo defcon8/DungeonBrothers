@@ -38,7 +38,7 @@ class cGame {
     char chFPS[5];
 
     TTF_Font* ttfFont;
-    SDL_Color cRed;
+    SDL_Color cGreen;
     SDL_Color cBlack;
     SDL_Rect rFPSLocation;
 

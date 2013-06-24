@@ -45,11 +45,11 @@ cSpriteLayer::cSpriteLayer(SDL_Surface *screen, int iRows, int iCols, int iSprit
                                         screen->format->Bmask,
                                         screen->format->Amask);
 
-        p_Source = new cSprite(sfBuffer, iScreenWidthRef, iScreenHeightRef);
+        p_Source = new cSprite(sfBuffer);
     }
     else
     {
-        p_Source = new cSprite(spritelayerscreen, iScreenWidthRef, iScreenHeightRef);
+        p_Source = new cSprite(spritelayerscreen);
     }
 
     /**< Commmit the Color key for all surfaces. */

@@ -7,7 +7,6 @@ class cConfig
 {
     public:
         int m_iScreenWidth, m_iScreenHeight, m_iScreenBits;
-        int iPhysicsGravity;
         Uint32 iSDLFlags;
         SDL_Surface* m_sScreen;
         cConfig();

@@ -16,38 +16,38 @@
 
 #include <SDL/SDL.h>
 
-class cSprite {
-  private:
-          int iSpriteWidth, iSpriteHeight, iSpriteWidthOffset ,iSpriteHeightOffset, iSpriteSpacer, iScreenWidth, iScreenHeight;
-          int iColorKeyR, iColorKeyG, iColorKeyB;
-          int iScrollOffset;
-          char chTileSource[16];
+class cSprite
+{
+private:
+    int iSpriteWidth, iSpriteHeight, iSpriteWidthOffset ,iSpriteHeightOffset, iSpriteSpacer;
+    int iColorKeyR, iColorKeyG, iColorKeyB;
+    char chTileSource[16];
 
-          SDL_Surface* bitmap;
-          SDL_Surface *spritescreen;
+    SDL_Surface* bitmap;
+    SDL_Surface *spritescreen;
+public:
+    int iScrollOffset;
+    void fLoad(const char *file);
+    void fRender(int iCol, int iRow, int iDestX, int iDestY);
 
-  public:
-         void fLoad(const char *file);
-         void fRender(int iCol, int iRow, int iDestX, int iDestY);
+    void fSetSpriteWidth(int iPixels);
+    void fSetSpriteHeight(int iPixels);
+    void fSetSpriteWidthOffset(int iPixels);
+    void fSetSpriteHeightOffset(int iPixels);
+    void fSetSpriteSpacer(int iPixels);
 
-         void fSetSpriteWidth(int iPixels);
-         void fSetSpriteHeight(int iPixels);
-         void fSetSpriteWidthOffset(int iPixels);
-         void fSetSpriteHeightOffset(int iPixels);
-         void fSetSpriteSpacer(int iPixels);
+    int fGetSpriteWidth();
+    int fGetSpriteHeight();
+    int fGetSpriteWidthOffset();
+    int fGetSpriteHeightOffset();
+    int fGetSpriteSpacer();
 
-         int fGetSpriteWidth();
-         int fGetSpriteHeight();
-         int fGetSpriteWidthOffset();
-         int fGetSpriteHeightOffset();
-         int fGetSpriteSpacer();
+    char* fGetTileSource();
 
-         char* fGetTileSource();
+    void fSetColorKey(int iR, int iG, int iB);
+    void fScroll();
 
-         void fSetColorKey(int iR, int iG, int iB);
-         void fScroll();
-
-         cSprite(SDL_Surface *screen, int iScreenWidthRef, int iScreenHeightRef);
-         ~cSprite();
+    cSprite(SDL_Surface *screen);
+    ~cSprite();
 };
 #endif /* SPRITE_H_ */

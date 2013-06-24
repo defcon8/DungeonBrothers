@@ -12,37 +12,19 @@
 */
 #include "levelobject.h"
 
-cLevelObject::cLevelObject(SDL_Surface* screen, cSpriteLayer* oLevelLayerRef, cCamera* oCamRef, char* chTileSource, int iSpriteHeight, int iSpriteWidth, int iScreenWidthRef, int iScreenHeightRef)
+cLevelObject::cLevelObject(SDL_Surface* screen, cSpriteLayer* oLevelLayerRef, cCamera* oCamRef, char* chTileSource, int iSpriteHeight, int iSpriteWidth)
 {
+
+    // Store references to data objects localy
+    oLevelLayer = oLevelLayerRef;
+    oCam = oCamRef;
+
+
     // Init variables
-    int iLevelRows=1;
-    int iLevelCols=1;
     iMoveSpeed=1;
     X=0;
     Y=0;
 
-    // Store references to data objects localy
-    oLevelLayer = oLevelLayerRef;
-    iScreenHeight = iScreenHeightRef;
-    iScreenWidth = iScreenWidthRef;
-    oCam = oCamRef;
-
-    //Setup Layer
-    oPlayerLayer = new cSpriteLayer(screen,iLevelRows,iLevelCols,iSpriteHeight,iSpriteWidth,false,iScreenWidth,iScreenHeight,false,true,0,0,0);
-
-    //Setup Source
-    oPlayerLayer->p_Source->fSetSpriteSpacer(0);
-    oPlayerLayer->p_Source->fSetColorKey(0,0,0);
-    oPlayerLayer->p_Source->fLoad(chTileSource);
-    oPlayerLayer->p_Source->fSetSpriteWidthOffset(0);
-    oPlayerLayer->p_Source->fSetSpriteHeightOffset(0);
-    oPlayerLayer->p_Source->fSetSpriteHeight(iSpriteHeight);
-    oPlayerLayer->p_Source->fSetSpriteWidth(iSpriteWidth);
-
-    //Setup Player
-    oPlayerLayer->p_LevelData[0][0].iType=SPRITE;
-    oPlayerLayer->p_LevelData[0][0].iRow=0;
-    oPlayerLayer->p_LevelData[0][0].iIndex=1;
 }
 
 bool cLevelObject::fCheckLevelCollision()
@@ -50,10 +32,10 @@ bool cLevelObject::fCheckLevelCollision()
     //Level tile collision + Gravity
     int iColStart, iColEnd, iRowStart, iRowEnd;
 
-    iColStart=oLevelLayer->fWidthToCol(oPlayerLayer->x);
-    iColEnd=oLevelLayer->fWidthToCol((oPlayerLayer->x + oPlayerLayer->fGetSpriteWidth()));
-    iRowStart=oLevelLayer->fHeightToRow(oPlayerLayer->y);
-    iRowEnd=oLevelLayer->fHeightToRow((oPlayerLayer->y + oPlayerLayer->fGetSpriteHeight()));
+    iColStart=oLevelLayer->fWidthToCol(oGFXLayer->x);
+    iColEnd=oLevelLayer->fWidthToCol((oGFXLayer->x + oGFXLayer->fGetSpriteWidth()));
+    iRowStart=oLevelLayer->fHeightToRow(oGFXLayer->y);
+    iRowEnd=oLevelLayer->fHeightToRow((oGFXLayer->y + oGFXLayer->fGetSpriteHeight()));
 
     bool blCollide = false;
 
@@ -61,7 +43,7 @@ bool cLevelObject::fCheckLevelCollision()
     {
         for (int iCol = iColStart ; iCol <= iColEnd ; iCol++ )
         {
-            if(!(oLevelLayer->p_LevelData[iRow][iCol].iType != SPRITE) && ((oPlayerLayer->y + oPlayerLayer->fGetHeight()) < iScreenHeight))
+            if(!(oLevelLayer->p_LevelData[iRow][iCol].iType != SPRITE) && ((oGFXLayer->y + oGFXLayer->fGetHeight()) < iScreenHeight))
             {
                 // collide
                 blCollide = true;
@@ -86,9 +68,9 @@ void cLevelObject::fUpdate()
     fAI();
 
     //Update graphical layer
-    oPlayerLayer->x = X;
-    oPlayerLayer->y = Y;
-    oPlayerLayer->fRender(oCam->X,oCam->Y);
+    oGFXLayer->x = X;
+    oGFXLayer->y = Y;
+    oGFXLayer->fRender(oCam->X,oCam->Y);
 }
 
 bool cLevelObject::fCheckDirectionCollision(cSpriteLayer* oObject, int iDirection)
@@ -109,7 +91,7 @@ bool cLevelObject::fCheckDirectionCollision(cSpriteLayer* oObject, int iDirectio
     switch(iDirection)
     {
     case UP:
-        iNextRow=oLevelLayer->fHeightToRow(oObject->y - (iAmountOfPixels+4));
+        iNextRow=oLevelLayer->fHeightToRow(oObject->y - (iAmountOfPixels-1));
         for (int iCol = iColStart ; iCol <= iColEnd ; iCol++ )
         {
             if(oLevelLayer->p_LevelData[iNextRow][iCol].iType == SPRITE)

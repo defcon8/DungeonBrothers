@@ -1,6 +1,7 @@
 #include "player.h"
+#include "bullit.h"
 
-cPlayer::cPlayer(SDL_Surface* screen, cSpriteLayer* oLevelLayerRef, cCamera* oCamRef, char* chTileSource, int iSpriteHeight, int iSpriteWidth, int iScreenWidthRef, int iScreenHeightRef) : cLevelObject(screen, oLevelLayerRef, oCamRef, chTileSource, iSpriteHeight, iSpriteWidth, iScreenWidthRef, iScreenHeightRef)
+cPlayer::cPlayer(SDL_Surface* screen, list<iLevelObject*> lLevelObjects, cSpriteLayer* oLevelLayer, cCamera* oCam, char* chTileSource, int iSpriteHeight, int iSpriteWidth, int iScreenWidth, int iScreenHeight) : cLevelObject(screen, oLevelLayer, oCam, chTileSource, iSpriteHeight, iSpriteWidth)
 {
     // Init Variables
     fMoveDirection(NONE,false);
@@ -12,6 +13,24 @@ cPlayer::cPlayer(SDL_Surface* screen, cSpriteLayer* oLevelLayerRef, cCamera* oCa
     blIsJumping=false;
     X=40; //Initial player deployment
     Y=40;
+
+    //Setup Layer
+    oGFXLayer = new cSpriteLayer(screen,1,1,iSpriteHeight,iSpriteWidth,false,iScreenWidth,iScreenHeight,false,true,0,0,0);
+
+    //Setup Source
+    oGFXLayer->p_Source->fSetSpriteSpacer(0);
+    oGFXLayer->p_Source->fSetColorKey(0,0,0);
+    oGFXLayer->p_Source->fLoad(chTileSource);
+    oGFXLayer->p_Source->fSetSpriteWidthOffset(0);
+    oGFXLayer->p_Source->fSetSpriteHeightOffset(0);
+    oGFXLayer->p_Source->fSetSpriteHeight(iSpriteHeight);
+    oGFXLayer->p_Source->fSetSpriteWidth(iSpriteWidth);
+
+    //choose player sprite
+    oGFXLayer->p_LevelData[0][0].iType=SPRITE;
+    oGFXLayer->p_LevelData[0][0].iRow=0;
+    oGFXLayer->p_LevelData[0][0].iIndex=1;
+
 }
 
 cPlayer::~cPlayer()
@@ -26,6 +45,10 @@ void cPlayer::fJump()
     }
 }
 
+void cPlayer::fFire()
+{
+}
+
 void cPlayer::fAI()
 {
     fMoveByUserInput();
@@ -38,7 +61,7 @@ void cPlayer::fGravityPhysics()
     // Down wards gravity, dont do this while jumping because jumping has it own gravity physics
     if(!blIsJumping)
     {
-        if(!fCheckDirectionCollision(oPlayerLayer,DOWN,iMoveSpeed+iVelocityFall))
+        if(!fCheckDirectionCollision(oGFXLayer,DOWN,iMoveSpeed+iVelocityFall))
         {
             Y+=iMoveSpeed+iVelocityFall;
             iVelocityFall++;
@@ -58,10 +81,10 @@ void cPlayer::fMoveByUserInput()
     if((!blMoveRight && !blMoveLeft) && iVelocityX > 0)
     {
         if(iLastDirection==RIGHT){
-                if(fCheckDirectionCollision(oPlayerLayer,RIGHT,iVelocityX))
+                if(fCheckDirectionCollision(oGFXLayer,RIGHT,iVelocityX))
                     X+= iVelocityX;
         }else{
-                if(fCheckDirectionCollision(oPlayerLayer,LEFT,iVelocityX))
+                if(fCheckDirectionCollision(oGFXLayer,LEFT,iVelocityX))
                     X-= iVelocityX;
         }
         iVelocityX--;
@@ -69,10 +92,10 @@ void cPlayer::fMoveByUserInput()
 
     //normal Walk / move operations
     if(blMoveRight)
-        if(!fCheckDirectionCollision(oPlayerLayer,RIGHT,iMoveSpeed+iVelocityX))
+        if(!fCheckDirectionCollision(oGFXLayer,RIGHT,iMoveSpeed+iVelocityX))
         {
             X+= iMoveSpeed+iVelocityX;
-            oPlayerLayer->p_LevelData[0][0].iIndex=1; //Set player sprite to other (running left /right) Todo: do this better
+            oGFXLayer->p_LevelData[0][0].iIndex=1; //Set player sprite to other (running left /right) Todo: do this better
             if(iVelocityX < 2) iVelocityX++;
             iLastDirection=RIGHT;
         }else{
@@ -80,10 +103,10 @@ void cPlayer::fMoveByUserInput()
         }
 
     if(blMoveLeft)
-        if(!fCheckDirectionCollision(oPlayerLayer,LEFT,iMoveSpeed+iVelocityX))
+        if(!fCheckDirectionCollision(oGFXLayer,LEFT,iMoveSpeed+iVelocityX))
         {
             X-= iMoveSpeed+iVelocityX;
-            oPlayerLayer->p_LevelData[0][0].iIndex=0; //Set player sprite to other (running left /right) Todo: do this better
+            oGFXLayer->p_LevelData[0][0].iIndex=0; //Set player sprite to other (running left /right) Todo: do this better
             if(iVelocityX < 2) iVelocityX++;
             iLastDirection=LEFT;
         }else{
@@ -99,14 +122,14 @@ void cPlayer::fJumpPhysics()
         if(iVelocityY >0) //Going UP
         {
             //Check if there is something above me
-            if(fCheckDirectionCollision(oPlayerLayer,UP,iVelocityY))
+            if(fCheckDirectionCollision(oGFXLayer,UP,iVelocityY))
             {
                 //We know that nr (iVelocityY) of pixels there is something above us. But we don't know exactly where that object begins. To avoid that the
                 //jump is aborted way below the edge we need to find the exact starting position of the object above us.
                 int iRemainingPixels;
                 for(iRemainingPixels=1; iRemainingPixels<=iVelocityY; iRemainingPixels++)
                 {
-                    if(fCheckDirectionCollision(oPlayerLayer,UP,iRemainingPixels))
+                    if(fCheckDirectionCollision(oGFXLayer,UP,iRemainingPixels))
                     {
                         // We found it, the abvove object's edge is (iRemainingPixels) away from me.
                         break;
@@ -129,7 +152,7 @@ void cPlayer::fJumpPhysics()
         else
         {
             //Going Down
-            if(fCheckDirectionCollision(oPlayerLayer,DOWN,abs(iVelocityY)))
+            if(fCheckDirectionCollision(oGFXLayer,DOWN,abs(iVelocityY)))
             {
                 //Hit something below player
                 blIsJumping=false;

@@ -19,35 +19,34 @@
 #include "camera.h"
 #include "ilevelobject.h"
 
-class cLevelObject : public iLevelObject{
+class cLevelObject : public iLevelObject
+{
 
-  #define UP 1
-  #define RIGHT 2
-  #define DOWN 3
-  #define LEFT 4
-  #define NONE 0
+#define UP 1
+#define RIGHT 2
+#define DOWN 3
+#define LEFT 4
+#define NONE 0
 
 private:
     //Methods
     bool fCheckLevelCollision();
 
-    //Variables
-    int iScreenWidth, iScreenHeight;
-
-  public:
+public:
     //Object Pointers
-    cSpriteLayer* oPlayerLayer;
-    cSpriteLayer* oLevelLayer;
+    cSpriteLayer* oGFXLayer;
+    cSpriteLayer* oLevelLayer; // for collision detection
     cCamera* oCam;
     int X,Y;
 
-    cLevelObject(SDL_Surface* screen, cSpriteLayer* oLevelLayerRef, cCamera* oCamRef, char* chTileSource, int iSpriteHeight, int iSpriteWidth, int iScreenWidthRef, int iScreenHeightRef);
+    cLevelObject(SDL_Surface* screen, cSpriteLayer* oLevelLayerRef, cCamera* oCamRef, char* chTileSource, int iSpriteHeight, int iSpriteWidth);
     virtual ~cLevelObject();
     virtual void fUpdate();
     virtual void fAI();
     bool fCheckDirectionCollision(cSpriteLayer* oObject, int iDirection);
     bool fCheckDirectionCollision(cSpriteLayer* oObject, int iDirection, int iAmountOfPixels);
     int iMoveSpeed;
+    int iScreenWidth, iScreenHeight;
 
 };
 
