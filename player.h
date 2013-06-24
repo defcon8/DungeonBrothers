@@ -1,3 +1,8 @@
+#ifndef PLAYER_H
+#define PLAYER_H
+
+
+
 #include "levelobject.h"
 
 class cPlayer : public cLevelObject
@@ -17,5 +22,7 @@ class cPlayer : public cLevelObject
     void fMoveDirection(int iDirection, bool blEnabled);
     void fJump();
 };
+
+#endif // PLAYER_H
 
 

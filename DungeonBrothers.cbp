@@ -79,6 +79,10 @@
 			<Option compilerVar="CPP" />
 		</Unit>
 		<Unit filename="spritelayer.h" />
+		<Unit filename="world.c">
+			<Option compilerVar="CPP" />
+		</Unit>
+		<Unit filename="world.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />

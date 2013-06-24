@@ -131,27 +131,27 @@ void cGame::fCameraMovement()
         //when the user is jumping..this is kind a hectic.
 
         //Left/Right
-        iPos = -(oPlayerObject->X - (oWorld->oConfig->m_iScreenWidth/2) - oPlayerObject->oPlayerLayer->fGetWidth());
-        if(iPos < oCam->X)
+        iPos = -(oWorld->oPlayerObject->X - (oWorld->oConfig->m_iScreenWidth/2) - oWorld->oPlayerObject->oPlayerLayer->fGetWidth());
+        if(iPos < oWorld->oCam->X)
         {
             // Let the Camera go left
-            oCam->X-=oCam->iVelocityCam;
-        }else if(iPos > oCam->X){
+            oWorld->oCam->X-=oWorld->oCam->iVelocityCam;
+        }else if(iPos > oWorld->oCam->X){
             // Let the Camera go left
-            oCam->X+=oCam->iVelocityCam;
+            oWorld->oCam->X+=oWorld->oCam->iVelocityCam;
         }
 
         //Up/Down
-        if(!oPlayerObject->blIsJumping) //Do not update camera on player jump
+        if(!oWorld->oPlayerObject->blIsJumping) //Do not update camera on player jump
         {
-            iPos = -(oPlayerObject->Y - (oWorld->oConfig->m_iScreenHeight/2) - oPlayerObject->oPlayerLayer->fGetHeight());
-            if(iPos < oCam->Y)
+            iPos = -(oWorld->oPlayerObject->Y - (oWorld->oConfig->m_iScreenHeight/2) - oWorld->oPlayerObject->oPlayerLayer->fGetHeight());
+            if(iPos < oWorld->oCam->Y)
             {
                 // Let the Camera go up
-                oCam->Y--;
-            }else if(iPos > oCam->Y){
+                oWorld->oCam->Y--;
+            }else if(iPos > oWorld->oCam->Y){
                 // Let the Camera go down
-                oCam->Y++;
+                oWorld->oCam->Y++;
             }else{
                 // The camera is in optimal position
             }
@@ -191,10 +191,10 @@ void cGame::fFPS()
 void cGame::fLoadObjects()
 {
     //Background Layer
-    oBackgroundLayer = new cSprite(oWorld->oConfig->m_sScreen, oWorld->oConfig->m_iScreenWidth, oWorld->oConfig->m_iScreenHeight);
-    oBackgroundLayer->fLoad("back.bmp");
-    oBackgroundLayer->fSetSpriteWidth(6400);
-    oBackgroundLayer->fSetSpriteHeight(480);
+    oWorld->oBackgroundLayer = new cSprite(oWorld->oConfig->m_sScreen, oWorld->oConfig->m_iScreenWidth, oWorld->oConfig->m_iScreenHeight);
+    oWorld->oBackgroundLayer->fLoad("back.bmp");
+    oWorld->oBackgroundLayer->fSetSpriteWidth(6400);
+    oWorld->oBackgroundLayer->fSetSpriteHeight(480);
 
     //Level Layer
     char chTileSource[16];
@@ -225,15 +225,15 @@ void cGame::fLoadObjects()
     oLoad.read(reinterpret_cast<char*>(&iDataBlocks),sizeof(Uint16));
 
     // ------------ [ start setup level ] --------------------
-    oLevelLayer = new cSpriteLayer(oWorld->oConfig->m_sScreen,iLevelRows,iLevelCols,iSpriteHeight,iSpriteWidth,false,oWorld->oConfig->m_iScreenWidth,oWorld->oConfig->m_iScreenHeight,true,true,0,0,0);
+    oWorld->oLevelLayer = new cSpriteLayer(oWorld->oConfig->m_sScreen,iLevelRows,iLevelCols,iSpriteHeight,iSpriteWidth,false,oWorld->oConfig->m_iScreenWidth,oWorld->oConfig->m_iScreenHeight,true,true,0,0,0);
 
     //Setup Source
-    oLevelLayer->p_Source->fSetSpriteSpacer(iSpriteSpacer);
-    oLevelLayer->p_Source->fLoad(chTileSource);
-    oLevelLayer->p_Source->fSetSpriteWidthOffset(iSpriteWidthOffset);
-    oLevelLayer->p_Source->fSetSpriteHeightOffset(iSpriteHeightOffset);
-    oLevelLayer->p_Source->fSetSpriteHeight(iSpriteHeight);
-    oLevelLayer->p_Source->fSetSpriteWidth(iSpriteWidth);
+    oWorld->oLevelLayer->p_Source->fSetSpriteSpacer(iSpriteSpacer);
+    oWorld->oLevelLayer->p_Source->fLoad(chTileSource);
+    oWorld->oLevelLayer->p_Source->fSetSpriteWidthOffset(iSpriteWidthOffset);
+    oWorld->oLevelLayer->p_Source->fSetSpriteHeightOffset(iSpriteHeightOffset);
+    oWorld->oLevelLayer->p_Source->fSetSpriteHeight(iSpriteHeight);
+    oWorld->oLevelLayer->p_Source->fSetSpriteWidth(iSpriteWidth);
 
     // Read DataBlocks from file
     for (int iSprite = 0; iSprite < iDataBlocks; iSprite++)
@@ -250,42 +250,37 @@ void cGame::fLoadObjects()
         oLoad.read(reinterpret_cast<char*>(&iSheetRow),sizeof(Uint8));
         oLoad.read(reinterpret_cast<char*>(&iSheetIndex),sizeof(Uint8));
 
-        oLevelLayer->p_LevelData[iRow][iCol].iType=iType;
-        oLevelLayer->p_LevelData[iRow][iCol].iRow=iSheetRow;
-        oLevelLayer->p_LevelData[iRow][iCol].iIndex=iSheetIndex;
+        oWorld->oLevelLayer->p_LevelData[iRow][iCol].iType=iType;
+        oWorld->oLevelLayer->p_LevelData[iRow][iCol].iRow=iSheetRow;
+        oWorld->oLevelLayer->p_LevelData[iRow][iCol].iIndex=iSheetIndex;
     }
 
-    oLevelLayer->fRender(0,0); //Because this is a buffered layer, we render it once direct after construction of the data array.
-
-    // ------------ [ start setup camera ] --------------------
-    oCam = new cCamera();
+    oWorld->oLevelLayer->fRender(0,0); //Because this is a buffered layer, we render it once direct after construction of the data array.
 
     // ------------ [ start setup player ] --------------------
 
-    cPlayer* oPlayer;
-    oPlayer = new cPlayer(oWorld->oConfig->m_sScreen,oLevelLayer,oCam, "player.bmp",40,32,oWorld->oConfig->m_iScreenWidth,oWorld->oConfig->m_iScreenHeight);
-    lLevelObjects.push_back(oPlayer);    //Add to level object list
-    oPlayerObject = oPlayer;             //Store pointer localy, so we can redirect the user input to the object directly without having to search in the levelobject list.
+    oWorld->oPlayerObject = new cPlayer(oWorld->oConfig->m_sScreen,oWorld->oLevelLayer,oWorld->oCam, "player.bmp",40,32,oWorld->oConfig->m_iScreenWidth,oWorld->oConfig->m_iScreenHeight);
+    oWorld->lLevelObjects.push_back(oWorld->oPlayerObject);    //Add to level object list
 
     //Close File
     oLoad.close();
 
     // ------------ [ start setup spritepicker ] --------------------
-    oSpritePicker = new cSpriteLayer(oWorld->oConfig->m_sScreen,iSourceRows,iSourceCols,iSpriteHeight,iSpriteWidth,false,oWorld->oConfig->m_iScreenWidth,oWorld->oConfig->m_iScreenHeight,false,false,0,0,0);
-    oSpritePicker->p_Source->fSetSpriteSpacer(2);
-    oSpritePicker->p_Source->fLoad(chTileSource);
-    oSpritePicker->p_Source->fSetSpriteWidthOffset(0);
-    oSpritePicker->p_Source->fSetSpriteHeightOffset(0);
-    oSpritePicker->p_Source->fSetSpriteHeight(iSpriteHeight);
-    oSpritePicker->p_Source->fSetSpriteWidth(iSpriteWidth);
+    oWorld->oSpritePicker = new cSpriteLayer(oWorld->oConfig->m_sScreen,iSourceRows,iSourceCols,iSpriteHeight,iSpriteWidth,false,oWorld->oConfig->m_iScreenWidth,oWorld->oConfig->m_iScreenHeight,false,false,0,0,0);
+    oWorld->oSpritePicker->p_Source->fSetSpriteSpacer(2);
+    oWorld->oSpritePicker->p_Source->fLoad(chTileSource);
+    oWorld->oSpritePicker->p_Source->fSetSpriteWidthOffset(0);
+    oWorld->oSpritePicker->p_Source->fSetSpriteHeightOffset(0);
+    oWorld->oSpritePicker->p_Source->fSetSpriteHeight(iSpriteHeight);
+    oWorld->oSpritePicker->p_Source->fSetSpriteWidth(iSpriteWidth);
 
     for (int iCol = 0; iCol < iSourceCols; iCol++)
     {
         for (int iRow = 0; iRow < iSourceRows; iRow++)
         {
-            oSpritePicker->p_LevelData[iRow][iCol].iType=SPRITE;
-            oSpritePicker->p_LevelData[iRow][iCol].iRow=iRow;
-            oSpritePicker->p_LevelData[iRow][iCol].iIndex=iCol;
+            oWorld->oSpritePicker->p_LevelData[iRow][iCol].iType=SPRITE;
+            oWorld->oSpritePicker->p_LevelData[iRow][iCol].iRow=iRow;
+            oWorld->oSpritePicker->p_LevelData[iRow][iCol].iIndex=iCol;
         }
     }
 }
@@ -365,16 +360,16 @@ void cGame::fNormalModeEvents()
             switch(event.key.keysym.sym)
             {
             case SDLK_UP:
-                oPlayerObject->fMoveDirection(1,true);
+                oWorld->oPlayerObject->fMoveDirection(1,true);
                 break;
             case SDLK_RIGHT:
-                oPlayerObject->fMoveDirection(2,true);
+                oWorld->oPlayerObject->fMoveDirection(2,true);
                 break;
             case SDLK_DOWN :
-                oPlayerObject->fMoveDirection(3,true);
+                oWorld->oPlayerObject->fMoveDirection(3,true);
                 break;
             case SDLK_LEFT:
-                oPlayerObject->fMoveDirection(4,true);
+                oWorld->oPlayerObject->fMoveDirection(4,true);
                 break;
             case SDLK_ESCAPE:
                 blDone=true;
@@ -386,8 +381,8 @@ void cGame::fNormalModeEvents()
                 SDL_WM_SetCaption ("Edit mode", NULL);
                 break;
             case SDLK_SPACE:
-                if(!oPlayerObject->blIsJumping)
-                    oPlayerObject->fJump();
+                if(!oWorld->oPlayerObject->blIsJumping)
+                    oWorld->oPlayerObject->fJump();
                 break;
             }
             break;
@@ -396,23 +391,23 @@ void cGame::fNormalModeEvents()
             {
                 case SDLK_UP:
                 {
-                    oPlayerObject->fMoveDirection(1,false);
+                    oWorld->oPlayerObject->fMoveDirection(1,false);
                     break;
                 }
 
                 case SDLK_RIGHT:
                 {
-                    oPlayerObject->fMoveDirection(2,false);
+                    oWorld->oPlayerObject->fMoveDirection(2,false);
                     break;
                 }
                 case SDLK_DOWN:
                 {
-                    oPlayerObject->fMoveDirection(3,false);
+                    oWorld->oPlayerObject->fMoveDirection(3,false);
                     break;
                 }
                 case SDLK_LEFT:
                 {
-                    oPlayerObject->fMoveDirection(4,false);
+                    oWorld->oPlayerObject->fMoveDirection(4,false);
                     break;
                 }
             }
@@ -469,7 +464,7 @@ void cGame::fEditModeEvents()
 
             case SDLK_F3:
                 //Save Layer to File
-                fSaveLayer(oLevelLayer);
+                fSaveLayer(oWorld->oLevelLayer);
                 SDL_WM_SetCaption ("Current Layer Saved.", NULL);
                 break;
 
@@ -480,19 +475,19 @@ void cGame::fEditModeEvents()
                 break;
 
             case SDLK_LEFT:
-                oCam->Direction=oCam->left;
+                oWorld->oCam->Direction=oWorld->oCam->left;
                 break;
 
             case SDLK_RIGHT:
-                oCam->Direction=oCam->right;
+                oWorld->oCam->Direction=oWorld->oCam->right;
                 break;
 
             case SDLK_UP:
-                oCam->Direction=oCam->up;
+                oWorld->oCam->Direction=oWorld->oCam->up;
                 break;
 
             case SDLK_DOWN:
-                oCam->Direction=oCam->down;
+                oWorld->oCam->Direction=oWorld->oCam->down;
                 break;
             }
             break;
@@ -504,7 +499,7 @@ void cGame::fEditModeEvents()
             case SDLK_LEFT:
             case SDLK_UP:
             case SDLK_DOWN:
-                oCam->Direction=oCam->none;
+                oWorld->oCam->Direction=oWorld->oCam->none;
                 break;
             }
             break;
@@ -521,50 +516,48 @@ void cGame::fEditModeEvents()
     int x,y;
     SDL_GetMouseState(&x, &y);
     if(x>(oWorld->oConfig->m_iScreenWidth*dbMouseCornerWidthPerc))
-        oCam->X-=iMouseScrollSpeed;
+        oWorld->oCam->X-=iMouseScrollSpeed;
     if(x<(oWorld->oConfig->m_iScreenWidth*(1.0 - dbMouseCornerWidthPerc))) // Invert
-        oCam->X+=iMouseScrollSpeed;
+        oWorld->oCam->X+=iMouseScrollSpeed;
     if(y>(oWorld->oConfig->m_iScreenHeight*dbMouseCornerWidthPerc))
-        oCam->Y-=iMouseScrollSpeed;
+        oWorld->oCam->Y-=iMouseScrollSpeed;
     if(y<(oWorld->oConfig->m_iScreenHeight*(1.0 - dbMouseCornerWidthPerc)))
-        oCam->Y+=iMouseScrollSpeed;
+        oWorld->oCam->Y+=iMouseScrollSpeed;
 }
 
 void cGame::fObjectMovement()
 {
     //Do Camera movement
-    switch(oCam->Direction)
+    switch(oWorld->oCam->Direction)
     {
     case 1:
-        oCam->Y += 1;
+        oWorld->oCam->Y += 1;
         break;
     case 2:
-        oCam->X -= 1;
+        oWorld->oCam->X -= 1;
         break;
     case 3:
-        oCam->Y -= 1;
+        oWorld->oCam->Y -= 1;
         break;
     case 4:
-        oCam->X += 1;
+        oWorld->oCam->X += 1;
         break;
     }
 
     //Scroll Back
     if(iRenderedFrames%5 ==0)
-        oBackgroundLayer->fScroll();
+        oWorld->oBackgroundLayer->fScroll();
 }
 
 cGame::cGame()
 {
+    oWorld = new cWorld();
     fInitVariables();
 }
 
 void cGame::fInitVariables()
 {
-    oWorld = new cWorld();
-
     blDone = false;
-    oPencil = new cPencil;
     blEditMode = false;
     blRenderLevel = true;
     blSpritePalet = false;
@@ -595,9 +588,9 @@ cGame::~cGame()
 void cGame::fCleanUp()
 {
     //Destroy objects
-    delete oLevelLayer;
-    SDL_FreeSurface(textSurface);
-    SDL_FreeSurface(oWorld->oConfig->m_sScreen);
+    delete oWorld->oLevelLayer;
+    SDL_FreeSurface(oWorld->sTextSurface);
+    SDL_FreeSurface(oWorld->sScreenSurface);
 }
 
 void cGame::fRenderEditMode()
@@ -605,8 +598,8 @@ void cGame::fRenderEditMode()
     // Get position of mouse and calculate the according position in tiles/rows
     int iMouseX, iMouseY;
     int iMouseButtons = SDL_GetMouseState(&iMouseX, &iMouseY);
-    int iTileWidth = oLevelLayer->fGetSpriteWidth();
-    int iTileHeight = oLevelLayer->fGetSpriteHeight();
+    int iTileWidth = oWorld->oLevelLayer->fGetSpriteWidth();
+    int iTileHeight = oWorld->oLevelLayer->fGetSpriteHeight();
     int iTileCol = fGetTileCol(iMouseX,iTileWidth);
     int iTileRow = fGetTileRow(iMouseY,iTileHeight);
     int iRectX = (iTileCol*iTileWidth);
@@ -618,25 +611,25 @@ void cGame::fRenderEditMode()
     // we dont want to do this when the sprite picker is shown, because that is always statis align from the upper left corner (0,0).
     if (!blSpritePalet)
     {
-        iXOffset = (-(oCam->X)%iTileWidth);
-        iYOffset = (-(oCam->Y)%iTileHeight);
+        iXOffset = (-(oWorld->oCam->X)%iTileWidth);
+        iYOffset = (-(oWorld->oCam->Y)%iTileHeight);
     }
 
     //Recalculate the real tile using the camera offset
-    iTileCol = fGetTileCol(iMouseX-oCam->X-iXOffset,iTileWidth);
-    iTileRow = fGetTileRow(iMouseY-oCam->Y-iYOffset,iTileHeight);
+    iTileCol = fGetTileCol(iMouseX-oWorld->oCam->X-iXOffset,iTileWidth);
+    iTileRow = fGetTileRow(iMouseY-oWorld->oCam->Y-iYOffset,iTileHeight);
 
     if(blSpritePalet) //The Sprite palet/picker is on screen,
     {
-        oSpritePicker->fRender(0,0);  //render this at fixed position.
+        oWorld->oSpritePicker->fRender(0,0);  //render this at fixed position.
         switch(iMouseButtons)
         {
         case 1:
             //Left button, selects the source sprite
             int iPickedTileCol = fGetTileCol(iMouseX,iTileWidth);
             int iPickedTileRow = fGetTileRow(iMouseY,iTileHeight);
-            oPencil->iSourceTileRow=iPickedTileRow;
-            oPencil->iSourceTileCol=iPickedTileCol;
+            oWorld->oPencil->iSourceTileRow=iPickedTileRow;
+            oWorld->oPencil->iSourceTileCol=iPickedTileCol;
 
             blSpritePalet=!blSpritePalet; // Hide sprite palet
             blRenderLevel=!blRenderLevel; // Show level again
@@ -646,21 +639,21 @@ void cGame::fRenderEditMode()
     else
     {
         // The is in paint mode
-        if((iTileRow<oLevelLayer->fGetTotalRows()) && (iTileCol<oLevelLayer->fGetTotalCols()) && (iTileRow>-1) && (iTileCol>-1))
+        if((iTileRow<oWorld->oLevelLayer->fGetTotalRows()) && (iTileCol<oWorld->oLevelLayer->fGetTotalCols()) && (iTileRow>-1) && (iTileCol>-1))
         {
             switch(iMouseButtons)
             {
                 case 1:
                     //Left button, Draw
-                    oLevelLayer->p_LevelData[iTileRow][iTileCol].iIndex=oPencil->iSourceTileCol;
-                    oLevelLayer->p_LevelData[iTileRow][iTileCol].iRow=oPencil->iSourceTileRow;
-                    oLevelLayer->p_LevelData[iTileRow][iTileCol].iType=SPRITE;
+                    oWorld->oLevelLayer->p_LevelData[iTileRow][iTileCol].iIndex=oWorld->oPencil->iSourceTileCol;
+                    oWorld->oLevelLayer->p_LevelData[iTileRow][iTileCol].iRow=oWorld->oPencil->iSourceTileRow;
+                    oWorld->oLevelLayer->p_LevelData[iTileRow][iTileCol].iType=SPRITE;
                     break;
 
                 case 4:
                     //Right button, Clear
-                    oLevelLayer->p_LevelData[iTileRow][iTileCol].iIndex=0;
-                    oLevelLayer->p_LevelData[iTileRow][iTileCol].iType=EMPTY;
+                    oWorld->oLevelLayer->p_LevelData[iTileRow][iTileCol].iIndex=0;
+                    oWorld->oLevelLayer->p_LevelData[iTileRow][iTileCol].iType=EMPTY;
                     break;
             }
         }
@@ -698,38 +691,36 @@ void cGame::fRender()
     SDL_FillRect (oWorld->oConfig->m_sScreen, NULL, color);
 
     // Render the background layer
-    oBackgroundLayer->fRender(0,0,oCam->X,oCam->Y);
+    oWorld->oBackgroundLayer->fRender(0,0,oWorld->oCam->X,oWorld->oCam->Y);
 
     //Render the level layer
     if(blRenderLevel)
     {
-        if(oLevelLayer->fIsBuffered())
+        if(oWorld->oLevelLayer->fIsBuffered())
         {
             // If we are in Edit mode, then force render of the level layer to buffer surface
             if(blEditMode)
             {
-                oLevelLayer->fClear();
-                oLevelLayer->fRender(0,0);
+                oWorld->oLevelLayer->fClear();
+                oWorld->oLevelLayer->fRender(0,0);
             }
 
             // Blit the buffer surface to the main screen. (TODO: Somehow this just won't work arrghhh...
             SDL_Rect destination;
-            destination.x = oCam->X;
-            destination.y = oCam->Y;
-            destination.w = oLevelLayer->fGetWidth();
-            destination.h = oLevelLayer->fGetWidth();
-            SDL_BlitSurface(oLevelLayer->fGetBufferSurface(), NULL, oWorld->oConfig->m_sScreen, &destination);
+            destination.x = oWorld->oCam->X;
+            destination.y = oWorld->oCam->Y;
+            destination.w = oWorld->oLevelLayer->fGetWidth();
+            destination.h = oWorld->oLevelLayer->fGetWidth();
+            SDL_BlitSurface(oWorld->oLevelLayer->fGetBufferSurface(), NULL, oWorld->oConfig->m_sScreen, &destination);
         }
         else
         {
-            oLevelLayer->fRender(oCam->X,oCam->Y);
+            oWorld->oLevelLayer->fRender(oWorld->oCam->X,oWorld->oCam->Y);
         }
 
         //Update all the levelobjects
-        list<iLevelObject*>::iterator p = lLevelObjects.begin();
+        list<iLevelObject*>::iterator p = oWorld->lLevelObjects.begin();
         (*p)->fUpdate();
-
-
     }
 
     //Overlay
@@ -747,9 +738,9 @@ void cGame::fRender()
 void cGame::fRenderUI()
 {
     itoa(iFPS,chFPS,10);
-    textSurface = TTF_RenderText_Shaded(ttfFont, chFPS, cRed, cBlack);
-    SDL_BlitSurface(textSurface, NULL, oWorld->oConfig->m_sScreen, &rFPSLocation);
-    SDL_FreeSurface(textSurface);
+    oWorld->sTextSurface = TTF_RenderText_Shaded(ttfFont, chFPS, cRed, cBlack);
+    SDL_BlitSurface(oWorld->sTextSurface, NULL, oWorld->sScreenSurface, &rFPSLocation);
+    SDL_FreeSurface(oWorld->sTextSurface);
 }
 
 void cGame::fDrawPixel(SDL_Surface *screen, int x, int y, Uint8 R, Uint8 G, Uint8 B)
