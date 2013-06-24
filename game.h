@@ -28,7 +28,6 @@ class cGame {
     bool blSpritePalet;
     signed int CamX, CamY;
     int MouseX, MouseY;
-    int iScreenWidth, iScreenHeight;
     double dbMouseCornerWidthPerc;
     int iMouseScrollSpeed;
     int iOptimalFrequency;
@@ -36,11 +35,9 @@ class cGame {
     int iStartTime;
     int iRenderedFrames;
     int iFPS;
-
-    clock_t cStart, cTime;
+    char chFPS[5];
 
     TTF_Font* ttfFont;
-    char chFPS[5];
     SDL_Color cRed;
     SDL_Color cBlack;
     SDL_Rect rFPSLocation;
@@ -63,7 +60,6 @@ class cGame {
     void fObjectMovement();
     void fCameraMovement();
     void fFPS();
-
     int fGetTileCol(int iX, int iTileWidth);
     int fGetTileRow(int iY, int iTileHeight);
 
@@ -72,5 +68,4 @@ class cGame {
     cWorld* oWorld;
     cGame();
     ~cGame();
-
 };
