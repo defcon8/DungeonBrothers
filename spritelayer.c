@@ -19,6 +19,7 @@
  */
 
 #include "spritelayer.h"
+#include "world.h"
 #include <cstring>
 #include <fstream>
 
@@ -26,30 +27,28 @@ using namespace std;
 
 SDL_Surface *spritelayerscreen;
 
-
-cSpriteLayer::cSpriteLayer(SDL_Surface *screen, int iRows, int iCols, int iSpriteHeightPX, int iSpriteWidthPX, bool blOptimize, int iScreenWidthRef, int iScreenHeightRef, bool blIsBuffered, bool blUseColorKey, int iKeyR, int iKeyG, int iKeyB)
+cSpriteLayer::cSpriteLayer(cWorld* oWorldRef, int iRows, int iCols, int iSpriteHeightPX, int iSpriteWidthPX, bool blOptimize, bool blIsBuffered, bool blUseColorKey, int iKeyR, int iKeyG, int iKeyB)
 {
-    /**< Initialize variables and setup data object holding the level data */
-    fInitLayer(iRows, iCols, iSpriteHeightPX, iSpriteWidthPX, blOptimize, iScreenWidthRef, iScreenHeightRef, blIsBuffered);
+    oWorld = oWorldRef;
 
-    /**< Setup the spritelayer surface, if the layer is buffered then te mainscreen is only used to draw on during edit mode */
-    spritelayerscreen = screen;
+    /**< Initialize variables and setup data object holding the level data */
+    fInitLayer(iRows, iCols, iSpriteHeightPX, iSpriteWidthPX, blOptimize, blIsBuffered);
 
     /**< Setup (source) object that contains the Sprite Sheet. */
     if(blBuffer)
     {
         sfBuffer = SDL_CreateRGBSurface(SDL_HWSURFACE,(iCols*iSpriteWidth),(iRows*iSpriteHeight),
-                                        screen->format->BitsPerPixel,
-                                        screen->format->Rmask,
-                                        screen->format->Gmask,
-                                        screen->format->Bmask,
-                                        screen->format->Amask);
+                                        oWorld->sScreenSurface->format->BitsPerPixel,
+                                        oWorld->sScreenSurface->format->Rmask,
+                                        oWorld->sScreenSurface->format->Gmask,
+                                        oWorld->sScreenSurface->format->Bmask,
+                                        oWorld->sScreenSurface->format->Amask);
 
-        p_Source = new cSprite(sfBuffer);
+        p_Source = new cSprite(oWorld, sfBuffer);
     }
     else
     {
-        p_Source = new cSprite(spritelayerscreen);
+        p_Source = new cSprite(oWorld);
     }
 
     /**< Commmit the Color key for all surfaces. */
@@ -73,17 +72,21 @@ void cSpriteLayer::fClear()
 {
     SDL_Rect rect;
     Uint32 color;
-    color = SDL_MapRGB (sfBuffer->format, 0, 0, 0);
-    SDL_FillRect (sfBuffer, NULL, color);
+    if(blBuffer){
+        color = SDL_MapRGB (sfBuffer->format, 0, 0, 0);
+        SDL_FillRect (sfBuffer, NULL, color);
+    }else{
+        color = SDL_MapRGB (oWorld->sScreenSurface->format, 0, 0, 0);
+        SDL_FillRect (oWorld->sScreenSurface, NULL, color);
+    }
+
 }
 
 
-void cSpriteLayer::fInitLayer(int iRows, int iCols, int iSpriteHeightPX, int iSpriteWidthPX, bool blOptimize, int iScreenWidthRef, int iScreenHeightRef, bool blIsBuffered)
+void cSpriteLayer::fInitLayer(int iRows, int iCols, int iSpriteHeightPX, int iSpriteWidthPX, bool blOptimize, bool blIsBuffered)
 {
     iSpriteHeight=iSpriteHeightPX;
     iSpriteWidth=iSpriteWidthPX;
-    iScreenWidth = iScreenWidthRef;
-    iScreenHeight = iScreenHeightRef;
     x=0;
     y=0;
     iRowCount=iRows;
@@ -157,9 +160,9 @@ SDL_Surface* cSpriteLayer::fRender(signed int CamX, signed int CamY)
     if(blOptmizeLayer)
     {
         iStartCol = fWidthToCol(-CamX);
-        iEndCol = fWidthToCol((-CamX)+iScreenWidth);
+        iEndCol = fWidthToCol((-CamX)+oWorld->oConfig->m_iScreenWidth);
         iStartRow = fHeightToRow(-CamY);
-        iEndRow = fHeightToRow((-CamY)+iScreenHeight);
+        iEndRow = fHeightToRow((-CamY)+oWorld->oConfig->m_iScreenHeight);
 
         // Protect drawing level outside its boundaries
         if(iStartCol<0)

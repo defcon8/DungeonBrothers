@@ -19,6 +19,8 @@
 #include "camera.h"
 #include "ilevelobject.h"
 
+class cWorld;
+
 class cLevelObject : public iLevelObject
 {
 
@@ -34,19 +36,17 @@ private:
 
 public:
     //Object Pointers
+    cWorld* oWorld;
     cSpriteLayer* oGFXLayer;
-    cSpriteLayer* oLevelLayer; // for collision detection
-    cCamera* oCam;
     int X,Y;
 
-    cLevelObject(SDL_Surface* screen, cSpriteLayer* oLevelLayerRef, cCamera* oCamRef, char* chTileSource, int iSpriteHeight, int iSpriteWidth);
+    cLevelObject(cWorld* oWorldRef, char* chTileSource, int iSpriteHeight, int iSpriteWidth);
     virtual ~cLevelObject();
     virtual void fUpdate();
     virtual void fAI();
     bool fCheckDirectionCollision(cSpriteLayer* oObject, int iDirection);
     bool fCheckDirectionCollision(cSpriteLayer* oObject, int iDirection, int iAmountOfPixels);
     int iMoveSpeed;
-    int iScreenWidth, iScreenHeight;
 
 };
 

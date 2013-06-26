@@ -1,3 +1,10 @@
+// *** ADDED BY HEADER FIXUP ***
+#include <cstdio>
+#include <cstdlib>
+#include <ctime>
+#include <iterator>
+#include <list>
+// *** END ***
 /*
 
   Dungeon Brothers
@@ -198,10 +205,10 @@ void cGame::fFPS()
 void cGame::fLoadObjects()
 {
     //Background Layer
-    oWorld->oBackgroundLayer = new cSprite(oWorld->sScreenSurface);
+    oWorld->oBackgroundLayer = new cSprite(oWorld);
     oWorld->oBackgroundLayer->fLoad("back.bmp");
-    oWorld->oBackgroundLayer->fSetSpriteWidth(6400);
-    oWorld->oBackgroundLayer->fSetSpriteHeight(480);
+    oWorld->oBackgroundLayer->iSpriteWidth = 6400;
+    oWorld->oBackgroundLayer->iSpriteHeight = 480;
 
     //Level Layer
     char chTileSource[16];
@@ -232,15 +239,15 @@ void cGame::fLoadObjects()
     oLoad.read(reinterpret_cast<char*>(&iDataBlocks),sizeof(Uint16));
 
     // ------------ [ start setup level ] --------------------
-    oWorld->oLevelLayer = new cSpriteLayer(oWorld->sScreenSurface,iLevelRows,iLevelCols,iSpriteHeight,iSpriteWidth,false,oWorld->oConfig->m_iScreenWidth,oWorld->oConfig->m_iScreenHeight,true,true,0,0,0);
+    oWorld->oLevelLayer = new cSpriteLayer(oWorld,iLevelRows,iLevelCols,iSpriteHeight,iSpriteWidth,false,true,true,0,0,0);
 
     //Setup Source
-    oWorld->oLevelLayer->p_Source->fSetSpriteSpacer(iSpriteSpacer);
+    oWorld->oLevelLayer->p_Source->iSpriteSpacer = iSpriteSpacer;
     oWorld->oLevelLayer->p_Source->fLoad(chTileSource);
-    oWorld->oLevelLayer->p_Source->fSetSpriteWidthOffset(iSpriteWidthOffset);
-    oWorld->oLevelLayer->p_Source->fSetSpriteHeightOffset(iSpriteHeightOffset);
-    oWorld->oLevelLayer->p_Source->fSetSpriteHeight(iSpriteHeight);
-    oWorld->oLevelLayer->p_Source->fSetSpriteWidth(iSpriteWidth);
+    oWorld->oLevelLayer->p_Source->iSpriteWidthOffset = iSpriteWidthOffset;
+    oWorld->oLevelLayer->p_Source->iSpriteHeightOffset = iSpriteHeightOffset;
+    oWorld->oLevelLayer->p_Source->iSpriteHeight = iSpriteHeight;
+    oWorld->oLevelLayer->p_Source->iSpriteWidth = iSpriteWidth;
 
     // Read DataBlocks from file
     for (int iSprite = 0; iSprite < iDataBlocks; iSprite++)
@@ -266,20 +273,20 @@ void cGame::fLoadObjects()
 
     // ------------ [ start setup player ] --------------------
 
-    oWorld->oPlayerObject = new cPlayer(oWorld->sScreenSurface, oWorld->lLevelObjects, oWorld->oLevelLayer,oWorld->oCam, "player.bmp",40,32,oWorld->oConfig->m_iScreenWidth,oWorld->oConfig->m_iScreenHeight);
+    oWorld->oPlayerObject = new cPlayer(oWorld, "player.bmp",40,32);
     oWorld->lLevelObjects.push_back(oWorld->oPlayerObject);    //Add to level object list
 
     //Close File
     oLoad.close();
 
     // ------------ [ start setup spritepicker ] --------------------
-    oWorld->oSpritePicker = new cSpriteLayer(oWorld->sScreenSurface,iSourceRows,iSourceCols,iSpriteHeight,iSpriteWidth,false,oWorld->oConfig->m_iScreenWidth,oWorld->oConfig->m_iScreenHeight,false,false,0,0,0);
-    oWorld->oSpritePicker->p_Source->fSetSpriteSpacer(2);
+    oWorld->oSpritePicker = new cSpriteLayer(oWorld,iSourceRows,iSourceCols,iSpriteHeight,iSpriteWidth,false,false,false,0,0,0);
+    oWorld->oSpritePicker->p_Source->iSpriteSpacer = 2;
     oWorld->oSpritePicker->p_Source->fLoad(chTileSource);
-    oWorld->oSpritePicker->p_Source->fSetSpriteWidthOffset(0);
-    oWorld->oSpritePicker->p_Source->fSetSpriteHeightOffset(0);
-    oWorld->oSpritePicker->p_Source->fSetSpriteHeight(iSpriteHeight);
-    oWorld->oSpritePicker->p_Source->fSetSpriteWidth(iSpriteWidth);
+    oWorld->oSpritePicker->p_Source->iSpriteWidthOffset = 0;
+    oWorld->oSpritePicker->p_Source->iSpriteHeightOffset = 0;
+    oWorld->oSpritePicker->p_Source->iSpriteHeight = iSpriteHeight;
+    oWorld->oSpritePicker->p_Source->iSpriteWidth = iSpriteWidth;
 
     for (int iCol = 0; iCol < iSourceCols; iCol++)
     {

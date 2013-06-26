@@ -29,9 +29,10 @@
 #define SPRITELAYER_H_
 
 #include "sprite.h"
+
+class cWorld;
+
 class cSpriteLayer {
-
-
   //Sprite Types
   #define EMPTY 0
   #define SPRITE  1
@@ -64,8 +65,9 @@ class cSpriteLayer {
         };
 
         //Local Members
+        cWorld* oWorld;
+
         int iSpriteWidth, iSpriteHeight;
-        int iScreenWidth, iScreenHeight;
         int iRowCount, iColCount;
         bool blOptmizeLayer;
         bool blBuffer;
@@ -74,10 +76,10 @@ class cSpriteLayer {
 
         //Methods
         void fInitMap();
-        void fInitLayer(int iRows, int iCols, int iSpriteHeightPX, int iSpriteWidthPX, bool blOptimize, int iScreenWidthRef, int iScreenHeightRef, bool blIsBuffered);
+        void fInitLayer(int iRows, int iCols, int iSpriteHeightPX, int iSpriteWidthPX, bool blOptimize, bool blIsBuffered);
 
   public:
-    cSpriteLayer(SDL_Surface *screen, int iRows, int iCols, int iSpriteHeightPX, int iSpriteWidthPX, bool blOptimize, int iScreenWidthRef, int iScreenHeightRef, bool blIsBuffered, bool blUseColorKey, int iKeyR, int iKeyG, int iKeyB); /**< Constructor to render directly to main screen */
+    cSpriteLayer(cWorld* oWorldRef, int iRows, int iCols, int iSpriteHeightPX, int iSpriteWidthPX, bool blOptimize, bool blIsBuffered, bool blUseColorKey, int iKeyR, int iKeyG, int iKeyB); /**< Constructor to render directly to main screen */
     ~cSpriteLayer();
 
     //Data Objects

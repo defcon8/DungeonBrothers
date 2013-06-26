@@ -12,6 +12,7 @@
 */
 #include "sprite.h"
 #include <cstring>
+#include "world.h"
 
 void cSprite::fLoad(const char *file)
 {
@@ -33,56 +34,6 @@ void cSprite::fSetColorKey(int iR, int iG, int iB)
     iColorKeyB = iB;
 }
 
-void cSprite::fSetSpriteSpacer(int iPixels)
-{
-    iSpriteSpacer=iPixels;
-}
-
-void cSprite::fSetSpriteWidth(int iPixels)
-{
-    iSpriteWidth=iPixels;
-}
-
-void cSprite::fSetSpriteHeight(int iPixels)
-{
-    iSpriteHeight=iPixels;
-}
-
-void cSprite::fSetSpriteWidthOffset(int iPixels)
-{
-    iSpriteWidthOffset=iPixels;
-}
-
-void cSprite::fSetSpriteHeightOffset(int iPixels)
-{
-    iSpriteHeightOffset=iPixels;
-}
-
-int cSprite::fGetSpriteSpacer()
-{
-    return iSpriteSpacer;
-}
-
-int cSprite::fGetSpriteWidth()
-{
-    return iSpriteWidth;
-}
-
-int cSprite::fGetSpriteHeight()
-{
-    return iSpriteHeight;
-}
-
-int cSprite::fGetSpriteWidthOffset()
-{
-    return iSpriteWidthOffset;
-}
-
-int cSprite::fGetSpriteHeightOffset()
-{
-    return iSpriteHeightOffset;
-}
-
 void cSprite::fRender(int iCol, int iRow, int iDestX, int iDestY)
 {
     // Part of the bitmap that we want to draw
@@ -99,21 +50,35 @@ void cSprite::fRender(int iCol, int iRow, int iDestX, int iDestY)
     destination.w = iSpriteWidth;
     destination.h = iSpriteHeight;
 
-    SDL_BlitSurface(bitmap, &source, spritescreen, &destination);
+    SDL_BlitSurface(bitmap, &source, screen, &destination);
 }
 
-cSprite::cSprite(SDL_Surface *screen)
+cSprite::cSprite(cWorld* oWorldRef)
 {
-    spritescreen = screen;
+    oWorld = oWorldRef;
+    screen = oWorld->sScreenSurface;
+    fInit();
+}
+
+cSprite::cSprite(cWorld* oWorldRef, SDL_Surface* sAlternativeScreen)
+{
+    oWorld = oWorldRef;
+    screen = sAlternativeScreen;
+    fInit();
+}
+
+
+cSprite::~cSprite()
+{
+    SDL_FreeSurface(bitmap);
+}
+
+void cSprite::fInit()
+{
     iSpriteSpacer=0;
     iSpriteHeight=0;
     iSpriteWidth=0;
     iSpriteHeightOffset=0;
     iSpriteWidthOffset=0;
     iScrollOffset=0;
-}
-
-cSprite::~cSprite()
-{
-    SDL_FreeSurface(bitmap);
 }

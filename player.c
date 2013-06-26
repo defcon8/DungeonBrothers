@@ -1,7 +1,11 @@
+// *** ADDED BY HEADER FIXUP ***
+#include <cstdlib>
+// *** END ***
 #include "player.h"
 #include "bullit.h"
+#include "world.h"
 
-cPlayer::cPlayer(SDL_Surface* screen, list<iLevelObject*> lLevelObjects, cSpriteLayer* oLevelLayer, cCamera* oCam, char* chTileSource, int iSpriteHeight, int iSpriteWidth, int iScreenWidth, int iScreenHeight) : cLevelObject(screen, oLevelLayer, oCam, chTileSource, iSpriteHeight, iSpriteWidth)
+cPlayer::cPlayer(cWorld* oWorld, char* chTileSource, int iSpriteHeight, int iSpriteWidth) : cLevelObject(oWorld, chTileSource, iSpriteHeight, iSpriteWidth)
 {
     // Init Variables
     fMoveDirection(NONE,false);
@@ -15,16 +19,16 @@ cPlayer::cPlayer(SDL_Surface* screen, list<iLevelObject*> lLevelObjects, cSprite
     Y=40;
 
     //Setup Layer
-    oGFXLayer = new cSpriteLayer(screen,1,1,iSpriteHeight,iSpriteWidth,false,iScreenWidth,iScreenHeight,false,true,0,0,0);
+    oGFXLayer = new cSpriteLayer(oWorld,1,1,iSpriteHeight,iSpriteWidth,false,false,true,0,0,0);
 
     //Setup Source
-    oGFXLayer->p_Source->fSetSpriteSpacer(0);
+    oGFXLayer->p_Source->iSpriteSpacer = 0;
     oGFXLayer->p_Source->fSetColorKey(0,0,0);
     oGFXLayer->p_Source->fLoad(chTileSource);
-    oGFXLayer->p_Source->fSetSpriteWidthOffset(0);
-    oGFXLayer->p_Source->fSetSpriteHeightOffset(0);
-    oGFXLayer->p_Source->fSetSpriteHeight(iSpriteHeight);
-    oGFXLayer->p_Source->fSetSpriteWidth(iSpriteWidth);
+    oGFXLayer->p_Source->iSpriteWidthOffset = 0;
+    oGFXLayer->p_Source->iSpriteHeightOffset = 0;
+    oGFXLayer->p_Source->iSpriteHeight = iSpriteHeight;
+    oGFXLayer->p_Source->iSpriteWidth = iSpriteWidth;
 
     //choose player sprite
     oGFXLayer->p_LevelData[0][0].iType=SPRITE;

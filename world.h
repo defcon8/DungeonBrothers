@@ -15,25 +15,25 @@ using namespace std;
 
 class cWorld
 {
-    public:
-        cConfig* oConfig;
-        cPencil* oPencil;
-        cSpriteLayer* oLevelLayer;
-        cSpriteLayer* oSpritePicker;
-        cSprite* oBackgroundLayer;
-        cPlayer* oPlayerObject;
-        cCamera* oCam;
-        cPhysics* oPhysics;
+public:
+    cConfig* oConfig;
+    cPencil* oPencil;
+    cSpriteLayer* oLevelLayer;
+    cSpriteLayer* oSpritePicker;
+    cSprite* oBackgroundLayer;
+    cPlayer* oPlayerObject;
+    cCamera* oCam;
+    cPhysics* oPhysics;
 
-        SDL_Surface *sScreenSurface;
-        SDL_Surface *sTextSurface;
+    SDL_Surface *sScreenSurface;
+    SDL_Surface *sTextSurface;
 
-        list<iLevelObject*> lLevelObjects;
+    list<iLevelObject*> lLevelObjects;
 
-        cWorld();
-        ~cWorld();
-    protected:
-    private:
+    cWorld();
+    ~cWorld();
+protected:
+private:
 };
 
 #endif // WORLD_H

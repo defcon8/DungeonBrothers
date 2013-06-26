@@ -5,6 +5,8 @@
 
 using namespace std;
 
+class cWorld;
+
 class cPlayer : public cLevelObject
 {
   private:
@@ -20,7 +22,7 @@ class cPlayer : public cLevelObject
     void fMoveDirection(int iDirection, bool blEnabled);
     void fJump();
     void fFire();
-    cPlayer(SDL_Surface* screen, list<iLevelObject*> lLevelObjects, cSpriteLayer* oLevelLayer, cCamera* oCam, char* chTileSource, int iSpriteHeight, int iSpriteWidth, int iScreenWidth, int iScreenHeight);
+    cPlayer(cWorld* oWorld, char* chTileSource, int iSpriteHeight, int iSpriteWidth);
     ~cPlayer();
 };
 

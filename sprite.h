@@ -16,15 +16,18 @@
 
 #include <SDL/SDL.h>
 
+class cWorld;
+
 class cSprite
 {
 private:
-    int iSpriteWidth, iSpriteHeight, iSpriteWidthOffset ,iSpriteHeightOffset, iSpriteSpacer;
     int iColorKeyR, iColorKeyG, iColorKeyB;
     char chTileSource[16];
+    void fInit();
 
     SDL_Surface* bitmap;
-    SDL_Surface *spritescreen;
+    SDL_Surface* screen;
+    cWorld* oWorld;
 public:
     int iScrollOffset;
     void fLoad(const char *file);
@@ -36,18 +39,15 @@ public:
     void fSetSpriteHeightOffset(int iPixels);
     void fSetSpriteSpacer(int iPixels);
 
-    int fGetSpriteWidth();
-    int fGetSpriteHeight();
-    int fGetSpriteWidthOffset();
-    int fGetSpriteHeightOffset();
-    int fGetSpriteSpacer();
-
+    int iSpriteWidth, iSpriteHeight, iSpriteWidthOffset ,iSpriteHeightOffset, iSpriteSpacer;
     char* fGetTileSource();
 
     void fSetColorKey(int iR, int iG, int iB);
     void fScroll();
 
-    cSprite(SDL_Surface *screen);
+    cSprite(cWorld* oWorldRef);
+    cSprite(cWorld* oWorldRef, SDL_Surface* sAlternativeScreen);
+
     ~cSprite();
 };
 #endif /* SPRITE_H_ */
