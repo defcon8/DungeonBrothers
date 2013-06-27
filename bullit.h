@@ -2,15 +2,19 @@
 #define BULLIT_H
 #include "levelobject.h"
 
+using namespace std;
+
 class cWorld;
 
 class cBullit : public cLevelObject
 {
-    public:
-        cBullit(cWorld* oWorldRef, char* chTileSource, int iSpriteHeight, int iSpriteWidth);
-        ~cBullit();
-    protected:
-    private:
+  private:
+
+  public:
+    cBullit(cWorld* oWorld, char* chTileSource, int iSpriteHeight, int iSpriteWidth);
+    ~cBullit();
+    void fAI();
 };
 
-#endif // BULLIT_H
+#endif // PLAYER_H
+

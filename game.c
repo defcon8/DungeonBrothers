@@ -729,8 +729,10 @@ void cGame::fRender()
         }
 
         //Update (and that includes rendering of) all the levelobjects
-        list<iLevelObject*>::iterator p = oWorld->lLevelObjects.begin();
-        (*p)->fUpdate();
+        list<iLevelObject*>::iterator itObject = oWorld->lLevelObjects.begin();
+        for (itObject = oWorld->lLevelObjects.begin(); itObject != oWorld->lLevelObjects.end(); ++itObject) {
+            (*itObject)->fUpdate();
+        }
     }
 
     //Overlay

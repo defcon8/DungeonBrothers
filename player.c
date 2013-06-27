@@ -51,6 +51,8 @@ void cPlayer::fJump()
 
 void cPlayer::fFire()
 {
+     cBullit* oBullit = new cBullit(oWorld, "bullit.bmp",10,10);
+     oWorld->lLevelObjects.push_back(oBullit);    //Add to level object list
 }
 
 void cPlayer::fAI()
