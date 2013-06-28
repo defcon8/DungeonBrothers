@@ -40,10 +40,11 @@ cBullit::~cBullit()
 void cBullit::fAI()
 {
     //Movement
-    iVelocityX=(cos(iAngle*( 3.14/180 ) )*iSpeed);
-    iVelocityY=(sin(iAngle*( 3.14/180 ) )*iSpeed);
+    iVelocityX=(cos(iAngle*(3.14/180))*iSpeed);
+    iVelocityY=(sin(iAngle*(3.14/180))*iSpeed);
 
     X+= iVelocityX;
     Y+= iVelocityY;
+
 
 }

@@ -78,8 +78,8 @@ void cPlayer::fFire()
             iAngle=180;
             break;
     }
-
     oBullit= new cBullit(oWorld, "bullit.bmp",10,10,iAngle,10);
+
 
     oWorld->lLevelObjects.push_back(oBullit);    //Add to level object list
 }
