@@ -46,11 +46,11 @@ void cPlayer::fSetSprite()
     switch(iFaceDirection)
     {
     case LEFT:
-
+        oGFXLayer->p_LevelData[0][0].iIndex=0;
         break;
 
     case RIGHT:
-
+        oGFXLayer->p_LevelData[0][0].iIndex=1;
         break;
     }
 }
@@ -66,13 +66,21 @@ void cPlayer::fJump()
 
 void cPlayer::fFire()
 {
-    cBullit* oBullit = new cBullit(oWorld, "bullit.bmp",10,10);
+    cBullit* oBullit;
+
+    if(iFaceDirection==RIGHT){
+         oBullit= new cBullit(oWorld, "bullit.bmp",10,10,90,10);
+    }else{
+        oBullit = new cBullit(oWorld, "bullit.bmp",10,10,180,10);
+    }
+
     oWorld->lLevelObjects.push_back(oBullit);    //Add to level object list
 }
 
 void cPlayer::fAI()
 {
     fMoveByUserInput();
+    fSetSprite();
     fGravityPhysics();
     fJumpPhysics();
 }
@@ -119,9 +127,9 @@ void cPlayer::fMoveByUserInput()
         if(!fCheckDirectionCollision(oGFXLayer,RIGHT,iMoveSpeed+iVelocityX))
         {
             X+= iMoveSpeed+iVelocityX;
-            oGFXLayer->p_LevelData[0][0].iIndex=1; //Set player sprite to other (running left /right) Todo: do this better
             if(iVelocityX < 2) iVelocityX++;
             iLastDirection=RIGHT;
+            iFaceDirection=RIGHT;
         }
         else
         {
@@ -132,9 +140,10 @@ void cPlayer::fMoveByUserInput()
         if(!fCheckDirectionCollision(oGFXLayer,LEFT,iMoveSpeed+iVelocityX))
         {
             X-= iMoveSpeed+iVelocityX;
-            oGFXLayer->p_LevelData[0][0].iIndex=0; //Set player sprite to other (running left /right) Todo: do this better
             if(iVelocityX < 2) iVelocityX++;
             iLastDirection=LEFT;
+            iFaceDirection=LEFT;
+
         }
         else
         {

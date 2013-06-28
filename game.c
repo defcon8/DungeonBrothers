@@ -180,7 +180,7 @@ void cGame::Start()
 
     while(!blDone)
     {
-        long measure1 = time(NULL);
+        long tMeasure1 = time(NULL);
         fEvents();
         fObjectMovement();
         fCameraMovement();
@@ -188,9 +188,9 @@ void cGame::Start()
         fRender();
         iRenderedFrames++;
         fFPS();
-        long measure2 = time(NULL); //Give system time to the OS, prevent 100% Core usage.
-        long diff = measure2 - measure1;
-        SDL_Delay(13-diff); // sleep until next tick
+        long tMeasure2 = time(NULL); //Give system time to the OS, prevent 100% Core usage.
+        long tDiff = tMeasure2 - tMeasure1;
+        SDL_Delay(13-tDiff); // sleep until next tick
     }
     fCleanUp();
 }
@@ -302,13 +302,7 @@ void cGame::fLoadObjects()
 
 void cGame::fGameLoop()
 {
-//    /**<  Test: Player Collision detection - Level Boundaries */
-//    if(oPlayerLayer->x < 0 || oPlayerLayer->x > oLevelLayer->fGetWidth() || oPlayerLayer->y < 0 || oPlayerLayer->y > oLevelLayer->fGetHeight())
-//    {
-//        oPlayerLayer->p_LevelData[0][0].iIndex=10;
-//    }else{
-//        oPlayerLayer->p_LevelData[0][0].iIndex=3;
-//    }
+    // Game Logic
 }
 
 void cGame::fInitialize()
@@ -619,7 +613,6 @@ void cGame::fRenderEditMode()
     int iRectY = (iTileRow*iTileHeight);
     int iXOffset=0,iYOffset=0;
 
-
     // Because of the screenscrolling you need to know the offset in pixels before we can exactly calculate on which tile the mouse cursor is. But
     // we dont want to do this when the sprite picker is shown, because that is always statis align from the upper left corner (0,0).
     if (!blSpritePalet)
@@ -687,12 +680,12 @@ int cGame::fGetTileRow(int iY, int iTileHeight)
 
 void cGame::fDrawRectangle(int x, int y, int w, int h, Uint32 color)
 {
-    SDL_Rect rect;
-    rect.x = x;
-    rect.y = y;
-    rect.w = w;
-    rect.h = h;
-    SDL_FillRect(oWorld->sScreenSurface,&rect,color);
+    SDL_Rect rRect;
+    rRect.x = x;
+    rRect.y = y;
+    rRect.w = w;
+    rRect.h = h;
+    SDL_FillRect(oWorld->sScreenSurface,&rRect,color);
 }
 
 void cGame::fRender()
@@ -786,10 +779,7 @@ void cGame::fDrawPixel(SDL_Surface *screen, int x, int y, Uint8 R, Uint8 G, Uint
             bufp[1] = color >> 8;
             bufp[2] = color >> 16;
         }
-        else    TTF_Font* font = TTF_OpenFont("ARIAL.TTF", 12);
-        SDL_Color foregroundColor = { 255, 255, 255 };
-        SDL_Color backgroundColor = { 0, 0, 255 };
-        SDL_Rect textLocation = { 100, 100, 0, 0 };
+        else
         {
             bufp[2] = color;
             bufp[1] = color >> 8;

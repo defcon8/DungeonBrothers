@@ -67,7 +67,7 @@
 1371631035 c:\users\bw.kee\documents\github\dungeonbrothers\debug.h
 	<winsock2.h>
 
-1372400857 source:c:\users\bw.kee\documents\github\dungeonbrothers\game.c
+1372421276 source:c:\users\bw.kee\documents\github\dungeonbrothers\game.c
 	<cstdio>
 	<cstdlib>
 	<ctime>
@@ -111,7 +111,7 @@
 	<cstring>
 	"world.h"
 
-1372400857 source:c:\users\bw.kee\documents\github\dungeonbrothers\spritelayer.c
+1372413380 source:c:\users\bw.kee\documents\github\dungeonbrothers\spritelayer.c
 	"spritelayer.h"
 	"world.h"
 	<cstring>
@@ -149,7 +149,7 @@
 1371631469 c:\users\bw.kee\documents\github\dungeonbrothers\enemy.h
 	"ilevelobject.h"
 
-1372412910 source:c:\users\bw.kee\documents\github\dungeonbrothers\player.c
+1372422315 source:c:\users\bw.kee\documents\github\dungeonbrothers\player.c
 	<cstdlib>
 	"player.h"
 	"bullit.h"
@@ -173,7 +173,7 @@
 
 1371646877 c:\users\bw.kee\documents\github\dungeonbrothers\ilevelobject.h
 
-1372400857 source:c:\users\bw.kee\documents\github\dungeonbrothers\levelobject.c
+1372412991 source:c:\users\bw.kee\documents\github\dungeonbrothers\levelobject.c
 	"levelobject.h"
 	"world.h"
 
@@ -360,14 +360,15 @@
 1372240834 source:c:\users\bw.kee\documents\github\dungeonbrothers\world.c
 	"world.h"
 
-1372412927 source:c:\users\bw.kee\documents\github\dungeonbrothers\bullit.c
+1372422280 source:c:\users\bw.kee\documents\github\dungeonbrothers\bullit.c
 	<cstdlib>
 	"bullit.h"
 	"world.h"
+	<cmath>
 
-1372412933 c:\users\bw.kee\documents\github\dungeonbrothers\bullit.h
+1372422098 c:\users\bw.kee\documents\github\dungeonbrothers\bullit.h
 	"levelobject.h"
 
-1372400857 source:c:\users\bw.kee\documents\github\dungeonbrothers\config.c
+1372421560 source:c:\users\bw.kee\documents\github\dungeonbrothers\config.c
 	"config.h"
 
