@@ -206,27 +206,28 @@
 	<windows.h>
 	"game.h"
 
-1372085424 c:\documents and settings\bastiaan & lore\mijn documenten\github\dungeonbrothers\game.h
+1372436868 c:\documents and settings\bastiaan & lore\mijn documenten\github\dungeonbrothers\game.h
 	<SDL/SDL.h>
 	"SDL/SDL_ttf.h"
+	"SDL/SDL_mixer.h"
 	"debug.h"
 	"world.h"
 	<time.h>
 	"enemy.h"
 
-1372081649 c:\documents and settings\bastiaan & lore\mijn documenten\github\dungeonbrothers\spritelayer.h
+1372430186 c:\documents and settings\bastiaan & lore\mijn documenten\github\dungeonbrothers\spritelayer.h
 	"sprite.h"
 
-1372083138 c:\documents and settings\bastiaan & lore\mijn documenten\github\dungeonbrothers\sprite.h
+1372430185 c:\documents and settings\bastiaan & lore\mijn documenten\github\dungeonbrothers\sprite.h
 	<SDL/SDL.h>
 
 1372081649 c:\documents and settings\bastiaan & lore\mijn documenten\github\dungeonbrothers\pencil.h
 
-1372089265 c:\documents and settings\bastiaan & lore\mijn documenten\github\dungeonbrothers\player.h
+1372430185 c:\documents and settings\bastiaan & lore\mijn documenten\github\dungeonbrothers\player.h
 	<list>
 	"levelobject.h"
 
-1372083846 c:\documents and settings\bastiaan & lore\mijn documenten\github\dungeonbrothers\levelobject.h
+1372430185 c:\documents and settings\bastiaan & lore\mijn documenten\github\dungeonbrothers\levelobject.h
 	<SDL/SDL.h>
 	"spritelayer.h"
 	"camera.h"
@@ -235,7 +236,12 @@
 1372081649 source:c:\documents and settings\bastiaan & lore\mijn documenten\github\dungeonbrothers\pencil.c
 	"pencil.h"
 
-1372088249 source:c:\documents and settings\bastiaan & lore\mijn documenten\github\dungeonbrothers\game.c
+1372442175 source:c:\documents and settings\bastiaan & lore\mijn documenten\github\dungeonbrothers\game.c
+	<cstdio>
+	<cstdlib>
+	<ctime>
+	<iterator>
+	<list>
 	<windows.h>
 	<iostream>
 	<math.h>
@@ -243,21 +249,26 @@
 	<cstring>
 	"game.h"
 
-1372082761 source:c:\documents and settings\bastiaan & lore\mijn documenten\github\dungeonbrothers\levelobject.c
+1372430185 source:c:\documents and settings\bastiaan & lore\mijn documenten\github\dungeonbrothers\levelobject.c
 	"levelobject.h"
+	"world.h"
 
-1372083164 source:c:\documents and settings\bastiaan & lore\mijn documenten\github\dungeonbrothers\sprite.c
+1372430185 source:c:\documents and settings\bastiaan & lore\mijn documenten\github\dungeonbrothers\sprite.c
 	"sprite.h"
 	<cstring>
+	"world.h"
 
-1372083174 source:c:\documents and settings\bastiaan & lore\mijn documenten\github\dungeonbrothers\spritelayer.c
+1372430185 source:c:\documents and settings\bastiaan & lore\mijn documenten\github\dungeonbrothers\spritelayer.c
 	"spritelayer.h"
+	"world.h"
 	<cstring>
 	<fstream>
 
-1372089012 source:c:\documents and settings\bastiaan & lore\mijn documenten\github\dungeonbrothers\player.c
+1372442513 source:c:\documents and settings\bastiaan & lore\mijn documenten\github\dungeonbrothers\player.c
+	<cstdlib>
 	"player.h"
 	"bullit.h"
+	"world.h"
 
 1372070022 c:\users\bastiaan\documents\github\dungeonbrothers\ilevelobject.h
 
@@ -294,13 +305,13 @@
 1372071788 source:c:\users\bastiaan\documents\github\dungeonbrothers\world.c
 	"world.h"
 
-1372088723 source:c:\documents and settings\bastiaan & lore\mijn documenten\github\dungeonbrothers\config.c
+1372441936 source:c:\documents and settings\bastiaan & lore\mijn documenten\github\dungeonbrothers\config.c
 	"config.h"
 
 1372084057 c:\documents and settings\bastiaan & lore\mijn documenten\github\dungeonbrothers\config.h
 	<SDL/SDL.h>
 
-1372081649 c:\documents and settings\bastiaan & lore\mijn documenten\github\dungeonbrothers\world.h
+1372430186 c:\documents and settings\bastiaan & lore\mijn documenten\github\dungeonbrothers\world.h
 	<list>
 	"config.h"
 	"pencil.h"
@@ -323,11 +334,14 @@
 1372087768 source:c:\documents and settings\bastiaan & lore\mijn documenten\github\dungeonbrothers\bullit.cpp
 	"bullit.h"
 
-1372087932 c:\documents and settings\bastiaan & lore\mijn documenten\github\dungeonbrothers\bullit.h
+1372431177 c:\documents and settings\bastiaan & lore\mijn documenten\github\dungeonbrothers\bullit.h
 	"levelobject.h"
 
-1372087999 source:c:\documents and settings\bastiaan & lore\mijn documenten\github\dungeonbrothers\bullit.c
+1372442390 source:c:\documents and settings\bastiaan & lore\mijn documenten\github\dungeonbrothers\bullit.c
+	<cstdlib>
 	"bullit.h"
+	"world.h"
+	<cmath>
 
 1372365497 source:c:\users\bastiaan\documents\github\dungeonbrothers\bullit.c
 	<cstdlib>

@@ -5,8 +5,11 @@
 #include "world.h"
 #include <cmath>
 
-cBullit::cBullit(cWorld* oWorld, const char* chTileSource, int iSpriteHeight, int iSpriteWidth, int iAngle, int iSpeed) : cLevelObject(oWorld, chTileSource, iSpriteHeight, iSpriteWidth)
+cBullit::cBullit(cWorld* oWorld, const char* chTileSource, int iSpriteHeight, int iSpriteWidth, int iAngleRef, int iSpeedRef) : cLevelObject(oWorld, chTileSource, iSpriteHeight, iSpriteWidth)
 {
+
+    iAngle = iAngleRef;
+    iSpeed = iSpeedRef;
 
     X = (oWorld->oPlayerObject->X);
     Y = oWorld->oPlayerObject->Y + (oWorld->oPlayerObject->oGFXLayer->p_Source->iSpriteHeight / 2);
@@ -28,11 +31,7 @@ cBullit::cBullit(cWorld* oWorld, const char* chTileSource, int iSpriteHeight, in
     oGFXLayer->p_LevelData[0][0].iRow=0;
     oGFXLayer->p_LevelData[0][0].iIndex=0;
 
-    //Movement
-    iScaleX=cos(iAngle);
-    iScaleY=sin(iAngle);
-    iVelocityX=(iSpeed*iScaleX);
-    iVelocityY=(iSpeed*iScaleY);
+
 }
 
 cBullit::~cBullit()
@@ -40,6 +39,11 @@ cBullit::~cBullit()
 
 void cBullit::fAI()
 {
+    //Movement
+    iVelocityX=(cos(iAngle*( 3.14/180 ) )*iSpeed);
+    iVelocityY=(sin(iAngle*( 3.14/180 ) )*iSpeed);
+
     X+= iVelocityX;
     Y+= iVelocityY;
+
 }

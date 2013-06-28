@@ -67,12 +67,19 @@ void cPlayer::fJump()
 void cPlayer::fFire()
 {
     cBullit* oBullit;
+    int iAngle;
+    switch(iFaceDirection)
+    {
+        case RIGHT:
+            iAngle=0;
+            break;
 
-    if(iFaceDirection==RIGHT){
-         oBullit= new cBullit(oWorld, "bullit.bmp",10,10,90,10);
-    }else{
-        oBullit = new cBullit(oWorld, "bullit.bmp",10,10,180,10);
+        case LEFT:
+            iAngle=180;
+            break;
     }
+
+    oBullit= new cBullit(oWorld, "bullit.bmp",10,10,iAngle,10);
 
     oWorld->lLevelObjects.push_back(oBullit);    //Add to level object list
 }

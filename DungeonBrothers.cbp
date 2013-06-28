@@ -30,6 +30,7 @@
 			<Add library="SDLmain" />
 			<Add library="SDL" />
 			<Add library="SDL_ttf" />
+			<Add library="SDL_mixer" />
 		</Linker>
 		<Unit filename="bullit.c">
 			<Option compilerVar="CPP" />

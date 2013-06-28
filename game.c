@@ -176,6 +176,9 @@ void cGame::fCameraMovement()
 void cGame::Start()
 {
     fInitialize();
+
+    fIntro();
+
     fLoadObjects();
 
     while(!blDone)
@@ -310,7 +313,7 @@ void cGame::fInitialize()
     char *chMessage;
 
     /* Initialize SDL */
-    if (SDL_Init (SDL_INIT_VIDEO) < 0)
+    if (SDL_Init (SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0)
     {
         sprintf (chMessage, "Couldn't initialize SDL: %s\n", SDL_GetError ());
         MessageBox (0, chMessage, "Error", MB_ICONHAND);
@@ -392,7 +395,7 @@ void cGame::fNormalModeEvents()
                 if(!oWorld->oPlayerObject->blIsJumping)
                     oWorld->oPlayerObject->fJump();
                 break;
-            case SDLK_LALT:
+            case SDLK_RALT:
                 oWorld->oPlayerObject->fFire();
                 break;
             }
@@ -559,7 +562,38 @@ void cGame::fObjectMovement()
 cGame::cGame()
 {
     oWorld = new cWorld();
+
+    //start real game engine
     fInitVariables();
+}
+
+void cGame::fIntro()
+{
+
+    Mix_OpenAudio(44100,AUDIO_S16SYS,2,4096);
+    Mix_Music *music = NULL;
+
+     music = Mix_LoadMUS("music.wav");
+      if(music == NULL) {
+        printf("Unable to load music file: %s\n", Mix_GetError());
+      }
+
+    Mix_PlayMusic(music,1);
+
+    SDL_Surface *image;	//This pointer will reference our bitmap sprite
+	SDL_Surface *temp;	//This pointer will temporarily reference our bitmap sprite
+	SDL_Rect src, dest;	//These rectangles will describe the source and destination regions of our blit
+
+	temp = SDL_LoadBMP("intro.bmp");
+	image = SDL_DisplayFormat(temp);
+	SDL_FreeSurface(temp);
+	SDL_BlitSurface(image, NULL, oWorld->sScreenSurface, NULL);
+	SDL_Flip(oWorld->sScreenSurface);
+
+    bool done;
+    SDL_Delay(2000);
+
+
 }
 
 void cGame::fInitVariables()

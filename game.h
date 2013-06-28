@@ -12,6 +12,7 @@
 */
 #include <SDL/SDL.h>
 #include "SDL/SDL_ttf.h"
+#include "SDL/SDL_mixer.h"
 #include "debug.h"
 #include "world.h"
 #include <time.h>
@@ -51,6 +52,7 @@ class cGame {
     void fGameLoop();
     void fRender();
     void fCleanUp();
+    void fIntro();
     void fSaveLayer(cSpriteLayer *p_SpriteLayer);
     void fSaveDemo();
     void fDrawPixel(SDL_Surface *screen, int x, int y, Uint8 R, Uint8 G, Uint8 B);
