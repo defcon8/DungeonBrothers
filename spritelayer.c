@@ -137,7 +137,7 @@ void cSpriteLayer::fInitMap()
             p_LevelData[iRow][iCol].iIndex=1;
             p_LevelData[iRow][iCol].iRow=1;
             p_LevelData[iRow][iCol].iType=EMPTY;
-            p_LevelData[iRow][iCol].iFlags=PLATFORM | DAMAGE;
+            p_LevelData[iRow][iCol].iFlags=(unsigned char)~(PLATFORM | DAMAGE);
         }
     }
 }

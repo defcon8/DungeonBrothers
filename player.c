@@ -9,6 +9,7 @@ cPlayer::cPlayer(cWorld* oWorld, char* chTileSource, int iSpriteHeight, int iSpr
 {
     // Init Variables
     fMoveDirection(NONE,false);
+    iFaceDirection=LEFT;
     iGravity=1;
     iVelocityY=0;
     iVelocityX=0;
@@ -40,6 +41,20 @@ cPlayer::cPlayer(cWorld* oWorld, char* chTileSource, int iSpriteHeight, int iSpr
 cPlayer::~cPlayer()
 {}
 
+void cPlayer::fSetSprite()
+{
+    switch(iFaceDirection)
+    {
+    case LEFT:
+
+        break;
+
+    case RIGHT:
+
+        break;
+    }
+}
+
 void cPlayer::fJump()
 {
     if(!blIsJumping)
@@ -51,8 +66,8 @@ void cPlayer::fJump()
 
 void cPlayer::fFire()
 {
-     cBullit* oBullit = new cBullit(oWorld, "bullit.bmp",10,10);
-     oWorld->lLevelObjects.push_back(oBullit);    //Add to level object list
+    cBullit* oBullit = new cBullit(oWorld, "bullit.bmp",10,10);
+    oWorld->lLevelObjects.push_back(oBullit);    //Add to level object list
 }
 
 void cPlayer::fAI()
@@ -86,12 +101,15 @@ void cPlayer::fMoveByUserInput()
     //Walk-- slow break down on key up instead of immidiate stop
     if((!blMoveRight && !blMoveLeft) && iVelocityX > 0)
     {
-        if(iLastDirection==RIGHT){
-                if(fCheckDirectionCollision(oGFXLayer,RIGHT,iVelocityX))
-                    X+= iVelocityX;
-        }else{
-                if(fCheckDirectionCollision(oGFXLayer,LEFT,iVelocityX))
-                    X-= iVelocityX;
+        if(iLastDirection==RIGHT)
+        {
+            if(fCheckDirectionCollision(oGFXLayer,RIGHT,iVelocityX))
+                X+= iVelocityX;
+        }
+        else
+        {
+            if(fCheckDirectionCollision(oGFXLayer,LEFT,iVelocityX))
+                X-= iVelocityX;
         }
         iVelocityX--;
     }
@@ -104,7 +122,9 @@ void cPlayer::fMoveByUserInput()
             oGFXLayer->p_LevelData[0][0].iIndex=1; //Set player sprite to other (running left /right) Todo: do this better
             if(iVelocityX < 2) iVelocityX++;
             iLastDirection=RIGHT;
-        }else{
+        }
+        else
+        {
             iVelocityX=0;
         }
 
@@ -115,7 +135,9 @@ void cPlayer::fMoveByUserInput()
             oGFXLayer->p_LevelData[0][0].iIndex=0; //Set player sprite to other (running left /right) Todo: do this better
             if(iVelocityX < 2) iVelocityX++;
             iLastDirection=LEFT;
-        }else{
+        }
+        else
+        {
             iVelocityX=0;
         }
 

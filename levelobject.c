@@ -13,7 +13,7 @@
 #include "levelobject.h"
 #include "world.h"
 
-cLevelObject::cLevelObject(cWorld* oWorldRef, char* chTileSource, int iSpriteHeight, int iSpriteWidth)
+cLevelObject::cLevelObject(cWorld* oWorldRef, const char* chTileSource, int iSpriteHeight, int iSpriteWidth)
 {
 
     // Store references to data objects localy

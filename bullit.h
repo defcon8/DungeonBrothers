@@ -11,7 +11,7 @@ class cBullit : public cLevelObject
   private:
 
   public:
-    cBullit(cWorld* oWorld, char* chTileSource, int iSpriteHeight, int iSpriteWidth);
+    cBullit(cWorld* oWorld, const char* chTileSource, int iSpriteHeight, int iSpriteWidth);
     ~cBullit();
     void fAI();
 };

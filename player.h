@@ -14,9 +14,11 @@ class cPlayer : public cLevelObject
     void fMoveByUserInput();
     void fJumpPhysics();
     void fGravityPhysics();
+    void fSetSprite();
 
   public:
     bool blMoveUp, blMoveRight, blMoveDown, blMoveLeft;
+    int iFaceDirection;
     bool blIsJumping;
     void fAI();
     void fMoveDirection(int iDirection, bool blEnabled);

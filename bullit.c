@@ -4,7 +4,7 @@
 #include "bullit.h"
 #include "world.h"
 
-cBullit::cBullit(cWorld* oWorld, char* chTileSource, int iSpriteHeight, int iSpriteWidth) : cLevelObject(oWorld, chTileSource, iSpriteHeight, iSpriteWidth)
+cBullit::cBullit(cWorld* oWorld, const char* chTileSource, int iSpriteHeight, int iSpriteWidth) : cLevelObject(oWorld, chTileSource, iSpriteHeight, iSpriteWidth)
 {
 
     X = (oWorld->oPlayerObject->X);

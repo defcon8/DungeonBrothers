@@ -273,7 +273,8 @@ void cGame::fLoadObjects()
 
     // ------------ [ start setup player ] --------------------
 
-    oWorld->oPlayerObject = new cPlayer(oWorld, "player.bmp",40,32);
+    char chPlayerBitmap[]="player.bmp";
+    oWorld->oPlayerObject = new cPlayer(oWorld, chPlayerBitmap,40,32);
     oWorld->lLevelObjects.push_back(oWorld->oPlayerObject);    //Add to level object list
 
     //Close File

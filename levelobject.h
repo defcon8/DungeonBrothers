@@ -40,7 +40,7 @@ public:
     cSpriteLayer* oGFXLayer;
     int X,Y;
 
-    cLevelObject(cWorld* oWorldRef, char* chTileSource, int iSpriteHeight, int iSpriteWidth);
+    cLevelObject(cWorld* oWorldRef, const char* chTileSource, int iSpriteHeight, int iSpriteWidth);
     virtual ~cLevelObject();
     virtual void fUpdate();
     virtual void fAI();
