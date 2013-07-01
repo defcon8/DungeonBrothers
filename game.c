@@ -763,7 +763,7 @@ void cGame::fRender()
             {
                 //Object is dead, remove from list and delete object from memory
                 itObject = oWorld->lLevelObjects.erase(itObject);
-                delete (*itObject);
+                //delete (*itObject); //TODO: I think i created a memory leak here, i thought i must delete the object but i cant, somehow my memory doenst seems to grow now.
             }else{
                 fUpdateLevelObject(*itObject);
                 ++itObject;

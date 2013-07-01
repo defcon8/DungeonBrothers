@@ -8,7 +8,7 @@
 1372063876 c:\users\bastiaan\documents\github\dungeonbrothers\debug.h
 	<winsock2.h>
 
-1372364538 source:c:\users\bastiaan\documents\github\dungeonbrothers\game.c
+1372709601 source:c:\users\bastiaan\documents\github\dungeonbrothers\game.c
 	<cstdio>
 	<cstdlib>
 	<ctime>
@@ -21,9 +21,10 @@
 	<cstring>
 	"game.h"
 
-1372277548 c:\users\bastiaan\documents\github\dungeonbrothers\game.h
+1372709601 c:\users\bastiaan\documents\github\dungeonbrothers\game.h
 	<SDL/SDL.h>
 	"SDL/SDL_ttf.h"
+	"SDL/SDL_mixer.h"
 	"debug.h"
 	"world.h"
 	<time.h>
@@ -52,7 +53,7 @@
 	<cstring>
 	"world.h"
 
-1372280170 source:c:\users\bastiaan\documents\github\dungeonbrothers\spritelayer.c
+1372709607 source:c:\users\bastiaan\documents\github\dungeonbrothers\spritelayer.c
 	"spritelayer.h"
 	"world.h"
 	<cstring>
@@ -118,17 +119,17 @@
 	<cstring>
 	<fstream>
 
-1372366402 source:c:\users\bastiaan\documents\github\dungeonbrothers\player.c
+1372709607 source:c:\users\bastiaan\documents\github\dungeonbrothers\player.c
 	<cstdlib>
 	"player.h"
 	"bullit.h"
 	"world.h"
 
-1372365079 c:\users\bastiaan\documents\github\dungeonbrothers\player.h
+1372709607 c:\users\bastiaan\documents\github\dungeonbrothers\player.h
 	<list>
 	"levelobject.h"
 
-1372278717 c:\users\bastiaan\documents\github\dungeonbrothers\levelobject.h
+1372709601 c:\users\bastiaan\documents\github\dungeonbrothers\levelobject.h
 	<SDL/SDL.h>
 	"spritelayer.h"
 	"camera.h"
@@ -271,9 +272,9 @@
 	"bullit.h"
 	"world.h"
 
-1372070022 c:\users\bastiaan\documents\github\dungeonbrothers\ilevelobject.h
+1372709601 c:\users\bastiaan\documents\github\dungeonbrothers\ilevelobject.h
 
-1372278883 source:c:\users\bastiaan\documents\github\dungeonbrothers\levelobject.c
+1372709601 source:c:\users\bastiaan\documents\github\dungeonbrothers\levelobject.c
 	"levelobject.h"
 	"world.h"
 
@@ -283,7 +284,7 @@
 1372071867 c:\users\bastiaan\documents\github\dungeonbrothers\physics.h
 	"config.h"
 
-1372279899 source:c:\users\bastiaan\documents\github\dungeonbrothers\config.c
+1372709771 source:c:\users\bastiaan\documents\github\dungeonbrothers\config.c
 	"config.h"
 
 1372277548 c:\users\bastiaan\documents\github\dungeonbrothers\config.h
@@ -344,12 +345,13 @@
 	"world.h"
 	<cmath>
 
-1372365497 source:c:\users\bastiaan\documents\github\dungeonbrothers\bullit.c
+1372709601 source:c:\users\bastiaan\documents\github\dungeonbrothers\bullit.c
 	<cstdlib>
 	"bullit.h"
 	"world.h"
+	<cmath>
 
-1372366566 c:\users\bastiaan\documents\github\dungeonbrothers\bullit.h
+1372709601 c:\users\bastiaan\documents\github\dungeonbrothers\bullit.h
 	"levelobject.h"
 
 1372400857 c:\users\bw.kee\documents\github\dungeonbrothers\world.h
