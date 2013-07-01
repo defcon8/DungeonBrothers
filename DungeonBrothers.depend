@@ -67,7 +67,7 @@
 1371631035 c:\users\bw.kee\documents\github\dungeonbrothers\debug.h
 	<winsock2.h>
 
-1372421276 source:c:\users\bw.kee\documents\github\dungeonbrothers\game.c
+1372676261 source:c:\users\bw.kee\documents\github\dungeonbrothers\game.c
 	<cstdio>
 	<cstdlib>
 	<ctime>
@@ -80,9 +80,10 @@
 	<cstring>
 	"game.h"
 
-1372240834 c:\users\bw.kee\documents\github\dungeonbrothers\game.h
+1372675397 c:\users\bw.kee\documents\github\dungeonbrothers\game.h
 	<SDL/SDL.h>
 	"SDL/SDL_ttf.h"
+	"SDL/SDL_mixer.h"
 	"debug.h"
 	"world.h"
 	<time.h>
@@ -137,7 +138,7 @@
 	<list>
 	"levelobject.h"
 
-1372412958 c:\users\bw.kee\documents\github\dungeonbrothers\levelobject.h
+1372675659 c:\users\bw.kee\documents\github\dungeonbrothers\levelobject.h
 	<SDL/SDL.h>
 	"spritelayer.h"
 	"camera.h"
@@ -149,7 +150,7 @@
 1371631469 c:\users\bw.kee\documents\github\dungeonbrothers\enemy.h
 	"ilevelobject.h"
 
-1372422315 source:c:\users\bw.kee\documents\github\dungeonbrothers\player.c
+1372669374 source:c:\users\bw.kee\documents\github\dungeonbrothers\player.c
 	<cstdlib>
 	"player.h"
 	"bullit.h"
@@ -171,9 +172,9 @@
 1372240834 source:c:\users\bw.kee\documents\github\dungeonbrothers\camera.c
 	"camera.h"
 
-1371646877 c:\users\bw.kee\documents\github\dungeonbrothers\ilevelobject.h
+1372674745 c:\users\bw.kee\documents\github\dungeonbrothers\ilevelobject.h
 
-1372412991 source:c:\users\bw.kee\documents\github\dungeonbrothers\levelobject.c
+1372676024 source:c:\users\bw.kee\documents\github\dungeonbrothers\levelobject.c
 	"levelobject.h"
 	"world.h"
 
@@ -374,15 +375,15 @@
 1372240834 source:c:\users\bw.kee\documents\github\dungeonbrothers\world.c
 	"world.h"
 
-1372422280 source:c:\users\bw.kee\documents\github\dungeonbrothers\bullit.c
+1372675646 source:c:\users\bw.kee\documents\github\dungeonbrothers\bullit.c
 	<cstdlib>
 	"bullit.h"
 	"world.h"
 	<cmath>
 
-1372422098 c:\users\bw.kee\documents\github\dungeonbrothers\bullit.h
+1372669373 c:\users\bw.kee\documents\github\dungeonbrothers\bullit.h
 	"levelobject.h"
 
-1372421560 source:c:\users\bw.kee\documents\github\dungeonbrothers\config.c
+1372675172 source:c:\users\bw.kee\documents\github\dungeonbrothers\config.c
 	"config.h"
 

@@ -43,11 +43,12 @@ public:
     cLevelObject(cWorld* oWorldRef, const char* chTileSource, int iSpriteHeight, int iSpriteWidth);
     virtual ~cLevelObject();
     virtual void fUpdate();
+    virtual bool fIsAlive();
     virtual void fAI();
     bool fCheckDirectionCollision(cSpriteLayer* oObject, int iDirection);
     bool fCheckDirectionCollision(cSpriteLayer* oObject, int iDirection, int iAmountOfPixels);
     int iMoveSpeed;
-
+    bool blIsAlive;
 };
 
 #endif /* LEVELOBJECT_H_ */

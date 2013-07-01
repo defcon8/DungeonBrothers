@@ -758,8 +758,16 @@ void cGame::fRender()
 
         //Update (and that includes rendering of) all the levelobjects
         list<iLevelObject*>::iterator itObject = oWorld->lLevelObjects.begin();
-        for (itObject = oWorld->lLevelObjects.begin(); itObject != oWorld->lLevelObjects.end(); ++itObject) {
-            (*itObject)->fUpdate();
+        for (itObject = oWorld->lLevelObjects.begin(); itObject != oWorld->lLevelObjects.end();) {
+            if(!(*itObject)->fIsAlive())
+            {
+                //Object is dead, remove from list and delete object from memory
+                itObject = oWorld->lLevelObjects.erase(itObject);
+                delete (*itObject);
+            }else{
+                fUpdateLevelObject(*itObject);
+                ++itObject;
+            }
         }
     }
 
@@ -773,6 +781,11 @@ void cGame::fRender()
 
     /* Switch video buffer */
     SDL_Flip (oWorld->sScreenSurface);
+}
+
+void cGame::fUpdateLevelObject(iLevelObject* pLevelObject)
+{
+        pLevelObject->fUpdate();
 }
 
 void cGame::fRenderUI()

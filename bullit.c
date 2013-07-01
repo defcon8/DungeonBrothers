@@ -46,5 +46,7 @@ void cBullit::fAI()
     X+= iVelocityX;
     Y+= iVelocityY;
 
+    if(X < 20)
+        blIsAlive=false;
 
 }

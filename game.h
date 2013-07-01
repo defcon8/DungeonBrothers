@@ -61,6 +61,7 @@ class cGame {
     void fDrawRectangle(int x, int y, int w, int h, Uint32 color);
     void fObjectMovement();
     void fCameraMovement();
+    void fUpdateLevelObject(iLevelObject* pLevelObject);
     void fFPS();
     int fGetTileCol(int iX, int iTileWidth);
     int fGetTileRow(int iY, int iTileHeight);

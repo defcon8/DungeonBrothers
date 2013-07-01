@@ -23,6 +23,7 @@ cLevelObject::cLevelObject(cWorld* oWorldRef, const char* chTileSource, int iSpr
     iMoveSpeed=1;
     X=0;
     Y=0;
+    blIsAlive=true;
 
 }
 
@@ -70,6 +71,11 @@ void cLevelObject::fUpdate()
     oGFXLayer->x = X;
     oGFXLayer->y = Y;
     oGFXLayer->fRender(oWorld->oCam->X,oWorld->oCam->Y);
+}
+
+bool cLevelObject::fIsAlive()
+{
+   return blIsAlive;
 }
 
 bool cLevelObject::fCheckDirectionCollision(cSpriteLayer* oObject, int iDirection)
