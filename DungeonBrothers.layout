@@ -1,11 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="default" />
-	<File name="debug.h" open="0" top="0" tabpos="22" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="0" topLine="0" />
-		</Cursor>
-	</File>
 	<File name="enemy.c" open="0" top="0" tabpos="13" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="0" topLine="0" />
@@ -16,9 +11,9 @@
 			<Cursor1 position="325" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="game.c" open="1" top="1" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="game.c" open="1" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="25021" topLine="752" />
+			<Cursor1 position="7168" topLine="737" />
 		</Cursor>
 	</File>
 	<File name="game.h" open="1" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -38,12 +33,7 @@
 	</File>
 	<File name="levelobject.h" open="1" top="0" tabpos="10" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="1180" topLine="19" />
-		</Cursor>
-	</File>
-	<File name="camera.h" open="0" top="0" tabpos="21" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="301" topLine="0" />
+			<Cursor1 position="1180" topLine="18" />
 		</Cursor>
 	</File>
 	<File name="main.c" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -51,19 +41,9 @@
 			<Cursor1 position="419" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="config.c" open="1" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="244" topLine="0" />
-		</Cursor>
-	</File>
 	<File name="pencil.c" open="0" top="0" tabpos="19" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="0" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="config.h" open="0" top="0" tabpos="13" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="152" topLine="0" />
 		</Cursor>
 	</File>
 	<File name="pencil.h" open="0" top="0" tabpos="23" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -71,19 +51,9 @@
 			<Cursor1 position="0" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="debug.c" open="0" top="0" tabpos="9" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="177" topLine="23" />
-		</Cursor>
-	</File>
 	<File name="physics.c" open="0" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="78" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="bullit.c" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1435" topLine="17" />
 		</Cursor>
 	</File>
 	<File name="physics.h" open="0" top="0" tabpos="25" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -91,29 +61,19 @@
 			<Cursor1 position="116" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="bullit.h" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="234" topLine="0" />
-		</Cursor>
-	</File>
 	<File name="player.c" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="1906" topLine="64" />
+			<Cursor1 position="596" topLine="5" />
 		</Cursor>
 	</File>
-	<File name="camera.c" open="1" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="363" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="player.h" open="0" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="player.h" open="1" top="0" tabpos="15" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="367" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="sprite.c" open="0" top="0" tabpos="16" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="sprite.c" open="1" top="0" tabpos="16" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="906" topLine="29" />
+			<Cursor1 position="906" topLine="48" />
 		</Cursor>
 	</File>
 	<File name="sprite.h" open="0" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -121,9 +81,29 @@
 			<Cursor1 position="710" topLine="18" />
 		</Cursor>
 	</File>
-	<File name="spritelayer.c" open="0" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="spritelayer.c" open="1" top="0" tabpos="13" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="3845" topLine="20" />
+			<Cursor1 position="2050" topLine="30" />
+		</Cursor>
+	</File>
+	<File name="bullit.c" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1435" topLine="16" />
+		</Cursor>
+	</File>
+	<File name="bullit.h" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="234" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="camera.c" open="1" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="363" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="camera.h" open="0" top="0" tabpos="21" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="301" topLine="0" />
 		</Cursor>
 	</File>
 	<File name="spritelayer.h" open="0" top="0" tabpos="18" split="0" active="1" splitpos="0" zoom_1="-1" zoom_2="0">
@@ -131,14 +111,34 @@
 			<Cursor1 position="3623" topLine="76" />
 		</Cursor>
 	</File>
-	<File name="world.c" open="0" top="0" tabpos="9" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="config.c" open="1" top="1" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="244" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="world.c" open="1" top="0" tabpos="12" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="18" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="world.h" open="0" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="config.h" open="1" top="0" tabpos="17" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="630" topLine="0" />
+			<Cursor1 position="152" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="world.h" open="1" top="0" tabpos="14" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="578" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="debug.c" open="0" top="0" tabpos="9" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="177" topLine="23" />
+		</Cursor>
+	</File>
+	<File name="debug.h" open="0" top="0" tabpos="22" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="0" topLine="0" />
 		</Cursor>
 	</File>
 </CodeBlocks_layout_file>

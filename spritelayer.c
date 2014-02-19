@@ -57,8 +57,7 @@ cSpriteLayer::cSpriteLayer(cWorld* oWorldRef, int iRows, int iCols, int iSpriteH
         iColorKeyR = iKeyR;
         iColorKeyG = iKeyG;
         iColorKeyB = iKeyB;
-        if(blBuffer)
-        {
+        if(blBuffer){
             SDL_SetColorKey(sfBuffer,SDL_SRCCOLORKEY, SDL_MapRGB(sfBuffer->format,  iColorKeyR,  iColorKeyG,  iColorKeyB));
         }
         p_Source->fSetColorKey(iColorKeyR,iColorKeyG,iColorKeyB);
@@ -72,10 +71,13 @@ void cSpriteLayer::fClear()
 {
     SDL_Rect rect;
     Uint32 color;
-    if(blBuffer){
+    if(blBuffer)
+    {
         color = SDL_MapRGB (sfBuffer->format, 0, 0, 0);
         SDL_FillRect (sfBuffer, NULL, color);
-    }else{
+    }
+    else
+    {
         color = SDL_MapRGB (oWorld->sScreenSurface->format, 0, 0, 0);
         SDL_FillRect (oWorld->sScreenSurface, NULL, color);
     }
