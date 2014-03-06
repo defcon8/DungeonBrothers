@@ -14,28 +14,55 @@
 #include <cstring>
 #include "world.h"
 
-void cSprite::fLoad(const char *file)
-{
+bool cSprite::fGetSlopes() {
+    //Create Slope from edges
+    //oSlopeLeft = new cSpriteSlope(iSpriteHeight);
+    //oSlopeRight = new cSpriteSlope(iSpriteHeight);
+    //oSlopeTop = new cSpriteSlope(iSpriteWidth);
+    //oSlopeBottom = new cSpriteSlope(iSpriteWidth);
+
+    int iMaxCols = ((bitmap->w-iSpriteWidthOffset) / (iSpriteSpacer+iSpriteWidth));
+    int iMaxRows = ((bitmap->h-iSpriteHeightOffset) / (iSpriteSpacer+iSpriteHeight));
+
+
+    for(int iCol=0; iCol<=iMaxCols; iCol++) {
+        for(int iRow=0; iRow<=iMaxRows; iRow++) {
+            int iStartX = iSpriteWidthOffset+(iSpriteSpacer*(iCol+1))+(iCol*iSpriteWidth);
+            int iStartY = iSpriteHeightOffset+(iSpriteSpacer*(iRow+1))+(iRow*iSpriteHeight);
+
+            //Scan Top
+            for(int iScanX=0; iScanX<=iSpriteWidth; iScanX++) {
+                for(int iScanY=iStartY; iScanY<=iStartY+iSpriteHeight; iScanY++) {
+                    // jaaaaaaaaaaaaaaaaaaaaaaaaaa hier gaat hij dus mooi kapott!!!!!!!!
+                    //unsigned int pixelcolor = fGetPixel(bitmap,iScanX,iScanY);
+                    //debug
+                    //end debug
+                }
+            }
+
+        }
+    }
+}
+
+void cSprite::fLoad(const char *file) {
     bitmap = SDL_DisplayFormatAlpha(SDL_LoadBMP(file));
     SDL_SetColorKey(bitmap, SDL_SRCCOLORKEY, SDL_MapRGB(bitmap->format,  iColorKeyR,  iColorKeyG,  iColorKeyB));
     //Store the filename localy in chTileSource, we need it later when saving level to disk.
     memcpy(&chTileSource[0],file,16);
+
 }
 
-char* cSprite::fGetTileSource()
-{
+char* cSprite::fGetTileSource() {
     return &chTileSource[0];
 }
 
-void cSprite::fSetColorKey(int iR, int iG, int iB)
-{
+void cSprite::fSetColorKey(int iR, int iG, int iB) {
     iColorKeyR = iR;
     iColorKeyG = iG;
     iColorKeyB = iB;
 }
 
-void cSprite::fRender(int iCol, int iRow, int iDestX, int iDestY)
-{
+void cSprite::fRender(int iCol, int iRow, int iDestX, int iDestY) {
     // Part of the bitmap that we want to draw
     SDL_Rect source;
     source.x = iSpriteWidthOffset+(iSpriteSpacer*(iCol+1))+(iCol*iSpriteWidth);
@@ -53,28 +80,24 @@ void cSprite::fRender(int iCol, int iRow, int iDestX, int iDestY)
     SDL_BlitSurface(bitmap, &source, screen, &destination);
 }
 
-cSprite::cSprite(cWorld* oWorldRef)
-{
+cSprite::cSprite(cWorld* oWorldRef) {
     oWorld = oWorldRef;
     screen = oWorld->sScreenSurface;
     fInit();
 }
 
-cSprite::cSprite(cWorld* oWorldRef, SDL_Surface* sAlternativeScreen)
-{
+cSprite::cSprite(cWorld* oWorldRef, SDL_Surface* sAlternativeScreen) {
     oWorld = oWorldRef;
     screen = sAlternativeScreen;
     fInit();
 }
 
 
-cSprite::~cSprite()
-{
+cSprite::~cSprite() {
     SDL_FreeSurface(bitmap);
 }
 
-void cSprite::fInit()
-{
+void cSprite::fInit() {
     iSpriteSpacer=0;
     iSpriteHeight=0;
     iSpriteWidth=0;

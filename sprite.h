@@ -15,20 +15,20 @@
 #define SPRITE_H_
 
 #include <SDL/SDL.h>
+#include "spriteslope.h"
 
 class cWorld;
 
-class cSprite
-{
+class cSprite {
 private:
     int iColorKeyR, iColorKeyG, iColorKeyB;
     char chTileSource[16];
     void fInit();
 
-    SDL_Surface* bitmap;
     SDL_Surface* screen;
     cWorld* oWorld;
 public:
+
     int iScrollOffset;
     void fLoad(const char *file);
     void fRender(int iCol, int iRow, int iDestX, int iDestY);
@@ -42,12 +42,18 @@ public:
     int iSpriteWidth, iSpriteHeight, iSpriteWidthOffset ,iSpriteHeightOffset, iSpriteSpacer;
     char* fGetTileSource();
 
+    cSpriteSlope* oSlopeLeft, *oSlopeRight, *oSlopeTop, *oSlopeBottom;
+
     void fSetColorKey(int iR, int iG, int iB);
     void fScroll();
+    bool fGetSlopes();
 
     cSprite(cWorld* oWorldRef);
     cSprite(cWorld* oWorldRef, SDL_Surface* sAlternativeScreen);
 
     ~cSprite();
+
+    SDL_Surface* bitmap;
+
 };
 #endif /* SPRITE_H_ */

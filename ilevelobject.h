@@ -15,10 +15,10 @@
 #define ILEVELOBJECT_H_
 
 class iLevelObject {
-  public:
-        virtual ~iLevelObject() {}
-        virtual void fUpdate() = 0;
-        virtual bool fIsAlive() = 0;
+public:
+    virtual ~iLevelObject() {}
+    virtual void fUpdate() = 0;
+    virtual bool fIsAlive() = 0;
 };
 
 #endif /* ILEVELOBJECT_H_ */

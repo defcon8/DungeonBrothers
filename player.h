@@ -7,16 +7,15 @@ using namespace std;
 
 class cWorld;
 
-class cPlayer : public cLevelObject
-{
-  private:
+class cPlayer : public cLevelObject {
+private:
     int iGravity, iVelocityY, iVelocityX, iVelocityFall, iJumpFactor,iLastDirection;
     void fMoveByUserInput();
     void fJumpPhysics();
     void fGravityPhysics();
     void fSetSprite();
 
-  public:
+public:
     bool blMoveUp, blMoveRight, blMoveDown, blMoveLeft;
     int iFaceDirection;
     bool blIsJumping;

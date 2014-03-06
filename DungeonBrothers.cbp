@@ -19,6 +19,7 @@
 					<Add library="SDL" />
 					<Add library="SDLmain" />
 					<Add library="mingw32" />
+					<Add library="libws2_32" />
 				</Linker>
 			</Target>
 		</Build>
@@ -84,6 +85,10 @@
 			<Option compilerVar="CPP" />
 		</Unit>
 		<Unit filename="spritelayer.h" />
+		<Unit filename="spriteslope.c">
+			<Option compilerVar="CPP" />
+		</Unit>
+		<Unit filename="spriteslope.h" />
 		<Unit filename="world.c">
 			<Option compilerVar="CPP" />
 		</Unit>

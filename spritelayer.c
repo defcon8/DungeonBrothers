@@ -27,16 +27,14 @@ using namespace std;
 
 SDL_Surface *spritelayerscreen;
 
-cSpriteLayer::cSpriteLayer(cWorld* oWorldRef, int iRows, int iCols, int iSpriteHeightPX, int iSpriteWidthPX, bool blOptimize, bool blIsBuffered, bool blUseColorKey, int iKeyR, int iKeyG, int iKeyB)
-{
+cSpriteLayer::cSpriteLayer(cWorld* oWorldRef, int iRows, int iCols, int iSpriteHeightPX, int iSpriteWidthPX, bool blOptimize, bool blIsBuffered, bool blUseColorKey, int iKeyR, int iKeyG, int iKeyB) {
     oWorld = oWorldRef;
 
     /**< Initialize variables and setup data object holding the level data */
     fInitLayer(iRows, iCols, iSpriteHeightPX, iSpriteWidthPX, blOptimize, blIsBuffered);
 
     /**< Setup (source) object that contains the Sprite Sheet. */
-    if(blBuffer)
-    {
+    if(blBuffer) {
         sfBuffer = SDL_CreateRGBSurface(SDL_HWSURFACE,(iCols*iSpriteWidth),(iRows*iSpriteHeight),
                                         oWorld->sScreenSurface->format->BitsPerPixel,
                                         oWorld->sScreenSurface->format->Rmask,
@@ -45,19 +43,16 @@ cSpriteLayer::cSpriteLayer(cWorld* oWorldRef, int iRows, int iCols, int iSpriteH
                                         oWorld->sScreenSurface->format->Amask);
 
         p_Source = new cSprite(oWorld, sfBuffer);
-    }
-    else
-    {
+    } else {
         p_Source = new cSprite(oWorld);
     }
 
     /**< Commmit the Color key for all surfaces. */
-    if(blUseColorKey)
-    {
+    if(blUseColorKey) {
         iColorKeyR = iKeyR;
         iColorKeyG = iKeyG;
         iColorKeyB = iKeyB;
-        if(blBuffer){
+        if(blBuffer) {
             SDL_SetColorKey(sfBuffer,SDL_SRCCOLORKEY, SDL_MapRGB(sfBuffer->format,  iColorKeyR,  iColorKeyG,  iColorKeyB));
         }
         p_Source->fSetColorKey(iColorKeyR,iColorKeyG,iColorKeyB);
@@ -67,17 +62,17 @@ cSpriteLayer::cSpriteLayer(cWorld* oWorldRef, int iRows, int iCols, int iSpriteH
     fInitMap();
 }
 
-void cSpriteLayer::fClear()
-{
+void cSpriteLayer::fGetSlopes() {
+    p_Source->fGetSlopes();
+}
+
+void cSpriteLayer::fClear() {
     SDL_Rect rect;
     Uint32 color;
-    if(blBuffer)
-    {
+    if(blBuffer) {
         color = SDL_MapRGB (sfBuffer->format, 0, 0, 0);
         SDL_FillRect (sfBuffer, NULL, color);
-    }
-    else
-    {
+    } else {
         color = SDL_MapRGB (oWorld->sScreenSurface->format, 0, 0, 0);
         SDL_FillRect (oWorld->sScreenSurface, NULL, color);
     }
@@ -85,8 +80,7 @@ void cSpriteLayer::fClear()
 }
 
 
-void cSpriteLayer::fInitLayer(int iRows, int iCols, int iSpriteHeightPX, int iSpriteWidthPX, bool blOptimize, bool blIsBuffered)
-{
+void cSpriteLayer::fInitLayer(int iRows, int iCols, int iSpriteHeightPX, int iSpriteWidthPX, bool blOptimize, bool blIsBuffered) {
     iSpriteHeight=iSpriteHeightPX;
     iSpriteWidth=iSpriteWidthPX;
     x=0;
@@ -105,37 +99,29 @@ void cSpriteLayer::fInitLayer(int iRows, int iCols, int iSpriteHeightPX, int iSp
         p_LevelData[i] = new sLevelBlock[iCols];
 }
 
-void cSpriteLayer::fSetSpriteHeight(int iPixels)
-{
+void cSpriteLayer::fSetSpriteHeight(int iPixels) {
     iSpriteHeight=iPixels;
 }
 
-int cSpriteLayer::fGetSpriteHeight()
-{
+int cSpriteLayer::fGetSpriteHeight() {
     return iSpriteHeight;
 }
 
-void cSpriteLayer::fSetSpriteWidth(int iPixels)
-{
+void cSpriteLayer::fSetSpriteWidth(int iPixels) {
     iSpriteWidth=iPixels;
 }
 
-int cSpriteLayer::fGetSpriteWidth()
-{
+int cSpriteLayer::fGetSpriteWidth() {
     return iSpriteWidth;
 }
 
-Uint8 cSpriteLayer::fReturnSpriteFlags(int iRow, int iCol)
-{
+Uint8 cSpriteLayer::fReturnSpriteFlags(int iRow, int iCol) {
     return p_LevelData[iRow][iCol].iFlags;
 }
 
-void cSpriteLayer::fInitMap()
-{
-    for (int iRow = 0; iRow < iRowCount; iRow++)
-    {
-        for (int iCol = 0; iCol < iColCount; iCol++)
-        {
+void cSpriteLayer::fInitMap() {
+    for (int iRow = 0; iRow < iRowCount; iRow++) {
+        for (int iCol = 0; iCol < iColCount; iCol++) {
             p_LevelData[iRow][iCol].iIndex=1;
             p_LevelData[iRow][iCol].iRow=1;
             p_LevelData[iRow][iCol].iType=EMPTY;
@@ -144,14 +130,12 @@ void cSpriteLayer::fInitMap()
     }
 }
 
-cSpriteLayer::~cSpriteLayer()
-{
+cSpriteLayer::~cSpriteLayer() {
     SDL_FreeSurface(spritelayerscreen);
     SDL_FreeSurface(sfBuffer);
 }
 
-SDL_Surface* cSpriteLayer::fRender(signed int CamX, signed int CamY)
-{
+SDL_Surface* cSpriteLayer::fRender(signed int CamX, signed int CamY) {
     // Don't draw things that are outside the view.
     int iStartCol=0;
     int iStartRow=0;
@@ -159,37 +143,30 @@ SDL_Surface* cSpriteLayer::fRender(signed int CamX, signed int CamY)
     int iEndRow=iRowCount;
 
 
-    if(blOptmizeLayer)
-    {
+    if(blOptmizeLayer) {
         iStartCol = fWidthToCol(-CamX);
         iEndCol = fWidthToCol((-CamX)+oWorld->oConfig->m_iScreenWidth);
         iStartRow = fHeightToRow(-CamY);
         iEndRow = fHeightToRow((-CamY)+oWorld->oConfig->m_iScreenHeight);
 
         // Protect drawing level outside its boundaries
-        if(iStartCol<0)
-        {
+        if(iStartCol<0) {
             iStartCol=0;
         }
-        if(iStartRow<0)
-        {
+        if(iStartRow<0) {
             iStartRow=0;
         }
-        if(iEndCol>iColCount)
-        {
+        if(iEndCol>iColCount) {
             iEndCol=iColCount;
         }
-        if(iEndRow>iRowCount)
-        {
+        if(iEndRow>iRowCount) {
             iEndRow=iRowCount;
         }
     }
 
     // Loop
-    for (int iRow = iStartRow; iRow < iEndRow; iRow++)
-    {
-        for (int iCol = iStartCol; iCol < iEndCol; iCol++)
-        {
+    for (int iRow = iStartRow; iRow < iEndRow; iRow++) {
+        for (int iCol = iStartCol; iCol < iEndCol; iCol++) {
             if(p_LevelData[iRow][iCol].iType!=EMPTY)
                 p_Source->fRender(p_LevelData[iRow][iCol].iIndex, p_LevelData[iRow][iCol].iRow, (fColToWidth(iCol)+CamX)+x, (fRowToHeight(iRow)+CamY)+y);
         }
@@ -197,43 +174,33 @@ SDL_Surface* cSpriteLayer::fRender(signed int CamX, signed int CamY)
 
 }
 
-SDL_Surface* cSpriteLayer::fGetBufferSurface()
-{
+SDL_Surface* cSpriteLayer::fGetBufferSurface() {
     return sfBuffer;
 }
-int cSpriteLayer::fGetTotalRows()
-{
+int cSpriteLayer::fGetTotalRows() {
     return iRowCount;
 }
-int cSpriteLayer::fGetTotalCols()
-{
+int cSpriteLayer::fGetTotalCols() {
     return iColCount;
 }
-signed int cSpriteLayer::fColToWidth(signed int iCol)
-{
+signed int cSpriteLayer::fColToWidth(signed int iCol) {
     return (iCol*iSpriteWidth);
 }
-signed int cSpriteLayer::fRowToHeight(signed int iRow)
-{
+signed int cSpriteLayer::fRowToHeight(signed int iRow) {
     return (iRow*iSpriteHeight);
 }
-signed int cSpriteLayer::fWidthToCol(signed int iWidth)
-{
+signed int cSpriteLayer::fWidthToCol(signed int iWidth) {
     return (iWidth/iSpriteWidth);
 }
-signed int cSpriteLayer::fHeightToRow(signed int iHeight)
-{
+signed int cSpriteLayer::fHeightToRow(signed int iHeight) {
     return (iHeight/iSpriteHeight);
 }
-signed int cSpriteLayer::fGetWidth()
-{
+signed int cSpriteLayer::fGetWidth() {
     return iColCount * iSpriteWidth;
 }
-signed int cSpriteLayer::fGetHeight()
-{
+signed int cSpriteLayer::fGetHeight() {
     return iRowCount * iSpriteHeight;
 }
-bool cSpriteLayer::fIsBuffered()
-{
+bool cSpriteLayer::fIsBuffered() {
     return blBuffer;
 }

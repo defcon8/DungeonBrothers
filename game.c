@@ -26,8 +26,7 @@
 
 using namespace std;
 
-void cGame::fSaveLayer(cSpriteLayer *p_SpriteLayer)
-{
+void cGame::fSaveLayer(cSpriteLayer *p_SpriteLayer) {
     ofstream oSave;
     oSave.open ("spritelayer.dat",ios::binary);
 
@@ -59,10 +58,8 @@ void cGame::fSaveLayer(cSpriteLayer *p_SpriteLayer)
     oSave.write((char*)&iDataBlocks,sizeof(Uint16));
 
     // DataBlocks
-    for (int iRow = 0; iRow <= (iLevelRows-1)  ; iRow++ )
-    {
-        for (int iCol = 0; iCol <= (iLevelCols-1) ; iCol++ )
-        {
+    for (int iRow = 0; iRow <= (iLevelRows-1)  ; iRow++ ) {
+        for (int iCol = 0; iCol <= (iLevelCols-1) ; iCol++ ) {
             Uint8 iType=p_SpriteLayer->p_LevelData[iRow][iCol].iType;
             Uint8 iSheetRow=p_SpriteLayer->p_LevelData[iRow][iCol].iRow;
             Uint8 iSheetIndex=p_SpriteLayer->p_LevelData[iRow][iCol].iIndex;
@@ -77,8 +74,7 @@ void cGame::fSaveLayer(cSpriteLayer *p_SpriteLayer)
     oSave.close();
 }
 
-void cGame::fSaveDemo()
-{
+void cGame::fSaveDemo() {
 
     ofstream oSave;
     oSave.open ("spritelayer.dat",ios::binary);
@@ -109,8 +105,7 @@ void cGame::fSaveDemo()
     oSave.write((char*)&iDataBlocks,sizeof(Uint16));
 
     // DataBlocks
-    for (int iSprite = 0; iSprite < iDataBlocks; iSprite++)
-    {
+    for (int iSprite = 0; iSprite < iDataBlocks; iSprite++) {
         // Test Fill
         Uint8 iRow=14;
         Uint8 iCol=iSprite;
@@ -129,10 +124,8 @@ void cGame::fSaveDemo()
     oSave.close();
 }
 
-void cGame::fCameraMovement()
-{
-    if(!blEditMode) // Dont move camera automaticly when in edit mode because we want to move by mouse
-    {
+void cGame::fCameraMovement() {
+    if(!blEditMode) { // Dont move camera automaticly when in edit mode because we want to move by mouse
         int iPos;
         //Let the camera follow the players position. If the camera position is not optimal then increase or decrease the camera position by 1 to have a smooth scrolling effect. Do not follow
         //when the user is jumping..this is kind a hectic.
@@ -140,49 +133,38 @@ void cGame::fCameraMovement()
         //Left/Right
         iPos = -(oWorld->oPlayerObject->X - (oWorld->oConfig->m_iScreenWidth/2) - oWorld->oPlayerObject->oGFXLayer->fGetWidth());
 
-        if(iPos < oWorld->oCam->X)
-        {
+        if(iPos < oWorld->oCam->X) {
             // Let the Camera go left
             oWorld->oCam->X-=oWorld->oCam->iVelocityCam;
-        }
-        else if(iPos > oWorld->oCam->X)
-        {
+        } else if(iPos > oWorld->oCam->X) {
             // Let the Camera go left
             oWorld->oCam->X+=oWorld->oCam->iVelocityCam;
         }
 
         //Up/Down
-        if(!oWorld->oPlayerObject->blIsJumping) //Do not update camera on player jump
-        {
+        if(!oWorld->oPlayerObject->blIsJumping) { //Do not update camera on player jump
             iPos = -(oWorld->oPlayerObject->Y - (oWorld->oConfig->m_iScreenHeight/2) - oWorld->oPlayerObject->oGFXLayer->fGetHeight());
-            if(iPos < oWorld->oCam->Y)
-            {
+            if(iPos < oWorld->oCam->Y) {
                 // Let the Camera go up
                 oWorld->oCam->Y--;
-            }
-            else if(iPos > oWorld->oCam->Y)
-            {
+            } else if(iPos > oWorld->oCam->Y) {
                 // Let the Camera go down
                 oWorld->oCam->Y++;
-            }
-            else
-            {
+            } else {
                 // The camera is in optimal position
             }
         }
     }
 }
 
-void cGame::Start()
-{
+void cGame::Start() {
     fInitialize();
 
     fIntro();
 
     fLoadObjects();
 
-    while(!blDone)
-    {
+    while(!blDone) {
         long tMeasure1 = time(NULL);
         fEvents();
         fObjectMovement();
@@ -198,15 +180,13 @@ void cGame::Start()
     fCleanUp();
 }
 
-void cGame::fFPS()
-{
+void cGame::fFPS() {
     iElapsedSeconds=time(NULL)-iStartTime;
     if(iElapsedSeconds>0) //Protect against divide by zero, crash at program startup.
         iFPS=iRenderedFrames/iElapsedSeconds;
 }
 
-void cGame::fLoadObjects()
-{
+void cGame::fLoadObjects() {
     //Background Layer
     oWorld->oBackgroundLayer = new cSprite(oWorld);
     oWorld->oBackgroundLayer->fLoad("back.bmp");
@@ -252,9 +232,11 @@ void cGame::fLoadObjects()
     oWorld->oLevelLayer->p_Source->iSpriteHeight = iSpriteHeight;
     oWorld->oLevelLayer->p_Source->iSpriteWidth = iSpriteWidth;
 
+    // Get Slopes
+    bool dummy = oWorld->oLevelLayer->p_Source->fGetSlopes();
+
     // Read DataBlocks from file
-    for (int iSprite = 0; iSprite < iDataBlocks; iSprite++)
-    {
+    for (int iSprite = 0; iSprite < iDataBlocks; iSprite++) {
         Uint8 iRow;
         Uint8 iCol;
         Uint8 iType;
@@ -292,10 +274,8 @@ void cGame::fLoadObjects()
     oWorld->oSpritePicker->p_Source->iSpriteHeight = iSpriteHeight;
     oWorld->oSpritePicker->p_Source->iSpriteWidth = iSpriteWidth;
 
-    for (int iCol = 0; iCol < iSourceCols; iCol++)
-    {
-        for (int iRow = 0; iRow < iSourceRows; iRow++)
-        {
+    for (int iCol = 0; iCol < iSourceCols; iCol++) {
+        for (int iRow = 0; iRow < iSourceRows; iRow++) {
             oWorld->oSpritePicker->p_LevelData[iRow][iCol].iType=SPRITE;
             oWorld->oSpritePicker->p_LevelData[iRow][iCol].iRow=iRow;
             oWorld->oSpritePicker->p_LevelData[iRow][iCol].iIndex=iCol;
@@ -303,18 +283,17 @@ void cGame::fLoadObjects()
     }
 }
 
-void cGame::fGameLoop()
-{
+void cGame::fGameLoop() {
     // Game Logic
 }
 
-void cGame::fInitialize()
-{
-    char *chMessage;
+void cGame::fInitialize() {
+    //For debugging purposes (BW: TODO -> Does not work!)
+    cDebug::getInstance->TRACE("INFO","Initializing %d", 10);
 
     /* Initialize SDL */
-    if (SDL_Init (SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0)
-    {
+    char *chMessage;
+    if (SDL_Init (SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0) {
         sprintf (chMessage, "Couldn't initialize SDL: %s\n", SDL_GetError ());
         MessageBox (0, chMessage, "Error", MB_ICONHAND);
         free(chMessage);
@@ -324,8 +303,7 @@ void cGame::fInitialize()
     TTF_Init();
     ttfFont = TTF_OpenFont("Fonts\\BeckerBlackNF.ttf", 20);
 
-    if (ttfFont == NULL)
-    {
+    if (ttfFont == NULL) {
         sprintf (chMessage, "Can't load font.");
         SDL_GetError ();
         MessageBox(0,chMessage,"Error",MB_ICONHAND);
@@ -335,8 +313,7 @@ void cGame::fInitialize()
 
     atexit (SDL_Quit);
     oWorld->sScreenSurface = SDL_SetVideoMode (oWorld->oConfig->m_iScreenWidth, oWorld->oConfig->m_iScreenHeight, oWorld->oConfig->m_iScreenBits, oWorld->oConfig->iSDLFlags);
-    if (oWorld->sScreenSurface == NULL)
-    {
+    if (oWorld->sScreenSurface == NULL) {
         sprintf (chMessage, "Couldn't set video mode: %s\n", SDL_GetError ());
         MessageBox (0, chMessage, "Error", MB_ICONHAND);
         free(chMessage);
@@ -345,31 +322,24 @@ void cGame::fInitialize()
 
     SDL_WM_SetCaption ("Dungeon Brothers", NULL);
     SDL_ShowCursor(SDL_DISABLE);
+
 }
 
-void cGame::fEvents()
-{
-    if(blEditMode)
-    {
+void cGame::fEvents() {
+    if(blEditMode) {
         fEditModeEvents();
-    }
-    else
-    {
+    } else {
         fNormalModeEvents();
     }
 }
 
-void cGame::fNormalModeEvents()
-{
+void cGame::fNormalModeEvents() {
     SDL_Event event;
     /* Check for events */
-    while (SDL_PollEvent (&event))
-    {
-        switch (event.type)
-        {
+    while (SDL_PollEvent (&event)) {
+        switch (event.type) {
         case SDL_KEYDOWN:
-            switch(event.key.keysym.sym)
-            {
+            switch(event.key.keysym.sym) {
             case SDLK_UP:
                 oWorld->oPlayerObject->fMoveDirection(1,true);
                 break;
@@ -401,26 +371,21 @@ void cGame::fNormalModeEvents()
             }
             break;
         case SDL_KEYUP:
-            switch(event.key.keysym.sym)
-            {
-            case SDLK_UP:
-            {
+            switch(event.key.keysym.sym) {
+            case SDLK_UP: {
                 oWorld->oPlayerObject->fMoveDirection(1,false);
                 break;
             }
 
-            case SDLK_RIGHT:
-            {
+            case SDLK_RIGHT: {
                 oWorld->oPlayerObject->fMoveDirection(2,false);
                 break;
             }
-            case SDLK_DOWN:
-            {
+            case SDLK_DOWN: {
                 oWorld->oPlayerObject->fMoveDirection(3,false);
                 break;
             }
-            case SDLK_LEFT:
-            {
+            case SDLK_LEFT: {
                 oWorld->oPlayerObject->fMoveDirection(4,false);
                 break;
             }
@@ -435,17 +400,13 @@ void cGame::fNormalModeEvents()
     }
 }
 
-void cGame::fEditModeEvents()
-{
+void cGame::fEditModeEvents() {
     SDL_Event event;
     /* Check for events */
-    while (SDL_PollEvent (&event))
-    {
-        switch (event.type)
-        {
+    while (SDL_PollEvent (&event)) {
+        switch (event.type) {
         case SDL_KEYDOWN:
-            switch(event.key.keysym.sym)
-            {
+            switch(event.key.keysym.sym) {
 
             case SDLK_ESCAPE:
                 // Exit program
@@ -462,14 +423,11 @@ void cGame::fEditModeEvents()
 
             case SDLK_F2:
                 //Toggle Sprite Picker
-                if(blSpritePalet)
-                {
+                if(blSpritePalet) {
                     blSpritePalet = false;  // Hide Sprite Picker
                     blRenderLevel = true;   // Hide Level
                     SDL_WM_SetCaption ("Edit mode - Level editor", NULL);
-                }
-                else
-                {
+                } else {
                     blSpritePalet = true;  // Hide Sprite Picker
                     blRenderLevel = false;   // Hide Level
                     SDL_WM_SetCaption ("Edit mode - Level editor", NULL);
@@ -507,8 +465,7 @@ void cGame::fEditModeEvents()
             break;
 
         case SDL_KEYUP:
-            switch(event.key.keysym.sym)
-            {
+            switch(event.key.keysym.sym) {
             case SDLK_RIGHT:
             case SDLK_LEFT:
             case SDLK_UP:
@@ -539,11 +496,9 @@ void cGame::fEditModeEvents()
         oWorld->oCam->Y+=iMouseScrollSpeed;
 }
 
-void cGame::fObjectMovement()
-{
+void cGame::fObjectMovement() {
     //Do Camera movement
-    switch(oWorld->oCam->Direction)
-    {
+    switch(oWorld->oCam->Direction) {
     case 1:
         oWorld->oCam->Y += 1;
         break;
@@ -559,36 +514,34 @@ void cGame::fObjectMovement()
     }
 }
 
-cGame::cGame()
-{
+cGame::cGame() {
     oWorld = new cWorld();
 
     //start real game engine
     fInitVariables();
 }
 
-void cGame::fIntro()
-{
+void cGame::fIntro() {
 
     Mix_OpenAudio(44100,AUDIO_S16SYS,2,4096);
     Mix_Music *music = NULL;
 
-     music = Mix_LoadMUS("music.wav");
-      if(music == NULL) {
+    music = Mix_LoadMUS("music.wav");
+    if(music == NULL) {
         printf("Unable to load music file: %s\n", Mix_GetError());
-      }
+    }
 
     Mix_PlayMusic(music,1);
 
     SDL_Surface *image;	//This pointer will reference our bitmap sprite
-	SDL_Surface *temp;	//This pointer will temporarily reference our bitmap sprite
-	SDL_Rect src, dest;	//These rectangles will describe the source and destination regions of our blit
+    SDL_Surface *temp;	//This pointer will temporarily reference our bitmap sprite
+    SDL_Rect src, dest;	//These rectangles will describe the source and destination regions of our blit
 
-	temp = SDL_LoadBMP("intro.bmp");
-	image = SDL_DisplayFormat(temp);
-	SDL_FreeSurface(temp);
-	SDL_BlitSurface(image, NULL, oWorld->sScreenSurface, NULL);
-	SDL_Flip(oWorld->sScreenSurface);
+    temp = SDL_LoadBMP("intro.bmp");
+    image = SDL_DisplayFormat(temp);
+    SDL_FreeSurface(temp);
+    SDL_BlitSurface(image, NULL, oWorld->sScreenSurface, NULL);
+    SDL_Flip(oWorld->sScreenSurface);
 
     bool done;
     SDL_Delay(2000);
@@ -596,8 +549,7 @@ void cGame::fIntro()
 
 }
 
-void cGame::fInitVariables()
-{
+void cGame::fInitVariables() {
     blDone = false;
     blEditMode = false;
     blRenderLevel = true;
@@ -626,16 +578,14 @@ void cGame::fInitVariables()
 cGame::~cGame()
 {}
 
-void cGame::fCleanUp()
-{
+void cGame::fCleanUp() {
     //Destroy objects
     delete oWorld->oLevelLayer;
     SDL_FreeSurface(oWorld->sTextSurface);
     SDL_FreeSurface(oWorld->sScreenSurface);
 }
 
-void cGame::fRenderEditMode()
-{
+void cGame::fRenderEditMode() {
     // Get position of mouse and calculate the according position in tiles/rows
     int iMouseX, iMouseY;
     int iMouseButtons = SDL_GetMouseState(&iMouseX, &iMouseY);
@@ -649,8 +599,7 @@ void cGame::fRenderEditMode()
 
     // Because of the screenscrolling you need to know the offset in pixels before we can exactly calculate on which tile the mouse cursor is. But
     // we dont want to do this when the sprite picker is shown, because that is always statis align from the upper left corner (0,0).
-    if (!blSpritePalet)
-    {
+    if (!blSpritePalet) {
         iXOffset = (-(oWorld->oCam->X)%iTileWidth);
         iYOffset = (-(oWorld->oCam->Y)%iTileHeight);
     }
@@ -659,11 +608,9 @@ void cGame::fRenderEditMode()
     iTileCol = fGetTileCol(iMouseX-oWorld->oCam->X-iXOffset,iTileWidth);
     iTileRow = fGetTileRow(iMouseY-oWorld->oCam->Y-iYOffset,iTileHeight);
 
-    if(blSpritePalet) //The Sprite palet/picker is on screen,
-    {
+    if(blSpritePalet) { //The Sprite palet/picker is on screen,
         oWorld->oSpritePicker->fRender(0,0);  //render this at fixed position.
-        switch(iMouseButtons)
-        {
+        switch(iMouseButtons) {
         case 1:
             //Left button, selects the source sprite
             int iPickedTileCol = fGetTileCol(iMouseX,iTileWidth);
@@ -675,14 +622,10 @@ void cGame::fRenderEditMode()
             blRenderLevel=!blRenderLevel; // Show level again
             break;
         }
-    }
-    else
-    {
+    } else {
         // The is in paint mode
-        if((iTileRow<oWorld->oLevelLayer->fGetTotalRows()) && (iTileCol<oWorld->oLevelLayer->fGetTotalCols()) && (iTileRow>-1) && (iTileCol>-1))
-        {
-            switch(iMouseButtons)
-            {
+        if((iTileRow<oWorld->oLevelLayer->fGetTotalRows()) && (iTileCol<oWorld->oLevelLayer->fGetTotalCols()) && (iTileRow>-1) && (iTileCol>-1)) {
+            switch(iMouseButtons) {
             case 1:
                 //Left button, Draw
                 oWorld->oLevelLayer->p_LevelData[iTileRow][iTileCol].iIndex=oWorld->oPencil->iSourceTileCol;
@@ -703,17 +646,14 @@ void cGame::fRenderEditMode()
     fDrawRectangle(iRectX-iXOffset,iRectY-iYOffset,iTileWidth,iTileHeight,0xFFFFFF);
 }
 
-int cGame::fGetTileCol(int iX, int iTileWidth)
-{
+int cGame::fGetTileCol(int iX, int iTileWidth) {
     return static_cast<int>(floor(iX/iTileWidth));
 }
-int cGame::fGetTileRow(int iY, int iTileHeight)
-{
+int cGame::fGetTileRow(int iY, int iTileHeight) {
     return static_cast<int>(floor(iY/iTileHeight));
 }
 
-void cGame::fDrawRectangle(int x, int y, int w, int h, Uint32 color)
-{
+void cGame::fDrawRectangle(int x, int y, int w, int h, Uint32 color) {
     SDL_Rect rRect;
     rRect.x = x;
     rRect.y = y;
@@ -722,8 +662,7 @@ void cGame::fDrawRectangle(int x, int y, int w, int h, Uint32 color)
     SDL_FillRect(oWorld->sScreenSurface,&rRect,color);
 }
 
-void cGame::fRender()
-{
+void cGame::fRender() {
     /* Create a black background */
     Uint32 color = SDL_MapRGB (oWorld->sScreenSurface->format, 0, 0, 0);
     SDL_FillRect (oWorld->sScreenSurface, NULL, color);
@@ -732,13 +671,10 @@ void cGame::fRender()
     oWorld->oBackgroundLayer->fRender(0,0,oWorld->oCam->X,oWorld->oCam->Y);
 
     //Render the level layer
-    if(blRenderLevel)
-    {
-        if(oWorld->oLevelLayer->fIsBuffered())
-        {
+    if(blRenderLevel) {
+        if(oWorld->oLevelLayer->fIsBuffered()) {
             // If we are in Edit mode, then force render of the level layer to buffer surface
-            if(blEditMode)
-            {
+            if(blEditMode) {
                 oWorld->oLevelLayer->fClear();
                 oWorld->oLevelLayer->fRender(0,0);
             }
@@ -750,21 +686,18 @@ void cGame::fRender()
             rDest.w = oWorld->oLevelLayer->fGetWidth();
             rDest.h = oWorld->oLevelLayer->fGetWidth();
             SDL_BlitSurface(oWorld->oLevelLayer->fGetBufferSurface(), NULL, oWorld->sScreenSurface, &rDest);
-        }
-        else
-        {
+        } else {
             oWorld->oLevelLayer->fRender(oWorld->oCam->X,oWorld->oCam->Y);
         }
 
         //Update (and that includes rendering of) all the levelobjects
         list<iLevelObject*>::iterator itObject = oWorld->lLevelObjects.begin();
         for (itObject = oWorld->lLevelObjects.begin(); itObject != oWorld->lLevelObjects.end();) {
-            if(!(*itObject)->fIsAlive())
-            {
+            if(!(*itObject)->fIsAlive()) {
                 //Object is dead, remove from list and delete object from memory
                 itObject = oWorld->lLevelObjects.erase(itObject);
                 //delete (*itObject); //TODO: I think i created a memory leak here, i thought i must delete the object but i cant, somehow my memory doenst seems to grow now.
-            }else{
+            } else {
                 fUpdateLevelObject(*itObject);
                 ++itObject;
             }
@@ -772,8 +705,7 @@ void cGame::fRender()
     }
 
     //Overlay
-    if(blEditMode)
-    {
+    if(blEditMode) {
         fRenderEditMode();
     }
 
@@ -783,13 +715,11 @@ void cGame::fRender()
     SDL_Flip (oWorld->sScreenSurface);
 }
 
-void cGame::fUpdateLevelObject(iLevelObject* pLevelObject)
-{
-        pLevelObject->fUpdate();
+void cGame::fUpdateLevelObject(iLevelObject* pLevelObject) {
+    pLevelObject->fUpdate();
 }
 
-void cGame::fRenderUI()
-{
+void cGame::fRenderUI() {
     itoa(iFPS,chFPS,10);
     oWorld->sTextSurface = TTF_RenderText_Shaded(ttfFont, chFPS, cGreen, cBlack);
     SDL_SetColorKey(oWorld->sTextSurface, SDL_SRCCOLORKEY, SDL_MapRGB(oWorld->sTextSurface->format,  0,  0,  0));
@@ -797,45 +727,36 @@ void cGame::fRenderUI()
     SDL_FreeSurface(oWorld->sTextSurface);
 }
 
-void cGame::fDrawPixel(SDL_Surface *screen, int x, int y, Uint8 R, Uint8 G, Uint8 B)
-{
+void cGame::fDrawPixel(SDL_Surface *screen, int x, int y, Uint8 R, Uint8 G, Uint8 B) {
     Uint32 color = SDL_MapRGB(screen->format, R, G, B);
-    switch (screen->format->BytesPerPixel)
-    {
-    case 1: // 8-bpp
-    {
+    switch (screen->format->BytesPerPixel) {
+    case 1: { // 8-bpp
         Uint8 *bufp;
         bufp = (Uint8 *)screen->pixels + y*screen->pitch + x;
         *bufp = color;
     }
     break;
-    case 2: // 15-bpp or 16-bpp
-    {
+    case 2: { // 15-bpp or 16-bpp
         Uint16 *bufp;
         bufp = (Uint16 *)screen->pixels + y*screen->pitch/2 + x;
         *bufp = color;
     }
     break;
-    case 3: // 24-bpp mode, usually not used
-    {
+    case 3: { // 24-bpp mode, usually not used
         Uint8 *bufp;
         bufp = (Uint8 *)screen->pixels + y*screen->pitch + x * 3;
-        if(SDL_BYTEORDER == SDL_LIL_ENDIAN)
-        {
+        if(SDL_BYTEORDER == SDL_LIL_ENDIAN) {
             bufp[0] = color;
             bufp[1] = color >> 8;
             bufp[2] = color >> 16;
-        }
-        else
-        {
+        } else {
             bufp[2] = color;
             bufp[1] = color >> 8;
             bufp[0] = color >> 16;
         }
     }
     break;
-    case 4: // 32-bpp
-    {
+    case 4: { // 32-bpp
         Uint32 *bufp;
         bufp = (Uint32 *)screen->pixels + y*screen->pitch/4 + x;
         *bufp = color;

@@ -12,13 +12,11 @@
 */
 #include "enemy.h"
 
-cEnemy::~cEnemy()
-{
+cEnemy::~cEnemy() {
 
 }
 
-void cEnemy::fUpdate()
-{
+void cEnemy::fUpdate() {
 
 }
 

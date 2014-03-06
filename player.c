@@ -5,8 +5,7 @@
 #include "bullit.h"
 #include "world.h"
 
-cPlayer::cPlayer(cWorld* oWorld, char* chTileSource, int iSpriteHeight, int iSpriteWidth) : cLevelObject(oWorld, chTileSource, iSpriteHeight, iSpriteWidth)
-{
+cPlayer::cPlayer(cWorld* oWorld, char* chTileSource, int iSpriteHeight, int iSpriteWidth) : cLevelObject(oWorld, chTileSource, iSpriteHeight, iSpriteWidth) {
     // Init Variables
     fMoveDirection(NONE,false);
     iFaceDirection=LEFT;
@@ -41,10 +40,8 @@ cPlayer::cPlayer(cWorld* oWorld, char* chTileSource, int iSpriteHeight, int iSpr
 cPlayer::~cPlayer()
 {}
 
-void cPlayer::fSetSprite()
-{
-    switch(iFaceDirection)
-    {
+void cPlayer::fSetSprite() {
+    switch(iFaceDirection) {
     case LEFT:
         oGFXLayer->p_LevelData[0][0].iIndex=0;
         break;
@@ -55,28 +52,24 @@ void cPlayer::fSetSprite()
     }
 }
 
-void cPlayer::fJump()
-{
-    if(!blIsJumping)
-    {
+void cPlayer::fJump() {
+    if(!blIsJumping) {
         iVelocityY=iJumpFactor;
         blIsJumping=true;
     }
 }
 
-void cPlayer::fFire()
-{
+void cPlayer::fFire() {
     cBullit* oBullit;
     int iAngle;
-    switch(iFaceDirection)
-    {
-        case RIGHT:
-            iAngle=0;
-            break;
+    switch(iFaceDirection) {
+    case RIGHT:
+        iAngle=0;
+        break;
 
-        case LEFT:
-            iAngle=180;
-            break;
+    case LEFT:
+        iAngle=180;
+        break;
     }
     oBullit= new cBullit(oWorld, "bullit.bmp",10,10,iAngle,10);
 
@@ -84,26 +77,20 @@ void cPlayer::fFire()
     oWorld->lLevelObjects.push_back(oBullit);    //Add to level object list
 }
 
-void cPlayer::fAI()
-{
+void cPlayer::fAI() {
     fMoveByUserInput();
     fSetSprite();
     fGravityPhysics();
     fJumpPhysics();
 }
 
-void cPlayer::fGravityPhysics()
-{
+void cPlayer::fGravityPhysics() {
     // Down wards gravity, dont do this while jumping because jumping has it own gravity physics
-    if(!blIsJumping)
-    {
-        if(!fCheckDirectionCollision(oGFXLayer,DOWN,iMoveSpeed+iVelocityFall))
-        {
+    if(!blIsJumping) {
+        if(!fCheckDirectionCollision(oGFXLayer,DOWN,iMoveSpeed+iVelocityFall)) {
             Y+=iMoveSpeed+iVelocityFall;
             iVelocityFall++;
-        }
-        else
-        {
+        } else {
             //User has hit something below him
             iVelocityFall=0;
             blIsJumping=false;
@@ -111,18 +98,13 @@ void cPlayer::fGravityPhysics()
     }
 }
 
-void cPlayer::fMoveByUserInput()
-{
+void cPlayer::fMoveByUserInput() {
     //Walk-- slow break down on key up instead of immidiate stop
-    if((!blMoveRight && !blMoveLeft) && iVelocityX > 0)
-    {
-        if(iLastDirection==RIGHT)
-        {
+    if((!blMoveRight && !blMoveLeft) && iVelocityX > 0) {
+        if(iLastDirection==RIGHT) {
             if(fCheckDirectionCollision(oGFXLayer,RIGHT,iVelocityX))
                 X+= iVelocityX;
-        }
-        else
-        {
+        } else {
             if(fCheckDirectionCollision(oGFXLayer,LEFT,iVelocityX))
                 X-= iVelocityX;
         }
@@ -131,73 +113,55 @@ void cPlayer::fMoveByUserInput()
 
     //normal Walk / move operations
     if(blMoveRight)
-        if(!fCheckDirectionCollision(oGFXLayer,RIGHT,iMoveSpeed+iVelocityX))
-        {
+        if(!fCheckDirectionCollision(oGFXLayer,RIGHT,iMoveSpeed+iVelocityX)) {
             X+= iMoveSpeed+iVelocityX;
             if(iVelocityX < 2) iVelocityX++;
             iLastDirection=RIGHT;
             iFaceDirection=RIGHT;
-        }
-        else
-        {
+        } else {
             iVelocityX=0;
         }
 
     if(blMoveLeft)
-        if(!fCheckDirectionCollision(oGFXLayer,LEFT,iMoveSpeed+iVelocityX))
-        {
+        if(!fCheckDirectionCollision(oGFXLayer,LEFT,iMoveSpeed+iVelocityX)) {
             X-= iMoveSpeed+iVelocityX;
             if(iVelocityX < 2) iVelocityX++;
             iLastDirection=LEFT;
             iFaceDirection=LEFT;
 
-        }
-        else
-        {
+        } else {
             iVelocityX=0;
         }
 
 }
 
-void cPlayer::fJumpPhysics()
-{
-    if(blIsJumping && (iVelocityY >= -iJumpFactor))
-    {
-        if(iVelocityY >0) //Going UP
-        {
+void cPlayer::fJumpPhysics() {
+    if(blIsJumping && (iVelocityY >= -iJumpFactor)) {
+        if(iVelocityY >0) { //Going UP
             //Check if there is something above me
-            if(fCheckDirectionCollision(oGFXLayer,UP,iVelocityY))
-            {
+            if(fCheckDirectionCollision(oGFXLayer,UP,iVelocityY)) {
                 //We know that nr (iVelocityY) of pixels there is something above us. But we don't know exactly where that object begins. To avoid that the
                 //jump is aborted way below the edge we need to find the exact starting position of the object above us.
                 int iRemainingPixels;
-                for(iRemainingPixels=1; iRemainingPixels<=iVelocityY; iRemainingPixels++)
-                {
-                    if(fCheckDirectionCollision(oGFXLayer,UP,iRemainingPixels))
-                    {
+                for(iRemainingPixels=1; iRemainingPixels<=iVelocityY; iRemainingPixels++) {
+                    if(fCheckDirectionCollision(oGFXLayer,UP,iRemainingPixels)) {
                         // We found it, the abvove object's edge is (iRemainingPixels) away from me.
                         break;
                     }
                 }
 
-                if(iRemainingPixels==1)
-                {
+                if(iRemainingPixels==1) {
                     //The object is just one pixel above me, we dont have to interpolate
                     iVelocityY=0;
-                }
-                else
-                {
+                } else {
                     //The object is multiple pixels away, set the iVelocity to the Remaining pixels. So next time we hit this function the
                     //collision detection is done with this amount of pixels.
                     iVelocityY = iRemainingPixels;
                 }
             }
-        }
-        else
-        {
+        } else {
             //Going Down
-            if(fCheckDirectionCollision(oGFXLayer,DOWN,abs(iVelocityY)))
-            {
+            if(fCheckDirectionCollision(oGFXLayer,DOWN,abs(iVelocityY))) {
                 //Hit something below player
                 blIsJumping=false;
                 iVelocityY=0;
@@ -205,17 +169,13 @@ void cPlayer::fJumpPhysics()
         }
         Y=Y-iVelocityY;
         iVelocityY-=iGravity;
-    }
-    else
-    {
+    } else {
         iVelocityY=0;
     }
 }
 
-void cPlayer::fMoveDirection(int iDirection, bool blEnabled)
-{
-    switch(iDirection)
-    {
+void cPlayer::fMoveDirection(int iDirection, bool blEnabled) {
+    switch(iDirection) {
     case NONE:
         blMoveUp=false;
         blMoveRight=false;

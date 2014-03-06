@@ -3,15 +3,14 @@
 
 #include "config.h"
 
-class cPhysics
-{
-    public:
-        int iGravity;
+class cPhysics {
+public:
+    int iGravity;
 
-        cPhysics(cConfig* oConfigRef);
-        ~cPhysics();
-    protected:
-    private:
+    cPhysics(cConfig* oConfigRef);
+    ~cPhysics();
+protected:
+private:
 };
 
 #endif // PHYSICS_H

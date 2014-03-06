@@ -12,8 +12,7 @@
 */
 #include "camera.h"
 
-cCamera::cCamera()
-{
+cCamera::cCamera() {
     iVelocityCam=1;
     up=1;
     right=2;
@@ -25,7 +24,6 @@ cCamera::cCamera()
     Direction=none;
 }
 
-cCamera::~cCamera()
-{
+cCamera::~cCamera() {
 }
 

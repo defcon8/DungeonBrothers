@@ -13,9 +13,9 @@
 */
 #include "ilevelobject.h"
 
-class cEnemy : public iLevelObject{
+class cEnemy : public iLevelObject {
 
-  public:
+public:
     virtual ~cEnemy();
     virtual void fUpdate();
 

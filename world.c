@@ -1,7 +1,6 @@
 #include "world.h"
 
-cWorld::cWorld()
-{
+cWorld::cWorld() {
     //ctor
     oConfig = new cConfig();
     oPencil = new cPencil();
@@ -9,7 +8,6 @@ cWorld::cWorld()
     oPhysics = new cPhysics(oConfig);
 }
 
-cWorld::~cWorld()
-{
+cWorld::~cWorld() {
     //dtor
 }

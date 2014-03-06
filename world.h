@@ -3,6 +3,7 @@
 
 #include <list>
 #include "config.h"
+#include "debug.h"
 #include "pencil.h"
 #include "spritelayer.h"
 #include "player.h"
@@ -13,8 +14,7 @@
 
 using namespace std;
 
-class cWorld
-{
+class cWorld {
 public:
     cConfig* oConfig;
     cPencil* oPencil;

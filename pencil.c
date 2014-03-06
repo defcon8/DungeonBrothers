@@ -12,10 +12,8 @@
 */
 #include "pencil.h"
 
-cPencil::cPencil()
-{
+cPencil::cPencil() {
 }
 
-cPencil::~cPencil()
-{
+cPencil::~cPencil() {
 }

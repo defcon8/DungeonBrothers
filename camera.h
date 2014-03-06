@@ -16,22 +16,22 @@
 
 class cCamera {
 
-  private:
+private:
 
-  public:
+public:
 
-  int up;
-  int right;
-  int down;
-  int left;
-  int none;
+    int up;
+    int right;
+    int down;
+    int left;
+    int none;
 
-  int iVelocityCam;
+    int iVelocityCam;
 
-  cCamera();
-  ~cCamera();
-  int X,Y;
-  int Direction;
+    cCamera();
+    ~cCamera();
+    int X,Y;
+    int Direction;
 };
 
 #endif /* CAMERA_H_ */

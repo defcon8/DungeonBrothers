@@ -21,8 +21,7 @@
 
 class cWorld;
 
-class cLevelObject : public iLevelObject
-{
+class cLevelObject : public iLevelObject {
 
 #define UP 1
 #define RIGHT 2
@@ -31,7 +30,6 @@ class cLevelObject : public iLevelObject
 #define NONE 0
 
 private:
-    //Methods
     bool fCheckLevelCollision();
 
 public:

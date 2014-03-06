@@ -13,7 +13,6 @@
 #include <SDL/SDL.h>
 #include "SDL/SDL_ttf.h"
 #include "SDL/SDL_mixer.h"
-#include "debug.h"
 #include "world.h"
 #include <time.h>
 #include "enemy.h"
@@ -22,7 +21,7 @@ using namespace std;
 
 class cGame {
 
-  private:
+private:
     bool blDone;
     bool blEditMode;
     bool blRenderLevel;
@@ -66,7 +65,7 @@ class cGame {
     int fGetTileCol(int iX, int iTileWidth);
     int fGetTileRow(int iY, int iTileHeight);
 
-  public:
+public:
     void Start();
     cWorld* oWorld;
     cGame();

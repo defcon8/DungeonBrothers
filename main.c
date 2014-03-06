@@ -18,8 +18,7 @@
 
 #define DEBUG 1
 
-int main (int argc, char *argv[])
-{
+int main (int argc, char *argv[]) {
     cGame* oGame = new cGame();
     oGame->Start();
     delete oGame;

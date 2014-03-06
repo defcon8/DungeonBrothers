@@ -5,9 +5,7 @@
 #include "world.h"
 #include <cmath>
 
-cBullit::cBullit(cWorld* oWorld, const char* chTileSource, int iSpriteHeight, int iSpriteWidth, int iAngleRef, int iSpeedRef) : cLevelObject(oWorld, chTileSource, iSpriteHeight, iSpriteWidth)
-{
-
+cBullit::cBullit(cWorld* oWorld, const char* chTileSource, int iSpriteHeight, int iSpriteWidth, int iAngleRef, int iSpeedRef) : cLevelObject(oWorld, chTileSource, iSpriteHeight, iSpriteWidth) {
     iAngle = iAngleRef;
     iSpeed = iSpeedRef;
 
@@ -30,15 +28,12 @@ cBullit::cBullit(cWorld* oWorld, const char* chTileSource, int iSpriteHeight, in
     oGFXLayer->p_LevelData[0][0].iType=SPRITE;
     oGFXLayer->p_LevelData[0][0].iRow=0;
     oGFXLayer->p_LevelData[0][0].iIndex=0;
-
-
 }
 
 cBullit::~cBullit()
 {}
 
-void cBullit::fAI()
-{
+void cBullit::fAI() {
     //Movement
     iVelocityX=(cos(iAngle*(3.14/180))*iSpeed);
     iVelocityY=(sin(iAngle*(3.14/180))*iSpeed);

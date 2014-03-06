@@ -13,8 +13,7 @@
 #include "levelobject.h"
 #include "world.h"
 
-cLevelObject::cLevelObject(cWorld* oWorldRef, const char* chTileSource, int iSpriteHeight, int iSpriteWidth)
-{
+cLevelObject::cLevelObject(cWorld* oWorldRef, const char* chTileSource, int iSpriteHeight, int iSpriteWidth) {
 
     // Store references to data objects localy
     oWorld = oWorldRef;
@@ -27,8 +26,7 @@ cLevelObject::cLevelObject(cWorld* oWorldRef, const char* chTileSource, int iSpr
 
 }
 
-bool cLevelObject::fCheckLevelCollision()
-{
+bool cLevelObject::fCheckLevelCollision() {
     //Level tile collision + Gravity
     int iColStart, iColEnd, iRowStart, iRowEnd;
 
@@ -39,12 +37,9 @@ bool cLevelObject::fCheckLevelCollision()
 
     bool blCollide = false;
 
-    for (int iRow = iRowStart ; iRow <= iRowEnd ; iRow++ )
-    {
-        for (int iCol = iColStart ; iCol <= iColEnd ; iCol++ )
-        {
-            if(!(oWorld->oLevelLayer->p_LevelData[iRow][iCol].iType != SPRITE) && ((oGFXLayer->y + oGFXLayer->fGetHeight()) < oWorld->oConfig->m_iScreenHeight))
-            {
+    for (int iRow = iRowStart ; iRow <= iRowEnd ; iRow++ ) {
+        for (int iCol = iColStart ; iCol <= iColEnd ; iCol++ ) {
+            if(!(oWorld->oLevelLayer->p_LevelData[iRow][iCol].iType != SPRITE) && ((oGFXLayer->y + oGFXLayer->fGetHeight()) < oWorld->oConfig->m_iScreenHeight)) {
                 // collide
                 blCollide = true;
                 break;
@@ -57,14 +52,12 @@ bool cLevelObject::fCheckLevelCollision()
 cLevelObject::~cLevelObject()
 {}
 
-void cLevelObject::fAI()
-{
+void cLevelObject::fAI() {
     //Implemenet object artificial intelligence here. For example movement automation.
     //Overide this (if needed) in the derived class
 }
 
-void cLevelObject::fUpdate()
-{
+void cLevelObject::fUpdate() {
     fAI();
 
     //Update graphical layer
@@ -73,19 +66,16 @@ void cLevelObject::fUpdate()
     oGFXLayer->fRender(oWorld->oCam->X,oWorld->oCam->Y);
 }
 
-bool cLevelObject::fIsAlive()
-{
-   return blIsAlive;
+bool cLevelObject::fIsAlive() {
+    return blIsAlive;
 }
 
-bool cLevelObject::fCheckDirectionCollision(cSpriteLayer* oObject, int iDirection)
-{
-       return fCheckDirectionCollision(oObject,iDirection,1);
+bool cLevelObject::fCheckDirectionCollision(cSpriteLayer* oObject, int iDirection) {
+    return fCheckDirectionCollision(oObject,iDirection,1);
 }
 
-bool cLevelObject::fCheckDirectionCollision(cSpriteLayer* oObject, int iDirection, int iAmountOfPixels)
-{
-       bool blCollide = false;
+bool cLevelObject::fCheckDirectionCollision(cSpriteLayer* oObject, int iDirection, int iAmountOfPixels) {
+    bool blCollide = false;
     int iNextCol,iNextRow;
     int iColStart, iColEnd, iRowStart, iRowEnd;
     iColStart=oWorld->oLevelLayer->fWidthToCol(oObject->x+1);
@@ -93,44 +83,35 @@ bool cLevelObject::fCheckDirectionCollision(cSpriteLayer* oObject, int iDirectio
     iRowStart=oWorld->oLevelLayer->fHeightToRow(oObject->y+1);
     iRowEnd=oWorld->oLevelLayer->fHeightToRow((oObject->y + oObject->fGetSpriteHeight()-1));
 
-    switch(iDirection)
-    {
+    switch(iDirection) {
     case UP:
         iNextRow=oWorld->oLevelLayer->fHeightToRow(oObject->y - (iAmountOfPixels-1));
-        for (int iCol = iColStart ; iCol <= iColEnd ; iCol++ )
-        {
-            if(oWorld->oLevelLayer->p_LevelData[iNextRow][iCol].iType == SPRITE)
-            {
+        for (int iCol = iColStart ; iCol <= iColEnd ; iCol++ ) {
+            if(oWorld->oLevelLayer->p_LevelData[iNextRow][iCol].iType == SPRITE) {
                 blCollide = true;
             }
         }
         break;
     case RIGHT:
         iNextCol=oWorld->oLevelLayer->fWidthToCol((oObject->x + oObject->fGetSpriteWidth() + (iAmountOfPixels-1)));
-        for (int iRow = iRowStart ; iRow <= iRowEnd ; iRow++ )
-        {
-            if(oWorld->oLevelLayer->p_LevelData[iRow][iNextCol].iType == SPRITE)
-            {
+        for (int iRow = iRowStart ; iRow <= iRowEnd ; iRow++ ) {
+            if(oWorld->oLevelLayer->p_LevelData[iRow][iNextCol].iType == SPRITE) {
                 blCollide = true;
             }
         }
         break;
     case DOWN:
         iNextRow=oWorld->oLevelLayer->fHeightToRow((oObject->y + oObject->fGetSpriteHeight() + (iAmountOfPixels-1)));
-        for (int iCol = iColStart ; iCol <= iColEnd ; iCol++ )
-        {
-            if(oWorld->oLevelLayer->p_LevelData[iNextRow][iCol].iType == SPRITE)
-            {
+        for (int iCol = iColStart ; iCol <= iColEnd ; iCol++ ) {
+            if(oWorld->oLevelLayer->p_LevelData[iNextRow][iCol].iType == SPRITE) {
                 blCollide = true;
             }
         }
         break;
     case LEFT:
         iNextCol=oWorld->oLevelLayer->fWidthToCol(oObject->x-iAmountOfPixels);
-        for (int iRow = iRowStart ; iRow <= iRowEnd ; iRow++ )
-        {
-            if(oWorld->oLevelLayer->p_LevelData[iRow][iNextCol].iType == SPRITE)
-            {
+        for (int iRow = iRowStart ; iRow <= iRowEnd ; iRow++ ) {
+            if(oWorld->oLevelLayer->p_LevelData[iRow][iNextCol].iType == SPRITE) {
                 blCollide = true;
             }
         }

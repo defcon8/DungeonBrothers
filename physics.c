@@ -1,11 +1,9 @@
 #include "physics.h"
 
-cPhysics::cPhysics(cConfig* oConfigRef)
-{
+cPhysics::cPhysics(cConfig* oConfigRef) {
     //ctor
 }
 
-cPhysics::~cPhysics()
-{
+cPhysics::~cPhysics() {
     //dtor
 }

@@ -13,9 +13,9 @@
 
 class cPencil {
 
-  private:
+private:
 
-  public:
+public:
 
     int iSourceTileRow, iSourceTileCol;
 
