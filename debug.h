@@ -20,8 +20,9 @@ public:
     static cDebug* getInstance(); //!< Function to get the singleton instance
     ~cDebug();
 
+    void sendTraceItems();
     void prepareTrace(string trace, string text);
-    byte bCommand[2];
+    byte bCommand[5];
 };
 
 //! Debug message creation macro
@@ -30,7 +31,7 @@ public:
         char __message[512];                                            \
         snprintf(__message, 512, __VA_ARGS__);                          \
         string output(__message);                                       \
-        CDevelopTools::getInstance().prepareTrace(traceitem, output);   \
+        cDebug::getInstance()->prepareTrace(traceitem, output);   \
     } while(0)
 
 

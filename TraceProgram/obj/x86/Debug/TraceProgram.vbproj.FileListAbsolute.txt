@@ -1,0 +1,10 @@
+C:\Users\Bastiaan\Documents\GitHub\DungeonBrothers\TraceProgram\obj\x86\Debug\TraceProgram.exe
+C:\Users\Bastiaan\Documents\GitHub\DungeonBrothers\TraceProgram\obj\x86\Debug\TraceProgram.xml
+C:\Users\Bastiaan\Documents\GitHub\DungeonBrothers\TraceProgram\obj\x86\Debug\TraceProgram.pdb
+C:\Users\Bastiaan\Documents\GitHub\DungeonBrothers\TraceProgram\bin\Debug\TraceProgram.exe
+C:\Users\Bastiaan\Documents\GitHub\DungeonBrothers\TraceProgram\bin\Debug\TraceProgram.pdb
+C:\Users\Bastiaan\Documents\GitHub\DungeonBrothers\TraceProgram\bin\Debug\TraceProgram.xml
+C:\Users\Bastiaan\Documents\GitHub\DungeonBrothers\TraceProgram\obj\x86\Debug\TraceProgram.frmMain.resources
+C:\Users\Bastiaan\Documents\GitHub\DungeonBrothers\TraceProgram\obj\x86\Debug\TraceProgram.Resources.resources
+C:\Users\Bastiaan\Documents\GitHub\DungeonBrothers\TraceProgram\obj\x86\Debug\TraceProgram.vbproj.GenerateResource.Cache
+C:\Users\Bastiaan\Documents\GitHub\DungeonBrothers\TraceProgram\obj\x86\Debug\TraceProgram.frmTraceItems.resources

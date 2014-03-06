@@ -5,10 +5,12 @@
 cDebug* cDebug::s_pInstance = NULL;
 
 cDebug::cDebug() {
-    connectToServer();
     bCommand[0] = 0;
     bCommand[1] = 1;
     bCommand[2] = 2;
+    bCommand[3] = 3;
+    bCommand[4] = 4;
+    connectToServer();
 }
 
 cDebug::~cDebug()
@@ -53,11 +55,20 @@ int cDebug::connectToServer() {
         return 0;
     }
 
+    sendTraceItems();
     prepareTrace("INFO","Hi! I am connected.\n");
 
     return 0;
 }
 
+
+void cDebug::sendTraceItems()
+{
+    char* chTraceItems = "INFO,INIT";
+    send(m_socket,(char*)&bCommand[3],1, 0);
+    send(m_socket,chTraceItems,(int)strlen(chTraceItems), 0);
+    send(m_socket,(char*)&bCommand[4],1, 0);
+}
 void cDebug::prepareTrace(string trace, string text) {
     send(m_socket,(char*)&bCommand[0],1, 0);
     send(m_socket,trace.c_str(),trace.length(), 0);

@@ -289,7 +289,7 @@ void cGame::fGameLoop() {
 
 void cGame::fInitialize() {
     //For debugging purposes (BW: TODO -> Does not work!)
-    cDebug::getInstance->TRACE("INFO","Initializing %d", 10);
+    TRACE("INFO","Initializing %d", 10);
 
     /* Initialize SDL */
     char *chMessage;

@@ -2,28 +2,44 @@
 Imports System.Text
 Public Class frmMain
 
+    Dim tThread As Threading.Thread
+    Shared blExiting As Boolean
+    Shared clientSocket As TcpClient
+    Shared sListener As New TcpListener(55555)
+    Public Shared strTraceItems() As String
+
     Enum eContent
         Trace
         Details
+        TraceItems
         Unknown
     End Enum
 
+    Private Sub frmMain_FormClosing(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles Me.FormClosing
+        blExiting = True
+        sListener.Stop()
+        tThread.Abort()
+    End Sub
+
     Private Sub frmMain_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         InitList()
-        Dim tThread As Threading.Thread = New System.Threading.Thread(AddressOf Listen)
+        tThread = New System.Threading.Thread(AddressOf Listen)
+        tThread.IsBackground = True
         tThread.Start()
     End Sub
 
     Private Sub Listen()
-        While (True)
-            Dim sListener As New TcpListener(55555)
-            Dim clientSocket As TcpClient
+        While (Not blExiting)
+
+
             sListener.Start()
 
             clientSocket = sListener.AcceptTcpClient()
             Dim nsStream As NetworkStream = clientSocket.GetStream()
+            nsStream.ReadTimeout = 1000
             Dim bReceiveBuffer(0) As Byte
             Dim Trace As String = String.Empty
+            Dim TraceItems As String = String.Empty
             Dim Details As String = String.Empty
             Dim oMode As eContent = eContent.Unknown
 
@@ -31,41 +47,52 @@ Public Class frmMain
             Do
                 Try
                     iBytesRead = nsStream.Read(bReceiveBuffer, 0, 1)
-                    Select Case bReceiveBuffer(0)
-                        Case 0
-                            Debug.Print("Start Trace")
-                            oMode = eContent.Trace
-                            Exit Select
-                        Case 1
-                            Debug.Print("Start Details")
-                            oMode = eContent.Details
-                            Exit Select
-                        Case 2
-                            Debug.Print("Flush")
-                            oMode = eContent.Unknown
-                            ListViewAddItem(Trace, Details)
-                            NotifyIcon1.ShowBalloonTip(1000, "Info", System.Text.Encoding.ASCII.GetString(bReceiveBuffer), ToolTipIcon.None)
-                            Trace = String.Empty
-                            Details = String.Empty
-                            Exit Select
-                        Case Else
-                            Debug.Print(Chr(bReceiveBuffer(0)))
-                            Select Case oMode
-                                Case eContent.Trace
-                                    Trace += Chr(bReceiveBuffer(0))
-                                    Exit Select
-                                Case eContent.Details
-                                    Details += Chr(bReceiveBuffer(0))
-                                    Exit Select
-                            End Select
-                    End Select
-
-
+                    If iBytesRead > 0 Then
+                        Debug.Print(bReceiveBuffer(0) & Chr(bReceiveBuffer(0)))
+                        Select Case bReceiveBuffer(0)
+                            Case 0
+                                Trace = String.Empty
+                                oMode = eContent.Trace
+                                Exit Select
+                            Case 1
+                                Details = String.Empty
+                                oMode = eContent.Details
+                                Exit Select
+                            Case 2
+                                oMode = eContent.Unknown
+                                ListViewAddItem(Trace, Details)
+                                NotifyIcon1.ShowBalloonTip(1000, "Info", System.Text.Encoding.ASCII.GetString(bReceiveBuffer), ToolTipIcon.None)
+                                Trace = String.Empty
+                                Details = String.Empty
+                                Exit Select
+                            Case 3
+                                Debug.Print("Start Trace Items")
+                                oMode = eContent.TraceItems
+                                TraceItems = String.Empty
+                                Exit Select
+                            Case 4
+                                Debug.Print("End Trace Items")
+                                Dim strSplitItems() As String = TraceItems.Split(",")
+                                ReDim strTraceItems(UBound(strSplitItems))
+                                strTraceItems = strSplitItems
+                                Exit Select
+                            Case Else
+                                Select Case oMode
+                                    Case eContent.Trace
+                                        Trace += Chr(bReceiveBuffer(0))
+                                        Exit Select
+                                    Case eContent.Details
+                                        Details += Chr(bReceiveBuffer(0))
+                                        Exit Select
+                                    Case eContent.TraceItems
+                                        TraceItems += Chr(bReceiveBuffer(0))
+                                        Exit Select
+                                End Select
+                        End Select
+                    End If
                 Catch ex As Exception
 
                 End Try
-
-                Application.DoEvents()
             Loop Until (iBytesRead = 0 Or clientSocket.Connected = False)
             clientSocket.Close()
             sListener.Stop()
@@ -105,13 +132,16 @@ Public Class frmMain
             End If
         End If
     End Sub
- 
-
-    Private Sub Form1_Resize(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Resize
-
-    End Sub
 
     Private Sub Form1_ResizeEnd(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.ResizeEnd
         SizeList()
+    End Sub
+
+    Private Sub ExitToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ExitToolStripMenuItem.Click
+        Application.Exit()
+    End Sub
+
+    Private Sub btnTraceItems_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnTraceItems.Click
+        frmTraceItems.Show()
     End Sub
 End Class
