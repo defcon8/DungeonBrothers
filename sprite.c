@@ -14,6 +14,10 @@
 #include <cstring>
 #include "world.h"
 
+unsigned int cSprite::getPixelColor(SDL_Surface *s, int x, int y) {
+    return ((unsigned int*)s->pixels)[y*(s->pitch/sizeof(unsigned int)) + x];
+}
+
 bool cSprite::fGetSlopes() {
     //Create Slope from edges
     //oSlopeLeft = new cSpriteSlope(iSpriteHeight);
@@ -24,6 +28,10 @@ bool cSprite::fGetSlopes() {
     int iMaxCols = ((bitmap->w-iSpriteWidthOffset) / (iSpriteSpacer+iSpriteWidth));
     int iMaxRows = ((bitmap->h-iSpriteHeightOffset) / (iSpriteSpacer+iSpriteHeight));
 
+    TRACE("Slopes","Columns: %d", iMaxCols);
+    TRACE("Slopes","Rows: %d", iMaxRows);
+
+    int iPixelCount=0;
 
     for(int iCol=0; iCol<=iMaxCols; iCol++) {
         for(int iRow=0; iRow<=iMaxRows; iRow++) {
@@ -31,17 +39,17 @@ bool cSprite::fGetSlopes() {
             int iStartY = iSpriteHeightOffset+(iSpriteSpacer*(iRow+1))+(iRow*iSpriteHeight);
 
             //Scan Top
-            for(int iScanX=0; iScanX<=iSpriteWidth; iScanX++) {
+            for(int iScanX=iStarX; iScanX<=iStartX+iSpriteWidth; iScanX++) {
                 for(int iScanY=iStartY; iScanY<=iStartY+iSpriteHeight; iScanY++) {
-                    // jaaaaaaaaaaaaaaaaaaaaaaaaaa hier gaat hij dus mooi kapott!!!!!!!!
-                    //unsigned int pixelcolor = fGetPixel(bitmap,iScanX,iScanY);
-                    //debug
-                    //end debug
+                    unsigned int iPixelColor = getPixelColor(bitmap,iScanX,iScanY);
+                    iPixelCount++;
                 }
             }
 
         }
     }
+
+    TRACE("Slopes","Pixels analyzed: %d", iPixelCount);
 }
 
 void cSprite::fLoad(const char *file) {

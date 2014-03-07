@@ -16,6 +16,7 @@
 
 #include <SDL/SDL.h>
 #include "spriteslope.h"
+#include "debug.h"
 
 class cWorld;
 
@@ -24,6 +25,7 @@ private:
     int iColorKeyR, iColorKeyG, iColorKeyB;
     char chTileSource[16];
     void fInit();
+    unsigned int getPixelColor(SDL_Surface *s, int x, int y);
 
     SDL_Surface* screen;
     cWorld* oWorld;

@@ -64,7 +64,7 @@ int cDebug::connectToServer() {
 
 void cDebug::sendTraceItems()
 {
-    char* chTraceItems = "Init,Mode";
+    char* chTraceItems = "Init,Mode,Slopes";
     send(m_socket,(char*)&bCommand[3],1, 0);
     send(m_socket,chTraceItems,(int)strlen(chTraceItems), 0);
     send(m_socket,(char*)&bCommand[4],1, 0);

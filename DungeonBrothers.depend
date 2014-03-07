@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1394193003 source:c:\users\bastiaan\documents\github\dungeonbrothers\debug.c
+1394222710 source:c:\users\bastiaan\documents\github\dungeonbrothers\debug.c
 	"debug.h"
 	<stdio.h>
 	<iostream>
@@ -32,9 +32,10 @@
 1394127309 c:\users\bastiaan\documents\github\dungeonbrothers\spritelayer.h
 	"sprite.h"
 
-1394127303 c:\users\bastiaan\documents\github\dungeonbrothers\sprite.h
+1394223477 c:\users\bastiaan\documents\github\dungeonbrothers\sprite.h
 	<SDL/SDL.h>
 	"spriteslope.h"
+	"debug.h"
 
 1394127285 c:\users\bastiaan\documents\github\dungeonbrothers\pencil.h
 
@@ -48,7 +49,7 @@
 1394127150 source:c:\users\bastiaan\documents\github\dungeonbrothers\pencil.c
 	"pencil.h"
 
-1394127170 source:c:\users\bastiaan\documents\github\dungeonbrothers\sprite.c
+1394223448 source:c:\users\bastiaan\documents\github\dungeonbrothers\sprite.c
 	"sprite.h"
 	<cstring>
 	"world.h"
