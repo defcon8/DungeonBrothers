@@ -1,10 +1,6 @@
 ﻿Public Class frmTraceItems
-
-
-
-
     Private Sub btnCancel_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCancel.Click
-        Me.Hide()
+        Me.Close()
     End Sub
 
     Private Sub frmTraceItems_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
@@ -20,16 +16,33 @@
 
         'Set
         For iItem = 0 To clbList.Items.Count - 1
-            clbList.SetItemChecked(iItem, GetSetting("TraceProgram", "TraceItems", clbList.GetItemText(iItem), True))
+            clbList.SetItemChecked(iItem, frmMain.blTraceItems(iItem))
         Next
 
     End Sub
 
-    Private Sub clbList_ItemCheck(ByVal sender As Object, ByVal e As System.Windows.Forms.ItemCheckEventArgs) Handles clbList.ItemCheck
-        SaveSetting("TraceProgram", "TraceItems", clbList.GetItemText(e.Index), clbList.GetItemChecked(e.Index))
+    Private Sub btnOK_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnOK.Click
+        SaveTraceOptions()
+        Me.Close()
     End Sub
 
-    Private Sub clbList_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles clbList.SelectedIndexChanged
+    Sub SaveTraceOptions()
+        For iItem = 0 To clbList.Items.Count - 1
+            Debug.Print(clbList.Items(iItem) & vbTab & clbList.GetItemChecked(iItem))
+            frmMain.blTraceItems(iItem) = clbList.GetItemCheckState(iItem)
+            SaveSetting("TraceProgram", "TraceItems", clbList.Items(iItem), clbList.GetItemCheckState(iItem))
+        Next
+    End Sub
 
+    Private Sub btnCheckAll_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCheckAll.Click
+        For iItem = 0 To clbList.Items.Count - 1
+            clbList.SetItemCheckState(iItem, CheckState.Checked)
+        Next
+    End Sub
+
+    Private Sub btnUncheckAll_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnUncheckAll.Click
+        For iItem = 0 To clbList.Items.Count - 1
+            clbList.SetItemCheckState(iItem, CheckState.Unchecked)
+        Next
     End Sub
 End Class

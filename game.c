@@ -289,7 +289,7 @@ void cGame::fGameLoop() {
 
 void cGame::fInitialize() {
     //For debugging purposes (BW: TODO -> Does not work!)
-    TRACE("INFO","Initializing %d", 10);
+    TRACE("Init","Initializing..");
 
     /* Initialize SDL */
     char *chMessage;
@@ -360,6 +360,7 @@ void cGame::fNormalModeEvents() {
                 //Toggle Edit Mode
                 blEditMode = !blEditMode;
                 SDL_WM_SetCaption ("Edit mode", NULL);
+                TRACE("Mode","Edit mode");
                 break;
             case SDLK_SPACE:
                 if(!oWorld->oPlayerObject->blIsJumping)
@@ -419,6 +420,7 @@ void cGame::fEditModeEvents() {
                 blSpritePalet = false;    // Hide SpritePicker
                 blRenderLevel = true;     // Show Level
                 SDL_WM_SetCaption ("Normal mode", NULL);
+                TRACE("Mode","Normal mode");
                 break;
 
             case SDLK_F2:

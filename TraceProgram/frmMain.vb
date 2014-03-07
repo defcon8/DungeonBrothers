@@ -7,6 +7,7 @@ Public Class frmMain
     Shared clientSocket As TcpClient
     Shared sListener As New TcpListener(55555)
     Public Shared strTraceItems() As String
+    Public Shared blTraceItems() As Boolean
 
     Enum eContent
         Trace
@@ -31,8 +32,12 @@ Public Class frmMain
     Private Sub Listen()
         While (Not blExiting)
 
-
-            sListener.Start()
+            Try
+                sListener.Start()
+            Catch ex As Exception
+                MsgBox("Failed to start listener socket (port 55555 in use?).")
+                Application.Exit()
+            End Try
 
             clientSocket = sListener.AcceptTcpClient()
             Dim nsStream As NetworkStream = clientSocket.GetStream()
@@ -60,8 +65,10 @@ Public Class frmMain
                                 Exit Select
                             Case 2
                                 oMode = eContent.Unknown
-                                ListViewAddItem(Trace, Details)
-                                NotifyIcon1.ShowBalloonTip(1000, "Info", System.Text.Encoding.ASCII.GetString(bReceiveBuffer), ToolTipIcon.None)
+                                If IsTraceEnabled(Trace) Then
+                                    ListViewAddItem(Trace, Details)
+                                    NotifyIcon1.ShowBalloonTip(1000, "Info", System.Text.Encoding.ASCII.GetString(bReceiveBuffer), ToolTipIcon.None)
+                                End If
                                 Trace = String.Empty
                                 Details = String.Empty
                                 Exit Select
@@ -74,7 +81,9 @@ Public Class frmMain
                                 Debug.Print("End Trace Items")
                                 Dim strSplitItems() As String = TraceItems.Split(",")
                                 ReDim strTraceItems(UBound(strSplitItems))
+                                ReDim blTraceItems(UBound(strSplitItems))
                                 strTraceItems = strSplitItems
+                                GetTraceItemsState()
                                 Exit Select
                             Case Else
                                 Select Case oMode
@@ -127,9 +136,7 @@ Public Class frmMain
             lvTraces.Items.AddRange(New ListViewItem() {lvi})
             lvTraces.EnsureVisible(lvTraces.Items.Count - 1)
             lvTraces.ResumeLayout()
-            If (Trace = "INFO") Then
-                NotifyIcon1.ShowBalloonTip(1000, Trace, Details, ToolTipIcon.None)
-            End If
+            NotifyIcon1.ShowBalloonTip(750, Trace, Details, ToolTipIcon.None)
         End If
     End Sub
 
@@ -144,4 +151,22 @@ Public Class frmMain
     Private Sub btnTraceItems_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnTraceItems.Click
         frmTraceItems.Show()
     End Sub
+
+    Private Sub GetTraceItemsState()
+        Dim iItem As Integer
+        For iItem = LBound(strTraceItems) To UBound(strTraceItems)
+            blTraceItems(iItem) = GetSetting("TraceProgram", "TraceItems", strTraceItems(iItem), False)
+        Next
+    End Sub
+
+    Private Function IsTraceEnabled(ByRef strTrace As String) As Boolean
+        Dim iItem As Integer
+        Dim blResult As Boolean = False
+        For iItem = LBound(strTraceItems) To UBound(strTraceItems)
+            If strTraceItems(iItem) = strTrace Then
+                blResult = blTraceItems(iItem)
+            End If
+        Next
+        Return blResult
+    End Function
 End Class

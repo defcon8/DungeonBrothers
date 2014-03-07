@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1394127068 source:c:\users\bastiaan\documents\github\dungeonbrothers\debug.c
+1394193003 source:c:\users\bastiaan\documents\github\dungeonbrothers\debug.c
 	"debug.h"
 	<stdio.h>
 	<iostream>
@@ -8,7 +8,7 @@
 	<winsock2.h>
 	<string>
 
-1394135442 source:c:\users\bastiaan\documents\github\dungeonbrothers\game.c
+1394193266 source:c:\users\bastiaan\documents\github\dungeonbrothers\game.c
 	<cstdio>
 	<cstdlib>
 	<ctime>
