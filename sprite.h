@@ -25,7 +25,7 @@ private:
     int iColorKeyR, iColorKeyG, iColorKeyB;
     char chTileSource[16];
     void fInit();
-    unsigned int getPixelColor(SDL_Surface *s, int x, int y);
+    Uint32 getPixelColor(SDL_Surface *surface, int x, int y);
 
     SDL_Surface* screen;
     cWorld* oWorld;

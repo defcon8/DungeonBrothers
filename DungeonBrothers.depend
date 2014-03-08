@@ -32,7 +32,7 @@
 1394127309 c:\users\bastiaan\documents\github\dungeonbrothers\spritelayer.h
 	"sprite.h"
 
-1394223477 c:\users\bastiaan\documents\github\dungeonbrothers\sprite.h
+1394312791 c:\users\bastiaan\documents\github\dungeonbrothers\sprite.h
 	<SDL/SDL.h>
 	"spriteslope.h"
 	"debug.h"
@@ -49,7 +49,7 @@
 1394127150 source:c:\users\bastiaan\documents\github\dungeonbrothers\pencil.c
 	"pencil.h"
 
-1394223448 source:c:\users\bastiaan\documents\github\dungeonbrothers\sprite.c
+1394312952 source:c:\users\bastiaan\documents\github\dungeonbrothers\sprite.c
 	"sprite.h"
 	<cstring>
 	"world.h"

@@ -14,8 +14,34 @@
 #include <cstring>
 #include "world.h"
 
-unsigned int cSprite::getPixelColor(SDL_Surface *s, int x, int y) {
-    return ((unsigned int*)s->pixels)[y*(s->pitch/sizeof(unsigned int)) + x];
+Uint32 cSprite::getPixelColor(SDL_Surface *surface, int x, int y) {
+    int bpp = surface->format->BytesPerPixel;
+    /* Here p is the address to the pixel we want to retrieve */
+    Uint8 *p = (Uint8 *)surface->pixels + y * surface->pitch + x * bpp;
+
+    switch(bpp) {
+    case 1:
+        return *p;
+        break;
+
+    case 2:
+        return *(Uint16 *)p;
+        break;
+
+    case 3:
+        if(SDL_BYTEORDER == SDL_BIG_ENDIAN)
+            return p[0] << 16 | p[1] << 8 | p[2];
+        else
+            return p[0] | p[1] << 8 | p[2] << 16;
+        break;
+
+    case 4:
+        return *(Uint32 *)p;
+        break;
+
+    default:
+        return 0;       /* shouldn't happen, but avoids warnings */
+    }
 }
 
 bool cSprite::fGetSlopes() {
@@ -25,8 +51,8 @@ bool cSprite::fGetSlopes() {
     //oSlopeTop = new cSpriteSlope(iSpriteWidth);
     //oSlopeBottom = new cSpriteSlope(iSpriteWidth);
 
-    int iMaxCols = ((bitmap->w-iSpriteWidthOffset) / (iSpriteSpacer+iSpriteWidth));
-    int iMaxRows = ((bitmap->h-iSpriteHeightOffset) / (iSpriteSpacer+iSpriteHeight));
+    int iMaxCols = ((bitmap->w-iSpriteWidthOffset) / (iSpriteSpacer+iSpriteWidth))-1; //Todo: I had to add -1 here but i doubt this is correct..anyway it works now..
+    int iMaxRows = ((bitmap->h-iSpriteHeightOffset) / (iSpriteSpacer+iSpriteHeight))-1;
 
     TRACE("Slopes","Columns: %d", iMaxCols);
     TRACE("Slopes","Rows: %d", iMaxRows);
@@ -39,16 +65,27 @@ bool cSprite::fGetSlopes() {
             int iStartY = iSpriteHeightOffset+(iSpriteSpacer*(iRow+1))+(iRow*iSpriteHeight);
 
             //Scan Top
-            for(int iScanX=iStarX; iScanX<=iStartX+iSpriteWidth; iScanX++) {
-                for(int iScanY=iStartY; iScanY<=iStartY+iSpriteHeight; iScanY++) {
-                    unsigned int iPixelColor = getPixelColor(bitmap,iScanX,iScanY);
+            for(int iScanY=iStartY; iScanY<=iStartY+iSpriteHeight; iScanY++) {
+                long lSlopeRow; // The long containing the row information.. long is 32 bit.. each bit tells if the the pixel is transparant or not..
+                for(int iScanX=iStartX; iScanX<=iStartX+iSpriteWidth; iScanX++) {
+                    Uint8 r, g, b;
+                    SDL_LockSurface(bitmap);
+                    Uint32 iPixelColor = getPixelColor(bitmap,iScanX,iScanY);
+                    SDL_GetRGB(iPixelColor, bitmap->format, &r,&g,&b);
+                    SDL_UnlockSurface(bitmap);
+                    // The position of the bit in the Long (lSlopeRow) is the same as the pixel position in the row to be scanned
+                    if((r==iColorKeyR) && (g==iColorKeyG) && (b==iColorKeyB)) {
+                        //Transparant Pixel (air...)
+                        lSlopeRow &= ~(1 << (iScanX-iStartX)); //clear the bit
+                    } else {
+                        //Object (floor, wall, ground whatever..) we can stand on it
+                        lSlopeRow |= 1 << (iScanX-iStartX); //set the bit
+                    }
                     iPixelCount++;
                 }
             }
-
         }
     }
-
     TRACE("Slopes","Pixels analyzed: %d", iPixelCount);
 }
 
@@ -57,7 +94,6 @@ void cSprite::fLoad(const char *file) {
     SDL_SetColorKey(bitmap, SDL_SRCCOLORKEY, SDL_MapRGB(bitmap->format,  iColorKeyR,  iColorKeyG,  iColorKeyB));
     //Store the filename localy in chTileSource, we need it later when saving level to disk.
     memcpy(&chTileSource[0],file,16);
-
 }
 
 char* cSprite::fGetTileSource() {
