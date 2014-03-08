@@ -45,6 +45,10 @@ Uint32 cSprite::getPixelColor(SDL_Surface *surface, int x, int y) {
 }
 
 bool cSprite::fGetSlopes() {
+
+    // This function scans all tiles in the bitmap and detects if a pixel is transparant or not. Information for each pixel row of the sprite is stored in so
+    // called slopes which is basicaly a word (32 bit). Each bit in the word tells if the pixels is transparant or not.
+
     //Create Slope from edges
     //oSlopeLeft = new cSpriteSlope(iSpriteHeight);
     //oSlopeRight = new cSpriteSlope(iSpriteHeight);
@@ -57,24 +61,24 @@ bool cSprite::fGetSlopes() {
     TRACE("Slopes","Columns: %d", iMaxCols);
     TRACE("Slopes","Rows: %d", iMaxRows);
 
-    int iPixelCount=0;
+    int iPixelCount=0; // just for debugging purposes, count how many pixels are analyzed
 
+    SDL_LockSurface(bitmap);
     for(int iCol=0; iCol<=iMaxCols; iCol++) {
         for(int iRow=0; iRow<=iMaxRows; iRow++) {
             int iStartX = iSpriteWidthOffset+(iSpriteSpacer*(iCol+1))+(iCol*iSpriteWidth);
             int iStartY = iSpriteHeightOffset+(iSpriteSpacer*(iRow+1))+(iRow*iSpriteHeight);
 
-            //Scan Top
+            //Scan each row, from top to bottom
             for(int iScanY=iStartY; iScanY<=iStartY+iSpriteHeight; iScanY++) {
                 long lSlopeRow; // The long containing the row information.. long is 32 bit.. each bit tells if the the pixel is transparant or not..
+                //Scan each pixel from left to right
                 for(int iScanX=iStartX; iScanX<=iStartX+iSpriteWidth; iScanX++) {
-                    Uint8 r, g, b;
-                    SDL_LockSurface(bitmap);
+                    Uint8 r, g, b; // temporary
                     Uint32 iPixelColor = getPixelColor(bitmap,iScanX,iScanY);
                     SDL_GetRGB(iPixelColor, bitmap->format, &r,&g,&b);
-                    SDL_UnlockSurface(bitmap);
                     // The position of the bit in the Long (lSlopeRow) is the same as the pixel position in the row to be scanned
-                    if((r==iColorKeyR) && (g==iColorKeyG) && (b==iColorKeyB)) {
+                    if((r==iColorKeyR) && (g==iColorKeyG) && (b==iColorKeyB)) { // if the color is the keycolor then it it transparant...
                         //Transparant Pixel (air...)
                         lSlopeRow &= ~(1 << (iScanX-iStartX)); //clear the bit
                     } else {
@@ -86,6 +90,8 @@ bool cSprite::fGetSlopes() {
             }
         }
     }
+    SDL_UnlockSurface(bitmap);
+
     TRACE("Slopes","Pixels analyzed: %d", iPixelCount);
 }
 
