@@ -30,11 +30,13 @@ class cLevelObject : public iLevelObject {
 #define NONE 0
 
 private:
-    bool fCheckLevelCollision();
-    void getHorScanPos(cSpriteLayer* p_object, int column, int &begin, int &end);
     struct objPos{
         int x,y;
     };
+    bool fCheckLevelCollision();
+    void getHorScanPos(cSpriteLayer* p_object, int column, int &begin, int &end);
+    void getPositionInLevel(cSpriteLayer& oObject, objPos& newPos, int& iColStart, int& iColEnd, int& iRowStart, int& iRowEnd);
+
 
 public:
     //Object Pointers
