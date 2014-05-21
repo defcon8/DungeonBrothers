@@ -49,45 +49,31 @@ bool cSprite::fGetSlopes() {
     // This function scans all tiles in the bitmap and detects if a pixel is transparant or not. Information for each pixel row of the sprite is stored in so
     // called slopes which is basicaly a word (32 bit). Each bit in the word tells if the pixels is transparant or not.
 
-    //Create Slope from edges
-    //oSlopeLeft = new cSpriteSlope(iSpriteHeight);
-    //oSlopeRight = new cSpriteSlope(iSpriteHeight);
-    //oSlopeTop = new cSpriteSlope(iSpriteWidth);
-    //oSlopeBottom = new cSpriteSlope(iSpriteWidth);
-
-    int iMaxCols = ((bitmap->w-iSpriteWidthOffset) / (iSpriteSpacer+iSpriteWidth))-1; //Todo: I had to add -1 here but i doubt this is correct..anyway it works now..
-    int iMaxRows = ((bitmap->h-iSpriteHeightOffset) / (iSpriteSpacer+iSpriteHeight))-1;
-
-    TRACE("Slopes","Columns: %d", iMaxCols);
-    TRACE("Slopes","Rows: %d", iMaxRows);
+    //create data object
+    p_PixelInfo = new sPixelInfo*[bitmap->w];
+    for(int i=0; i < bitmap->w; i++)
+        p_PixelInfo[i] = new sPixelInfo[bitmap->h];
 
     int iPixelCount=0; // just for debugging purposes, count how many pixels are analyzed
 
     SDL_LockSurface(bitmap);
-    for(int iCol=0; iCol<=iMaxCols; iCol++) {
-        for(int iRow=0; iRow<=iMaxRows; iRow++) {
-            int iStartX = iSpriteWidthOffset+(iSpriteSpacer*(iCol+1))+(iCol*iSpriteWidth);
-            int iStartY = iSpriteHeightOffset+(iSpriteSpacer*(iRow+1))+(iRow*iSpriteHeight);
+    for(int iX=0; iX<=bitmap->w-1; iX++) {
+        for(int iY=0; iY<=bitmap->h-1; iY++) {
 
-            //Scan each row, from top to bottom
-            for(int iScanY=iStartY; iScanY<=iStartY+iSpriteHeight; iScanY++) {
-                long lSlopeRow; // The long containing the row information.. long is 32 bit.. each bit tells if the the pixel is transparant or not..
-                //Scan each pixel from left to right
-                for(int iScanX=iStartX; iScanX<=iStartX+iSpriteWidth; iScanX++) {
                     Uint8 r, g, b; // temporary
-                    Uint32 iPixelColor = getPixelColor(bitmap,iScanX,iScanY);
+                    Uint32 iPixelColor = getPixelColor(bitmap,iX,iY);
                     SDL_GetRGB(iPixelColor, bitmap->format, &r,&g,&b);
+
                     // The position of the bit in the Long (lSlopeRow) is the same as the pixel position in the row to be scanned
                     if((r==iColorKeyR) && (g==iColorKeyG) && (b==iColorKeyB)) { // if the color is the keycolor then it it transparant...
                         //Transparant Pixel (air...)
-                        lSlopeRow &= ~(1 << (iScanX-iStartX)); //clear the bit
+                        p_PixelInfo[iX][iY].transparant = 0;
                     } else {
                         //Object (floor, wall, ground whatever..) we can stand on it
-                        lSlopeRow |= 1 << (iScanX-iStartX); //set the bit
+                        p_PixelInfo[iX][iY].transparant = 1;
                     }
+
                     iPixelCount++;
-                }
-            }
         }
     }
     SDL_UnlockSurface(bitmap);
@@ -115,8 +101,8 @@ void cSprite::fSetColorKey(int iR, int iG, int iB) {
 void cSprite::fRender(int iCol, int iRow, int iDestX, int iDestY) {
     // Part of the bitmap that we want to draw
     SDL_Rect source;
-    source.x = iSpriteWidthOffset+(iSpriteSpacer*(iCol+1))+(iCol*iSpriteWidth);
-    source.y = iSpriteHeightOffset+(iSpriteSpacer*(iRow+1))+(iRow*iSpriteHeight);
+    source.x = iSpriteWidthOffset+(iCol*(iSpriteWidth+iSpriteSpacer));
+    source.y = iSpriteHeightOffset+(iRow*(iSpriteHeight+iSpriteSpacer));
     source.w = iSpriteWidth;
     source.h = iSpriteHeight;
 

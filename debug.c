@@ -64,15 +64,19 @@ int cDebug::connectToServer() {
 
 void cDebug::sendTraceItems()
 {
-    char* chTraceItems = "Init,Mode,Slopes";
+    char* chTraceItems = "Init,Mode,Slopes,Jump,Gravity,getHorScanPos,fCheckDirectionCollision,fPixelIsTransparant";
     send(m_socket,(char*)&bCommand[3],1, 0);
     send(m_socket,chTraceItems,(int)strlen(chTraceItems), 0);
     send(m_socket,(char*)&bCommand[4],1, 0);
 }
 void cDebug::prepareTrace(string trace, string text) {
-    send(m_socket,(char*)&bCommand[0],1, 0);
-    send(m_socket,trace.c_str(),trace.length(), 0);
-    send(m_socket,(char*)&bCommand[1],1, 0);
-    send(m_socket,text.c_str(),text.length(), 0);
-    send(m_socket,(char*)&bCommand[2],1, 0);
+    //if(text != lastTraceOutput){
+        send(m_socket,(char*)&bCommand[0],1, 0);
+        send(m_socket,trace.c_str(),trace.length(), 0);
+        send(m_socket,(char*)&bCommand[1],1, 0);
+        send(m_socket,text.c_str(),text.length(), 0);
+        send(m_socket,(char*)&bCommand[2],1, 0);
+
+        lastTraceOutput = text;
+    //}
 }

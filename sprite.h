@@ -25,12 +25,22 @@ private:
     int iColorKeyR, iColorKeyG, iColorKeyB;
     char chTileSource[16];
     void fInit();
-    Uint32 getPixelColor(SDL_Surface *surface, int x, int y);
+
 
     SDL_Surface* screen;
     cWorld* oWorld;
+
+
+    struct sPixelInfo{
+        int transparant;
+    };
+
 public:
 
+
+    sPixelInfo **p_PixelInfo;
+
+    Uint32 getPixelColor(SDL_Surface *surface, int x, int y);
     int iScrollOffset;
     void fLoad(const char *file);
     void fRender(int iCol, int iRow, int iDestX, int iDestY);

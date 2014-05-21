@@ -15,6 +15,7 @@ private:
 
     SOCKET m_socket;
     int connectToServer();
+    string lastTraceOutput;
 
 public:
     static cDebug* getInstance(); //!< Function to get the singleton instance

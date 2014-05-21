@@ -83,6 +83,7 @@ Partial Class frmTraceItems
         Me.Controls.Add(Me.btnOK)
         Me.Controls.Add(Me.btnCancel)
         Me.Controls.Add(Me.clbList)
+        Me.DoubleBuffered = True
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
         Me.Name = "frmTraceItems"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen

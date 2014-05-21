@@ -27,6 +27,77 @@ using namespace std;
 
 SDL_Surface *spritelayerscreen;
 
+void cSpriteLayer::fDrawPixel(SDL_Surface *screen, int x, int y, Uint8 R, Uint8 G, Uint8 B) {
+    Uint32 color = SDL_MapRGB(screen->format, R, G, B);
+    switch (screen->format->BytesPerPixel) {
+    case 1: { // 8-bpp
+        Uint8 *bufp;
+        bufp = (Uint8 *)screen->pixels + y*screen->pitch + x;
+        *bufp = color;
+    }
+    break;
+    case 2: { // 15-bpp or 16-bpp
+        Uint16 *bufp;
+        bufp = (Uint16 *)screen->pixels + y*screen->pitch/2 + x;
+        *bufp = color;
+    }
+    break;
+    case 3: { // 24-bpp mode, usually not used
+        Uint8 *bufp;
+        bufp = (Uint8 *)screen->pixels + y*screen->pitch + x * 3;
+        if(SDL_BYTEORDER == SDL_LIL_ENDIAN) {
+            bufp[0] = color;
+            bufp[1] = color >> 8;
+            bufp[2] = color >> 16;
+        } else {
+            bufp[2] = color;
+            bufp[1] = color >> 8;
+            bufp[0] = color >> 16;
+        }
+    }
+    break;
+    case 4: { // 32-bpp
+        Uint32 *bufp;
+        bufp = (Uint32 *)screen->pixels + y*screen->pitch/4 + x;
+        *bufp = color;
+    }
+    break;
+    }
+}
+
+
+bool cSpriteLayer::fPixelIsTransparant(int iRow, int iCol, int iX, int iY, int iColCount){
+
+    // Find out while tile this is.. in the sprite source.
+
+    //Get the start TopLeft position.
+    int iRowInSource = p_LevelData[iRow][iCol].iRow;
+    int iColInSource = p_LevelData[iRow][iCol].iIndex;
+
+    //Get the pixel
+    int iPixelY = fRowToYInSpriteSheet(iRowInSource) + iY;
+    int iPixelX = fColToXInSpriteSheet(iColInSource) + iX;
+
+    bool solid = (bool)p_Source->p_PixelInfo[iPixelX][iPixelY].transparant;
+
+    if(solid){
+        fDrawPixel(oWorld->sScreenSurface,iX + (iColCount * oWorld->oLevelLayer->p_Source->iSpriteWidth),iY,0,255,0);
+    }else{
+        fDrawPixel(oWorld->sScreenSurface,iX + (iColCount * oWorld->oLevelLayer->p_Source->iSpriteWidth),iY,255,0,0);
+    }
+
+    Uint8 r, g, b; // temporary
+    Uint32 iPixelColor = oWorld->oLevelLayer->p_Source->getPixelColor(oWorld->oLevelLayer->p_Source->bitmap,iPixelX,iPixelY);
+    SDL_GetRGB(iPixelColor, oWorld->oLevelLayer->p_Source->bitmap->format, &r,&g,&b);
+
+    fDrawPixel(oWorld->sScreenSurface,iX + (iColCount * oWorld->oLevelLayer->p_Source->iSpriteWidth),iY+32,r,g,b);
+
+    TRACE("fPixelIsTransparant","Row: %d  Col: %d  RowInSource: %d  ColInSource: %d  PixelX: %d  PixelY: %d  iX: %d  iY: %d  Solid: %s", iRow, iCol, iRowInSource, iColInSource, iPixelX, iPixelY, iX ,iY, solid ? "true" : "false");
+
+    return solid;
+
+}
+
 cSpriteLayer::cSpriteLayer(cWorld* oWorldRef, int iRows, int iCols, int iSpriteHeightPX, int iSpriteWidthPX, bool blOptimize, bool blIsBuffered, bool blUseColorKey, int iKeyR, int iKeyG, int iKeyB) {
     oWorld = oWorldRef;
 
@@ -144,10 +215,10 @@ SDL_Surface* cSpriteLayer::fRender(signed int CamX, signed int CamY) {
 
 
     if(blOptmizeLayer) {
-        iStartCol = fWidthToCol(-CamX);
-        iEndCol = fWidthToCol((-CamX)+oWorld->oConfig->m_iScreenWidth);
-        iStartRow = fHeightToRow(-CamY);
-        iEndRow = fHeightToRow((-CamY)+oWorld->oConfig->m_iScreenHeight);
+        iStartCol = fXToCol(-CamX);
+        iEndCol = fXToCol((-CamX)+oWorld->oConfig->m_iScreenWidth);
+        iStartRow = fYToRow(-CamY);
+        iEndRow = fYToRow((-CamY)+oWorld->oConfig->m_iScreenHeight);
 
         // Protect drawing level outside its boundaries
         if(iStartCol<0) {
@@ -168,7 +239,7 @@ SDL_Surface* cSpriteLayer::fRender(signed int CamX, signed int CamY) {
     for (int iRow = iStartRow; iRow < iEndRow; iRow++) {
         for (int iCol = iStartCol; iCol < iEndCol; iCol++) {
             if(p_LevelData[iRow][iCol].iType!=EMPTY)
-                p_Source->fRender(p_LevelData[iRow][iCol].iIndex, p_LevelData[iRow][iCol].iRow, (fColToWidth(iCol)+CamX)+x, (fRowToHeight(iRow)+CamY)+y);
+                p_Source->fRender(p_LevelData[iRow][iCol].iIndex, p_LevelData[iRow][iCol].iRow, (fColToX(iCol)+CamX)+x, (fRowToY(iRow)+CamY)+y);
         }
     }
 
@@ -183,16 +254,25 @@ int cSpriteLayer::fGetTotalRows() {
 int cSpriteLayer::fGetTotalCols() {
     return iColCount;
 }
-signed int cSpriteLayer::fColToWidth(signed int iCol) {
+
+signed int cSpriteLayer::fColToXInSpriteSheet(signed int iCol) {
+    return (iCol*(iSpriteWidth+p_Source->iSpriteSpacer)) +p_Source->iSpriteSpacer; // See below
+}
+signed int cSpriteLayer::fRowToYInSpriteSheet(signed int iRow) {
+    TRACE("fPixelIsTransparant","iSpriteHeightOffset: %d",p_Source->iSpriteHeightOffset);
+    return p_Source->iSpriteHeightOffset + (iRow*(p_Source->iSpriteHeight+p_Source->iSpriteSpacer)); //TODO: The last value (iSpriteSpace isnt correct, it should be heightoffset, but somehow it doesnt work)
+}
+
+signed int cSpriteLayer::fColToX(signed int iCol) {
     return (iCol*iSpriteWidth);
 }
-signed int cSpriteLayer::fRowToHeight(signed int iRow) {
+signed int cSpriteLayer::fRowToY(signed int iRow) {
     return (iRow*iSpriteHeight);
 }
-signed int cSpriteLayer::fWidthToCol(signed int iWidth) {
+signed int cSpriteLayer::fXToCol(signed int iWidth) {
     return (iWidth/iSpriteWidth);
 }
-signed int cSpriteLayer::fHeightToRow(signed int iHeight) {
+signed int cSpriteLayer::fYToRow(signed int iHeight) {
     return (iHeight/iSpriteHeight);
 }
 signed int cSpriteLayer::fGetWidth() {

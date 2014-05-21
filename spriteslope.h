@@ -4,10 +4,10 @@
 
 class cSpriteSlope {
 public:
-    cSpriteSlope(int iAmount);
+    cSpriteSlope();
     ~cSpriteSlope();
 
-    int **p_SlopeValue;
+    long value;
 
 protected:
 private:

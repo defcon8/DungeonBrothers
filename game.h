@@ -42,6 +42,7 @@ private:
     SDL_Color cBlack;
     SDL_Rect rFPSLocation;
 
+    void functionTests();
     void fInitialize();
     void fInitVariables();
     void fLoadObjects();

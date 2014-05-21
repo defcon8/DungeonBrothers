@@ -37,8 +37,8 @@ cPlayer::cPlayer(cWorld* oWorld, char* chTileSource, int iSpriteHeight, int iSpr
 
 }
 
-cPlayer::~cPlayer()
-{}
+cPlayer::~cPlayer() {
+}
 
 void cPlayer::fSetSprite() {
     switch(iFaceDirection) {
@@ -87,9 +87,10 @@ void cPlayer::fAI() {
 void cPlayer::fGravityPhysics() {
     // Down wards gravity, dont do this while jumping because jumping has it own gravity physics
     if(!blIsJumping) {
+        TRACE("Gravity","Speed: %d", iMoveSpeed+iVelocityFall);
         if(!fCheckDirectionCollision(oGFXLayer,DOWN,iMoveSpeed+iVelocityFall)) {
             Y+=iMoveSpeed+iVelocityFall;
-            iVelocityFall++;
+            if(iVelocityFall<4) iVelocityFall++;
         } else {
             //User has hit something below him
             iVelocityFall=0;
@@ -99,23 +100,12 @@ void cPlayer::fGravityPhysics() {
 }
 
 void cPlayer::fMoveByUserInput() {
-    //Walk-- slow break down on key up instead of immidiate stop
-    if((!blMoveRight && !blMoveLeft) && iVelocityX > 0) {
-        if(iLastDirection==RIGHT) {
-            if(fCheckDirectionCollision(oGFXLayer,RIGHT,iVelocityX))
-                X+= iVelocityX;
-        } else {
-            if(fCheckDirectionCollision(oGFXLayer,LEFT,iVelocityX))
-                X-= iVelocityX;
-        }
-        iVelocityX--;
-    }
 
     //normal Walk / move operations
     if(blMoveRight)
         if(!fCheckDirectionCollision(oGFXLayer,RIGHT,iMoveSpeed+iVelocityX)) {
             X+= iMoveSpeed+iVelocityX;
-            if(iVelocityX < 2) iVelocityX++;
+            //if(iVelocityX < 2) iVelocityX++;
             iLastDirection=RIGHT;
             iFaceDirection=RIGHT;
         } else {
@@ -125,7 +115,7 @@ void cPlayer::fMoveByUserInput() {
     if(blMoveLeft)
         if(!fCheckDirectionCollision(oGFXLayer,LEFT,iMoveSpeed+iVelocityX)) {
             X-= iMoveSpeed+iVelocityX;
-            if(iVelocityX < 2) iVelocityX++;
+            //if(iVelocityX < 2) iVelocityX++;
             iLastDirection=LEFT;
             iFaceDirection=LEFT;
 
@@ -133,45 +123,24 @@ void cPlayer::fMoveByUserInput() {
             iVelocityX=0;
         }
 
+    if(blMoveDown)
+        if(!fCheckDirectionCollision(oGFXLayer,DOWN,1)) {
+            Y+=1;
+            //if(iVelocityX < 2) iVelocityX++;
+            iLastDirection=DOWN;
+        }
+
+    if(blMoveUp)
+        if(!fCheckDirectionCollision(oGFXLayer,UP,1)) {
+            Y-=1;
+            //if(iVelocityX < 2) iVelocityX++;
+            iLastDirection=UP;
+        }
+
+
 }
 
 void cPlayer::fJumpPhysics() {
-    if(blIsJumping && (iVelocityY >= -iJumpFactor)) {
-        if(iVelocityY >0) { //Going UP
-            //Check if there is something above me
-            if(fCheckDirectionCollision(oGFXLayer,UP,iVelocityY)) {
-                //We know that nr (iVelocityY) of pixels there is something above us. But we don't know exactly where that object begins. To avoid that the
-                //jump is aborted way below the edge we need to find the exact starting position of the object above us.
-                int iRemainingPixels;
-                for(iRemainingPixels=1; iRemainingPixels<=iVelocityY; iRemainingPixels++) {
-                    if(fCheckDirectionCollision(oGFXLayer,UP,iRemainingPixels)) {
-                        // We found it, the abvove object's edge is (iRemainingPixels) away from me.
-                        break;
-                    }
-                }
-
-                if(iRemainingPixels==1) {
-                    //The object is just one pixel above me, we dont have to interpolate
-                    iVelocityY=0;
-                } else {
-                    //The object is multiple pixels away, set the iVelocity to the Remaining pixels. So next time we hit this function the
-                    //collision detection is done with this amount of pixels.
-                    iVelocityY = iRemainingPixels;
-                }
-            }
-        } else {
-            //Going Down
-            if(fCheckDirectionCollision(oGFXLayer,DOWN,abs(iVelocityY))) {
-                //Hit something below player
-                blIsJumping=false;
-                iVelocityY=0;
-            }
-        }
-        Y=Y-iVelocityY;
-        iVelocityY-=iGravity;
-    } else {
-        iVelocityY=0;
-    }
 }
 
 void cPlayer::fMoveDirection(int iDirection, bool blEnabled) {

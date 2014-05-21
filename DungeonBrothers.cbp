@@ -85,10 +85,6 @@
 			<Option compilerVar="CPP" />
 		</Unit>
 		<Unit filename="spritelayer.h" />
-		<Unit filename="spriteslope.c">
-			<Option compilerVar="CPP" />
-		</Unit>
-		<Unit filename="spriteslope.h" />
 		<Unit filename="world.c">
 			<Option compilerVar="CPP" />
 		</Unit>

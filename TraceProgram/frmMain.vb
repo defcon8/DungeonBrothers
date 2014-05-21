@@ -23,6 +23,7 @@ Public Class frmMain
     End Sub
 
     Private Sub frmMain_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
+        Me.DoubleBuffered = True
         InitList()
         tThread = New System.Threading.Thread(AddressOf Listen)
         tThread.IsBackground = True
@@ -67,7 +68,7 @@ Public Class frmMain
                                 oMode = eContent.Unknown
                                 If IsTraceEnabled(Trace) Then
                                     ListViewAddItem(Trace, Details)
-                                    NotifyIcon1.ShowBalloonTip(1000, "Info", System.Text.Encoding.ASCII.GetString(bReceiveBuffer), ToolTipIcon.None)
+                                    'NotifyIcon1.ShowBalloonTip(1000, "Info", System.Text.Encoding.ASCII.GetString(bReceiveBuffer), ToolTipIcon.None)
                                 End If
                                 Trace = String.Empty
                                 Details = String.Empty
@@ -133,11 +134,16 @@ Public Class frmMain
             Dim lvi As New ListViewItem(Now.ToString)
             lvi.SubItems.Add(Trace)
             lvi.SubItems.Add(Details)
-            lvTraces.Items.AddRange(New ListViewItem() {lvi})
-            lvTraces.EnsureVisible(lvTraces.Items.Count - 1)
+            lvTraces.Items.Insert(0, lvi)
+            'lvTraces.EnsureVisible(lvTraces.Items.Count - 1)
             lvTraces.ResumeLayout()
-            NotifyIcon1.ShowBalloonTip(750, Trace, Details, ToolTipIcon.None)
+            'NotifyIcon1.ShowBalloonTip(750, Trace, Details, ToolTipIcon.None)
         End If
+
+        If (lvTraces.Items.Count > 20) Then
+            lvTraces.Items.RemoveAt(lvTraces.Items.Count - 1)
+        End If
+
     End Sub
 
     Private Sub Form1_ResizeEnd(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.ResizeEnd
@@ -169,4 +175,8 @@ Public Class frmMain
         Next
         Return blResult
     End Function
+
+    Private Sub ClearToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ClearToolStripMenuItem.Click
+        lvTraces.Clear()
+    End Sub
 End Class

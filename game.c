@@ -157,8 +157,32 @@ void cGame::fCameraMovement() {
     }
 }
 
+void cGame::functionTests(){
+    cSpriteLayer* oTemp = new cSpriteLayer(oWorld,10,10,32,32,true,true,false,0,0,0);
+
+    if(oTemp->fYToRow(0) != 0){
+        TRACE("Init","fYToRow(0) FAIL!");
+    }
+
+    if(oTemp->fYToRow(32) != 1){
+        TRACE("Init","fYToRow() FAIL!");
+    }
+
+    if(oTemp->fXToCol(0) != 0){
+        TRACE("Init","fYToRow(0) FAIL!");
+    }
+
+    if(oTemp->fXToCol(32) != 1){
+        TRACE("Init","fXToCol() FAIL!");
+    }
+
+
+}
+
 void cGame::Start() {
     fInitialize();
+
+    functionTests();
 
     fIntro();
 
@@ -175,7 +199,7 @@ void cGame::Start() {
         fFPS();
         long tMeasure2 = time(NULL); //Give system time to the OS, prevent 100% Core usage.
         long tDiff = tMeasure2 - tMeasure1;
-        SDL_Delay(13-tDiff); // sleep until next tick
+        SDL_Delay(10- tDiff); // sleep until next tick : BW SHOULD BE 13
     }
     fCleanUp();
 }
@@ -187,6 +211,8 @@ void cGame::fFPS() {
 }
 
 void cGame::fLoadObjects() {
+    TRACE("Init","Loading objects");
+
     //Background Layer
     oWorld->oBackgroundLayer = new cSprite(oWorld);
     oWorld->oBackgroundLayer->fLoad("back.bmp");
@@ -220,6 +246,11 @@ void cGame::fLoadObjects() {
     oLoad.read(reinterpret_cast<char*>(&iSpriteWidthOffset),sizeof(Uint8));
     oLoad.read(reinterpret_cast<char*>(&iSpriteHeightOffset),sizeof(Uint8));
     oLoad.read(reinterpret_cast<char*>(&iDataBlocks),sizeof(Uint16));
+
+    TRACE("Init","Load > iSpriteSpacer: %d",iSpriteSpacer);
+    TRACE("Init","Load > iSpriteHeightOffset: %d",iSpriteHeightOffset);
+    TRACE("Init","Load > iSpriteWidthOffset: %d",iSpriteWidthOffset);
+
 
     // ------------ [ start setup level ] --------------------
     oWorld->oLevelLayer = new cSpriteLayer(oWorld,iLevelRows,iLevelCols,iSpriteHeight,iSpriteWidth,false,true,true,0,0,0);

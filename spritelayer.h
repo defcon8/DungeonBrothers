@@ -62,6 +62,7 @@ private:
         Uint8 AniFrameStep;
         Uint8 blCollide;
         Uint8 iFlags;
+
     };
 
     //Local Members
@@ -76,6 +77,7 @@ private:
 
     //Methods
     void fInitMap();
+    void fDrawPixel(SDL_Surface *screen, int x, int y, Uint8 R, Uint8 G, Uint8 B);
     void fInitLayer(int iRows, int iCols, int iSpriteHeightPX, int iSpriteWidthPX, bool blOptimize, bool blIsBuffered);
 
 public:
@@ -99,14 +101,17 @@ public:
     void fSetSpriteHeight(int iPixels);
     void fClear();
     int fGetSpriteHeight();
+    bool fPixelIsTransparant(int iRow, int iCol, int iX, int iY, int iColCount);
     int fGetTotalRows();
     int fGetTotalCols();
     int fGetWidth();
     int fGetHeight();
-    int fWidthToCol(signed int iWidth);         /**< Returns the col number of the given width in pixels */
-    int fHeightToRow(signed int iHeight);       /**< Returns the row number of the given height in pixels */
-    int fColToWidth(signed int iCol);           /**< Returns the width in pixels of the col number */
-    int fRowToHeight(signed int iRow);          /**< Returns the height in pixels of the row number */
+    signed int fColToXInSpriteSheet(signed int iCol);
+    signed int fRowToYInSpriteSheet(signed int iRow);
+    int fXToCol(signed int iWidth);         /**< Returns the col number of the given width in pixels */
+    int fYToRow(signed int iHeight);       /**< Returns the row number of the given height in pixels */
+    int fColToX(signed int iCol);           /**< Returns the width in pixels of the col number */
+    int fRowToY(signed int iRow);          /**< Returns the height in pixels of the row number */
     bool fIsBuffered();                         /**< Returns if the surface is a buffered or not. */
     SDL_Surface* fGetBufferSurface();           /**< Returns the buffer surface. */
 };

@@ -30,10 +30,10 @@ bool cLevelObject::fCheckLevelCollision() {
     //Level tile collision + Gravity
     int iColStart, iColEnd, iRowStart, iRowEnd;
 
-    iColStart=oWorld->oLevelLayer->fWidthToCol(oGFXLayer->x);
-    iColEnd=oWorld->oLevelLayer->fWidthToCol((oGFXLayer->x + oGFXLayer->fGetSpriteWidth()));
-    iRowStart=oWorld->oLevelLayer->fHeightToRow(oGFXLayer->y);
-    iRowEnd=oWorld->oLevelLayer->fHeightToRow((oGFXLayer->y + oGFXLayer->fGetSpriteHeight()));
+    iColStart=oWorld->oLevelLayer->fXToCol(oGFXLayer->x);
+    iColEnd=oWorld->oLevelLayer->fXToCol(oGFXLayer->x + (oGFXLayer->fGetSpriteWidth()-1));
+    iRowStart=oWorld->oLevelLayer->fYToRow(oGFXLayer->y);
+    iRowEnd=oWorld->oLevelLayer->fYToRow(oGFXLayer->y + (oGFXLayer->fGetSpriteHeight()-1));
 
     bool blCollide = false;
 
@@ -74,49 +74,133 @@ bool cLevelObject::fCheckDirectionCollision(cSpriteLayer* oObject, int iDirectio
     return fCheckDirectionCollision(oObject,iDirection,1);
 }
 
+void cLevelObject::getHorScanPos(cSpriteLayer* p_object, int column, int &begin, int &end)
+{
+                // This function calculates where the object is in the current column, and then
+                // return the begin and end pixel in this tile, to rasterscan.
+                int objectStartInCol = (p_object->x / oWorld->oLevelLayer->p_Source->iSpriteWidth);
+                int objectEndInCol = ((p_object->x + p_object->fGetWidth()) / oWorld->oLevelLayer->p_Source->iSpriteWidth);
+                // There are 3 situations that can occure..
+                if ((objectStartInCol == column)&&(objectEndInCol != column)){
+                               // The begin index of the object IS in this column.
+                               // The   end index of the object IS NOT in this column.
+                               TRACE("getHorScanPos","Algorithm 1");
+                               begin = (p_object->x % (oWorld->oLevelLayer->p_Source->iSpriteWidth));
+                               end = oWorld->oLevelLayer->p_Source->iSpriteWidth-1; // -1 because the index is zero based
+                }else if((objectStartInCol != column)&&(objectEndInCol == column)){
+                               // The begin index of the object IS NOT in this column.
+                               // The   end index of the object IS in this column.
+                               TRACE("getHorScanPos","Algorithm 2");
+                               begin = 0;
+                               end =  ((p_object->x + p_object->fGetWidth()) % ((oWorld->oLevelLayer->p_Source->iSpriteWidth-1) + oWorld->oLevelLayer->p_Source->iSpriteSpacer))-1;
+                }else if((objectStartInCol != column)&&(objectEndInCol != column)){
+                               // The begin index of the object IS NOT in this column.
+                               // The   end index of the object IS NOT in this column.
+                               TRACE("getHorScanPos","Algorithm 3");
+                               begin = 0;
+                               end = oWorld->oLevelLayer->p_Source->iSpriteWidth-1;
+                }else{
+                                TRACE("getHorScanPos","Algorithm UNKNOWN - Should not be here!!");
+                                begin = 0;
+                                end = 0;
+
+                }
+}
+
+
 bool cLevelObject::fCheckDirectionCollision(cSpriteLayer* oObject, int iDirection, int iAmountOfPixels) {
     bool blCollide = false;
     int iNextCol,iNextRow;
     int iColStart, iColEnd, iRowStart, iRowEnd;
-    iColStart=oWorld->oLevelLayer->fWidthToCol(oObject->x+1);
-    iColEnd=oWorld->oLevelLayer->fWidthToCol((oObject->x + oObject->fGetSpriteWidth()-1));
-    iRowStart=oWorld->oLevelLayer->fHeightToRow(oObject->y+1);
-    iRowEnd=oWorld->oLevelLayer->fHeightToRow((oObject->y + oObject->fGetSpriteHeight()-1));
+
+    //new virtual object pos
+    objPos newPos;
+    newPos.x = oObject->x;
+    newPos.y = oObject->y;
+
+    switch(iDirection){
+    case UP:
+        newPos.y -= iAmountOfPixels;
+        break;
+    case RIGHT:
+        newPos.x += iAmountOfPixels;
+        break;
+    case DOWN:
+        newPos.y += iAmountOfPixels;
+        break;
+    case LEFT:
+        newPos.x -= iAmountOfPixels;
+        break;
+
+    }
+
+    iColStart=oWorld->oLevelLayer->fXToCol(newPos.x);
+    iColEnd=oWorld->oLevelLayer->fXToCol((newPos.x + (oObject->fGetSpriteWidth()-1)));
+    iRowStart=oWorld->oLevelLayer->fYToRow(newPos.y);
+    iRowEnd=oWorld->oLevelLayer->fYToRow((newPos.y + (oObject->fGetSpriteHeight()-1))) ;
+
+    TRACE("fCheckDirectionCollision","ObjX: %d  ObjY: %d  newX: %d  newY: %d  height: %d  width: %d  ColS: %d  ColE: %d  RowS: %d  RowE: %d",oObject->x, oObject->y, newPos.x, newPos.y, oObject->p_Source->iSpriteHeight,oObject->p_Source->iSpriteWidth,iColStart, iColEnd, iRowStart, iRowEnd);
 
     switch(iDirection) {
     case UP:
-        iNextRow=oWorld->oLevelLayer->fHeightToRow(oObject->y - (iAmountOfPixels-1));
         for (int iCol = iColStart ; iCol <= iColEnd ; iCol++ ) {
-            if(oWorld->oLevelLayer->p_LevelData[iNextRow][iCol].iType == SPRITE) {
+            if(oWorld->oLevelLayer->p_LevelData[iRowStart][iCol].iType == SPRITE) {
                 blCollide = true;
             }
         }
         break;
     case RIGHT:
-        iNextCol=oWorld->oLevelLayer->fWidthToCol((oObject->x + oObject->fGetSpriteWidth() + (iAmountOfPixels-1)));
         for (int iRow = iRowStart ; iRow <= iRowEnd ; iRow++ ) {
-            if(oWorld->oLevelLayer->p_LevelData[iRow][iNextCol].iType == SPRITE) {
+            if(oWorld->oLevelLayer->p_LevelData[iRow][iColEnd].iType == SPRITE) {
                 blCollide = true;
             }
         }
         break;
     case DOWN:
-        iNextRow=oWorld->oLevelLayer->fHeightToRow((oObject->y + oObject->fGetSpriteHeight() + (iAmountOfPixels-1)));
+        int iColCounter;
         for (int iCol = iColStart ; iCol <= iColEnd ; iCol++ ) {
-            if(oWorld->oLevelLayer->p_LevelData[iNextRow][iCol].iType == SPRITE) {
-                blCollide = true;
+            // Voor iedere colom op deze rij
+
+            if(oWorld->oLevelLayer->p_LevelData[iRowEnd][iCol].iType == SPRITE){
+                // Als het een sprite is, anders doen we sowieso niets
+
+                    // Vind het pixel bereik dat we moeten scannen op transparantie.
+                    int iStartPixel=0, iEndPixel=0;
+                    getHorScanPos(oObject,iCol,iStartPixel,iEndPixel);
+                    //TRACE("fCheckDirectionCollision","Col: %d  Startpixel: %d  Endpixel:  %d",iCol, iStartPixel,iEndPixel);
+                    if(true) //use sloped based detection
+                    {
+                        for(int iPixelInSprite=iStartPixel;iPixelInSprite<iEndPixel;iPixelInSprite++){
+                            if(oWorld->oLevelLayer->fPixelIsTransparant(iRowEnd,iCol,iPixelInSprite,((newPos.y + oObject->p_Source->iSpriteHeight) % oWorld->oLevelLayer->p_Source->iSpriteHeight) + (iAmountOfPixels-1),iColCounter))
+                            {
+                                 blCollide = true;
+                                TRACE("fCheckDirectionCollision","Depth: %d", ((newPos.y + oObject->p_Source->iSpriteHeight) % oWorld->oLevelLayer->p_Source->iSpriteHeight));
+                                TRACE("fCheckDirectionCollision","ARGGH");
+                                //break; // we don't have to scan furhter once we collide, TURNED OFF FOR DEBUGGING, SHOULD BE ON FOR PERFORMANCE
+                            }
+
+                        }
+                    }else{
+                        blCollide = true;
+                    }
+
+                    //if(blCollide) // we don't have to scan furhter once we collide, TURNED OFF FOR DEBUGGING, SHOULD BE ON FOR PERFORMANCE
             }
+            iColCounter++;
         }
         break;
     case LEFT:
-        iNextCol=oWorld->oLevelLayer->fWidthToCol(oObject->x-iAmountOfPixels);
         for (int iRow = iRowStart ; iRow <= iRowEnd ; iRow++ ) {
-            if(oWorld->oLevelLayer->p_LevelData[iRow][iNextCol].iType == SPRITE) {
+            if(oWorld->oLevelLayer->p_LevelData[iRow][iColStart].iType == SPRITE) {
                 blCollide = true;
             }
         }
         break;
     }
+
+
+    if(blCollide)
+            TRACE("fCheckDirectionCollision","COLLIDE! Direction: %d", iDirection);
 
     return blCollide;
 
