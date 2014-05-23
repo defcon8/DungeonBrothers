@@ -54,8 +54,10 @@ void cPlayer::fSetSprite() {
 
 void cPlayer::fJump() {
     if(!blIsJumping) {
-        iVelocityY=iJumpFactor;
+        //iVelocityY=iJumpFactor;
         blIsJumping=true;
+    }else{
+        blIsJumping=false;
     }
 }
 

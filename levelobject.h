@@ -35,8 +35,8 @@ private:
     };
     bool fCheckLevelCollision();
     void getHorScanPos(cSpriteLayer* p_object, int column, int &begin, int &end);
-    void getPositionInLevel(cSpriteLayer& oObject, objPos& newPos, int& iColStart, int& iColEnd, int& iRowStart, int& iRowEnd);
-
+    void getPositionInLevel(cSpriteLayer* sourceobject, objPos* position, int& iColStart, int& iColEnd, int& iRowStart, int& iRowEnd);
+    bool collideDown(cSpriteLayer* sourceobject, objPos* position, int colstart, int colend, int rowstart, int rowend, int amountofpixels);
 
 public:
     //Object Pointers
@@ -53,6 +53,7 @@ public:
     bool fCheckDirectionCollision(cSpriteLayer* oObject, int iDirection, int iAmountOfPixels);
     int iMoveSpeed;
     bool blIsAlive;
+
 };
 
 #endif /* LEVELOBJECT_H_ */

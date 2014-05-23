@@ -293,7 +293,7 @@ void cGame::fLoadObjects() {
     oWorld->oPlayerObject = new cPlayer(oWorld, chPlayerBitmap,40,32);
     oWorld->lLevelObjects.push_back(oWorld->oPlayerObject);    //Add to level object list
 
-    //Close File
+    // Close File
     oLoad.close();
 
     // ------------ [ start setup spritepicker ] --------------------
