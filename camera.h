@@ -14,24 +14,21 @@
 #ifndef CAMERA_H_
 #define CAMERA_H_
 
+class cWorld;
+
 class cCamera {
 
 private:
 
 public:
 
-    int up;
-    int right;
-    int down;
-    int left;
-    int none;
+    cWorld* oWorld;
+    int up, right, down, left, none, direction, velocity, X, Y;
 
-    int iVelocityCam;
-
-    cCamera();
+    cCamera(cWorld* oWorldRef);
     ~cCamera();
-    int X,Y;
-    int Direction;
+
+    void cameraMovement(bool editMode);
 };
 
 #endif /* CAMERA_H_ */

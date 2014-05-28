@@ -27,6 +27,7 @@ private:
     bool blRenderLevel;
     bool blSpritePalet;
     signed int CamX, CamY;
+    int scrollOffSet;
     int MouseX, MouseY;
     double dbMouseCornerWidthPerc;
     int iMouseScrollSpeed;
@@ -60,7 +61,6 @@ private:
     void fRenderUI();
     void fDrawRectangle(int x, int y, int w, int h, Uint32 color);
     void fObjectMovement();
-    void fCameraMovement();
     void fUpdateLevelObject(iLevelObject* pLevelObject);
     void fFPS();
     int fGetTileCol(int iX, int iTileWidth);

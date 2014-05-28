@@ -8,7 +8,7 @@ cConfig::cConfig() {
     m_iScreenBits=16;
 
     //Do not tune this
-    iSDLFlags = SDL_HWSURFACE | SDL_DOUBLEBUF | SDL_FULLSCREEN;
+    iSDLFlags = SDL_HWSURFACE | SDL_DOUBLEBUF;
 }
 
 cConfig::~cConfig() {

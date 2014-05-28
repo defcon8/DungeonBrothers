@@ -124,39 +124,6 @@ void cGame::fSaveDemo() {
     oSave.close();
 }
 
-void cGame::fCameraMovement() {
-    if(!blEditMode) { // Dont move camera automaticly when in edit mode because we want to move by mouse
-        int iPos;
-        //Let the camera follow the players position. If the camera position is not optimal then increase or decrease the camera position by 1 to have a smooth scrolling effect. Do not follow
-        //when the user is jumping..this is kind a hectic.
-
-        //Left/Right
-        iPos = -(oWorld->oPlayerObject->X - (oWorld->oConfig->m_iScreenWidth/2) - oWorld->oPlayerObject->oGFXLayer->fGetWidth());
-
-        if(iPos < oWorld->oCam->X) {
-            // Let the Camera go left
-            oWorld->oCam->X-=oWorld->oCam->iVelocityCam;
-        } else if(iPos > oWorld->oCam->X) {
-            // Let the Camera go left
-            oWorld->oCam->X+=oWorld->oCam->iVelocityCam;
-        }
-
-        //Up/Down
-        if(!oWorld->oPlayerObject->blIsJumping) { //Do not update camera on player jump
-            iPos = -(oWorld->oPlayerObject->Y - (oWorld->oConfig->m_iScreenHeight/2) - oWorld->oPlayerObject->oGFXLayer->fGetHeight());
-            if(iPos < oWorld->oCam->Y) {
-                // Let the Camera go up
-                oWorld->oCam->Y--;
-            } else if(iPos > oWorld->oCam->Y) {
-                // Let the Camera go down
-                oWorld->oCam->Y++;
-            } else {
-                // The camera is in optimal position
-            }
-        }
-    }
-}
-
 void cGame::functionTests(){
     cSpriteLayer* oTemp = new cSpriteLayer(oWorld,10,10,32,32,true,true,false,0,0,0);
 
@@ -192,7 +159,6 @@ void cGame::Start() {
         long tMeasure1 = time(NULL);
         fEvents();
         fObjectMovement();
-        fCameraMovement();
         fGameLoop();
         fRender();
         iRenderedFrames++;
@@ -316,6 +282,7 @@ void cGame::fLoadObjects() {
 
 void cGame::fGameLoop() {
     // Game Logic
+
 }
 
 void cGame::fInitialize() {
@@ -480,19 +447,19 @@ void cGame::fEditModeEvents() {
                 break;
 
             case SDLK_LEFT:
-                oWorld->oCam->Direction=oWorld->oCam->left;
+                oWorld->oCam->direction=oWorld->oCam->left;
                 break;
 
             case SDLK_RIGHT:
-                oWorld->oCam->Direction=oWorld->oCam->right;
+                oWorld->oCam->direction=oWorld->oCam->right;
                 break;
 
             case SDLK_UP:
-                oWorld->oCam->Direction=oWorld->oCam->up;
+                oWorld->oCam->direction=oWorld->oCam->up;
                 break;
 
             case SDLK_DOWN:
-                oWorld->oCam->Direction=oWorld->oCam->down;
+                oWorld->oCam->direction=oWorld->oCam->down;
                 break;
             }
             break;
@@ -503,7 +470,7 @@ void cGame::fEditModeEvents() {
             case SDLK_LEFT:
             case SDLK_UP:
             case SDLK_DOWN:
-                oWorld->oCam->Direction=oWorld->oCam->none;
+                oWorld->oCam->direction=oWorld->oCam->none;
                 break;
             }
             break;
@@ -530,21 +497,7 @@ void cGame::fEditModeEvents() {
 }
 
 void cGame::fObjectMovement() {
-    //Do Camera movement
-    switch(oWorld->oCam->Direction) {
-    case 1:
-        oWorld->oCam->Y += 1;
-        break;
-    case 2:
-        oWorld->oCam->X -= 1;
-        break;
-    case 3:
-        oWorld->oCam->Y -= 1;
-        break;
-    case 4:
-        oWorld->oCam->X += 1;
-        break;
-    }
+    oWorld->oCam->cameraMovement(blEditMode);
 }
 
 cGame::cGame() {
@@ -596,6 +549,7 @@ void cGame::fInitVariables() {
     iStartTime=time(NULL);
     iRenderedFrames=0;
     iFPS=0;
+    scrollOffSet=0;
 
     //GUI Related
     cBlack.r=0;
@@ -701,7 +655,7 @@ void cGame::fRender() {
     SDL_FillRect (oWorld->sScreenSurface, NULL, color);
 
     // Render the background layer
-    oWorld->oBackgroundLayer->fRender(0,0,oWorld->oCam->X,oWorld->oCam->Y);
+    oWorld->oBackgroundLayer->fRender(0,0,oWorld->oCam->X+scrollOffSet,oWorld->oCam->Y);
 
     //Render the level layer
     if(blRenderLevel) {

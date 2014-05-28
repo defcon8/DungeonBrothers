@@ -13,7 +13,8 @@ cPlayer::cPlayer(cWorld* oWorld, char* chTileSource, int iSpriteHeight, int iSpr
     iVelocityY=0;
     iVelocityX=0;
     iVelocityFall=0;
-    iJumpFactor=14;
+    jumpRange=12;
+    jumpStep=0;
     blIsJumping=false;
     X=40; //Initial player deployment
     Y=40;
@@ -55,9 +56,8 @@ void cPlayer::fSetSprite() {
 void cPlayer::fJump() {
     if(!blIsJumping) {
         //iVelocityY=iJumpFactor;
+        jumpStep=jumpRange;
         blIsJumping=true;
-    }else{
-        blIsJumping=false;
     }
 }
 
@@ -88,7 +88,7 @@ void cPlayer::fAI() {
 
 void cPlayer::fGravityPhysics() {
     // Down wards gravity, dont do this while jumping because jumping has it own gravity physics
-    if(!blIsJumping) {
+    if(jumpStep == 0) {
         TRACE("Gravity","Speed: %d", iMoveSpeed+iVelocityFall);
         if(!fCheckDirectionCollision(oGFXLayer,DOWN,iMoveSpeed+iVelocityFall)) {
             Y+=iMoveSpeed+iVelocityFall;
@@ -96,53 +96,46 @@ void cPlayer::fGravityPhysics() {
         } else {
             //User has hit something below him
             iVelocityFall=0;
-            blIsJumping=false;
+            blIsJumping = false;
         }
     }
 }
 
 void cPlayer::fMoveByUserInput() {
-
     //normal Walk / move operations
-    if(blMoveRight)
+    if(blMoveRight) {
         if(!fCheckDirectionCollision(oGFXLayer,RIGHT,iMoveSpeed+iVelocityX)) {
             X+= iMoveSpeed+iVelocityX;
-            //if(iVelocityX < 2) iVelocityX++;
+            if(iVelocityX < 2) iVelocityX++;
             iLastDirection=RIGHT;
             iFaceDirection=RIGHT;
         } else {
             iVelocityX=0;
         }
+    }
 
-    if(blMoveLeft)
+    if(blMoveLeft) {
         if(!fCheckDirectionCollision(oGFXLayer,LEFT,iMoveSpeed+iVelocityX)) {
             X-= iMoveSpeed+iVelocityX;
-            //if(iVelocityX < 2) iVelocityX++;
+            if(iVelocityX < 2) iVelocityX++;
             iLastDirection=LEFT;
             iFaceDirection=LEFT;
-
         } else {
             iVelocityX=0;
         }
-
-    if(blMoveDown)
-        if(!fCheckDirectionCollision(oGFXLayer,DOWN,1)) {
-            Y+=1;
-            //if(iVelocityX < 2) iVelocityX++;
-            iLastDirection=DOWN;
-        }
-
-    if(blMoveUp)
-        if(!fCheckDirectionCollision(oGFXLayer,UP,1)) {
-            Y-=1;
-            //if(iVelocityX < 2) iVelocityX++;
-            iLastDirection=UP;
-        }
-
+    }
 
 }
 
 void cPlayer::fJumpPhysics() {
+    if(blIsJumping) {
+        if(jumpStep>0) {
+            jumpStep--;
+            if(!fCheckDirectionCollision(oGFXLayer,UP,jumpStep)) {
+                Y-=jumpStep;
+            }
+        }
+    }
 }
 
 void cPlayer::fMoveDirection(int iDirection, bool blEnabled) {

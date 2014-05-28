@@ -6,6 +6,7 @@
 #include <cmath>
 
 cBullit::cBullit(cWorld* oWorld, const char* chTileSource, int iSpriteHeight, int iSpriteWidth, int iAngleRef, int iSpeedRef) : cLevelObject(oWorld, chTileSource, iSpriteHeight, iSpriteWidth) {
+
     iAngle = iAngleRef;
     iSpeed = iSpeedRef;
 
@@ -40,8 +41,9 @@ void cBullit::fAI() {
 
     X+= iVelocityX;
     Y+= iVelocityY;
-
-    if(X < 20)
-        blIsAlive=false;
+    TRACE("Bullit","Object destroyed CamX: %d",oWorld->oConfig->m_iScreenWidth-oWorld->oCam->X);
+    if((X < 0) || (X > (oWorld->oConfig->m_iScreenWidth-oWorld->oCam->X))){
+            blIsAlive=false;
+       }
 
 }
