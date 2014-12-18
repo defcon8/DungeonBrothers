@@ -30,12 +30,11 @@ Partial Class frmMain
         Me.NotifyIcon1 = New System.Windows.Forms.NotifyIcon(Me.components)
         Me.MenuStrip1 = New System.Windows.Forms.MenuStrip()
         Me.FileToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ExitToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ToolStrip1 = New System.Windows.Forms.ToolStrip()
-        Me.btnTraceItems = New System.Windows.Forms.ToolStripButton()
         Me.ClearToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ExitToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.SettingsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.TraceitemsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStrip1.SuspendLayout()
-        Me.ToolStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
         'Timer1
@@ -44,7 +43,10 @@ Partial Class frmMain
         '
         'lvTraces
         '
+        Me.lvTraces.BackColor = System.Drawing.Color.Black
         Me.lvTraces.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.lvTraces.Font = New System.Drawing.Font("Consolas", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lvTraces.ForeColor = System.Drawing.Color.Lime
         Me.lvTraces.Location = New System.Drawing.Point(0, 24)
         Me.lvTraces.Name = "lvTraces"
         Me.lvTraces.Size = New System.Drawing.Size(928, 551)
@@ -59,7 +61,7 @@ Partial Class frmMain
         '
         'MenuStrip1
         '
-        Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FileToolStripMenuItem})
+        Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FileToolStripMenuItem, Me.SettingsToolStripMenuItem})
         Me.MenuStrip1.Location = New System.Drawing.Point(0, 0)
         Me.MenuStrip1.Name = "MenuStrip1"
         Me.MenuStrip1.Size = New System.Drawing.Size(928, 24)
@@ -70,45 +72,39 @@ Partial Class frmMain
         '
         Me.FileToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ClearToolStripMenuItem, Me.ExitToolStripMenuItem})
         Me.FileToolStripMenuItem.Name = "FileToolStripMenuItem"
-        Me.FileToolStripMenuItem.Size = New System.Drawing.Size(37, 20)
+        Me.FileToolStripMenuItem.Size = New System.Drawing.Size(35, 20)
         Me.FileToolStripMenuItem.Text = "&File"
-        '
-        'ExitToolStripMenuItem
-        '
-        Me.ExitToolStripMenuItem.Name = "ExitToolStripMenuItem"
-        Me.ExitToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
-        Me.ExitToolStripMenuItem.Text = "E&xit"
-        '
-        'ToolStrip1
-        '
-        Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.btnTraceItems})
-        Me.ToolStrip1.Location = New System.Drawing.Point(0, 24)
-        Me.ToolStrip1.Name = "ToolStrip1"
-        Me.ToolStrip1.Size = New System.Drawing.Size(928, 25)
-        Me.ToolStrip1.TabIndex = 2
-        Me.ToolStrip1.Text = "ToolStrip1"
-        '
-        'btnTraceItems
-        '
-        Me.btnTraceItems.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.btnTraceItems.Image = CType(resources.GetObject("btnTraceItems.Image"), System.Drawing.Image)
-        Me.btnTraceItems.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.btnTraceItems.Name = "btnTraceItems"
-        Me.btnTraceItems.Size = New System.Drawing.Size(23, 22)
-        Me.btnTraceItems.Text = "TraceItems"
         '
         'ClearToolStripMenuItem
         '
         Me.ClearToolStripMenuItem.Name = "ClearToolStripMenuItem"
-        Me.ClearToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.ClearToolStripMenuItem.Size = New System.Drawing.Size(99, 22)
         Me.ClearToolStripMenuItem.Text = "Clear"
+        '
+        'ExitToolStripMenuItem
+        '
+        Me.ExitToolStripMenuItem.Name = "ExitToolStripMenuItem"
+        Me.ExitToolStripMenuItem.Size = New System.Drawing.Size(99, 22)
+        Me.ExitToolStripMenuItem.Text = "E&xit"
+        '
+        'SettingsToolStripMenuItem
+        '
+        Me.SettingsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.TraceitemsToolStripMenuItem})
+        Me.SettingsToolStripMenuItem.Name = "SettingsToolStripMenuItem"
+        Me.SettingsToolStripMenuItem.Size = New System.Drawing.Size(58, 20)
+        Me.SettingsToolStripMenuItem.Text = "Settings"
+        '
+        'TraceitemsToolStripMenuItem
+        '
+        Me.TraceitemsToolStripMenuItem.Name = "TraceitemsToolStripMenuItem"
+        Me.TraceitemsToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.TraceitemsToolStripMenuItem.Text = "Traceitems"
         '
         'frmMain
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(928, 575)
-        Me.Controls.Add(Me.ToolStrip1)
         Me.Controls.Add(Me.lvTraces)
         Me.Controls.Add(Me.MenuStrip1)
         Me.MainMenuStrip = Me.MenuStrip1
@@ -117,8 +113,6 @@ Partial Class frmMain
         Me.Text = "TraceProgram"
         Me.MenuStrip1.ResumeLayout(False)
         Me.MenuStrip1.PerformLayout()
-        Me.ToolStrip1.ResumeLayout(False)
-        Me.ToolStrip1.PerformLayout()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -130,8 +124,8 @@ Partial Class frmMain
     Friend WithEvents MenuStrip1 As System.Windows.Forms.MenuStrip
     Friend WithEvents FileToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ExitToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents ToolStrip1 As System.Windows.Forms.ToolStrip
-    Friend WithEvents btnTraceItems As System.Windows.Forms.ToolStripButton
     Friend WithEvents ClearToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents SettingsToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents TraceitemsToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 
 End Class

@@ -154,7 +154,7 @@ Public Class frmMain
         Application.Exit()
     End Sub
 
-    Private Sub btnTraceItems_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnTraceItems.Click
+    Private Sub btnTraceItems_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
         frmTraceItems.Show()
     End Sub
 
@@ -178,5 +178,13 @@ Public Class frmMain
 
     Private Sub ClearToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ClearToolStripMenuItem.Click
         lvTraces.Clear()
+    End Sub
+
+    Private Sub lvTraces_SelectedIndexChanged(sender As Object, e As EventArgs) Handles lvTraces.SelectedIndexChanged
+
+    End Sub
+
+    Private Sub TraceitemsToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles TraceitemsToolStripMenuItem.Click
+        frmTraceItems.Show()
     End Sub
 End Class

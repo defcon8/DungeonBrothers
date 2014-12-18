@@ -1,7 +1,6 @@
 #include "config.h"
 
 cConfig::cConfig() {
-    //ctor
     //Todo: get these from a config file.
     m_iScreenWidth=640;
     m_iScreenHeight=480;
@@ -11,6 +10,4 @@ cConfig::cConfig() {
     iSDLFlags = SDL_HWSURFACE | SDL_DOUBLEBUF;
 }
 
-cConfig::~cConfig() {
-    //dtor
-}
+cConfig::~cConfig() {}
