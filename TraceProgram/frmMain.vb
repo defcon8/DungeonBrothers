@@ -125,13 +125,14 @@ Public Class frmMain
     End Sub
 
     Private Delegate Sub ListViewAddItem_delegate(ByVal Trace As String, ByVal Details As String)
+
     Private Sub ListViewAddItem(ByVal Trace As String, ByVal Details As String)
         If Me.lvTraces.InvokeRequired Then
             Dim d As New ListViewAddItem_delegate(AddressOf ListViewAddItem)
             Me.lvTraces.BeginInvoke(d, {Trace, Details})
         Else
             lvTraces.SuspendLayout()
-            Dim lvi As New ListViewItem(Now.ToString)
+            Dim lvi As New ListViewItem(Now.ToString())
             lvi.SubItems.Add(Trace)
             lvi.SubItems.Add(Details)
             lvTraces.Items.Insert(0, lvi)

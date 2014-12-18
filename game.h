@@ -19,11 +19,11 @@
 
 using namespace std;
 
-class cGame {
+class cGame
+{
 
 private:
     bool blDone;
-    bool blEditMode;
     bool blRenderLevel;
     bool blSpritePalet;
     signed int CamX, CamY;
@@ -48,8 +48,9 @@ private:
     void fInitVariables();
     void fLoadObjects();
     void fEvents();
-    void fNormalModeEvents();
-    void fEditModeEvents();
+    void gameModeEvents(SDL_Event *event);
+    void editModeEvents(SDL_Event *event);
+    void menuModeEvents(SDL_Event *event);
     void fGameLoop();
     void fRender();
     void fCleanUp();
@@ -58,6 +59,7 @@ private:
     void fSaveDemo();
     void fDrawPixel(SDL_Surface *screen, int x, int y, Uint8 R, Uint8 G, Uint8 B);
     void fRenderEditMode();
+    void renderMenuMode();
     void fRenderUI();
     void fDrawRectangle(int x, int y, int w, int h, Uint32 color);
     void fObjectMovement();

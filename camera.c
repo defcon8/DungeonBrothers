@@ -29,7 +29,7 @@ cCamera::cCamera(cWorld* oWorldRef) {
 cCamera::~cCamera() {
 }
 
-void cCamera::cameraMovement(bool editMode) {
+void cCamera::cameraMovement() {
 
     //Do Camera movement
     switch(direction) {
@@ -47,7 +47,7 @@ void cCamera::cameraMovement(bool editMode) {
         break;
     }
 
-    if(!editMode) { // Dont move camera automaticly when in edit mode because we want to move by mouse
+    if(oWorld->gamemode == MODE_GAME) { // Dont move camera automaticly when in edit mode because we want to move by mouse
 
         //Let the camera follow the players position. If the camera position is not optimal then increase or decrease the camera position by 1 to have a smooth scrolling effect. Do not follow
         //when the user is jumping..this is kind a hectic.

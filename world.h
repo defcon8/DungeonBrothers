@@ -12,10 +12,18 @@
 #include "ilevelobject.h"
 #include "levelobject.h"
 
+#define MODE_GAME 0
+#define MODE_MENU 1
+#define MODE_EDIT 2
+
 using namespace std;
 
 class cWorld {
+
 public:
+
+    int gamemode;
+
     cConfig* oConfig;
     cPencil* oPencil;
     cSpriteLayer* oLevelLayer;
@@ -32,6 +40,10 @@ public:
 
     cWorld();
     ~cWorld();
+
+
+
+
 protected:
 private:
 };

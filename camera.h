@@ -13,7 +13,6 @@
 
 #ifndef CAMERA_H_
 #define CAMERA_H_
-
 class cWorld;
 
 class cCamera {
@@ -28,7 +27,7 @@ public:
     cCamera(cWorld* oWorldRef);
     ~cCamera();
 
-    void cameraMovement(bool editMode);
+    void cameraMovement();
 };
 
 #endif /* CAMERA_H_ */

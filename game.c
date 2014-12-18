@@ -347,54 +347,100 @@ void cGame::fInitialize()
 
 void cGame::fEvents()
 {
-    if(blEditMode)
-    {
-        fEditModeEvents();
-    }
-    else
-    {
-        fNormalModeEvents();
+    SDL_Event event;
+
+    //Todo:
+    //Shared mode key events?
+
+    switch(oWorld->gamemode){
+        case MODE_MENU:
+            menuModeEvents(&event);
+        break;
+        case MODE_GAME:
+            gameModeEvents(&event);
+        break;
+        case MODE_EDIT:
+            editModeEvents(&event);
+        break;
     }
 }
 
-void cGame::fNormalModeEvents()
-{
-    SDL_Event event;
+void cGame::menuModeEvents(SDL_Event *event){
+
     /* Check for events */
-    while (SDL_PollEvent (&event))
+    while (SDL_PollEvent (event))
     {
-        switch (event.type)
+        switch (event->type)
         {
         case SDL_KEYDOWN:
-            switch(event.key.keysym.sym)
+            switch(event->key.keysym.sym)
+            {
+
+                case SDLK_ESCAPE:
+                    TRACE("Events","Keydown ESCAPE | Enter game mode");
+                    //Show menu
+                    oWorld->gamemode = MODE_GAME;
+                    blRenderLevel = true;
+                    //blDone=true;
+                    //blEditMode = true;
+                    break;
+
+                case SDLK_x:
+                    blDone = true;
+                    break;
+
+            }
+            break;
+
+        case SDL_QUIT:
+            TRACE("Events","Received SDL_WINDOWEVENT_CLOSED");
+            blDone = true;
+            break;
+        default:
+            break;
+        }
+    }
+}
+
+void cGame::gameModeEvents(SDL_Event *event)
+{
+
+    /* Check for events */
+    while (SDL_PollEvent (event))
+    {
+        switch (event->type)
+        {
+        case SDL_KEYDOWN:
+            switch(event->key.keysym.sym)
             {
             case SDLK_UP:
-                oWorld->oPlayerObject->fMoveDirection(1,true);
                 TRACE("Events","Keydown UP");
+                oWorld->oPlayerObject->fMoveDirection(1,true);
                 break;
             case SDLK_RIGHT:
-                oWorld->oPlayerObject->fMoveDirection(2,true);
                 TRACE("Events","Keydown RIGHT");
+                oWorld->oPlayerObject->fMoveDirection(2,true);
                 break;
             case SDLK_DOWN :
-                oWorld->oPlayerObject->fMoveDirection(3,true);
                 TRACE("Events","Keydown DOWN");
+                oWorld->oPlayerObject->fMoveDirection(3,true);
                 break;
             case SDLK_LEFT:
-                oWorld->oPlayerObject->fMoveDirection(4,true);
                 TRACE("Events","Keydown LEFT");
+                oWorld->oPlayerObject->fMoveDirection(4,true);
                 break;
             case SDLK_ESCAPE:
-                blDone=true;
-                blEditMode = true;
-                TRACE("Events","Keydown ESCAPE");
+                TRACE("Events","Keydown ESCAPE | Enter menu mode");
+                //Show menu
+                oWorld->gamemode = MODE_MENU;
+                blRenderLevel = false;
+                //blDone=true;
+                //blEditMode = true;
                 break;
             case SDLK_F1:
-                //Toggle Edit Mode
-                blEditMode = !blEditMode;
-                SDL_WM_SetCaption ("Edit mode", NULL);
+                TRACE("Events","Keydown F1 | Enter edit mode");
                 TRACE("Mode","Edit mode");
-                TRACE("Events","Keydown F1");
+                oWorld->gamemode = MODE_EDIT;
                 break;
             case SDLK_SPACE:
                 if(!oWorld->oPlayerObject->blIsJumping)
@@ -405,10 +451,13 @@ void cGame::fNormalModeEvents()
                 oWorld->oPlayerObject->fFire();
                 TRACE("Events","Keydown R-ALT");
                 break;
+             case SDLK_x:
+                    blDone = true;
+                    break;
             }
             break;
         case SDL_KEYUP:
-            switch(event.key.keysym.sym)
+            switch(event->key.keysym.sym)
             {
             case SDLK_UP:
             {
@@ -447,30 +496,33 @@ void cGame::fNormalModeEvents()
     }
 }
 
-void cGame::fEditModeEvents()
+void cGame::editModeEvents(SDL_Event *event)
 {
-    SDL_Event event;
     /* Check for events */
-    while (SDL_PollEvent (&event))
+    while (SDL_PollEvent (event))
     {
-        switch (event.type)
+        switch (event->type)
         {
         case SDL_KEYDOWN:
-            switch(event.key.keysym.sym)
+            switch(event->key.keysym.sym)
             {
 
             case SDLK_ESCAPE:
-                // Exit program
+                TRACE("Events","Keydown ESCAPE | Enter game mode");
+                TRACE("Mode","Game mode");
+                //Show Menu
+                oWorld->gamemode = MODE_GAME;
+                break;
+            case SDLK_x:
                 blDone = true;
                 break;
-
             case SDLK_F1:
                 //Toggle Edit mode
-                blEditMode = !blEditMode; // Exit edit mode
+                TRACE("Events","Keydown F1 | Enter game mode");
+                TRACE("Mode","Game mode");
+                oWorld->gamemode = MODE_GAME;
                 blSpritePalet = false;    // Hide SpritePicker
                 blRenderLevel = true;     // Show Level
-                SDL_WM_SetCaption ("Normal mode", NULL);
-                TRACE("Mode","Normal mode");
                 break;
 
             case SDLK_F2:
@@ -520,7 +572,7 @@ void cGame::fEditModeEvents()
             break;
 
         case SDL_KEYUP:
-            switch(event.key.keysym.sym)
+            switch(event->key.keysym.sym)
             {
             case SDLK_RIGHT:
             case SDLK_LEFT:
@@ -554,7 +606,7 @@ void cGame::fEditModeEvents()
 
 void cGame::fObjectMovement()
 {
-    oWorld->oCam->cameraMovement(blEditMode);
+    oWorld->oCam->cameraMovement();
 }
 
 cGame::cGame()
@@ -601,8 +653,8 @@ void cGame::fIntro()
 
 void cGame::fInitVariables()
 {
+    oWorld->gamemode = MODE_GAME;
     blDone = false;
-    blEditMode = false;
     blRenderLevel = true;
     blSpritePalet = false;
     MouseX=0;
@@ -707,6 +759,25 @@ void cGame::fRenderEditMode()
     fDrawRectangle(iRectX-iXOffset,iRectY-iYOffset,iTileWidth,iTileHeight,0xFFFFFF);
 }
 
+void cGame::renderMenuMode()
+{
+    for(int index=0;index<5;index++){
+        SDL_Rect itemlocation;
+        itemlocation.w = 200;
+        itemlocation.h = 50;
+        itemlocation.x = 200;
+        itemlocation.y = 200+(index*25);
+
+        char chText[5];
+        itoa(index,chText,10);
+        oWorld->sTextSurface = TTF_RenderText_Shaded(ttfFont, chText, cGreen, cBlack);
+        SDL_SetColorKey(oWorld->sTextSurface, SDL_SRCCOLORKEY, SDL_MapRGB(oWorld->sTextSurface->format,  0,  0,  0));
+        SDL_BlitSurface(oWorld->sTextSurface, NULL, oWorld->sScreenSurface, &itemlocation);
+        SDL_FreeSurface(oWorld->sTextSurface);
+    }
+}
+
+
 int cGame::fGetTileCol(int iX, int iTileWidth)
 {
     return static_cast<int>(floor(iX/iTileWidth));
@@ -732,16 +803,19 @@ void cGame::fRender()
     Uint32 color = SDL_MapRGB (oWorld->sScreenSurface->format, 0, 0, 0);
     SDL_FillRect (oWorld->sScreenSurface, NULL, color);
 
-    // Render the background layer
-    oWorld->oBackgroundLayer->fRender(0,0,oWorld->oCam->X+scrollOffSet,oWorld->oCam->Y);
+
 
     //Render the level layer
     if(blRenderLevel)
     {
+
+        // Render the background layer
+        oWorld->oBackgroundLayer->fRender(0,0,oWorld->oCam->X+scrollOffSet,oWorld->oCam->Y);
+
         if(oWorld->oLevelLayer->fIsBuffered())
         {
             // If we are in Edit mode, then force render of the level layer to buffer surface
-            if(blEditMode)
+            if(oWorld->gamemode == MODE_EDIT)
             {
                 oWorld->oLevelLayer->fClear();
                 oWorld->oLevelLayer->fRender(0,0);
@@ -779,12 +853,17 @@ void cGame::fRender()
     }
 
     //Overlay
-    if(blEditMode)
+    if(oWorld->gamemode == MODE_EDIT)
     {
         fRenderEditMode();
     }
 
-    fRenderUI();
+    if(oWorld->gamemode == MODE_MENU){
+        renderMenuMode();
+    }
+
+    if(oWorld->gamemode == MODE_GAME)
+        fRenderUI();
 
     /* Switch video buffer */
     SDL_Flip (oWorld->sScreenSurface);
