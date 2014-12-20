@@ -5,158 +5,158 @@
 #include "bullit.h"
 #include "world.h"
 
-cPlayer::cPlayer(cWorld* oWorld, char* chTileSource, int iSpriteHeight, int iSpriteWidth) : cLevelObject(oWorld, chTileSource, iSpriteHeight, iSpriteWidth) {
+cPlayer::cPlayer(cWorld* world, char* tilesource, int spriteheight, int spritewidth) : cLevelObject(world, tilesource, spriteheight, spritewidth) {
     // Init Variables
-    fMoveDirection(NONE,false);
-    iFaceDirection=LEFT;
-    iGravity=1;
-    iVelocityY=0;
-    iVelocityX=0;
-    iVelocityFall=0;
-    jumpRange=12;
-    jumpStep=0;
-    blIsJumping=false;
-    X=40; //Initial player deployment
-    Y=40;
+    moveDirection(NONE,false);
+    facedirection=LEFT;
+    gravity=1;
+    velocityy=0;
+    velocityx=0;
+    velocityfall=0;
+    jumprange=12;
+    jumpstep=0;
+    isjumping=false;
+    x=40; //Initial player deployment
+    y=40;
 
     //Setup Layer
-    oGFXLayer = new cSpriteLayer(oWorld,1,1,iSpriteHeight,iSpriteWidth,false,false,true,0,0,0);
+    gfxlayer = new cSpriteLayer(world,1,1,spriteheight,spritewidth,false,false,true,0,0,0);
 
     //Setup Source
-    oGFXLayer->p_Source->iSpriteSpacer = 0;
-    oGFXLayer->p_Source->fSetColorKey(0,0,0);
-    oGFXLayer->p_Source->fLoad(chTileSource);
-    oGFXLayer->p_Source->iSpriteWidthOffset = 0;
-    oGFXLayer->p_Source->iSpriteHeightOffset = 0;
-    oGFXLayer->p_Source->iSpriteHeight = iSpriteHeight;
-    oGFXLayer->p_Source->iSpriteWidth = iSpriteWidth;
+    gfxlayer->source->spritespacer = 0;
+    gfxlayer->source->setColorKey(0,0,0);
+    gfxlayer->source->load(tilesource);
+    gfxlayer->source->spritewidthoffset = 0;
+    gfxlayer->source->spriteheightoffset = 0;
+    gfxlayer->source->spriteheight = spriteheight;
+    gfxlayer->source->spritewidth = spritewidth;
 
     //choose player sprite
-    oGFXLayer->p_LevelData[0][0].iType=SPRITE;
-    oGFXLayer->p_LevelData[0][0].iRow=0;
-    oGFXLayer->p_LevelData[0][0].iIndex=1;
+    gfxlayer->leveldata[0][0].type=SPRITE;
+    gfxlayer->leveldata[0][0].row=0;
+    gfxlayer->leveldata[0][0].index=1;
 
 }
 
 cPlayer::~cPlayer() {
 }
 
-void cPlayer::fSetSprite() {
-    switch(iFaceDirection) {
+void cPlayer::setSprite() {
+    switch(facedirection) {
     case LEFT:
-        oGFXLayer->p_LevelData[0][0].iIndex=0;
+        gfxlayer->leveldata[0][0].index=0;
         break;
 
     case RIGHT:
-        oGFXLayer->p_LevelData[0][0].iIndex=1;
+        gfxlayer->leveldata[0][0].index=1;
         break;
     }
 }
 
-void cPlayer::fJump() {
-    if(!blIsJumping) {
+void cPlayer::jump() {
+    if(!isjumping) {
         //iVelocityY=iJumpFactor;
-        jumpStep=jumpRange;
-        blIsJumping=true;
+        jumpstep=jumprange;
+        isjumping=true;
     }
 }
 
-void cPlayer::fFire() {
-    cBullit* oBullit;
-    int iAngle;
-    switch(iFaceDirection) {
+void cPlayer::fire() {
+    cBullit* bullit;
+    int angle;
+    switch(facedirection) {
     case RIGHT:
-        iAngle=0;
+        angle=0;
         break;
 
     case LEFT:
-        iAngle=180;
+        angle=180;
         break;
     }
-    oBullit= new cBullit(oWorld, "bullit.bmp",10,10,iAngle,10);
+    bullit= new cBullit(world, "bullit.bmp",10,10,angle,10);
 
 
-    oWorld->lLevelObjects.push_back(oBullit);    //Add to level object list
+    world->levelobjects.push_back(bullit);    //Add to level object list
 }
 
-void cPlayer::fAI() {
-    fMoveByUserInput();
-    fSetSprite();
-    fGravityPhysics();
-    fJumpPhysics();
+void cPlayer::aI() {
+    moveByUserInput();
+    setSprite();
+    gravityPhysics();
+    jumpPhysics();
 }
 
-void cPlayer::fGravityPhysics() {
+void cPlayer::gravityPhysics() {
     // Down wards gravity, dont do this while jumping because jumping has it own gravity physics
-    if(jumpStep == 0) {
-        TRACE("Gravity","Speed: %d", iMoveSpeed+iVelocityFall);
-        if(!fCheckDirectionCollision(oGFXLayer,DOWN,iMoveSpeed+iVelocityFall)) {
-            Y+=iMoveSpeed+iVelocityFall;
-            if(iVelocityFall<4) iVelocityFall++;
+    if(jumpstep == 0) {
+        TRACE("Gravity","Speed: %d", movespeed+velocityfall);
+        if(!checkDirectionCollision(gfxlayer,DOWN,movespeed+velocityfall)) {
+            y+=movespeed+velocityfall;
+            if(velocityfall<4) velocityfall++;
         } else {
             //User has hit something below him
-            iVelocityFall=0;
-            blIsJumping = false;
+            velocityfall=0;
+            isjumping = false;
         }
     }
 }
 
-void cPlayer::fMoveByUserInput() {
+void cPlayer::moveByUserInput() {
     //normal Walk / move operations
-    if(blMoveRight) {
-        if(!fCheckDirectionCollision(oGFXLayer,RIGHT,iMoveSpeed+iVelocityX)) {
-            X+= iMoveSpeed+iVelocityX;
-            if(iVelocityX < 2) iVelocityX++;
-            iLastDirection=RIGHT;
-            iFaceDirection=RIGHT;
+    if(moveright) {
+        if(!checkDirectionCollision(gfxlayer, RIGHT, movespeed+velocityx)) {
+            x += movespeed + velocityx;
+            if(velocityx < 2) velocityx++;
+            lastdirection = RIGHT;
+            facedirection = RIGHT;
         } else {
-            iVelocityX=0;
+            velocityx = 0;
         }
     }
 
-    if(blMoveLeft) {
-        if(!fCheckDirectionCollision(oGFXLayer,LEFT,iMoveSpeed+iVelocityX)) {
-            X-= iMoveSpeed+iVelocityX;
-            if(iVelocityX < 2) iVelocityX++;
-            iLastDirection=LEFT;
-            iFaceDirection=LEFT;
+    if(moveleft) {
+        if(!checkDirectionCollision(gfxlayer, LEFT, movespeed+velocityx)) {
+            x -= movespeed + velocityx;
+            if(velocityx < 2) velocityx++;
+            lastdirection = LEFT;
+            facedirection = LEFT;
         } else {
-            iVelocityX=0;
+            velocityx = 0;
         }
     }
 
 }
 
-void cPlayer::fJumpPhysics() {
-    if(blIsJumping) {
-        if(jumpStep>0) {
-            jumpStep--;
-            if(!fCheckDirectionCollision(oGFXLayer,UP,jumpStep)) {
-                Y-=jumpStep;
+void cPlayer::jumpPhysics() {
+    if(isjumping) {
+        if(jumpstep>0) {
+            jumpstep--;
+            if(!checkDirectionCollision(gfxlayer,UP,jumpstep)) {
+                y-=jumpstep;
             }
         }
     }
 }
 
-void cPlayer::fMoveDirection(int iDirection, bool blEnabled) {
-    switch(iDirection) {
+void cPlayer::moveDirection(int direction, bool enabled) {
+    switch(direction) {
     case NONE:
-        blMoveUp=false;
-        blMoveRight=false;
-        blMoveDown=false;
-        blMoveLeft=false;
+        moveup = false;
+        moveright = false;
+        movedown = false;
+        moveleft = false;
         break;
     case UP:
-        blMoveUp=blEnabled;
+        moveup = enabled;
         break;
     case RIGHT:
-        blMoveRight=blEnabled;
+        moveright = enabled;
         break;
     case DOWN:
-        blMoveDown=blEnabled;
+        movedown = enabled;
         break;
     case LEFT:
-        blMoveLeft=blEnabled;
+        moveleft = enabled;
         break;
     }
 }

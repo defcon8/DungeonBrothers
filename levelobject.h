@@ -30,29 +30,29 @@ class cLevelObject : public iLevelObject {
 #define NONE 0
 
 private:
-    struct objPos{
+    struct objpos{
         int x,y;
     };
-    bool fCheckLevelCollision();
+    bool checkLevelCollision();
     void getHorScanPos(cSpriteLayer* p_object, int column, int &begin, int &end);
-    void getPositionInLevel(cSpriteLayer* sourceobject, objPos* position, int& iColStart, int& iColEnd, int& iRowStart, int& iRowEnd);
-    bool collideDown(cSpriteLayer* sourceobject, objPos* position, int colstart, int colend, int rowstart, int rowend, int amountofpixels);
+    void getPositionInLevel(cSpriteLayer* sourceobject, objpos* position, int& colstart, int& colend, int& rowstart, int& rowend);
+    bool collideDown(cSpriteLayer* sourceobject, objpos* position, int colstart, int colend, int rowstart, int rowend, int pixels);
 
 public:
     //Object Pointers
-    cWorld* oWorld;
-    cSpriteLayer* oGFXLayer;
-    int X,Y;
+    cWorld* world;
+    cSpriteLayer* gfxlayer;
+    int x,y;
 
-    cLevelObject(cWorld* oWorldRef, const char* chTileSource, int iSpriteHeight, int iSpriteWidth);
+    cLevelObject(cWorld* _world, const char* tilesource, int spriteheight, int spritewidth);
     virtual ~cLevelObject();
-    virtual void fUpdate();
-    virtual bool fIsAlive();
-    virtual void fAI();
-    bool fCheckDirectionCollision(cSpriteLayer* oObject, int iDirection);
-    bool fCheckDirectionCollision(cSpriteLayer* oObject, int iDirection, int iAmountOfPixels);
-    int iMoveSpeed;
-    bool blIsAlive;
+    virtual void update();
+    virtual bool isAlive();
+    virtual void aI();
+    bool checkDirectionCollision(cSpriteLayer* object, int direction);
+    bool checkDirectionCollision(cSpriteLayer* object, int direction, int pixels);
+    int movespeed;
+    bool isalive;
 
 };
 

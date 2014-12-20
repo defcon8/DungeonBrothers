@@ -8,13 +8,13 @@ class cWorld;
 
 class cBullit : public cLevelObject {
 private:
-    float iScaleX, iScaleY;
-    float iVelocityX, iVelocityY;
-    int iAngle, iSpeed;
+    float scalex, scaley;
+    float velocityx, velocityy;
+    int angle, speed;
 public:
-    cBullit(cWorld* oWorld, const char* chTileSource, int iSpriteHeight, int iSpriteWidth, int iAngleRef, int iSpeedRef);
+    cBullit(cWorld* world, const char* tilesource, int spriteheight, int spritewidth, int angleref, int speedref);
     ~cBullit();
-    void fAI();
+    void aI();
 };
 
 #endif // PLAYER_H

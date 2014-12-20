@@ -17,7 +17,7 @@ private:
 
 public:
 
-    int iSourceTileRow, iSourceTileCol;
+    int sourcetilerow, sourcetilecol;
 
     cPencil();
     ~cPencil();

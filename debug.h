@@ -11,11 +11,11 @@ private:
     //! Initializes a instance of the cDebug class
     cDebug();
 
-    static cDebug* s_pInstance;  //!< Private pointer to the singleton object
+    static cDebug* instance;  //!< Private pointer to the singleton object
 
-    SOCKET m_socket;
+    SOCKET debugsocket;
     int connectToServer();
-    string lastTraceOutput;
+    string lasttraceoutput;
 
 public:
     static cDebug* getInstance(); //!< Function to get the singleton instance
@@ -23,7 +23,7 @@ public:
 
     void sendTraceItems();
     void prepareTrace(string trace, string text);
-    byte bCommand[5];
+    byte command[5];
 };
 
 //! Debug message creation macro

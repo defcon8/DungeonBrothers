@@ -1,6 +1,6 @@
 #include "physics.h"
 
-cPhysics::cPhysics(cConfig* oConfigRef) {
+cPhysics::cPhysics(cConfig* _config) {
     //ctor
 }
 

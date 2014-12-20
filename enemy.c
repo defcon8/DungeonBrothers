@@ -16,7 +16,7 @@ cEnemy::~cEnemy() {
 
 }
 
-void cEnemy::fUpdate() {
+void cEnemy::update() {
 
 }
 

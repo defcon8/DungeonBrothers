@@ -13,16 +13,16 @@
 #include "camera.h"
 #include "world.h"
 
-cCamera::cCamera(cWorld* oWorldRef) {
-    oWorld = oWorldRef;
+cCamera::cCamera(cWorld* _world) {
+    world = _world;
     velocity=1;
     up=1;
     right=2;
     down=3;
     left=4;
     none=5;
-    X=0;
-    Y=0;
+    x=0;
+    y=0;
     direction=none;
 }
 
@@ -34,44 +34,44 @@ void cCamera::cameraMovement() {
     //Do Camera movement
     switch(direction) {
     case 1:
-        Y += 1;
+        y += 1;
         break;
     case 2:
-        X -= 1;
+        x -= 1;
         break;
     case 3:
-        Y -= 1;
+        y -= 1;
         break;
     case 4:
-        X += 1;
+        x += 1;
         break;
     }
 
-    if(oWorld->gamemode == MODE_GAME) { // Dont move camera automaticly when in edit mode because we want to move by mouse
+    if(world->gamemode == MODE_GAME) { // Dont move camera automaticly when in edit mode because we want to move by mouse
 
         //Let the camera follow the players position. If the camera position is not optimal then increase or decrease the camera position by 1 to have a smooth scrolling effect. Do not follow
         //when the user is jumping..this is kind a hectic.
 
         //Left/Right
-        int iPos = -(oWorld->oPlayerObject->X - (oWorld->oConfig->m_iScreenWidth/2) - oWorld->oPlayerObject->oGFXLayer->fGetWidth());
+        int pos = -(world->playerobject->x - (world->config->screenwidth/2) - world->playerobject->gfxlayer->getWidth());
 
-        if(iPos < X) {
+        if(pos < x) {
             // Let the Camera go left
-            X-=velocity;
-        } else if(iPos > X) {
+            x-=velocity;
+        } else if(pos > x) {
             // Let the Camera go left
-            X+=velocity;
+            x+=velocity;
         }
 
         //Up/Down
-        if(!oWorld->oPlayerObject->blIsJumping) { //Do not update camera on player jump
-            iPos = -(oWorld->oPlayerObject->Y - (oWorld->oConfig->m_iScreenHeight/2) - oWorld->oPlayerObject->oGFXLayer->fGetHeight());
-            if(iPos < Y) {
+        if(!world->playerobject->isjumping) { //Do not update camera on player jump
+            pos = -(world->playerobject->y - (world->config->screenheight/2) - world->playerobject->gfxlayer->getHeight());
+            if(pos < y) {
                 // Let the Camera go up
-                Y-=velocity;
-            } else if(iPos > Y) {
+                y-=velocity;
+            } else if(pos > y) {
                 // Let the Camera go down
-                Y+=velocity;
+                y+=velocity;
             } else {
                 // The camera is in optimal position
             }

@@ -2,10 +2,10 @@
 
 cWorld::cWorld() {
     //ctor
-    oConfig = new cConfig();
-    oPencil = new cPencil();
-    oCam = new cCamera(this);
-    oPhysics = new cPhysics(oConfig);
+    config = new cConfig();
+    pencil = new cPencil();
+    cam = new cCamera(this);
+    physics = new cPhysics(config);
 }
 
 cWorld::~cWorld() {

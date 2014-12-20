@@ -44,88 +44,88 @@ Uint32 cSprite::getPixelColor(SDL_Surface *surface, int x, int y) {
     }
 }
 
-bool cSprite::fGetSlopes() {
+bool cSprite::getSlopes() {
 
     // This function scans all tiles in the bitmap and detects if a pixel is transparant or not. Information for each pixel row of the sprite is stored in so
     // called slopes which is basicaly a word (32 bit). Each bit in the word tells if the pixels is transparant or not.
 
     //create data object
-    p_PixelInfo = new sPixelInfo*[bitmap->w];
+    pixelinfo = new spixelinfo*[bitmap->w];
     for(int i=0; i < bitmap->w; i++)
-        p_PixelInfo[i] = new sPixelInfo[bitmap->h];
+        pixelinfo[i] = new spixelinfo[bitmap->h];
 
-    int iPixelCount=0; // just for debugging purposes, count how many pixels are analyzed
+    int pixelcount=0; // just for debugging purposes, count how many pixels are analyzed
 
     SDL_LockSurface(bitmap);
-    for(int iX=0; iX<=bitmap->w-1; iX++) {
-        for(int iY=0; iY<=bitmap->h-1; iY++) {
+    for(int x=0; x<=bitmap->w-1; x++) {
+        for(int y=0; y<=bitmap->h-1; y++) {
 
                     Uint8 r, g, b; // temporary
-                    Uint32 iPixelColor = getPixelColor(bitmap,iX,iY);
-                    SDL_GetRGB(iPixelColor, bitmap->format, &r,&g,&b);
+                    Uint32 pixelcolor = getPixelColor(bitmap,x,y);
+                    SDL_GetRGB(pixelcolor, bitmap->format, &r,&g,&b);
 
                     // The position of the bit in the Long (lSlopeRow) is the same as the pixel position in the row to be scanned
-                    if((r==iColorKeyR) && (g==iColorKeyG) && (b==iColorKeyB)) { // if the color is the keycolor then it it transparant...
+                    if((r==colorkeyr) && (g==colorkeyg) && (b==colorkeyb)) { // if the color is the keycolor then it it transparant...
                         //Transparant Pixel (air...)
-                        p_PixelInfo[iX][iY].transparant = 0;
+                        pixelinfo[x][y].transparant = 0;
                     } else {
                         //Object (floor, wall, ground whatever..) we can stand on it
-                        p_PixelInfo[iX][iY].transparant = 1;
+                        pixelinfo[x][y].transparant = 1;
                     }
 
-                    iPixelCount++;
+                    pixelcount++;
         }
     }
     SDL_UnlockSurface(bitmap);
 
-    TRACE("Slopes","Pixels analyzed: %d", iPixelCount);
+    TRACE("Slopes","Pixels analyzed: %d", pixelcount);
 }
 
-void cSprite::fLoad(const char *file) {
+void cSprite::load(const char *file) {
     bitmap = SDL_DisplayFormatAlpha(SDL_LoadBMP(file));
-    SDL_SetColorKey(bitmap, SDL_SRCCOLORKEY, SDL_MapRGB(bitmap->format,  iColorKeyR,  iColorKeyG,  iColorKeyB));
+    SDL_SetColorKey(bitmap, SDL_SRCCOLORKEY, SDL_MapRGB(bitmap->format,  colorkeyr,  colorkeyg,  colorkeyb));
     //Store the filename localy in chTileSource, we need it later when saving level to disk.
-    memcpy(&chTileSource[0],file,16);
+    memcpy(&tilesource[0],file,16);
 }
 
-char* cSprite::fGetTileSource() {
-    return &chTileSource[0];
+char* cSprite::getTileSource() {
+    return &tilesource[0];
 }
 
-void cSprite::fSetColorKey(int iR, int iG, int iB) {
-    iColorKeyR = iR;
-    iColorKeyG = iG;
-    iColorKeyB = iB;
+void cSprite::setColorKey(int r, int g, int b) {
+    colorkeyr = r;
+    colorkeyg = g;
+    colorkeyb = b;
 }
 
-void cSprite::fRender(int iCol, int iRow, int iDestX, int iDestY) {
+void cSprite::render(int col, int row, int destx, int desty) {
     // Part of the bitmap that we want to draw
     SDL_Rect source;
-    source.x = iSpriteWidthOffset+(iCol*(iSpriteWidth+iSpriteSpacer));
-    source.y = iSpriteHeightOffset+(iRow*(iSpriteHeight+iSpriteSpacer));
-    source.w = iSpriteWidth;
-    source.h = iSpriteHeight;
+    source.x = spritewidthoffset+(col*(spritewidth+spritespacer));
+    source.y = spriteheightoffset+(row*(spriteheight+spritespacer));
+    source.w = spritewidth;
+    source.h = spriteheight;
 
     // Part of the screen we want to draw the sprite to
     SDL_Rect destination;
-    destination.x = iDestX-iScrollOffset;
-    destination.y = iDestY;
-    destination.w = iSpriteWidth;
-    destination.h = iSpriteHeight;
+    destination.x = destx - scrolloffset;
+    destination.y = desty;
+    destination.w = spritewidth;
+    destination.h = spriteheight;
 
     SDL_BlitSurface(bitmap, &source, screen, &destination);
 }
 
-cSprite::cSprite(cWorld* oWorldRef) {
-    oWorld = oWorldRef;
-    screen = oWorld->sScreenSurface;
-    fInit();
+cSprite::cSprite(cWorld* _world) {
+    world = _world;
+    screen = world->screensurface;
+    init();
 }
 
-cSprite::cSprite(cWorld* oWorldRef, SDL_Surface* sAlternativeScreen) {
-    oWorld = oWorldRef;
-    screen = sAlternativeScreen;
-    fInit();
+cSprite::cSprite(cWorld* _world, SDL_Surface* alternativescreen) {
+    world = _world;
+    screen = alternativescreen;
+    init();
 }
 
 
@@ -133,11 +133,11 @@ cSprite::~cSprite() {
     SDL_FreeSurface(bitmap);
 }
 
-void cSprite::fInit() {
-    iSpriteSpacer=0;
-    iSpriteHeight=0;
-    iSpriteWidth=0;
-    iSpriteHeightOffset=0;
-    iSpriteWidthOffset=0;
-    iScrollOffset=0;
+void cSprite::init() {
+    spritespacer=0;
+    spriteheight=0;
+    spritewidth=0;
+    spriteheightoffset=0;
+    spritewidthoffset=0;
+    scrolloffset=0;
 }

@@ -2,12 +2,12 @@
 
 cConfig::cConfig() {
     //Todo: get these from a config file.
-    m_iScreenWidth=640;
-    m_iScreenHeight=480;
-    m_iScreenBits=16;
+    screenwidth=640;
+    screenheight=480;
+    screenbits=16;
 
     //Do not tune this
-    iSDLFlags = SDL_HWSURFACE | SDL_DOUBLEBUF;
+    SDLflags = SDL_HWSURFACE | SDL_DOUBLEBUF | SDL_FULLSCREEN;
 }
 
 cConfig::~cConfig() {}

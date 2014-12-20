@@ -5,9 +5,9 @@
 
 class cPhysics {
 public:
-    int iGravity;
+    int gravity;
 
-    cPhysics(cConfig* oConfigRef);
+    cPhysics(cConfig* _config);
     ~cPhysics();
 protected:
 private:

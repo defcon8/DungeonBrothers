@@ -53,67 +53,67 @@ class cSpriteLayer {
 #define DESTROYABLE 4096
 
 private:
-    struct sLevelBlock {
-        Uint8 bySource;
-        Uint8 iRow;
-        Uint8 iIndex;
-        Uint8 iType;
-        Uint8 iAnimations;
-        Uint8 AniFrameStep;
-        Uint8 blCollide;
-        Uint8 iFlags;
+    struct slevelblock {
+        Uint8 source;
+        Uint8 row;
+        Uint8 index;
+        Uint8 type;
+        Uint8 animations;
+        Uint8 aniframestep;
+        Uint8 collide;
+        Uint8 flags;
 
     };
 
     //Local Members
-    cWorld* oWorld;
+    cWorld* world;
 
-    int iSpriteWidth, iSpriteHeight;
-    int iRowCount, iColCount;
-    bool blOptmizeLayer;
-    bool blBuffer;
-    bool blUseColorKey;
-    int iColorKeyR, iColorKeyG, iColorKeyB;
+    int spritewidth, spriteheight;
+    int rowcount, colcount;
+    bool optmizelayer;
+    bool usebuffer;
+    bool usecolorkey;
+    int colorkeyr, colorkeyg, colorkeyb;
 
     //Methods
-    void fInitMap();
-    void fDrawPixel(SDL_Surface *screen, int x, int y, Uint8 R, Uint8 G, Uint8 B);
-    void fInitLayer(int iRows, int iCols, int iSpriteHeightPX, int iSpriteWidthPX, bool blOptimize, bool blIsBuffered);
+    void initMap();
+    void drawPixel(SDL_Surface *screen, int x, int y, Uint8 r, Uint8 g, Uint8 b);
+    void initLayer(int rows, int cols, int spriteheight, int spritewidth, bool optimize, bool isbuffered);
 
 public:
-    cSpriteLayer(cWorld* oWorldRef, int iRows, int iCols, int iSpriteHeightPX, int iSpriteWidthPX, bool blOptimize, bool blIsBuffered, bool blUseColorKey, int iKeyR, int iKeyG, int iKeyB); /**< Constructor to render directly to main screen */
+    cSpriteLayer(cWorld* _world, int rows, int cols, int spriteheight, int spritewidth, bool optimize, bool isbuffered, bool usecolorkey, int keyr, int keyg, int keyb); /**< Constructor to render directly to main screen */
     ~cSpriteLayer();
 
     //Data Objects
-    cSprite *p_Source;
-    SDL_Surface* fRender(signed int CamX, signed int CamY);
-    SDL_Surface* sfBuffer;
-    sLevelBlock **p_LevelData;
+    cSprite *source;
+    SDL_Surface* render(signed int camx, signed int camy);
+    SDL_Surface* buffer;
+    slevelblock **leveldata;
 
     //Members
     int x,y;
 
     //Methods
-    Uint8 fReturnSpriteFlags(int iRow, int iCol);
-    void fSetSpriteWidth(int iPixels);
-    void fGetSlopes();
-    int fGetSpriteWidth();
-    void fSetSpriteHeight(int iPixels);
-    void fClear();
-    int fGetSpriteHeight();
-    bool fPixelIsTransparant(int iRow, int iCol, int iX, int iY, int iColCount);
-    int fGetTotalRows();
-    int fGetTotalCols();
-    int fGetWidth();
-    int fGetHeight();
-    signed int fColToXInSpriteSheet(signed int iCol);
-    signed int fRowToYInSpriteSheet(signed int iRow);
-    int fXToCol(signed int iWidth);         /**< Returns the col number of the given width in pixels */
-    int fYToRow(signed int iHeight);       /**< Returns the row number of the given height in pixels */
-    int fColToX(signed int iCol);           /**< Returns the width in pixels of the col number */
-    int fRowToY(signed int iRow);          /**< Returns the height in pixels of the row number */
-    bool fIsBuffered();                         /**< Returns if the surface is a buffered or not. */
-    SDL_Surface* fGetBufferSurface();           /**< Returns the buffer surface. */
+    Uint8 returnSpriteFlags(int row, int col);
+    void setSpriteWidth(int pixels);
+    void getSlopes();
+    int getSpriteWidth();
+    void setSpriteHeight(int pixels);
+    void clearlayer();
+    int getSpriteHeight();
+    bool pixelIsTransparant(int row, int col, int x, int y, int colcount);
+    int getTotalRows();
+    int getTotalCols();
+    int getWidth();
+    int getHeight();
+    signed int colToXInSpriteSheet(signed int col);
+    signed int rowToYInSpriteSheet(signed int row);
+    int xToCol(signed int width);         /**< Returns the col number of the given width in pixels */
+    int yToRow(signed int height);       /**< Returns the row number of the given height in pixels */
+    int colToX(signed int col);           /**< Returns the width in pixels of the col number */
+    int rowToY(signed int row);          /**< Returns the height in pixels of the row number */
+    bool isBuffered();                         /**< Returns if the surface is a buffered or not. */
+    SDL_Surface* getBufferSurface();           /**< Returns the buffer surface. */
 };
 
 #endif /* SPRITELAYER_H_ */

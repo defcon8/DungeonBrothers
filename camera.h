@@ -21,10 +21,10 @@ private:
 
 public:
 
-    cWorld* oWorld;
-    int up, right, down, left, none, direction, velocity, X, Y;
+    cWorld* world;
+    int up, right, down, left, none, direction, velocity, x, y;
 
-    cCamera(cWorld* oWorldRef);
+    cCamera(cWorld* _world);
     ~cCamera();
 
     void cameraMovement();

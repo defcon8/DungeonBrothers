@@ -5,45 +5,45 @@
 #include "world.h"
 #include <cmath>
 
-cBullit::cBullit(cWorld* oWorld, const char* chTileSource, int iSpriteHeight, int iSpriteWidth, int iAngleRef, int iSpeedRef) : cLevelObject(oWorld, chTileSource, iSpriteHeight, iSpriteWidth) {
+cBullit::cBullit(cWorld* _world, const char* tilesource, int spriteheight, int spritewidth, int _angle, int _speed) : cLevelObject(_world, tilesource, spriteheight, spritewidth) {
 
-    iAngle = iAngleRef;
-    iSpeed = iSpeedRef;
+    angle = _angle;
+    speed = _speed;
 
-    X = (oWorld->oPlayerObject->X);
-    Y = oWorld->oPlayerObject->Y + (oWorld->oPlayerObject->oGFXLayer->p_Source->iSpriteHeight / 2);
+    x = _world->playerobject->x;
+    y = _world->playerobject->y + (_world->playerobject->gfxlayer->source->spriteheight / 2);
 
     //Setup Layer
-    oGFXLayer = new cSpriteLayer(oWorld,1,1,iSpriteHeight,iSpriteWidth,false,false,true,0,0,0);
+    gfxlayer = new cSpriteLayer(_world,1,1,spriteheight,spritewidth,false,false,true,0,0,0);
 
     //Setup Source
-    oGFXLayer->p_Source->iSpriteSpacer = 0;
-    oGFXLayer->p_Source->fSetColorKey(0,0,0);
-    oGFXLayer->p_Source->fLoad(chTileSource);
-    oGFXLayer->p_Source->iSpriteWidthOffset = 0;
-    oGFXLayer->p_Source->iSpriteHeightOffset = 0;
-    oGFXLayer->p_Source->iSpriteHeight = iSpriteHeight;
-    oGFXLayer->p_Source->iSpriteWidth = iSpriteWidth;
+    gfxlayer->source->spritespacer = 0;
+    gfxlayer->source->setColorKey(0,0,0);
+    gfxlayer->source->load(tilesource);
+    gfxlayer->source->spritewidthoffset = 0;
+    gfxlayer->source->spriteheightoffset = 0;
+    gfxlayer->source->spriteheight = spriteheight;
+    gfxlayer->source->spritewidth = spritewidth;
 
     //choose player sprite
-    oGFXLayer->p_LevelData[0][0].iType=SPRITE;
-    oGFXLayer->p_LevelData[0][0].iRow=0;
-    oGFXLayer->p_LevelData[0][0].iIndex=0;
+    gfxlayer->leveldata[0][0].type=SPRITE;
+    gfxlayer->leveldata[0][0].row=0;
+    gfxlayer->leveldata[0][0].index=0;
 }
 
 cBullit::~cBullit()
 {}
 
-void cBullit::fAI() {
+void cBullit::aI() {
     //Movement
-    iVelocityX=(cos(iAngle*(3.14/180))*iSpeed);
-    iVelocityY=(sin(iAngle*(3.14/180))*iSpeed);
+    velocityx=(cos(angle*(3.14/180))*speed);
+    velocityy=(sin(angle*(3.14/180))*speed);
 
-    X+= iVelocityX;
-    Y+= iVelocityY;
-    TRACE("Bullit","Object destroyed CamX: %d",oWorld->oConfig->m_iScreenWidth-oWorld->oCam->X);
-    if((X < 0) || (X > (oWorld->oConfig->m_iScreenWidth-oWorld->oCam->X))){
-            blIsAlive=false;
+    x+= velocityx;
+    y+= velocityy;
+    TRACE("Bullit","Object destroyed CamX: %d",world->config->screenwidth-world->cam->x);
+    if((x < 0) || (x > (world->config->screenwidth-world->cam->x))){
+            isalive=false;
        }
 
 }

@@ -5,9 +5,9 @@
 
 class cConfig {
 public:
-    int m_iScreenWidth, m_iScreenHeight, m_iScreenBits;
-    Uint32 iSDLFlags;
-    SDL_Surface* m_sScreen;
+    int screenwidth, screenheight, screenbits;
+    Uint32 SDLflags;
+    SDL_Surface* screen;
     cConfig();
     ~cConfig();
 protected:

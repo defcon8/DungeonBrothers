@@ -17,7 +17,7 @@ class cEnemy : public iLevelObject {
 
 public:
     virtual ~cEnemy();
-    virtual void fUpdate();
+    virtual void update();
 
 };
 

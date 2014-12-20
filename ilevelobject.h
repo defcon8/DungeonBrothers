@@ -17,8 +17,8 @@
 class iLevelObject {
 public:
     virtual ~iLevelObject() {}
-    virtual void fUpdate() = 0;
-    virtual bool fIsAlive() = 0;
+    virtual void update() = 0;
+    virtual bool isAlive() = 0;
 };
 
 #endif /* ILEVELOBJECT_H_ */

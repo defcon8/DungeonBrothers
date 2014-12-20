@@ -15,6 +15,7 @@
 #include "SDL/SDL_mixer.h"
 #include "world.h"
 #include <time.h>
+#include <string>
 #include "enemy.h"
 
 using namespace std;
@@ -23,54 +24,57 @@ class cGame
 {
 
 private:
-    bool blDone;
-    bool blRenderLevel;
-    bool blSpritePalet;
-    signed int CamX, CamY;
-    int scrollOffSet;
-    int MouseX, MouseY;
-    double dbMouseCornerWidthPerc;
-    int iMouseScrollSpeed;
-    int iOptimalFrequency;
-    int iElapsedSeconds;
-    int iStartTime;
-    int iRenderedFrames;
-    int iFPS;
-    char chFPS[5];
+    bool done;
+    bool renderlevel;
+    bool spritepalet;
+    signed int camx, camy;
+    int scrolloffset;
+    int mousex, mousey;
+    double mousecornerwidthperc;
+    int mousescrollspeed;
+    int optimalfrequency;
+    int elapsedseconds;
+    int starttime;
+    int renderedframes;
+    int fps;
+    int selectedmenuitem;
+    char fpstext[5];
+    string menuitems[4];
 
-    TTF_Font* ttfFont;
-    SDL_Color cGreen;
-    SDL_Color cBlack;
-    SDL_Rect rFPSLocation;
+    TTF_Font* ttffont;
+    SDL_Color green;
+    SDL_Color yellow;
+    SDL_Color black;
+    SDL_Rect fpslocation;
 
     void functionTests();
-    void fInitialize();
-    void fInitVariables();
-    void fLoadObjects();
-    void fEvents();
+    void initialize();
+    void initVariables();
+    void loadObjects();
+    void events();
     void gameModeEvents(SDL_Event *event);
     void editModeEvents(SDL_Event *event);
     void menuModeEvents(SDL_Event *event);
-    void fGameLoop();
-    void fRender();
-    void fCleanUp();
-    void fIntro();
-    void fSaveLayer(cSpriteLayer *p_SpriteLayer);
-    void fSaveDemo();
-    void fDrawPixel(SDL_Surface *screen, int x, int y, Uint8 R, Uint8 G, Uint8 B);
-    void fRenderEditMode();
+    void gameLoop();
+    void render();
+    void cleanUp();
+    void intro();
+    void saveLayer(cSpriteLayer *spritelayer);
+    void saveDemo();
+    void drawPixel(SDL_Surface *screen, int x, int y, Uint8 r, Uint8 g, Uint8 b);
+    void renderEditMode();
     void renderMenuMode();
-    void fRenderUI();
-    void fDrawRectangle(int x, int y, int w, int h, Uint32 color);
-    void fObjectMovement();
-    void fUpdateLevelObject(iLevelObject* pLevelObject);
-    void fFPS();
-    int fGetTileCol(int iX, int iTileWidth);
-    int fGetTileRow(int iY, int iTileHeight);
+    void renderUI();
+    void drawRectangle(int x, int y, int w, int h, Uint32 color);
+    void objectMovement();
+    void updateLevelObject(iLevelObject* levelobject);
+    void calcfps();
+    int getTileCol(int x, int tilewidth);
+    int getTileRow(int y, int tileheight);
 
 public:
-    void Start();
-    cWorld* oWorld;
+    void start();
+    cWorld* world;
     cGame();
     ~cGame();
 };

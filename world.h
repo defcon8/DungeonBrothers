@@ -24,19 +24,19 @@ public:
 
     int gamemode;
 
-    cConfig* oConfig;
-    cPencil* oPencil;
-    cSpriteLayer* oLevelLayer;
-    cSpriteLayer* oSpritePicker;
-    cSprite* oBackgroundLayer;
-    cPlayer* oPlayerObject;
-    cCamera* oCam;
-    cPhysics* oPhysics;
+    cConfig* config;
+    cPencil* pencil;
+    cSpriteLayer* levellayer;
+    cSpriteLayer* spritepicker;
+    cSprite* backgroundlayer;
+    cPlayer* playerobject;
+    cCamera* cam;
+    cPhysics* physics;
 
-    SDL_Surface *sScreenSurface;
-    SDL_Surface *sTextSurface;
+    SDL_Surface *screensurface;
+    SDL_Surface *textsurface;
 
-    list<iLevelObject*> lLevelObjects;
+    list<iLevelObject*> levelobjects;
 
     cWorld();
     ~cWorld();

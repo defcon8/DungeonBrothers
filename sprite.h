@@ -22,46 +22,44 @@ class cWorld;
 
 class cSprite {
 private:
-    int iColorKeyR, iColorKeyG, iColorKeyB;
-    char chTileSource[16];
-    void fInit();
-
+    int colorkeyr, colorkeyg, colorkeyb;
+    char tilesource[16];
+    void init();
 
     SDL_Surface* screen;
-    cWorld* oWorld;
+    cWorld* world;
 
-
-    struct sPixelInfo{
+    struct spixelinfo{
         int transparant;
     };
 
 public:
 
 
-    sPixelInfo **p_PixelInfo;
+    spixelinfo **pixelinfo;
 
     Uint32 getPixelColor(SDL_Surface *surface, int x, int y);
-    int iScrollOffset;
-    void fLoad(const char *file);
-    void fRender(int iCol, int iRow, int iDestX, int iDestY);
+    int scrolloffset;
+    void load(const char *file);
+    void render(int col, int row, int destx, int desty);
 
-    void fSetSpriteWidth(int iPixels);
-    void fSetSpriteHeight(int iPixels);
-    void fSetSpriteWidthOffset(int iPixels);
-    void fSetSpriteHeightOffset(int iPixels);
-    void fSetSpriteSpacer(int iPixels);
+    void setSpriteWidth(int pixels);
+    void setSpriteHeight(int pixels);
+    void setSpriteWidthOffset(int pixels);
+    void setSpriteHeightOffset(int pixels);
+    void setSpriteSpacer(int pixels);
 
-    int iSpriteWidth, iSpriteHeight, iSpriteWidthOffset ,iSpriteHeightOffset, iSpriteSpacer;
-    char* fGetTileSource();
+    int spritewidth, spriteheight, spritewidthoffset ,spriteheightoffset, spritespacer;
+    char* getTileSource();
 
-    cSpriteSlope* oSlopeLeft, *oSlopeRight, *oSlopeTop, *oSlopeBottom;
+    cSpriteSlope* slopeleft, *sloperight, *slopetop, *slopebottom;
 
-    void fSetColorKey(int iR, int iG, int iB);
-    void fScroll();
-    bool fGetSlopes();
+    void setColorKey(int r, int g, int b);
+    void scroll();
+    bool getSlopes();
 
-    cSprite(cWorld* oWorldRef);
-    cSprite(cWorld* oWorldRef, SDL_Surface* sAlternativeScreen);
+    cSprite(cWorld* _world);
+    cSprite(cWorld* _world, SDL_Surface* alternativescreen);
 
     ~cSprite();
 
