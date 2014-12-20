@@ -6,6 +6,7 @@
 class cConfig {
 public:
     int screenwidth, screenheight, screenbits;
+    bool virtualresolution;
     Uint32 SDLflags;
     SDL_Surface* screen;
     cConfig();

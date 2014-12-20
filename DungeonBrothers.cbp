@@ -65,6 +65,10 @@
 		<Unit filename="main.c">
 			<Option compilerVar="CPP" />
 		</Unit>
+		<Unit filename="menu.cpp" />
+		<Unit filename="menu.h" />
+		<Unit filename="menuitem.cpp" />
+		<Unit filename="menuitem.h" />
 		<Unit filename="pencil.c">
 			<Option compilerVar="CPP" />
 		</Unit>

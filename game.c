@@ -59,10 +59,8 @@ void cGame::saveLayer(cSpriteLayer *spritelayer)
     save.write((char*)&datablocks,sizeof(Uint16));
 
     // DataBlocks
-    for (int row = 0; row <= (levelrows-1)  ; row++ )
-    {
-        for (int col = 0; col <= (levelcols-1) ; col++ )
-        {
+    for (int row = 0; row <= (levelrows-1)  ; row++ ) {
+        for (int col = 0; col <= (levelcols-1) ; col++ ) {
             Uint8 type=spritelayer->leveldata[row][col].type;
             Uint8 sheetrow=spritelayer->leveldata[row][col].row;
             Uint8 sheetindex=spritelayer->leveldata[row][col].index;
@@ -109,8 +107,7 @@ void cGame::saveDemo()
     save.write((char*)&datablocks,sizeof(Uint16));
 
     // DataBlocks
-    for (int sprite = 0; sprite < datablocks; sprite++)
-    {
+    for (int sprite = 0; sprite < datablocks; sprite++) {
         // Test Fill
         Uint8 row=14;
         Uint8 col=sprite;
@@ -133,23 +130,19 @@ void cGame::functionTests()
 {
     cSpriteLayer* temp = new cSpriteLayer(world,10,10,32,32,true,true,false,0,0,0);
 
-    if(temp->yToRow(0) != 0)
-    {
+    if(temp->yToRow(0) != 0) {
         TRACE("Init","fYToRow(0) FAIL!");
     }
 
-    if(temp->yToRow(32) != 1)
-    {
+    if(temp->yToRow(32) != 1) {
         TRACE("Init","fYToRow() FAIL!");
     }
 
-    if(temp->xToCol(0) != 0)
-    {
+    if(temp->xToCol(0) != 0) {
         TRACE("Init","fYToRow(0) FAIL!");
     }
 
-    if(temp->xToCol(32) != 1)
-    {
+    if(temp->xToCol(32) != 1) {
         TRACE("Init","fXToCol() FAIL!");
     }
 
@@ -166,8 +159,7 @@ void cGame::start()
 
     loadObjects();
 
-    while(!done)
-    {
+    while(!done) {
         long measure1 = time(NULL);
         events();
         objectMovement();
@@ -247,8 +239,7 @@ void cGame::loadObjects()
     bool dummy = world->levellayer->source->getSlopes();
 
     // Read DataBlocks from file
-    for (int sprite = 0; sprite < datablocks; sprite++)
-    {
+    for (int sprite = 0; sprite < datablocks; sprite++) {
         Uint8 row;
         Uint8 col;
         Uint8 type;
@@ -286,10 +277,8 @@ void cGame::loadObjects()
     world->spritepicker->source->spriteheight = spriteheight;
     world->spritepicker->source->spritewidth = spritewidth;
 
-    for (int col = 0; col < sourcecols; col++)
-    {
-        for (int row = 0; row < sourcerows; row++)
-        {
+    for (int col = 0; col < sourcecols; col++) {
+        for (int row = 0; row < sourcerows; row++) {
             world->spritepicker->leveldata[row][col].type=SPRITE;
             world->spritepicker->leveldata[row][col].row=row;
             world->spritepicker->leveldata[row][col].index=col;
@@ -310,8 +299,7 @@ void cGame::initialize()
 
     /* Initialize SDL */
     char *message;
-    if (SDL_Init (SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0)
-    {
+    if (SDL_Init (SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0) {
         sprintf (message, "Couldn't initialize SDL: %s\n", SDL_GetError ());
         MessageBox (0, message, "Error", MB_ICONHAND);
         free(message);
@@ -321,8 +309,7 @@ void cGame::initialize()
     TTF_Init();
     ttffont = TTF_OpenFont("Fonts\\BeckerBlackNF.ttf", 20);
 
-    if (ttffont == NULL)
-    {
+    if (ttffont == NULL) {
         sprintf (message, "Can't load font.");
         SDL_GetError ();
         MessageBox(0,message,"Error",MB_ICONHAND);
@@ -332,13 +319,22 @@ void cGame::initialize()
 
     atexit (SDL_Quit);
     world->screensurface = SDL_SetVideoMode(world->config->screenwidth, world->config->screenheight, world->config->screenbits, world->config->SDLflags);
-    if (world->screensurface == NULL)
-    {
+
+
+    if (world->screensurface == NULL) {
         sprintf (message, "Couldn't set video mode: %s\n", SDL_GetError ());
         MessageBox (0, message, "Error", MB_ICONHAND);
         free(message);
         exit(2);
     }
+
+    // this is the virtual surface we are drawing on.
+    world->virtualsurface = SDL_CreateRGBSurface(SDL_SWSURFACE,(world->config->virtualresolution ? 640 : world->config->screenwidth),(world->config->virtualresolution ? 480 : world->config->screenheight),
+                            world->screensurface->format->BitsPerPixel,
+                            world->screensurface->format->Rmask,
+                            world->screensurface->format->Gmask,
+                            world->screensurface->format->Bmask,
+                            world->screensurface->format->Amask);
 
     SDL_WM_SetCaption ("Dungeon Brothers", NULL);
     SDL_ShowCursor(SDL_DISABLE);
@@ -352,46 +348,58 @@ void cGame::events()
     //Todo:
     //Shared mode key events?
 
-    switch(world->gamemode){
-        case MODE_MENU:
-            menuModeEvents(&event);
+    switch(world->gamemode) {
+    case MODE_MENU:
+        menuModeEvents(&event);
         break;
-        case MODE_GAME:
-            gameModeEvents(&event);
+    case MODE_GAME:
+        gameModeEvents(&event);
         break;
-        case MODE_EDIT:
-            editModeEvents(&event);
+    case MODE_EDIT:
+        editModeEvents(&event);
         break;
     }
 }
 
-void cGame::menuModeEvents(SDL_Event *event){
-
-    /* Check for events */
-    while (SDL_PollEvent (event))
-    {
-        switch (event->type)
-        {
+void cGame::menuModeEvents(SDL_Event *event)
+{
+    while (SDL_PollEvent (event)) {
+        switch (event->type) {
         case SDL_KEYDOWN:
-            switch(event->key.keysym.sym)
-            {
-
-                case SDLK_ESCAPE:
-                    TRACE("Events","Keydown ESCAPE | Enter game mode");
-                    //Show menu
-                    world->gamemode = MODE_GAME;
-                    renderlevel = true;
-                    //blDone=true;
-                    //blEditMode = true;
-                    break;
-
-                case SDLK_x:
-                    done = true;
-                    break;
-
+            switch(event->key.keysym.sym) {
+            case SDLK_ESCAPE:
+                TRACE("Events","Keydown ESCAPE | Enter game mode");
+                world->gamemode = MODE_GAME;
+                renderlevel = true;
+                break;
+            case SDLK_x:
+                done = true;
+                break;
+            case SDLK_RETURN:
+                selectMenuItem();
+                break;
+            case SDLK_UP:
+                TRACE("Events","menu Up");
+                if(world->menu->menupath.size() == 0) {
+                    //main menu
+                    selectedmenuitem = (selectedmenuitem > 0 ? selectedmenuitem-1 : (world->menu->menuitems.size()-1));
+                } else {
+                    // sub menu
+                    selectedmenuitem = (selectedmenuitem > 0 ? selectedmenuitem-1 : (world->menu->menupath.back().menuitems.size()-1));
+                }
+                break;
+            case SDLK_DOWN:
+                TRACE("Events","Menu Down");
+                if(world->menu->menupath.size() == 0) {
+                    //main menu
+                    selectedmenuitem = (selectedmenuitem < (world->menu->menuitems.size()-1) ? selectedmenuitem+1 : 0);
+                } else {
+                    // sub menu
+                    selectedmenuitem = (selectedmenuitem < (world->menu->menupath.back().menuitems.size()-1) ? selectedmenuitem+1 : 0);
+                }
+                break;
             }
             break;
-
         case SDL_QUIT:
             TRACE("Events","Received SDL_WINDOWEVENT_CLOSED");
             done = true;
@@ -404,15 +412,10 @@ void cGame::menuModeEvents(SDL_Event *event){
 
 void cGame::gameModeEvents(SDL_Event *event)
 {
-
-    /* Check for events */
-    while (SDL_PollEvent (event))
-    {
-        switch (event->type)
-        {
+    while (SDL_PollEvent (event)) {
+        switch (event->type) {
         case SDL_KEYDOWN:
-            switch(event->key.keysym.sym)
-            {
+            switch(event->key.keysym.sym) {
             case SDLK_UP:
                 TRACE("Events","Keydown UP");
                 world->playerobject->moveDirection(1,true);
@@ -451,35 +454,30 @@ void cGame::gameModeEvents(SDL_Event *event)
                 world->playerobject->fire();
                 TRACE("Events","Keydown R-ALT");
                 break;
-             case SDLK_x:
-                    done = true;
-                    break;
+            case SDLK_x:
+                done = true;
+                break;
             }
             break;
         case SDL_KEYUP:
-            switch(event->key.keysym.sym)
-            {
-            case SDLK_UP:
-            {
+            switch(event->key.keysym.sym) {
+            case SDLK_UP: {
                 world->playerobject->moveDirection(1,false);
                 TRACE("Events","Keyup UP");
                 break;
             }
 
-            case SDLK_RIGHT:
-            {
+            case SDLK_RIGHT: {
                 world->playerobject->moveDirection(2,false);
                 TRACE("Events","Keyup RIGHT");
                 break;
             }
-            case SDLK_DOWN:
-            {
+            case SDLK_DOWN: {
                 world->playerobject->moveDirection(3,false);
                 TRACE("Events","Keyup DOWN");
                 break;
             }
-            case SDLK_LEFT:
-            {
+            case SDLK_LEFT: {
                 world->playerobject->moveDirection(4,false);
                 TRACE("Events","Keyup LEFT");
                 break;
@@ -498,15 +496,10 @@ void cGame::gameModeEvents(SDL_Event *event)
 
 void cGame::editModeEvents(SDL_Event *event)
 {
-    /* Check for events */
-    while (SDL_PollEvent (event))
-    {
-        switch (event->type)
-        {
+    while (SDL_PollEvent (event)) {
+        switch (event->type) {
         case SDL_KEYDOWN:
-            switch(event->key.keysym.sym)
-            {
-
+            switch(event->key.keysym.sym) {
             case SDLK_ESCAPE:
                 TRACE("Events","Keydown ESCAPE | Enter game mode");
                 TRACE("Mode","Game mode");
@@ -524,17 +517,13 @@ void cGame::editModeEvents(SDL_Event *event)
                 spritepalet = false;    // Hide SpritePicker
                 renderlevel = true;     // Show Level
                 break;
-
             case SDLK_F2:
                 //Toggle Sprite Picker
-                if(spritepalet)
-                {
+                if(spritepalet) {
                     spritepalet = false;  // Hide Sprite Picker
                     renderlevel = true;   // Hide Level
                     SDL_WM_SetCaption ("Edit mode - Level editor", NULL);
-                }
-                else
-                {
+                } else {
                     spritepalet = true;  // Hide Sprite Picker
                     renderlevel = false;   // Hide Level
                     SDL_WM_SetCaption ("Edit mode - Level editor", NULL);
@@ -546,34 +535,27 @@ void cGame::editModeEvents(SDL_Event *event)
                 saveLayer(world->levellayer);
                 SDL_WM_SetCaption ("Current Layer Saved.", NULL);
                 break;
-
             case SDLK_F4:
                 //Save Demo
                 saveDemo();
                 SDL_WM_SetCaption ("Basic demolevel Saved.", NULL);
                 break;
-
             case SDLK_LEFT:
                 world->cam->direction = world->cam->left;
                 break;
-
             case SDLK_RIGHT:
                 world->cam->direction = world->cam->right;
                 break;
-
             case SDLK_UP:
                 world->cam->direction = world->cam->up;
                 break;
-
             case SDLK_DOWN:
                 world->cam->direction = world->cam->down;
                 break;
             }
             break;
-
         case SDL_KEYUP:
-            switch(event->key.keysym.sym)
-            {
+            switch(event->key.keysym.sym) {
             case SDLK_RIGHT:
             case SDLK_LEFT:
             case SDLK_UP:
@@ -582,7 +564,6 @@ void cGame::editModeEvents(SDL_Event *event)
                 break;
             }
             break;
-
         case SDL_QUIT:
             done = 1;
             break;
@@ -592,16 +573,16 @@ void cGame::editModeEvents(SDL_Event *event)
     }
 
     //Camera movement by mouse corners to navigate thru the scene
-    int x,y;
-    SDL_GetMouseState(&x, &y);
-    if(x>(world->config->screenwidth * mousecornerwidthperc))
-        world->cam->x -= mousescrollspeed;
-    if(x<(world->config->screenwidth*(1.0 - mousecornerwidthperc))) // Invert
-        world->cam->x += mousescrollspeed;
-    if(y>(world->config->screenheight * mousecornerwidthperc))
-        world->cam->y -= mousescrollspeed;
-    if(y<(world->config->screenheight*(1.0 - mousecornerwidthperc)))
-        world->cam->y += mousescrollspeed;
+//    int x,y;
+//    SDL_GetMouseState(&x, &y);
+//    if(x>(world->config->screenwidth * mousecornerwidthperc))
+//        world->cam->x -= mousescrollspeed;
+//    if(x<(world->config->screenwidth*(1.0 - mousecornerwidthperc))) // Invert
+//        world->cam->x += mousescrollspeed;
+//    if(y>(world->config->screenheight * mousecornerwidthperc))
+//        world->cam->y -= mousescrollspeed;
+//    if(y<(world->config->screenheight*(1.0 - mousecornerwidthperc)))
+//        world->cam->y += mousescrollspeed;
 }
 
 void cGame::objectMovement()
@@ -612,9 +593,20 @@ void cGame::objectMovement()
 cGame::cGame()
 {
     world = new cWorld();
-
-    //start real game engine
     initVariables();
+}
+
+
+void cGame::scaleSurface(SDL_Surface *src, SDL_Surface *dest)
+{
+    double  _stretch_factor_x = (static_cast<double>(dest->w)  / static_cast<double>(src->w)),
+            _stretch_factor_y = (static_cast<double>(dest->h) / static_cast<double>(src->h));
+
+    for(Sint32 y = 0; y < src->h; y++)
+        for(Sint32 x = 0; x < src->w; x++)
+            for(Sint32 o_y = 0; o_y < _stretch_factor_y; ++o_y)
+                for(Sint32 o_x = 0; o_x < _stretch_factor_x; ++o_x)
+                    drawPixel(dest, static_cast<Sint32>(_stretch_factor_x * x) + o_x, static_cast<Sint32>(_stretch_factor_y * y) + o_y, readPixel(src, x, y));
 }
 
 void cGame::intro()
@@ -624,12 +616,9 @@ void cGame::intro()
     Mix_Music *music = NULL;
 
     music = Mix_LoadMUS("music.wav");
-    if(music == NULL)
-    {
+    if(music == NULL) {
         TRACE("Audio","Unable to load music file: %s\n", Mix_GetError());
-    }
-    else
-    {
+    } else {
         TRACE("Audio","INIT OK!");
     }
 
@@ -642,20 +631,20 @@ void cGame::intro()
     temp = SDL_LoadBMP("intro.bmp");
     image = SDL_DisplayFormat(temp);
     SDL_FreeSurface(temp);
-    SDL_BlitSurface(image, NULL, world->screensurface, NULL);
+    SDL_BlitSurface(image, NULL, world->virtualsurface, NULL);
+    SDL_BlitSurface(world->virtualsurface, NULL, world->screensurface, NULL); // TODO: needs to rescale also
     SDL_Flip(world->screensurface);
 
     bool done;
     SDL_Delay(2000);
 
-
 }
 
 void cGame::initVariables()
 {
-    world->gamemode = MODE_GAME;
+    world->gamemode = MODE_MENU;
     done = false;
-    renderlevel = true;
+    renderlevel = false;
     spritepalet = false;
     mousex=0;
     mousey=0;
@@ -679,10 +668,6 @@ void cGame::initVariables()
     yellow.b=0;
     fpslocation.x=30;
     fpslocation.y = world->config->screenheight-50;
-    menuitems[0] = "Start Game";
-    menuitems[1] = "Editor";
-    menuitems[2] = "Options";
-    menuitems[3] = "Exit";
 }
 
 cGame::~cGame()
@@ -690,10 +675,12 @@ cGame::~cGame()
 
 void cGame::cleanUp()
 {
-    //Destroy objects
-    delete world->levellayer;
-    SDL_FreeSurface(world->textsurface);
-    SDL_FreeSurface(world->screensurface);
+    SDL_Quit();
+
+    //BW: When freeing surfaces, application hangs at exit! Don't know why.
+    //delete world->levellayer;
+    //SDL_FreeSurface(world->textsurface);
+    //SDL_FreeSurface(world->virtualsurface);
 }
 
 void cGame::renderEditMode()
@@ -711,8 +698,7 @@ void cGame::renderEditMode()
 
     // Because of the screenscrolling you need to know the offset in pixels before we can exactly calculate on which tile the mouse cursor is. But
     // we dont want to do this when the sprite picker is shown, because that is always statis align from the upper left corner (0,0).
-    if (!spritepalet)
-    {
+    if (!spritepalet) {
         xoffset = (-(world->cam->x)%tilewidth);
         yoffset = (-(world->cam->y)%tileheight);
     }
@@ -721,11 +707,9 @@ void cGame::renderEditMode()
     tilecol = getTileCol(mousex-world->cam->x-xoffset,tilewidth);
     tilerow = getTileRow(mousey-world->cam->y-yoffset,tileheight);
 
-    if(spritepalet)   //The Sprite palet/picker is on screen,
-    {
+    if(spritepalet) { //The Sprite palet/picker is on screen,
         world->spritepicker->render(0,0);  //render this at fixed position.
-        switch(mousebuttons)
-        {
+        switch(mousebuttons) {
         case 1:
             //Left button, selects the source sprite
             int pickedtilecol = getTileCol(mousex,tilewidth);
@@ -737,14 +721,10 @@ void cGame::renderEditMode()
             renderlevel = !renderlevel; // Show level again
             break;
         }
-    }
-    else
-    {
+    } else {
         // The is in paint mode
-        if((tilerow < world->levellayer->getTotalRows()) && (tilecol < world->levellayer->getTotalCols()) && (tilerow > -1) && (tilecol > -1))
-        {
-            switch(mousebuttons)
-            {
+        if((tilerow < world->levellayer->getTotalRows()) && (tilecol < world->levellayer->getTotalCols()) && (tilerow > -1) && (tilecol > -1)) {
+            switch(mousebuttons) {
             case 1:
                 //Left button, Draw
                 world->levellayer->leveldata[tilerow][tilecol].index = world->pencil->sourcetilecol;
@@ -765,9 +745,76 @@ void cGame::renderEditMode()
     drawRectangle(rectx-xoffset, recty-yoffset, tilewidth, tileheight, 0xFFFFFF);
 }
 
+void cGame::selectMenuItem()
+{
+    //see if the selected menu item has submenuitems
+    vector<cMenuItem> *menuitems;
+    bool atrootlevel=true;
+    //Is the the viewer in topmenu level?
+    if(world->menu->menupath.size() == 0) {
+        menuitems = &world->menu->menuitems;
+    } else {
+        menuitems = &world->menu->menupath.front().menuitems;
+        atrootlevel=false;
+    }
+
+    TRACE("Menu","Selected: %s",menuitems->at(selectedmenuitem).name.c_str());
+
+    int submenuitems = menuitems->at(selectedmenuitem).menuitems.size();
+    TRACE("Menu","Subitems: %d",submenuitems);
+
+    if(submenuitems > 0) {
+        world->menu->menupath.push_back(menuitems->at(selectedmenuitem));
+        selectedmenuitem = 0; //Reset to top item
+    } else {
+        //Do action for this menu item.
+        if(!atrootlevel && (selectedmenuitem==0)) {
+            // Go up one menu level
+            world->menu->menupath.pop_back();
+            return;
+        } else {
+            menuActionDispatcher(menuitems->at(selectedmenuitem).actionid);
+        }
+    }
+}
+
+void cGame::menuActionDispatcher(int id)
+{
+    TRACE("Menu","menuActionDispatcher: %d",id);
+    switch(id) {
+    case 0:
+        world->gamemode = MODE_GAME;
+        renderlevel = true;
+        break;
+    case 100:
+        world->gamemode = MODE_EDIT;
+        renderlevel = true;
+        break;
+    case 300:
+        menuActionExit();
+        break;
+    }
+}
+
+void cGame::menuActionExit()
+{
+    done=true;
+}
+
 void cGame::renderMenuMode()
 {
-    for(int item=0; item<(sizeof(menuitems)/sizeof(*menuitems)); item++){
+
+    vector<cMenuItem> *menuitems;
+    //Is the the viewer in topmenu level?
+    if(world->menu->menupath.size() == 0) {
+        menuitems = &world->menu->menuitems;
+    } else {
+        menuitems = &world->menu->menupath.front().menuitems;
+    }
+
+
+    int item=0;
+    for (std::vector<cMenuItem>::iterator it = menuitems->begin(); it != menuitems->end(); it++) {
         SDL_Rect itemlocation;
         itemlocation.w = 200;
         itemlocation.h = 50;
@@ -776,10 +823,11 @@ void cGame::renderMenuMode()
 
         SDL_Color itemcolor = (item == selectedmenuitem ? yellow : green);
 
-        world->textsurface = TTF_RenderText_Shaded(ttffont, menuitems[item].c_str(), itemcolor, black);
+        world->textsurface = TTF_RenderText_Shaded(ttffont, it->name.c_str(), itemcolor, black);
         SDL_SetColorKey(world->textsurface, SDL_SRCCOLORKEY, SDL_MapRGB(world->textsurface->format,  0,  0,  0));
-        SDL_BlitSurface(world->textsurface, NULL, world->screensurface, &itemlocation);
+        SDL_BlitSurface(world->textsurface, NULL, world->virtualsurface, &itemlocation);
         SDL_FreeSurface(world->textsurface);
+        item++;
     }
 }
 
@@ -800,29 +848,24 @@ void cGame::drawRectangle(int x, int y, int w, int h, Uint32 color)
     rect.y = y;
     rect.w = w;
     rect.h = h;
-    SDL_FillRect(world->screensurface,&rect,color);
+    SDL_FillRect(world->virtualsurface,&rect,color);
 }
 
 void cGame::render()
 {
     /* Create a black background */
-    Uint32 color = SDL_MapRGB (world->screensurface->format, 0, 0, 0);
-    SDL_FillRect (world->screensurface, NULL, color);
-
-
+    Uint32 color = SDL_MapRGB (world->virtualsurface->format, 0, 0, 0);
+    SDL_FillRect (world->virtualsurface, NULL, color);
 
     //Render the level layer
-    if(renderlevel)
-    {
+    if(renderlevel) {
 
         // Render the background layer
         world->backgroundlayer->render(0,0,world->cam->x + scrolloffset, world->cam->y);
 
-        if(world->levellayer->isBuffered())
-        {
+        if(world->levellayer->isBuffered()) {
             // If we are in Edit mode, then force render of the level layer to buffer surface
-            if(world->gamemode == MODE_EDIT)
-            {
+            if(world->gamemode == MODE_EDIT) {
                 world->levellayer->clearlayer();
                 world->levellayer->render(0,0);
             }
@@ -833,25 +876,19 @@ void cGame::render()
             dest.y = world->cam->y;
             dest.w = world->levellayer->getWidth();
             dest.h = world->levellayer->getWidth();
-            SDL_BlitSurface(world->levellayer->getBufferSurface(), NULL, world->screensurface, &dest);
-        }
-        else
-        {
+            SDL_BlitSurface(world->levellayer->getBufferSurface(), NULL, world->virtualsurface, &dest);
+        } else {
             world->levellayer->render(world->cam->x, world->cam->y);
         }
 
         //Update (and that includes rendering of) all the levelobjects
         list<iLevelObject*>::iterator object = world->levelobjects.begin();
-        for (object = world->levelobjects.begin(); object != world->levelobjects.end();)
-        {
-            if(!(*object)->isAlive())
-            {
+        for (object = world->levelobjects.begin(); object != world->levelobjects.end();) {
+            if(!(*object)->isAlive()) {
                 //Object is dead, remove from list and delete object from memory
                 object = world->levelobjects.erase(object);
                 //delete (*itObject); //TODO: I think i created a memory leak here, i thought i must delete the object but i cant, somehow my memory doenst seems to grow now.
-            }
-            else
-            {
+            } else {
                 updateLevelObject(*object);
                 ++object;
             }
@@ -859,18 +896,24 @@ void cGame::render()
     }
 
     //Overlay
-    if(world->gamemode == MODE_EDIT)
-    {
+    if(world->gamemode == MODE_EDIT) {
         renderEditMode();
     }
 
-    if(world->gamemode == MODE_MENU){
+    if(world->gamemode == MODE_MENU) {
         renderMenuMode();
     }
 
     if(world->gamemode == MODE_GAME)
         renderUI();
 
+
+    if(world->config->virtualresolution) {
+        scaleSurface(world->virtualsurface,world->screensurface);
+    } else {
+        int blitresult = SDL_BlitSurface(world->virtualsurface,NULL,world->screensurface,NULL);
+        TRACE("Render","BLIT Result: %d", blitresult);
+    }
     /* Switch video buffer */
     SDL_Flip (world->screensurface);
 }
@@ -885,49 +928,111 @@ void cGame::renderUI()
     itoa(fps,fpstext,10);
     world->textsurface = TTF_RenderText_Shaded(ttffont, fpstext, green, black);
     SDL_SetColorKey(world->textsurface, SDL_SRCCOLORKEY, SDL_MapRGB(world->textsurface->format,  0,  0,  0));
-    SDL_BlitSurface(world->textsurface, NULL, world->screensurface, &fpslocation);
+    SDL_BlitSurface(world->textsurface, NULL, world->virtualsurface, &fpslocation);
     SDL_FreeSurface(world->textsurface);
 }
 
-void cGame::drawPixel(SDL_Surface *screen, int x, int y, Uint8 r, Uint8 g, Uint8 b)
+Uint32 cGame::readPixel(SDL_Surface *surface, int x, int y)
 {
-    Uint32 color = SDL_MapRGB(screen->format, r, g, b);
-    switch (screen->format->BytesPerPixel)
-    {
-    case 1:   // 8-bpp
-    {
+    int bpp = surface->format->BytesPerPixel;
+    /* Here p is the address to the pixel we want to retrieve */
+    Uint8 *p = (Uint8 *)surface->pixels + y * surface->pitch + x * bpp;
+
+    switch(bpp) {
+    case 1:
+        return *p;
+        break;
+
+    case 2:
+        return *(Uint16 *)p;
+        break;
+
+    case 3:
+        if(SDL_BYTEORDER == SDL_BIG_ENDIAN)
+            return p[0] << 16 | p[1] << 8 | p[2];
+        else
+            return p[0] | p[1] << 8 | p[2] << 16;
+        break;
+
+    case 4:
+        return *(Uint32 *)p;
+        break;
+
+    default:
+        return 0;       /* shouldn't happen, but avoids warnings */
+    }
+}
+
+void cGame::drawPixel(SDL_Surface *screen, int x, int y, Uint32 color)
+{
+    switch (screen->format->BytesPerPixel) {
+    case 1: { // 8-bpp
         Uint8 *bufp;
         bufp = (Uint8 *)screen->pixels + y*screen->pitch + x;
         *bufp = color;
     }
     break;
-    case 2:   // 15-bpp or 16-bpp
-    {
+    case 2: { // 15-bpp or 16-bpp
         Uint16 *bufp;
         bufp = (Uint16 *)screen->pixels + y*screen->pitch/2 + x;
         *bufp = color;
     }
     break;
-    case 3:   // 24-bpp mode, usually not used
-    {
+    case 3: { // 24-bpp mode, usually not used
         Uint8 *bufp;
         bufp = (Uint8 *)screen->pixels + y*screen->pitch + x * 3;
-        if(SDL_BYTEORDER == SDL_LIL_ENDIAN)
-        {
+        if(SDL_BYTEORDER == SDL_LIL_ENDIAN) {
             bufp[0] = color;
             bufp[1] = color >> 8;
             bufp[2] = color >> 16;
-        }
-        else
-        {
+        } else {
             bufp[2] = color;
             bufp[1] = color >> 8;
             bufp[0] = color >> 16;
         }
     }
     break;
-    case 4:   // 32-bpp
-    {
+    case 4: { // 32-bpp
+        Uint32 *bufp;
+        bufp = (Uint32 *)screen->pixels + y*screen->pitch/4 + x;
+        *bufp = color;
+    }
+    break;
+    }
+}
+
+
+void cGame::drawPixel(SDL_Surface *screen, int x, int y, Uint8 r, Uint8 g, Uint8 b)
+{
+    Uint32 color = SDL_MapRGB(screen->format, r, g, b);
+    switch (screen->format->BytesPerPixel) {
+    case 1: { // 8-bpp
+        Uint8 *bufp;
+        bufp = (Uint8 *)screen->pixels + y*screen->pitch + x;
+        *bufp = color;
+    }
+    break;
+    case 2: { // 15-bpp or 16-bpp
+        Uint16 *bufp;
+        bufp = (Uint16 *)screen->pixels + y*screen->pitch/2 + x;
+        *bufp = color;
+    }
+    break;
+    case 3: { // 24-bpp mode, usually not used
+        Uint8 *bufp;
+        bufp = (Uint8 *)screen->pixels + y*screen->pitch + x * 3;
+        if(SDL_BYTEORDER == SDL_LIL_ENDIAN) {
+            bufp[0] = color;
+            bufp[1] = color >> 8;
+            bufp[2] = color >> 16;
+        } else {
+            bufp[2] = color;
+            bufp[1] = color >> 8;
+            bufp[0] = color >> 16;
+        }
+    }
+    break;
+    case 4: { // 32-bpp
         Uint32 *bufp;
         bufp = (Uint32 *)screen->pixels + y*screen->pitch/4 + x;
         *bufp = color;

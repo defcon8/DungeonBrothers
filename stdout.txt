@@ -1,3 +1,2 @@
 Client: WSAStartup() is OK.
 Client: socket() is OK.
-Client: connect() - Failed to connect.

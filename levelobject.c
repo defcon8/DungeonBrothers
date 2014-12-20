@@ -14,7 +14,8 @@
 #include "levelobject.h"
 #include "world.h"
 
-cLevelObject::cLevelObject(cWorld* _world, const char* tilesource, int spriteheight, int spritewidth) {
+cLevelObject::cLevelObject(cWorld* _world, const char* tilesource, int spriteheight, int spritewidth)
+{
 
     // Store references to data objects localy
     world = _world;
@@ -26,7 +27,8 @@ cLevelObject::cLevelObject(cWorld* _world, const char* tilesource, int spritehei
     isalive=true;
 }
 
-bool cLevelObject::checkLevelCollision() {
+bool cLevelObject::checkLevelCollision()
+{
     //TODO: MAYBE THIS FUNCTION IS DEADCODE.. Don't know for sure.
 
     //Level tile collision + Gravity
@@ -51,15 +53,18 @@ bool cLevelObject::checkLevelCollision() {
     return collide;
 }
 
-cLevelObject::~cLevelObject() {
+cLevelObject::~cLevelObject()
+{
 }
 
-void cLevelObject::aI() {
+void cLevelObject::aI()
+{
     //Implemenet object artificial intelligence here. For example movement automation.
     //Overide this (if needed) in the derived class
 }
 
-void cLevelObject::update() {
+void cLevelObject::update()
+{
     aI();
 
     //Update graphical layer
@@ -68,15 +73,18 @@ void cLevelObject::update() {
     gfxlayer->render(world->cam->x, world->cam->y);
 }
 
-bool cLevelObject::isAlive() {
+bool cLevelObject::isAlive()
+{
     return isalive;
 }
 
-bool cLevelObject::checkDirectionCollision(cSpriteLayer* object, int direction) {
+bool cLevelObject::checkDirectionCollision(cSpriteLayer* object, int direction)
+{
     return checkDirectionCollision(object, direction, 1);
 }
 
-void cLevelObject::getHorScanPos(cSpriteLayer* object, int column, int &begin, int &end) {
+void cLevelObject::getHorScanPos(cSpriteLayer* object, int column, int &begin, int &end)
+{
     // This function calculates where the object is in the current column, and then
     // return the begin and end pixel in this tile, to rasterscan.
     int objectstartincol = (object->x / world->levellayer->source->spritewidth);
@@ -109,7 +117,8 @@ void cLevelObject::getHorScanPos(cSpriteLayer* object, int column, int &begin, i
     TRACE("getHorScanPos","Algorithm: %d  StartPX: %d  EndPX: %d", alg, begin, end);
 }
 
-void cLevelObject::getPositionInLevel(cSpriteLayer* sourceobject, objpos* position, int& colstart, int& colend, int& rowstart, int& rowend) {
+void cLevelObject::getPositionInLevel(cSpriteLayer* sourceobject, objpos* position, int& colstart, int& colend, int& rowstart, int& rowend)
+{
     colstart = world->levellayer->xToCol(position->x);
     colend = world->levellayer->xToCol((position->x + (sourceobject->getSpriteWidth()-1)));
     rowstart = world->levellayer->yToRow(position->y);
@@ -118,7 +127,8 @@ void cLevelObject::getPositionInLevel(cSpriteLayer* sourceobject, objpos* positi
     TRACE("getPositionInLevel","ObjX: %d  ObjY: %d  newX: %d  newY: %d  height: %d  width: %d  ColS: %d  ColE: %d  RowS: %d  RowE: %d", sourceobject->x, sourceobject->y, position->x, position->y, sourceobject->source->spriteheight, sourceobject->source->spritewidth, colstart, colend, rowstart, rowend);
 }
 
-bool cLevelObject::checkDirectionCollision(cSpriteLayer* object, int direction, int pixels) {
+bool cLevelObject::checkDirectionCollision(cSpriteLayer* object, int direction, int pixels)
+{
     bool collide = false;
 
     objpos* newpos = new objpos(); //new virtual object position
@@ -126,35 +136,43 @@ bool cLevelObject::checkDirectionCollision(cSpriteLayer* object, int direction, 
     newpos->y = object->y;
 
     switch(direction) {
-        case UP:    newpos->y -= pixels;   break;
-        case RIGHT: newpos->x += pixels;   break;
-        case DOWN:  newpos->y += pixels;   break;
-        case LEFT:  newpos->x -= pixels;   break;
+    case UP:
+        newpos->y -= pixels;
+        break;
+    case RIGHT:
+        newpos->x += pixels;
+        break;
+    case DOWN:
+        newpos->y += pixels;
+        break;
+    case LEFT:
+        newpos->x -= pixels;
+        break;
     }
 
     int colstart, colend, rowstart, rowend;
     getPositionInLevel(object,newpos,colstart,colend,rowstart,rowend);
 
     switch(direction) {
-        case UP:
-            for (int col = colstart ; col <= colend ; col++ ) {
-                if(world->levellayer->leveldata[rowstart][col].type == SPRITE) collide = true;
+    case UP:
+        for (int col = colstart ; col <= colend ; col++ ) {
+            if(world->levellayer->leveldata[rowstart][col].type == SPRITE) collide = true;
 
-            }
-            break;
-        case RIGHT:
-            for (int row = rowstart ; row <= rowend ; row++ ) {
-                if(world->levellayer->leveldata[row][colend].type == SPRITE) collide = true;
-            }
-            break;
-        case DOWN:
-            collide = collideDown(object, newpos, colstart, colend, rowstart, rowend, pixels);
-            break;
-        case LEFT:
-            for (int row = rowstart ; row <= rowend ; row++ ) {
-                if(world->levellayer->leveldata[row][colstart].type == SPRITE) collide = true;
-            }
-            break;
+        }
+        break;
+    case RIGHT:
+        for (int row = rowstart ; row <= rowend ; row++ ) {
+            if(world->levellayer->leveldata[row][colend].type == SPRITE) collide = true;
+        }
+        break;
+    case DOWN:
+        collide = collideDown(object, newpos, colstart, colend, rowstart, rowend, pixels);
+        break;
+    case LEFT:
+        for (int row = rowstart ; row <= rowend ; row++ ) {
+            if(world->levellayer->leveldata[row][colstart].type == SPRITE) collide = true;
+        }
+        break;
     }
 
     if(collide)
@@ -163,7 +181,8 @@ bool cLevelObject::checkDirectionCollision(cSpriteLayer* object, int direction, 
     return collide;
 }
 
-bool cLevelObject::collideDown(cSpriteLayer* sourceobject, objpos* position, int colstart, int colend, int rowstart, int rowend, int pixels) {
+bool cLevelObject::collideDown(cSpriteLayer* sourceobject, objpos* position, int colstart, int colend, int rowstart, int rowend, int pixels)
+{
     int colcount;
     bool collide=false;
     for (int col = colstart ; col <= colend ; col++ ) {                         // for each column in this row

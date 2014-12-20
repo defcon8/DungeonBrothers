@@ -39,7 +39,6 @@ private:
     int fps;
     int selectedmenuitem;
     char fpstext[5];
-    string menuitems[4];
 
     TTF_Font* ttffont;
     SDL_Color green;
@@ -62,6 +61,9 @@ private:
     void saveLayer(cSpriteLayer *spritelayer);
     void saveDemo();
     void drawPixel(SDL_Surface *screen, int x, int y, Uint8 r, Uint8 g, Uint8 b);
+    void drawPixel(SDL_Surface *screen, int x, int y, Uint32 color);
+    Uint32 readPixel(SDL_Surface *surface, int x, int y);
+    void scaleSurface(SDL_Surface *src, SDL_Surface *dest);
     void renderEditMode();
     void renderMenuMode();
     void renderUI();
@@ -69,6 +71,9 @@ private:
     void objectMovement();
     void updateLevelObject(iLevelObject* levelobject);
     void calcfps();
+    void selectMenuItem();
+    void menuActionDispatcher(int id);
+    void menuActionExit();
     int getTileCol(int x, int tilewidth);
     int getTileRow(int y, int tileheight);
 

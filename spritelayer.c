@@ -10,13 +10,6 @@
   E.  info@bastiaandewaard.com
 
 */
-/** \brief
- *
- * \param
- * \param
- * \return
- * Note: Do always set blOptimize to false when blIsBuffered is true.
- */
 
 #include "spritelayer.h"
 #include "world.h"
@@ -27,7 +20,8 @@ using namespace std;
 
 SDL_Surface *spritelayerscreen;
 
-void cSpriteLayer::drawPixel(SDL_Surface *screen, int x, int y, Uint8 r, Uint8 g, Uint8 b) {
+void cSpriteLayer::drawPixel(SDL_Surface *screen, int x, int y, Uint8 r, Uint8 g, Uint8 b)
+{
     Uint32 color = SDL_MapRGB(screen->format, r, g, b);
     switch (screen->format->BytesPerPixel) {
     case 1: { // 8-bpp
@@ -66,7 +60,8 @@ void cSpriteLayer::drawPixel(SDL_Surface *screen, int x, int y, Uint8 r, Uint8 g
 }
 
 
-bool cSpriteLayer::pixelIsTransparant(int row, int col, int x, int y, int colcount){
+bool cSpriteLayer::pixelIsTransparant(int row, int col, int x, int y, int colcount)
+{
 
     // Find out while tile this is.. in the sprite source.
 
@@ -80,17 +75,17 @@ bool cSpriteLayer::pixelIsTransparant(int row, int col, int x, int y, int colcou
 
     bool solid = (bool)source->pixelinfo[pixelx][pixely].transparant;
 
-    if(solid){
-        drawPixel(world->screensurface, x + (colcount * world->levellayer->source->spritewidth),y,0,255,0);
-    }else{
-        drawPixel(world->screensurface, x + (colcount * world->levellayer->source->spritewidth),y,255,0,0);
+    if(solid) {
+        drawPixel(world->virtualsurface, x + (colcount * world->levellayer->source->spritewidth),y,0,255,0);
+    } else {
+        drawPixel(world->virtualsurface, x + (colcount * world->levellayer->source->spritewidth),y,255,0,0);
     }
 
     Uint8 r, g, b; // temporary
     Uint32 pixelcolor = world->levellayer->source->getPixelColor(world->levellayer->source->bitmap,pixelx,pixely);
     SDL_GetRGB(pixelcolor, world->levellayer->source->bitmap->format, &r,&g,&b);
 
-    drawPixel(world->screensurface, x + (colcount * world->levellayer->source->spritewidth), y+32, r, g, b);
+    drawPixel(world->virtualsurface, x + (colcount * world->levellayer->source->spritewidth), y+32, r, g, b);
 
     TRACE("pixelIsTransparant","Row: %d  Col: %d  RowInSource: %d  ColInSource: %d  PixelX: %d  PixelY: %d  iX: %d  iY: %d  Solid: %s", row, col, rowinsource, colinsource, pixelx, pixely, x ,y, solid ? "true" : "false");
 
@@ -98,7 +93,8 @@ bool cSpriteLayer::pixelIsTransparant(int row, int col, int x, int y, int colcou
 
 }
 
-cSpriteLayer::cSpriteLayer(cWorld* _world, int rows, int cols, int spriteheight, int spritewidth, bool optimize, bool isbuffered, bool usecolorkey, int keyr, int keyg, int keyb) {
+cSpriteLayer::cSpriteLayer(cWorld* _world, int rows, int cols, int spriteheight, int spritewidth, bool optimize, bool isbuffered, bool usecolorkey, int keyr, int keyg, int keyb)
+{
     world = _world;
 
     /**< Initialize variables and setup data object holding the level data */
@@ -106,12 +102,12 @@ cSpriteLayer::cSpriteLayer(cWorld* _world, int rows, int cols, int spriteheight,
 
     /**< Setup (source) object that contains the Sprite Sheet. */
     if(usebuffer) {
-        buffer = SDL_CreateRGBSurface(SDL_HWSURFACE,(cols*spritewidth),(rows*spriteheight),
-                                        world->screensurface->format->BitsPerPixel,
-                                        world->screensurface->format->Rmask,
-                                        world->screensurface->format->Gmask,
-                                        world->screensurface->format->Bmask,
-                                        world->screensurface->format->Amask);
+        buffer = SDL_CreateRGBSurface(SDL_SWSURFACE,(cols*spritewidth),(rows*spriteheight),
+                                      world->virtualsurface->format->BitsPerPixel,
+                                      world->virtualsurface->format->Rmask,
+                                      world->virtualsurface->format->Gmask,
+                                      world->virtualsurface->format->Bmask,
+                                      world->virtualsurface->format->Amask);
 
         source = new cSprite(world, buffer);
     } else {
@@ -133,25 +129,28 @@ cSpriteLayer::cSpriteLayer(cWorld* _world, int rows, int cols, int spriteheight,
     initMap();
 }
 
-void cSpriteLayer::getSlopes() {
+void cSpriteLayer::getSlopes()
+{
     source->getSlopes();
 }
 
-void cSpriteLayer::clearlayer() {
+void cSpriteLayer::clearlayer()
+{
     SDL_Rect rect;
     Uint32 color;
     if(usebuffer) {
         color = SDL_MapRGB (buffer->format, 0, 0, 0);
         SDL_FillRect (buffer, NULL, color);
     } else {
-        color = SDL_MapRGB (world->screensurface->format, 0, 0, 0);
-        SDL_FillRect (world->screensurface, NULL, color);
+        color = SDL_MapRGB (world->virtualsurface->format, 0, 0, 0);
+        SDL_FillRect (world->virtualsurface, NULL, color);
     }
 
 }
 
 
-void cSpriteLayer::initLayer(int rows, int cols, int _spriteheight, int _spritewidth, bool optimize, bool isbuffered) {
+void cSpriteLayer::initLayer(int rows, int cols, int _spriteheight, int _spritewidth, bool optimize, bool isbuffered)
+{
     spriteheight = _spriteheight;
     spritewidth = _spritewidth;
     x = 0;
@@ -170,27 +169,33 @@ void cSpriteLayer::initLayer(int rows, int cols, int _spriteheight, int _spritew
         leveldata[i] = new slevelblock[cols];
 }
 
-void cSpriteLayer::setSpriteHeight(int pixels) {
+void cSpriteLayer::setSpriteHeight(int pixels)
+{
     spriteheight = pixels;
 }
 
-int cSpriteLayer::getSpriteHeight() {
+int cSpriteLayer::getSpriteHeight()
+{
     return spriteheight;
 }
 
-void cSpriteLayer::setSpriteWidth(int pixels) {
+void cSpriteLayer::setSpriteWidth(int pixels)
+{
     spritewidth = pixels;
 }
 
-int cSpriteLayer::getSpriteWidth() {
+int cSpriteLayer::getSpriteWidth()
+{
     return spritewidth;
 }
 
-Uint8 cSpriteLayer::returnSpriteFlags(int row, int col) {
+Uint8 cSpriteLayer::returnSpriteFlags(int row, int col)
+{
     return leveldata[row][col].flags;
 }
 
-void cSpriteLayer::initMap() {
+void cSpriteLayer::initMap()
+{
     for (int row = 0; row < rowcount; row++) {
         for (int col = 0; col < colcount; col++) {
             leveldata[row][col].index = 1;
@@ -201,12 +206,14 @@ void cSpriteLayer::initMap() {
     }
 }
 
-cSpriteLayer::~cSpriteLayer() {
+cSpriteLayer::~cSpriteLayer()
+{
     SDL_FreeSurface(spritelayerscreen);
     SDL_FreeSurface(buffer);
 }
 
-SDL_Surface* cSpriteLayer::render(signed int camx, signed int camy) {
+SDL_Surface* cSpriteLayer::render(signed int camx, signed int camy)
+{
     // Don't draw things that are outside the view.
     int startcol=0;
     int startrow=0;
@@ -245,42 +252,54 @@ SDL_Surface* cSpriteLayer::render(signed int camx, signed int camy) {
 
 }
 
-SDL_Surface* cSpriteLayer::getBufferSurface() {
+SDL_Surface* cSpriteLayer::getBufferSurface()
+{
     return buffer;
 }
-int cSpriteLayer::getTotalRows() {
+int cSpriteLayer::getTotalRows()
+{
     return rowcount;
 }
-int cSpriteLayer::getTotalCols() {
+int cSpriteLayer::getTotalCols()
+{
     return colcount;
 }
 
-signed int cSpriteLayer::colToXInSpriteSheet(signed int col) {
+signed int cSpriteLayer::colToXInSpriteSheet(signed int col)
+{
     return (col*(spritewidth+source->spritespacer)) + source->spritespacer; // See below
 }
-signed int cSpriteLayer::rowToYInSpriteSheet(signed int row) {
+signed int cSpriteLayer::rowToYInSpriteSheet(signed int row)
+{
     TRACE("pixelIsTransparant","iSpriteHeightOffset: %d",source->spriteheightoffset);
     return source->spriteheightoffset + (row*(source->spriteheight+source->spritespacer)); //TODO: The last value (iSpriteSpace isnt correct, it should be heightoffset, but somehow it doesnt work)
 }
 
-signed int cSpriteLayer::colToX(signed int col) {
+signed int cSpriteLayer::colToX(signed int col)
+{
     return (col*spritewidth);
 }
-signed int cSpriteLayer::rowToY(signed int row) {
+signed int cSpriteLayer::rowToY(signed int row)
+{
     return (row*spriteheight);
 }
-signed int cSpriteLayer::xToCol(signed int width) {
+signed int cSpriteLayer::xToCol(signed int width)
+{
     return (width/spritewidth);
 }
-signed int cSpriteLayer::yToRow(signed int height) {
+signed int cSpriteLayer::yToRow(signed int height)
+{
     return (height/spriteheight);
 }
-signed int cSpriteLayer::getWidth() {
+signed int cSpriteLayer::getWidth()
+{
     return colcount * spritewidth;
 }
-signed int cSpriteLayer::getHeight() {
+signed int cSpriteLayer::getHeight()
+{
     return rowcount * spriteheight;
 }
-bool cSpriteLayer::isBuffered() {
+bool cSpriteLayer::isBuffered()
+{
     return usebuffer;
 }

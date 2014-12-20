@@ -5,7 +5,8 @@
 #include "bullit.h"
 #include "world.h"
 
-cPlayer::cPlayer(cWorld* world, char* tilesource, int spriteheight, int spritewidth) : cLevelObject(world, tilesource, spriteheight, spritewidth) {
+cPlayer::cPlayer(cWorld* world, char* tilesource, int spriteheight, int spritewidth) : cLevelObject(world, tilesource, spriteheight, spritewidth)
+{
     // Init Variables
     moveDirection(NONE,false);
     facedirection=LEFT;
@@ -38,22 +39,24 @@ cPlayer::cPlayer(cWorld* world, char* tilesource, int spriteheight, int spritewi
 
 }
 
-cPlayer::~cPlayer() {
+cPlayer::~cPlayer()
+{
 }
 
-void cPlayer::setSprite() {
+void cPlayer::setSprite()
+{
     switch(facedirection) {
     case LEFT:
         gfxlayer->leveldata[0][0].index=0;
         break;
-
     case RIGHT:
         gfxlayer->leveldata[0][0].index=1;
         break;
     }
 }
 
-void cPlayer::jump() {
+void cPlayer::jump()
+{
     if(!isjumping) {
         //iVelocityY=iJumpFactor;
         jumpstep=jumprange;
@@ -61,7 +64,8 @@ void cPlayer::jump() {
     }
 }
 
-void cPlayer::fire() {
+void cPlayer::fire()
+{
     cBullit* bullit;
     int angle;
     switch(facedirection) {
@@ -74,19 +78,19 @@ void cPlayer::fire() {
         break;
     }
     bullit= new cBullit(world, "bullit.bmp",10,10,angle,10);
-
-
     world->levelobjects.push_back(bullit);    //Add to level object list
 }
 
-void cPlayer::aI() {
+void cPlayer::aI()
+{
     moveByUserInput();
     setSprite();
     gravityPhysics();
     jumpPhysics();
 }
 
-void cPlayer::gravityPhysics() {
+void cPlayer::gravityPhysics()
+{
     // Down wards gravity, dont do this while jumping because jumping has it own gravity physics
     if(jumpstep == 0) {
         TRACE("Gravity","Speed: %d", movespeed+velocityfall);
@@ -101,7 +105,8 @@ void cPlayer::gravityPhysics() {
     }
 }
 
-void cPlayer::moveByUserInput() {
+void cPlayer::moveByUserInput()
+{
     //normal Walk / move operations
     if(moveright) {
         if(!checkDirectionCollision(gfxlayer, RIGHT, movespeed+velocityx)) {
@@ -127,7 +132,8 @@ void cPlayer::moveByUserInput() {
 
 }
 
-void cPlayer::jumpPhysics() {
+void cPlayer::jumpPhysics()
+{
     if(isjumping) {
         if(jumpstep>0) {
             jumpstep--;
@@ -138,7 +144,8 @@ void cPlayer::jumpPhysics() {
     }
 }
 
-void cPlayer::moveDirection(int direction, bool enabled) {
+void cPlayer::moveDirection(int direction, bool enabled)
+{
     switch(direction) {
     case NONE:
         moveup = false;

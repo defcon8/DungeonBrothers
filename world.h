@@ -8,6 +8,7 @@
 #include "spritelayer.h"
 #include "player.h"
 #include "physics.h"
+#include "menu.h"
 #include "camera.h"
 #include "ilevelobject.h"
 #include "levelobject.h"
@@ -32,8 +33,10 @@ public:
     cPlayer* playerobject;
     cCamera* cam;
     cPhysics* physics;
+    cMenu* menu;
 
     SDL_Surface *screensurface;
+    SDL_Surface *virtualsurface;
     SDL_Surface *textsurface;
 
     list<iLevelObject*> levelobjects;

@@ -13,7 +13,8 @@
 #include "camera.h"
 #include "world.h"
 
-cCamera::cCamera(cWorld* _world) {
+cCamera::cCamera(cWorld* _world)
+{
     world = _world;
     velocity=1;
     up=1;
@@ -26,11 +27,12 @@ cCamera::cCamera(cWorld* _world) {
     direction=none;
 }
 
-cCamera::~cCamera() {
+cCamera::~cCamera()
+{
 }
 
-void cCamera::cameraMovement() {
-
+void cCamera::cameraMovement()
+{
     //Do Camera movement
     switch(direction) {
     case 1:

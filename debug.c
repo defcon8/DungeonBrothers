@@ -4,7 +4,8 @@
 
 cDebug* cDebug::instance = NULL;
 
-cDebug::cDebug() {
+cDebug::cDebug()
+{
     command[0] = 0;
     command[1] = 1;
     command[2] = 2;
@@ -16,14 +17,16 @@ cDebug::cDebug() {
 cDebug::~cDebug()
 {}
 
-cDebug* cDebug::getInstance() {
+cDebug* cDebug::getInstance()
+{
     if(!instance) {
         instance = new cDebug();
     }
     return instance;
 }
 
-int cDebug::connectToServer() {
+int cDebug::connectToServer()
+{
     WSADATA data;
     int result = WSAStartup(MAKEWORD(2,2), &data);
 
@@ -56,7 +59,7 @@ int cDebug::connectToServer() {
     }
 
     sendTraceItems();
-    prepareTrace("INFO","Hi! I am connected.\n");
+    prepareTrace("Init","Client connected.\n");
 
     return 0;
 }
@@ -64,19 +67,20 @@ int cDebug::connectToServer() {
 
 void cDebug::sendTraceItems()
 {
-    char* traceitems = "Init,Events,Audio,Mode,Slopes,Jump,Gravity,getHorScanPos,fCheckDirectionCollision,fPixelIsTransparant,Bullit";
+    char* traceitems = "Init,Render,Menu,Events,Audio,Mode,Slopes,Jump,Gravity,getHorScanPos,fCheckDirectionCollision,fPixelIsTransparant,Bullit";
     send(debugsocket,(char*)&command[3],1, 0);
     send(debugsocket,traceitems,(int)strlen(traceitems), 0);
     send(debugsocket,(char*)&command[4],1, 0);
 }
-void cDebug::prepareTrace(string trace, string text) {
+void cDebug::prepareTrace(string trace, string text)
+{
     //if(text != lastTraceOutput){
-        send(debugsocket,(char*)&command[0],1, 0);
-        send(debugsocket,trace.c_str(),trace.length(), 0);
-        send(debugsocket,(char*)&command[1],1, 0);
-        send(debugsocket,text.c_str(),text.length(), 0);
-        send(debugsocket,(char*)&command[2],1, 0);
+    send(debugsocket,(char*)&command[0],1, 0);
+    send(debugsocket,trace.c_str(),trace.length(), 0);
+    send(debugsocket,(char*)&command[1],1, 0);
+    send(debugsocket,text.c_str(),text.length(), 0);
+    send(debugsocket,(char*)&command[2],1, 0);
 
-        lasttraceoutput = text;
+    lasttraceoutput = text;
     //}
 }

@@ -3,7 +3,7 @@
   Dungeon Brothers
   Opensource C++ Platform Game by Bastiaan de Waard (defcon8)
   Makes use of the SDL Library. Compiled with CodeBlocks/MingW on Win32.
-  2013
+  2014
 
   W.  https://github.com/defcon8/DungeonBrothers
   W.  http://www.bastiaandewaard.com
@@ -18,7 +18,9 @@
 
 #define DEBUG 1
 
-int main (int argc, char *argv[]) {
+int main (int argc, char *argv[])
+{
+    // Get out of static context.
     cGame* game = new cGame();
     game->start();
     delete game;

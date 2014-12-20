@@ -5,8 +5,8 @@
 #include "world.h"
 #include <cmath>
 
-cBullit::cBullit(cWorld* _world, const char* tilesource, int spriteheight, int spritewidth, int _angle, int _speed) : cLevelObject(_world, tilesource, spriteheight, spritewidth) {
-
+cBullit::cBullit(cWorld* _world, const char* tilesource, int spriteheight, int spritewidth, int _angle, int _speed) : cLevelObject(_world, tilesource, spriteheight, spritewidth)
+{
     angle = _angle;
     speed = _speed;
 
@@ -34,7 +34,8 @@ cBullit::cBullit(cWorld* _world, const char* tilesource, int spriteheight, int s
 cBullit::~cBullit()
 {}
 
-void cBullit::aI() {
+void cBullit::aI()
+{
     //Movement
     velocityx=(cos(angle*(3.14/180))*speed);
     velocityy=(sin(angle*(3.14/180))*speed);
@@ -42,8 +43,8 @@ void cBullit::aI() {
     x+= velocityx;
     y+= velocityy;
     TRACE("Bullit","Object destroyed CamX: %d",world->config->screenwidth-world->cam->x);
-    if((x < 0) || (x > (world->config->screenwidth-world->cam->x))){
-            isalive=false;
-       }
+    if((x < 0) || (x > (world->config->screenwidth-world->cam->x))) {
+        isalive=false;
+    }
 
 }

@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1419073764 source:c:\users\bastiaan\documents\github\dungeonbrothers\debug.c
+1419111649 source:c:\users\bastiaan\documents\github\dungeonbrothers\debug.c
 	"debug.h"
 	<stdio.h>
 	<iostream>
@@ -8,7 +8,7 @@
 	<winsock2.h>
 	<string>
 
-1419074228 source:c:\users\bastiaan\documents\github\dungeonbrothers\game.c
+1419117624 source:c:\users\bastiaan\documents\github\dungeonbrothers\game.c
 	<cstdio>
 	<cstdlib>
 	<ctime>
@@ -21,7 +21,7 @@
 	<cstring>
 	"game.h"
 
-1419073882 c:\users\bastiaan\documents\github\dungeonbrothers\game.h
+1419115434 c:\users\bastiaan\documents\github\dungeonbrothers\game.h
 	<SDL/SDL.h>
 	"SDL/SDL_ttf.h"
 	"SDL/SDL_mixer.h"
@@ -40,7 +40,7 @@
 
 1419015874 c:\users\bastiaan\documents\github\dungeonbrothers\pencil.h
 
-1419074342 source:c:\users\bastiaan\documents\github\dungeonbrothers\main.c
+1419110380 source:c:\users\bastiaan\documents\github\dungeonbrothers\main.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -50,12 +50,12 @@
 1418844867 source:c:\users\bastiaan\documents\github\dungeonbrothers\pencil.c
 	"pencil.h"
 
-1419075620 source:c:\users\bastiaan\documents\github\dungeonbrothers\sprite.c
+1419107743 source:c:\users\bastiaan\documents\github\dungeonbrothers\sprite.c
 	"sprite.h"
 	<cstring>
 	"world.h"
 
-1419075678 source:c:\users\bastiaan\documents\github\dungeonbrothers\spritelayer.c
+1419107913 source:c:\users\bastiaan\documents\github\dungeonbrothers\spritelayer.c
 	"spritelayer.h"
 	"world.h"
 	<cstring>
@@ -121,7 +121,7 @@
 	<cstring>
 	<fstream>
 
-1419074677 source:c:\users\bastiaan\documents\github\dungeonbrothers\player.c
+1419104138 source:c:\users\bastiaan\documents\github\dungeonbrothers\player.c
 	<cstdlib>
 	"player.h"
 	"bullit.h"
@@ -159,7 +159,7 @@
 	"bullit.h"
 	"world.h"
 
-1419017616 source:c:\users\bastiaan\documents\github\dungeonbrothers\enemy.c
+1419104066 source:c:\users\bastiaan\documents\github\dungeonbrothers\enemy.c
 	"enemy.h"
 
 1419015362 c:\users\bastiaan\documents\github\dungeonbrothers\enemy.h
@@ -167,7 +167,7 @@
 
 1419073639 c:\users\bastiaan\documents\github\dungeonbrothers\camera.h
 
-1419017387 source:c:\users\bastiaan\documents\github\dungeonbrothers\camera.c
+1419104039 source:c:\users\bastiaan\documents\github\dungeonbrothers\camera.c
 	"camera.h"
 	"world.h"
 
@@ -277,7 +277,7 @@
 
 1419015680 c:\users\bastiaan\documents\github\dungeonbrothers\ilevelobject.h
 
-1419074331 source:c:\users\bastiaan\documents\github\dungeonbrothers\levelobject.c
+1419104075 source:c:\users\bastiaan\documents\github\dungeonbrothers\levelobject.c
 	"levelobject.h"
 	"world.h"
 
@@ -287,13 +287,13 @@
 1419015891 c:\users\bastiaan\documents\github\dungeonbrothers\physics.h
 	"config.h"
 
-1419075720 source:c:\users\bastiaan\documents\github\dungeonbrothers\config.c
+1419117909 source:c:\users\bastiaan\documents\github\dungeonbrothers\config.c
 	"config.h"
 
-1419015284 c:\users\bastiaan\documents\github\dungeonbrothers\config.h
+1419116165 c:\users\bastiaan\documents\github\dungeonbrothers\config.h
 	<SDL/SDL.h>
 
-1419016644 c:\users\bastiaan\documents\github\dungeonbrothers\world.h
+1419107753 c:\users\bastiaan\documents\github\dungeonbrothers\world.h
 	<list>
 	"config.h"
 	"debug.h"
@@ -301,6 +301,7 @@
 	"spritelayer.h"
 	"player.h"
 	"physics.h"
+	"menu.h"
 	"camera.h"
 	"ilevelobject.h"
 	"levelobject.h"
@@ -308,7 +309,7 @@
 1372018205 source:c:\users\bastiaan\documents\github\dungeonbrothers\world.cpp
 	"world.h"
 
-1419026359 source:c:\users\bastiaan\documents\github\dungeonbrothers\world.c
+1419104207 source:c:\users\bastiaan\documents\github\dungeonbrothers\world.c
 	"world.h"
 
 1372441936 source:c:\documents and settings\bastiaan & lore\mijn documenten\github\dungeonbrothers\config.c
@@ -349,7 +350,7 @@
 	"world.h"
 	<cmath>
 
-1419026665 source:c:\users\bastiaan\documents\github\dungeonbrothers\bullit.c
+1419104018 source:c:\users\bastiaan\documents\github\dungeonbrothers\bullit.c
 	<cstdlib>
 	"bullit.h"
 	"world.h"
@@ -397,4 +398,18 @@
 
 1394130804 source:c:\users\bastiaan\documents\github\dungeonbrothers\spriteslope.c
 	"spriteslope.h"
+
+1419095360 c:\users\bastiaan\documents\github\dungeonbrothers\menu.h
+	"menuitem.h"
+	<vector>
+
+1419099703 c:\users\bastiaan\documents\github\dungeonbrothers\menuitem.h
+	<string>
+	<vector>
+
+1419091261 source:c:\users\bastiaan\documents\github\dungeonbrothers\menuitem.cpp
+	"menuitem.h"
+
+1419104085 source:c:\users\bastiaan\documents\github\dungeonbrothers\menu.cpp
+	"menu.h"
 
