@@ -7,7 +7,8 @@
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="default">
-				<Option output="DungeonBrothers" prefix_auto="1" extension_auto="1" />
+				<Option output="../DungeonBrothers" prefix_auto="1" extension_auto="1" />
+				<Option working_dir=".." />
 				<Option type="0" />
 				<Option compiler="gcc" />
 				<Compiler>
@@ -33,66 +34,69 @@
 			<Add library="SDL_ttf" />
 			<Add library="SDL_mixer" />
 		</Linker>
-		<Unit filename="bullit.c">
+		<Unit filename="include/bullit.h" />
+		<Unit filename="include/camera.h" />
+		<Unit filename="include/config.h" />
+		<Unit filename="include/debug.h" />
+		<Unit filename="include/enemy.h" />
+		<Unit filename="include/game.h" />
+		<Unit filename="include/ilevelobject.h" />
+		<Unit filename="include/levelobject.h" />
+		<Unit filename="include/menu.h" />
+		<Unit filename="include/menuitem.h" />
+		<Unit filename="include/pencil.h" />
+		<Unit filename="include/physics.h" />
+		<Unit filename="include/player.h" />
+		<Unit filename="include/sprite.h" />
+		<Unit filename="include/spritelayer.h" />
+		<Unit filename="include/world.h" />
+		<Unit filename="resources.rc">
+			<Option compilerVar="WINDRES" />
+		</Unit>
+		<Unit filename="src/bullit.c">
 			<Option compilerVar="CPP" />
 		</Unit>
-		<Unit filename="bullit.h" />
-		<Unit filename="camera.c">
+		<Unit filename="src/camera.c">
 			<Option compilerVar="CPP" />
 		</Unit>
-		<Unit filename="camera.h" />
-		<Unit filename="config.c">
+		<Unit filename="src/config.c">
 			<Option compilerVar="CPP" />
 		</Unit>
-		<Unit filename="config.h" />
-		<Unit filename="debug.c">
+		<Unit filename="src/debug.c">
 			<Option compilerVar="CPP" />
 		</Unit>
-		<Unit filename="debug.h" />
-		<Unit filename="enemy.c">
+		<Unit filename="src/enemy.c">
 			<Option compilerVar="CPP" />
 		</Unit>
-		<Unit filename="enemy.h" />
-		<Unit filename="game.c">
+		<Unit filename="src/game.c">
 			<Option compilerVar="CPP" />
 		</Unit>
-		<Unit filename="game.h" />
-		<Unit filename="ilevelobject.h" />
-		<Unit filename="levelobject.c">
+		<Unit filename="src/levelobject.c">
 			<Option compilerVar="CPP" />
 		</Unit>
-		<Unit filename="levelobject.h" />
-		<Unit filename="main.c">
+		<Unit filename="src/main.c">
 			<Option compilerVar="CPP" />
 		</Unit>
-		<Unit filename="menu.cpp" />
-		<Unit filename="menu.h" />
-		<Unit filename="menuitem.cpp" />
-		<Unit filename="menuitem.h" />
-		<Unit filename="pencil.c">
+		<Unit filename="src/menu.cpp" />
+		<Unit filename="src/menuitem.cpp" />
+		<Unit filename="src/pencil.c">
 			<Option compilerVar="CPP" />
 		</Unit>
-		<Unit filename="pencil.h" />
-		<Unit filename="physics.c">
+		<Unit filename="src/physics.c">
 			<Option compilerVar="CPP" />
 		</Unit>
-		<Unit filename="physics.h" />
-		<Unit filename="player.c">
+		<Unit filename="src/player.c">
 			<Option compilerVar="CPP" />
 		</Unit>
-		<Unit filename="player.h" />
-		<Unit filename="sprite.c">
+		<Unit filename="src/sprite.c">
 			<Option compilerVar="CPP" />
 		</Unit>
-		<Unit filename="sprite.h" />
-		<Unit filename="spritelayer.c">
+		<Unit filename="src/spritelayer.c">
 			<Option compilerVar="CPP" />
 		</Unit>
-		<Unit filename="spritelayer.h" />
-		<Unit filename="world.c">
+		<Unit filename="src/world.c">
 			<Option compilerVar="CPP" />
 		</Unit>
-		<Unit filename="world.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />

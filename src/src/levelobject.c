@@ -11,8 +11,8 @@
 
 */
 
-#include "levelobject.h"
-#include "world.h"
+#include "..\include\levelobject.h"
+#include "..\include\world.h"
 
 cLevelObject::cLevelObject(cWorld* _world, const char* tilesource, int spriteheight, int spritewidth)
 {

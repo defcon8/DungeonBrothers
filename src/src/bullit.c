@@ -1,8 +1,8 @@
 // *** ADDED BY HEADER FIXUP ***
 #include <cstdlib>
 // *** END ***
-#include "bullit.h"
-#include "world.h"
+#include "..\include\bullit.h"
+#include "..\include\world.h"
 #include <cmath>
 
 cBullit::cBullit(cWorld* _world, const char* tilesource, int spriteheight, int spritewidth, int _angle, int _speed) : cLevelObject(_world, tilesource, spriteheight, spritewidth)

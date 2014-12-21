@@ -10,8 +10,8 @@
   E.  info@bastiaandewaard.com
 
 */
-#include "camera.h"
-#include "world.h"
+#include "..\include\camera.h"
+#include "..\include\world.h"
 
 cCamera::cCamera(cWorld* _world)
 {

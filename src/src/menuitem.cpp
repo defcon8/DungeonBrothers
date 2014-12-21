@@ -1,4 +1,4 @@
-#include "menuitem.h"
+#include "..\include\menuitem.h"
 
 cMenuItem::cMenuItem()
 {

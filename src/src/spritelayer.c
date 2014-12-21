@@ -10,11 +10,10 @@
   E.  info@bastiaandewaard.com
 
 */
-
-#include "spritelayer.h"
-#include "world.h"
 #include <cstring>
 #include <fstream>
+#include "../include/spritelayer.h"
+#include "../include/world.h"
 
 using namespace std;
 

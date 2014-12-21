@@ -1,9 +1,9 @@
 // *** ADDED BY HEADER FIXUP ***
 #include <cstdlib>
 // *** END ***
-#include "player.h"
-#include "bullit.h"
-#include "world.h"
+#include "..\include\player.h"
+#include "..\include\bullit.h"
+#include "..\include\world.h"
 
 cPlayer::cPlayer(cWorld* world, char* tilesource, int spriteheight, int spritewidth) : cLevelObject(world, tilesource, spriteheight, spritewidth)
 {

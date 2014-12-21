@@ -49,6 +49,7 @@ private:
     void functionTests();
     void initialize();
     void initVariables();
+    void initAudio();
     void loadObjects();
     void events();
     void gameModeEvents(SDL_Event *event);

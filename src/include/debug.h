@@ -1,5 +1,6 @@
 #include <winsock2.h>
 #include <string>
+#include "config.h"
 #ifndef DEBUG_H_
 #define DEBUG_H_
 
@@ -8,19 +9,14 @@ using namespace std;
 class cDebug {
 
 private:
-    //! Initializes a instance of the cDebug class
     cDebug();
-
-    static cDebug* instance;  //!< Private pointer to the singleton object
-
+    static cDebug* instance;
     SOCKET debugsocket;
     int connectToServer();
-    string lasttraceoutput;
 
 public:
-    static cDebug* getInstance(); //!< Function to get the singleton instance
+    static cDebug* getInstance();
     ~cDebug();
-
     void sendTraceItems();
     void prepareTrace(string trace, string text);
     byte command[5];

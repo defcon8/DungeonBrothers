@@ -10,9 +10,9 @@
   E.  info@bastiaandewaard.com
 
 */
-#include "sprite.h"
 #include <cstring>
-#include "world.h"
+#include "..\include\sprite.h"
+#include "..\include\world.h"
 
 Uint32 cSprite::getPixelColor(SDL_Surface *surface, int x, int y)
 {
@@ -85,7 +85,12 @@ bool cSprite::getSlopes()
 
 void cSprite::load(const char *file)
 {
-    bitmap = SDL_DisplayFormatAlpha(SDL_LoadBMP(file));
+    string path("GFX\\");
+    string filename(file,20);
+    filename.insert(0,path);
+
+    TRACE("SpriteLoad","Load file: %s",filename.c_str());
+    bitmap = SDL_DisplayFormatAlpha(SDL_LoadBMP(filename.c_str()));
     SDL_SetColorKey(bitmap, SDL_SRCCOLORKEY, SDL_MapRGB(bitmap->format,  colorkeyr,  colorkeyg,  colorkeyb));
     //Store the filename localy in chTileSource, we need it later when saving level to disk.
     memcpy(&tilesource[0],file,16);

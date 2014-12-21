@@ -10,15 +10,10 @@
   E.  info@bastiaandewaard.com
 
 */
-#include "enemy.h"
+#include "..\include\pencil.h"
 
-cEnemy::~cEnemy()
-{
-
+cPencil::cPencil() {
 }
 
-void cEnemy::update()
-{
-
+cPencil::~cPencil() {
 }
-

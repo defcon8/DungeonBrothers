@@ -14,7 +14,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <windows.h>
-#include "game.h"
+#include "..\include\game.h"
 
 #define DEBUG 1
 

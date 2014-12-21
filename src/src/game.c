@@ -22,7 +22,7 @@
 #include <math.h>
 #include <fstream>
 #include <cstring>
-#include "game.h"
+#include "..\include\game.h"
 
 using namespace std;
 
@@ -609,13 +609,13 @@ void cGame::scaleSurface(SDL_Surface *src, SDL_Surface *dest)
                     drawPixel(dest, static_cast<Sint32>(_stretch_factor_x * x) + o_x, static_cast<Sint32>(_stretch_factor_y * y) + o_y, readPixel(src, x, y));
 }
 
-void cGame::intro()
-{
 
+void cGame::initAudio(){
     Mix_OpenAudio(44100,AUDIO_S16SYS,2,4096);
     Mix_Music *music = NULL;
-
-    music = Mix_LoadMUS("music.wav");
+    string filename("Audio\\Theme.wav");
+    TRACE("Audio","Load file: %s", filename.c_str());
+    music = Mix_LoadMUS(filename.c_str());
     if(music == NULL) {
         TRACE("Audio","Unable to load music file: %s\n", Mix_GetError());
     } else {
@@ -623,12 +623,19 @@ void cGame::intro()
     }
 
     Mix_PlayMusic(music,-1);
+}
+
+void cGame::intro()
+{
+    initAudio();
 
     SDL_Surface *image;	//This pointer will reference our bitmap sprite
     SDL_Surface *temp;	//This pointer will temporarily reference our bitmap sprite
     SDL_Rect src, dest;	//These rectangles will describe the source and destination regions of our blit
 
-    temp = SDL_LoadBMP("intro.bmp");
+    string filename("GFX\\intro.bmp");
+
+    temp = SDL_LoadBMP(filename.c_str());
     image = SDL_DisplayFormat(temp);
     SDL_FreeSurface(temp);
     SDL_BlitSurface(image, NULL, world->virtualsurface, NULL);
@@ -676,11 +683,7 @@ cGame::~cGame()
 void cGame::cleanUp()
 {
     SDL_Quit();
-
-    //BW: When freeing surfaces, application hangs at exit! Don't know why.
-    //delete world->levellayer;
-    //SDL_FreeSurface(world->textsurface);
-    //SDL_FreeSurface(world->virtualsurface);
+    TRACE("Init", "User request application exit.");
 }
 
 void cGame::renderEditMode()
