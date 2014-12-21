@@ -1,0 +1,11 @@
+C:\Users\Bastiaan\Documents\GitHub\DungeonBrothers\src\DungeonTrace\obj\x86\Release\DungeonTrace.frmAbout.resources
+C:\Users\Bastiaan\Documents\GitHub\DungeonBrothers\src\DungeonTrace\obj\x86\Release\DungeonTrace.frmMain.resources
+C:\Users\Bastiaan\Documents\GitHub\DungeonBrothers\src\DungeonTrace\obj\x86\Release\DungeonTrace.frmTraceItems.resources
+C:\Users\Bastiaan\Documents\GitHub\DungeonBrothers\src\DungeonTrace\obj\x86\Release\DungeonTrace.Resources.resources
+C:\Users\Bastiaan\Documents\GitHub\DungeonBrothers\src\DungeonTrace\obj\x86\Release\DungeonTrace.vbproj.GenerateResource.Cache
+C:\Users\Bastiaan\Documents\GitHub\DungeonBrothers\src\DungeonTrace\obj\x86\Release\DungeonTrace.exe
+C:\Users\Bastiaan\Documents\GitHub\DungeonBrothers\src\DungeonTrace\obj\x86\Release\DungeonTrace.xml
+C:\Users\Bastiaan\Documents\GitHub\DungeonBrothers\src\DungeonTrace\obj\x86\Release\DungeonTrace.pdb
+C:\Users\Bastiaan\Documents\GitHub\DungeonBrothers\DungeonTrace.exe
+C:\Users\Bastiaan\Documents\GitHub\DungeonBrothers\DungeonTrace.pdb
+C:\Users\Bastiaan\Documents\GitHub\DungeonBrothers\DungeonTrace.xml
