@@ -46,11 +46,11 @@ private:
     SDL_Color black;
     SDL_Rect fpslocation;
 
-    void functionTests();
+    void unitTests();
     void initialize();
     void initVariables();
     void initAudio();
-    void loadObjects();
+    void loadLevel(string filename);
     void events();
     void gameModeEvents(SDL_Event *event);
     void editModeEvents(SDL_Event *event);

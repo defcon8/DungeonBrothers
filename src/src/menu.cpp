@@ -29,7 +29,7 @@ void cMenu::buildMenu()
               item3s3,
               item4;
 
-    item1.name = "Game";
+    item1.name = "Start Game";
     item1.actionid = 0;
 
     item2.name = "Editor";

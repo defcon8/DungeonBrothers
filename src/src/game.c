@@ -28,8 +28,16 @@ using namespace std;
 
 void cGame::saveLayer(cSpriteLayer *spritelayer)
 {
+
+    string filename("Level1.dat");
+    string path("Data\\");
+    filename.insert(0,path);
+
+    TRACE("Disk","Save levelfile: %s",filename.c_str());
+
+
     ofstream save;
-    save.open ("spritelayer.dat",ios::binary);
+    save.open (filename.c_str(),ios::binary);
 
     //Header
     char tilesource[16];
@@ -78,8 +86,14 @@ void cGame::saveLayer(cSpriteLayer *spritelayer)
 void cGame::saveDemo()
 {
 
+    string filename("Demo.dat");
+    string path("Data\\");
+    filename.insert(0,path);
+
+    TRACE("Disk","Save demofile: %s",filename.c_str());
+
     ofstream save;
-    save.open ("spritelayer.dat",ios::binary);
+    save.open (filename.c_str(),ios::binary);
 
     //Header
     char tilesource[16]="blocks1.bmp";
@@ -126,7 +140,7 @@ void cGame::saveDemo()
     save.close();
 }
 
-void cGame::functionTests()
+void cGame::unitTests()
 {
     cSpriteLayer* temp = new cSpriteLayer(world,10,10,32,32,true,true,false,0,0,0);
 
@@ -152,12 +166,9 @@ void cGame::functionTests()
 void cGame::start()
 {
     initialize();
-
-    functionTests();
-
+    unitTests();
     intro();
-
-    loadObjects();
+    loadLevel("Level1.dat");
 
     while(!done) {
         long measure1 = time(NULL);
@@ -181,9 +192,9 @@ void cGame::calcfps()
         fps=renderedframes/elapsedseconds;
 }
 
-void cGame::loadObjects()
+void cGame::loadLevel(string filename)
 {
-    TRACE("Init","Loading objects");
+    TRACE("Disk","loadLevel()");
 
     //Background Layer
     world->backgroundlayer = new cSprite(world);
@@ -204,8 +215,13 @@ void cGame::loadObjects()
     Uint8 spriteheightoffset;
     Uint16 datablocks;
 
+    string path("Data\\");
+    filename.insert(0,path);
+
+    TRACE("Disk","Open levelfile: %s",filename.c_str());
+
     std::ifstream load;
-    load.open("spritelayer.dat", ios_base::in | ios_base::binary);
+    load.open(filename.c_str(), ios_base::in | ios_base::binary);
 
     load.read(reinterpret_cast<char*>(&tilesource),sizeof(tilesource));
     load.read(reinterpret_cast<char*>(&levelrows),sizeof(Uint16));

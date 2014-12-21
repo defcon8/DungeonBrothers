@@ -490,7 +490,7 @@
 1419163349 source:c:\users\bastiaan\documents\github\dungeonbrothers\src\src\config.c
 	"..\include\config.h"
 
-1419163354 source:c:\users\bastiaan\documents\github\dungeonbrothers\src\src\debug.c
+1419188943 source:c:\users\bastiaan\documents\github\dungeonbrothers\src\src\debug.c
 	"..\include\debug.h"
 	<stdio.h>
 	<iostream>
@@ -501,7 +501,7 @@
 1419015362 c:\users\bastiaan\documents\github\dungeonbrothers\src\include\enemy.h
 	"ilevelobject.h"
 
-1419163369 source:c:\users\bastiaan\documents\github\dungeonbrothers\src\src\game.c
+1419188027 source:c:\users\bastiaan\documents\github\dungeonbrothers\src\src\game.c
 	<cstdio>
 	<cstdlib>
 	<ctime>
@@ -514,7 +514,7 @@
 	<cstring>
 	"..\include\game.h"
 
-1419160974 c:\users\bastiaan\documents\github\dungeonbrothers\src\include\game.h
+1419188015 c:\users\bastiaan\documents\github\dungeonbrothers\src\include\game.h
 	<SDL/SDL.h>
 	"SDL/SDL_ttf.h"
 	"SDL/SDL_mixer.h"
@@ -534,7 +534,7 @@
 	<windows.h>
 	"..\include\game.h"
 
-1419163402 source:c:\users\bastiaan\documents\github\dungeonbrothers\src\src\menu.cpp
+1419188096 source:c:\users\bastiaan\documents\github\dungeonbrothers\src\src\menu.cpp
 	"..\include\menu.h"
 
 1419163411 source:c:\users\bastiaan\documents\github\dungeonbrothers\src\src\menuitem.cpp
@@ -565,4 +565,6 @@
 
 1419163500 source:c:\users\bastiaan\documents\github\dungeonbrothers\src\src\world.c
 	"../include/world.h"
+
+1419164408 source:c:\users\bastiaan\documents\github\dungeonbrothers\src\resources.rc
 

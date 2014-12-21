@@ -60,9 +60,9 @@ int cDebug::connectToServer()
 
 void cDebug::sendTraceItems()
 {
-    char* traceitems = "Init,Render,Menu,Events,Audio,Mode,Slopes,Jump,Gravity,getHorScanPos,fCheckDirectionCollision,fPixelIsTransparant,Bullit,SpriteLoad";
+    string traceitems("Audio,Bullit,checkDirectionCollision,Disk,Events,getHorScanPos,Gravity,Init,Jump,Menu,Mode,pixelIsTransparant,Render,Slopes,SpriteLoad");
     send(debugsocket,(char*)&command[3],1, 0);
-    send(debugsocket,traceitems,(int)strlen(traceitems), 0);
+    send(debugsocket,traceitems.c_str(),traceitems.size(), 0);
     send(debugsocket,(char*)&command[4],1, 0);
 }
 void cDebug::prepareTrace(string trace, string text)
